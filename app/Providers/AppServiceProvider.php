@@ -32,6 +32,9 @@ class AppServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register() {
+		// Keep translations loading from resources/lang (Laravel 10 layout).
+		$this->app->useLangPath(base_path('resources/lang'));
+
 		// Passport::routes();
 		$this->commands([
 			InstallCommand::class,
