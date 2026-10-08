@@ -1,0 +1,15 @@
+.env
+/vendor/
+/node_modules/
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*
+*.log
+.DS_Store
+/public/storage
+/public/uploads/*
+!/public/uploads/.gitkeep
+docs/email-settings.md
