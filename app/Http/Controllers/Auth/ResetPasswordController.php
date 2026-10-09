@@ -10,6 +10,7 @@ use App;
 use App\Http\Controllers\Controller;
 use App\Model\AtlasLogistics;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller {
 	use ResetsPasswords;
@@ -17,5 +18,9 @@ class ResetPasswordController extends Controller {
 	public function __construct() {
 		App::setLocale(AtlasLogistics::get('language'));
 		$this->middleware('guest');
+	}
+
+	public function showResetForm(Request $request, $token = null) {
+		return view('auth.passwords.reset-attex')->with(['token' => $token, 'email' => $request->email]);
 	}
 }

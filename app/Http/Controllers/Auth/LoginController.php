@@ -21,6 +21,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function showLoginForm()
+    {
+        return view('auth.login-attex');
+    }
+
     /**
      * Redirect user after authentication
      */
@@ -45,7 +50,7 @@ class LoginController extends Controller
         {
             if($user->user_type == 'C')
             {
-                return redirect('/');
+                return redirect('admin/');
             }
             else
             {

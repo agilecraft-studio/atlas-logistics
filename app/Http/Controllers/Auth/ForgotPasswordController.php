@@ -17,4 +17,8 @@ class ForgotPasswordController extends Controller {
 		App::setLocale(AtlasLogistics::get('language'));
 		$this->middleware('guest');
 	}
+
+	public function showLinkRequestForm() {
+		return view('auth.passwords.email-attex');
+	}
 }

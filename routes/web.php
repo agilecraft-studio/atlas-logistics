@@ -5,6 +5,10 @@
 
 
 
+Route::get('/', function () {
+    return redirect('admin');
+})->middleware(['IsInstalled'])->name('root');
+
 Route::group(['middleware' => ['IsInstalled', 'lang_check_user', 'front_enable']], function () {
 
 
