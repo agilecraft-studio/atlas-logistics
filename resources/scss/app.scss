@@ -94,3 +94,8 @@ File: Main Css File
 @import "custom/plugins/timepicker";
 @import "custom/plugins/rateit";
 @import "custom/plugins/ion-rangeslider";
+
+// Temporary Bootstrap 4 / AdminLTE aliases for not-yet-migrated admin views.
+// Imported last so aliases override Bootstrap's own definitions.
+// Remove this import when the last legacy view is converted.
+@import "custom/legacy/bs4-compat";

@@ -1,0 +1,573 @@
+/*
+ * legacy/_bs4-compat.scss
+ *
+ * Bootstrap 4 / AdminLTE class aliases for admin views that have not yet been
+ * converted to Bootstrap 5 (Attex) markup.
+ *
+ * SCOPE: temporary migration shim. Every rule below is a 1:1 alias of a class
+ * that is actually used by the not-yet-migrated admin views. As each view is
+ * converted to real Bootstrap 5 markup, delete the rules that become dead.
+ * Delete this whole file when the last legacy view is converted.
+ *
+ * Imported last from app.scss so aliases win over Bootstrap's own definitions.
+ */
+
+// ---------------------------------------------------------------------------
+// Utilities removed or renamed in Bootstrap 5
+// ---------------------------------------------------------------------------
+
+// form-group: BS4 spacing wrapper, removed in BS5.
+.form-group {
+    margin-bottom: 1rem;
+}
+
+// sr-only -> visually-hidden
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+// float-* / pull-*
+.float-right,
+.pull-right {
+    float: right !important;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+// Margin helpers using the old left/right naming
+.ml-1 { margin-left: 0.25rem !important; }
+.ml-2 { margin-left: 0.5rem !important; }
+.ml-3 { margin-left: 1rem !important; }
+.ml-4 { margin-left: 1.5rem !important; }
+.ml-5 { margin-left: 3rem !important; }
+.mr-1 { margin-right: 0.25rem !important; }
+.mr-2 { margin-right: 0.5rem !important; }
+.mr-3 { margin-right: 1rem !important; }
+.mr-4 { margin-right: 1.5rem !important; }
+.mr-5,
+.margin-r-5 { margin-right: 3rem !important; }
+.pl-1 { padding-left: 0.25rem !important; }
+.pl-2 { padding-left: 0.5rem !important; }
+.pl-3 { padding-left: 1rem !important; }
+.pr-1 { padding-right: 0.25rem !important; }
+.pr-2 { padding-right: 0.5rem !important; }
+.pr-3 { padding-right: 1rem !important; }
+
+.text-bold {
+    font-weight: 700 !important;
+}
+
+.font-weight-normal {
+    font-weight: 400 !important;
+}
+
+// img-responsive -> img-fluid, img-circle -> rounded-circle
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.img-circle {
+    border-radius: 50% !important;
+}
+
+.hidden-md-up {
+    display: none !important;
+}
+
+@include media-breakpoint-up(md) {
+    .hidden-md-up {
+        display: none !important;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Grid: col-xs-* (BS3), col-ms-6 (legacy typo), col-md-offset-*
+// ---------------------------------------------------------------------------
+
+@each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) {
+    .col-xs-#{$i} {
+        flex: 0 0 auto;
+        width: percentage($i / 12);
+    }
+}
+
+.col-ms-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+.col-xs-offset-3 {
+    margin-left: 25%;
+}
+
+@include media-breakpoint-up(md) {
+    .col-md-offset-2 { margin-left: percentage(2 / 12); }
+    .col-md-offset-4 { margin-left: percentage(4 / 12); }
+}
+
+// ---------------------------------------------------------------------------
+// Buttons
+// ---------------------------------------------------------------------------
+
+.btn-default {
+    color: var(--#{$prefix}body-color);
+    background-color: var(--#{$prefix}light);
+    border-color: var(--#{$prefix}border-color);
+
+    &:hover,
+    &:focus {
+        color: var(--#{$prefix}body-color);
+        background-color: var(--#{$prefix}light);
+        border-color: var(--#{$prefix}border-color);
+    }
+
+    &:focus,
+    &.focus {
+        box-shadow: 0 0 0 $btn-focus-width rgba(var(--#{$prefix}emphasis-color-rgb), 0.25);
+    }
+
+    &.disabled,
+    &:disabled {
+        color: var(--#{$prefix}body-color);
+        background-color: var(--#{$prefix}light);
+        border-color: var(--#{$prefix}border-color);
+    }
+}
+
+.btn-xs {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.75rem;
+    border-radius: var(--#{$prefix}border-radius-sm);
+}
+
+.btn-app {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    min-height: 60px;
+    padding: 6px 5px;
+    margin: 0 2px 4px;
+    font-size: 0.75rem;
+    color: var(--#{$prefix}body-color);
+    background-color: var(--#{$prefix}light);
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: var(--#{$prefix}border-radius);
+
+    > .fa {
+        display: block;
+        margin-bottom: 3px;
+        font-size: 20px;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Badges: badge-* -> text-bg-*
+// ---------------------------------------------------------------------------
+
+@each $color, $value in $theme-colors {
+    .badge-#{$color} {
+        color: color-contrast($value);
+        background-color: $value;
+    }
+}
+
+.badge-secondary {
+    color: color-contrast($secondary);
+    background-color: $secondary;
+}
+
+// ---------------------------------------------------------------------------
+// Tables: thead-inverse
+// ---------------------------------------------------------------------------
+
+thead.thead-inverse {
+    th {
+        color: var(--#{$prefix}body-color);
+        background-color: var(--#{$prefix}tertiary-bg);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// close (BS4) -> btn-close (BS5)
+// ---------------------------------------------------------------------------
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--#{$prefix}body-color);
+    text-shadow: 0 1px 0 var(--#{$prefix}emphasis-color);
+    background: transparent;
+    border: 0;
+    opacity: 0.5;
+
+    &:hover,
+    &:focus {
+        color: var(--#{$prefix}body-color);
+        text-decoration: none;
+        opacity: 0.75;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Panels (BS3) -> card
+// ---------------------------------------------------------------------------
+
+.panel,
+.panel-default {
+    margin-bottom: 1rem;
+    background-color: var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: var(--#{$prefix}border-radius);
+}
+
+.panel-heading {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--#{$prefix}border-color);
+}
+
+.panel-title {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.panel-body {
+    padding: 1rem;
+}
+
+// ---------------------------------------------------------------------------
+// Wells (BS3)
+// ---------------------------------------------------------------------------
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: var(--#{$prefix}tertiary-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: var(--#{$prefix}border-radius);
+}
+
+.well-sm {
+    padding: 9px;
+    border-radius: var(--#{$prefix}border-radius-sm);
+}
+
+// ---------------------------------------------------------------------------
+// AdminLTE card colour variants
+// ---------------------------------------------------------------------------
+
+@each $color, $value in $theme-colors {
+    .card-#{$color}:not(.card-outline) > .card-header {
+        color: color-contrast($value);
+        background-color: rgba($value, 0.12);
+        border-bottom-color: rgba($value, 0.25);
+    }
+
+    .card-#{$color}.card-outline {
+        border-top: 3px solid $value;
+    }
+
+    .card-#{$color}.card-solid > .card-header {
+        color: color-contrast($value);
+        background-color: $value;
+    }
+}
+
+.card-header.with-border,
+.card-footer.with-border {
+    border-color: var(--#{$prefix}border-color);
+}
+
+.card.no-shadow,
+.box.no-shadow {
+    box-shadow: none !important;
+}
+
+// ---------------------------------------------------------------------------
+// AdminLTE info-box (dashboard stat tiles)
+// ---------------------------------------------------------------------------
+
+.info-box {
+    display: flex;
+    min-height: 80px;
+    background-color: var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
+    border-radius: var(--#{$prefix}border-radius);
+    box-shadow: var(--#{$prefix}box-shadow-sm);
+}
+
+.info-box-icon {
+    display: flex;
+    flex: 0 0 70px;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--#{$prefix}white);
+    border-radius: var(--#{$prefix}border-radius) 0 0 var(--#{$prefix}border-radius);
+}
+
+.info-box-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+}
+
+.info-box-text {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+}
+
+.info-box-number {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+// ---------------------------------------------------------------------------
+// AdminLTE boxes
+// ---------------------------------------------------------------------------
+
+.box {
+    position: relative;
+    margin-bottom: 1.5rem;
+    background-color: var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
+    border-radius: var(--#{$prefix}border-radius);
+    box-shadow: var(--#{$prefix}box-shadow-sm);
+}
+
+.box-header,
+.box-header.with-border {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--#{$prefix}border-color);
+}
+
+.box-title {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.box-body {
+    padding: 1rem;
+}
+
+.box-profile {
+    padding: 1rem;
+    text-align: center;
+}
+
+// ---------------------------------------------------------------------------
+// Profile / list helpers
+// ---------------------------------------------------------------------------
+
+.profile-user-img {
+    width: 100px;
+    height: 100px;
+    padding: 3px;
+    border: 3px solid var(--#{$prefix}border-color);
+    border-radius: 50% !important;
+}
+
+.list-group-unbordered > .list-group-item {
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+}
+
+.nav-tabs-custom {
+    margin-bottom: 1rem;
+    background-color: var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
+    border-radius: var(--#{$prefix}border-radius);
+    box-shadow: var(--#{$prefix}box-shadow-sm);
+}
+
+// ---------------------------------------------------------------------------
+// Invoice / receipt layout
+// ---------------------------------------------------------------------------
+
+.invoice {
+    padding: 1.25rem;
+    background-color: var(--#{$prefix}card-bg, var(--#{$prefix}body-bg));
+    border: 1px solid var(--#{$prefix}border-color);
+}
+
+.invoice-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.invoice-col {
+    flex: 1 1 0%;
+    min-width: 0;
+    padding-right: 0.75rem;
+}
+
+// ---------------------------------------------------------------------------
+// Forms
+// ---------------------------------------------------------------------------
+
+.control-label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.help-block {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: var(--#{$prefix}secondary-color);
+}
+
+.has-error {
+    .form-control,
+    .custom-select,
+    .form-select {
+        border-color: var(--#{$prefix}form-invalid-border-color);
+    }
+
+    .help-block,
+    .control-label {
+        color: var(--#{$prefix}form-invalid-color);
+    }
+}
+
+.input-group-addon,
+.input-group-prepend,
+.input-group-append {
+    display: flex;
+}
+
+.input-group-addon {
+    align-items: center;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--#{$prefix}body-color);
+    text-align: center;
+    white-space: nowrap;
+    background-color: var(--#{$prefix}tertiary-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+}
+
+.custom-select {
+    @extend .form-select;
+}
+
+// ---------------------------------------------------------------------------
+// Validation error text
+// ---------------------------------------------------------------------------
+
+.error,
+label.error {
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: 400 !important;
+    font-size: 0.875em;
+    color: var(--#{$prefix}form-invalid-color);
+}
+
+// ---------------------------------------------------------------------------
+// DataTables per-column search inputs injected by the layout
+// ---------------------------------------------------------------------------
+
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+// ---------------------------------------------------------------------------
+// Toggle switch (settings screens) - ported verbatim from layouts/app.blade.php
+// ---------------------------------------------------------------------------
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    content: "";
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #2196f3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+// ---------------------------------------------------------------------------
+// Print / modal cursor hint
+// ---------------------------------------------------------------------------
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
+[data-toggle="modal"] {
+    cursor: pointer;
+}
