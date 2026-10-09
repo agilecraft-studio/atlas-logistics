@@ -1,625 +1,610 @@
 <!DOCTYPE html>
-@if(Auth::user()->getMeta('language')!= null)
-@php ($language = Auth::user()->getMeta('language'))
+@if (Auth::user()->getMeta('language') != null)
+    @php($language = Auth::user()->getMeta('language'))
 @else
-@php($language = AtlasLogistics::get("language"))
+    @php($language = AtlasLogistics::get('language'))
 @endif
 <html>
 
 
 <head>
 
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <link rel="manifest" href="{{ asset('web-manifest.json?v2')}}">
+    <link rel="manifest" href="{{ asset('web-manifest.json?v2') }}">
 
 
 
-  <title>{{ AtlasLogistics::get('app_name') }}</title>
+    <title>{{ AtlasLogistics::get('app_name') }}</title>
 
-  <!-- Tell the browser to be responsive to screen width -->
+    <!-- Tell the browser to be responsive to screen width -->
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" type="icon_img">
+    <link rel="icon" href="{{ asset('assets/images/' . AtlasLogistics::get('icon_img')) }}" type="icon_img">
 
-  <!-- Font Awesome -->
+    <!-- Font Awesome -->
 
-  <link rel="stylesheet" href="{{ asset('assets/css/plugins-fa-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins-fa-all.min.css') }}">
 
-  <!-- Ionicons -->
+    <!-- Ionicons -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/css/ionicons.min.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/css/ionicons.min.css')}}"> --}}
 
-  <!-- fullCalendar 2.2.5-->
+    <!-- fullCalendar 2.2.5-->
 
-  <link rel="stylesheet" href="{{asset('assets/css/plugins-fullcalendar.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins-fullcalendar.min.css') }}">
 
-  <link rel="stylesheet" href="{{asset('assets/css/plugins-fullcalendar.print.css')}}" media="print">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins-fullcalendar.print.css') }}" media="print">
 
-  <!-- DataTables -->
+    <!-- DataTables -->
 
-  <link rel="stylesheet" href="{{asset('assets/css/plugins-dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins-dataTables.bootstrap4.min.css') }}">
 
-  <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cdn-buttons.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/cdn-buttons.dataTables.min.css') }}">
 
-  <!-- Select2 -->
+    <!-- Select2 -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.min.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.min.css')}}"> --}}
 
-  <link rel="stylesheet" href="{{asset('assets/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
 
 
 
-  <!-- Theme style -->
+    <!-- Theme style -->
 
-  <link rel="stylesheet" href="{{asset('assets/css/dist-adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dist-adminlte.min.css') }}">
 
-  <!-- iCheck -->
+    <!-- iCheck -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/css/plugins-icheck-flat-blue.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/css/plugins-icheck-flat-blue.css')}}"> --}}
 
-  <!-- iCheck for checkboxes and radio inputs -->
+    <!-- iCheck for checkboxes and radio inputs -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/css/plugins-icheck-all.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/css/plugins-icheck-all.css')}}"> --}}
 
-  <!-- Morris chart -->
+    <!-- Morris chart -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/plugins/morris/morris.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/plugins/morris/morris.css')}}"> --}}
 
-  <!-- jvectormap -->
+    <!-- jvectormap -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}"> --}}
 
-  <!-- bootstrap wysihtml5 - text editor -->
+    <!-- bootstrap wysihtml5 - text editor -->
 
-  {{-- <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}"> --}}
 
-  <!-- Google Font: Source Sans Pro -->
+    <!-- Google Font: Source Sans Pro -->
 
-  <link href="{{ asset('assets/css/font-fonts.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/font-fonts.css') }}" rel="stylesheet">
 
 
 
-  <link href="{{ asset('assets/css/pnotify.custom.min.css')}}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/pnotify.custom.min.css') }}" media="all" rel="stylesheet" type="text/css" />
 
-  <style>
+    <style>
+        [data-toggle='modal'] {
 
-    [data-toggle='modal']{
+            cursor: pointer;
 
-      cursor: pointer;
+        }
 
-    }
+        /* The switch - the box around the slider */
 
-    /* The switch - the box around the slider */
+        .switch {
 
-.switch {
+            position: relative;
 
-  position: relative;
+            display: inline-block;
 
-  display: inline-block;
+            width: 60px;
 
-  width: 60px;
+            height: 34px;
 
-  height: 34px;
+        }
 
-}
 
 
+        /* Hide default HTML checkbox */
 
-/* Hide default HTML checkbox */
+        .switch input {
+            display: none;
+        }
 
-.switch input {display:none;}
 
 
+        /* The slider */
 
-/* The slider */
+        .slider {
 
-.slider {
+            position: absolute;
 
-  position: absolute;
+            cursor: pointer;
 
-  cursor: pointer;
+            top: 0;
 
-  top: 0;
+            left: 0;
 
-  left: 0;
+            right: 0;
 
-  right: 0;
+            bottom: 0;
 
-  bottom: 0;
+            background-color: #ccc;
 
-  background-color: #ccc;
+            -webkit-transition: .4s;
 
-  -webkit-transition: .4s;
+            transition: .4s;
 
-  transition: .4s;
+        }
 
-}
 
 
+        .slider:before {
 
-.slider:before {
+            position: absolute;
 
-  position: absolute;
+            content: "";
 
-  content: "";
+            height: 26px;
 
-  height: 26px;
+            width: 26px;
 
-  width: 26px;
+            left: 4px;
 
-  left: 4px;
+            bottom: 4px;
 
-  bottom: 4px;
+            background-color: white;
 
-  background-color: white;
+            -webkit-transition: .4s;
 
-  -webkit-transition: .4s;
+            transition: .4s;
 
-  transition: .4s;
+        }
 
-}
 
 
+        input:checked+.slider {
 
-input:checked + .slider {
+            background-color: #2196F3;
 
-  background-color: #2196F3;
+        }
 
-}
 
 
+        input:focus+.slider {
 
-input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
 
-  box-shadow: 0 0 1px #2196F3;
+        }
 
-}
 
 
+        input:checked+.slider:before {
 
-input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
 
-  -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
 
-  -ms-transform: translateX(26px);
+            transform: translateX(26px);
 
-  transform: translateX(26px);
+        }
 
-}
 
 
+        /* Rounded sliders */
 
-/* Rounded sliders */
+        .slider.round {
 
-.slider.round {
+            border-radius: 34px;
 
-  border-radius: 34px;
+        }
 
-}
 
 
+        .slider.round:before {
 
-.slider.round:before {
+            border-radius: 50%;
 
-  border-radius: 50%;
+        }
+    </style>
 
-}
+    @yield('extra_css')
 
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        
+            'subscription_url' => asset('assets/push_notification/push_subscription.php'),
+        
+            'serviceWorkerUrl' => asset('serviceWorker.js'),
+        ]) !!};
+    </script>
 
+    <!-- browser notification -->
 
-  </style>
 
-  @yield("extra_css")
 
-  <script>
+    <script src="{{ asset('assets/push_notification/app.js') }}"></script>
 
-    window.Laravel = {!! json_encode([
+    <style>
+        tfoot input {
 
-'csrfToken' => csrf_token(),
+            width: 100%;
 
-'subscription_url' => asset('assets/push_notification/push_subscription.php'),
+            padding: 3px;
 
-'serviceWorkerUrl' => asset("serviceWorker.js")
+            box-sizing: border-box;
 
-]) !!};
+            font-size: 0.6em;
 
-  </script>
+            height: 35px !important;
 
-  <!-- browser notification -->
+        }
 
- 
 
-  <script src="{{asset('assets/push_notification/app.js')}}"></script>
 
-  <style>
+        .error {
 
-    tfoot input {
+            font-weight: 400 !important;
 
-      width: 100%;
+            color: red;
 
-      padding: 3px;
+        }
 
-      box-sizing: border-box;
 
-      font-size: 0.6em;
 
-      height: 35px !important;
+        .input-group input {
 
-    }
+            width: 65% !important;
 
+        }
+    </style>
 
+    @if ($language == 'Arabic-ar')
+        <style type="text/css">
+            .sidebar {
 
-    .error {
+                text-align: right;
 
-      font-weight: 400 !important;
+            }
 
-      color: red;
 
-    }
 
+            .nav-sidebar .nav-link>p>.right {
 
+                position: absolute;
 
-    .input-group input {
+                right: 0rem;
 
-      width: 65% !important;
+                top: 12px;
 
-    }
+            }
 
-  </style>
 
-  @if($language == "Arabic-ar")
 
-  <style type="text/css">
+            .nav-sidebar>.nav-item {
 
-    .sidebar {
+                margin-right: -20px;
 
-      text-align: right;
-
-    }
-
-
-
-    .nav-sidebar .nav-link>p>.right {
-
-      position: absolute;
-
-      right: 0rem;
-
-      top: 12px;
-
-    }
-
-
-
-    .nav-sidebar>.nav-item {
-
-      margin-right: -20px;
-
-    }
-
-  </style>
-
-  @endif
+            }
+        </style>
+    @endif
 
 </head>
 
 
 
-<body class="hold-transition {{auth()->user()->theme}} layout-fixed sidebar-mini" @if($language=="Arabic-ar" ) dir="rtl"
+<body class="hold-transition {{ auth()->user()->theme }} layout-fixed sidebar-mini"
+    @if ($language == 'Arabic-ar') dir="rtl" @endif>
 
-  @endif>
+    {!! Form::hidden('loggedinuser', Auth::user()->id, ['id' => 'loggedinuser']) !!}
 
-  {!! Form::hidden('loggedinuser',Auth::user()->id,['id'=>'loggedinuser']) !!}
+    {!! Form::hidden('user_type', Auth::user()->user_type, ['id' => 'user_type']) !!}
 
-  {!! Form::hidden('user_type',Auth::user()->user_type,['id'=>'user_type']) !!}
+    <div class="wrapper">
 
-  <div class="wrapper">
+        <!-- Navbar -->
 
-    <!-- Navbar -->
+        <nav
+            class="main-header navbar navbar-expand  @if (auth()->user()->theme == 'dark-mode') navbar-dark @else bg-white navbar-light @endif border-bottom">
 
-    <nav
+            <!-- Left navbar links -->
 
-      class="main-header navbar navbar-expand  @if(auth()->user()->theme=='dark-mode') navbar-dark @else bg-white navbar-light @endif border-bottom">
+            <ul class="navbar-nav">
 
-      <!-- Left navbar links -->
+                <li class="nav-item">
 
-      <ul class="navbar-nav">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
 
-        <li class="nav-item">
+                </li>
 
-          <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                <li class="nav-item d-none d-sm-inline-block">
 
-        </li>
+                    <a href="https://fleetdocs.Atlas Logistics.space" class="nav-link">@lang('fleet.help')</a>
 
-        <li class="nav-item d-none d-sm-inline-block">
+                </li>
 
-          <a href="https://fleetdocs.Atlas Logistics.space" class="nav-link">@lang('fleet.help')</a>
+            </ul>
 
-        </li>
 
-      </ul>
 
+            <!-- Right navbar links -->
 
+            <ul class="navbar-nav ml-auto">
 
-      <!-- Right navbar links -->
+                <li class="nav-item">
 
-      <ul class="navbar-nav ml-auto">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
 
-        <li class="nav-item">
+                        <i class="fas fa-expand-arrows-alt"></i>
 
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    </a>
 
-            <i class="fas fa-expand-arrows-alt"></i>
+                </li>
 
-          </a>
+                <!-- Notifications Dropdown Menu -->
 
-        </li>
+                @if (Auth::user()->user_type == 'S')
 
-        <!-- Notifications Dropdown Menu -->
+                    @php($r = 0)
 
-        @if(Auth::user()->user_type=="S")
+                    @php($i = 0)
 
-        @php($r = 0)
+                    @php($l = 0)
 
-        @php($i = 0)
+                    @php($d = 0)
 
-        @php($l = 0)
+                    @php($s = 0)
 
-        @php($d = 0)
+                    @php($user = Auth::user())
 
-        @php($s = 0)
+                    @foreach ($user->unreadNotifications as $notification)
+                        @if ($notification->type == 'App\Notifications\RenewRegistration')
+                            @php($r++)
+                        @elseif($notification->type == 'App\Notifications\RenewInsurance')
+                            @php($i++)
+                        @elseif($notification->type == 'App\Notifications\RenewVehicleLicence')
+                            @php($l++)
+                        @elseif($notification->type == 'App\Notifications\RenewDriverLicence')
+                            @php($d++)
+                        @elseif($notification->type == 'App\Notifications\ServiceReminderNotification')
+                            @php($s++)
+                        @endif
+                    @endforeach
 
-        @php($user= Auth::user())
+                    @php($n = $r + $i + $l + $d + $s)
 
-        @foreach ($user->unreadNotifications as $notification)
+                    <li class="nav-item dropdown">
 
-        @if($notification->type == "App\Notifications\RenewRegistration")
+                        <a class="nav-link" data-toggle="dropdown" href="#">
 
-        @php($r++)
+                            <i class="far fa-bell"></i>
 
-        @elseif($notification->type == "App\Notifications\RenewInsurance")
+                            <span class="badge badge-warning navbar-badge">
+                                @if ($n > 0)
+                                    {{ $n }}
+                                @endif
+                            </span>
 
-        @php($i++)
+                        </a>
 
-        @elseif($notification->type == "App\Notifications\RenewVehicleLicence")
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-        @php($l++)
+                            @if ($n > 0)
+                                <span class="dropdown-item dropdown-header"> {{ $n }} Notifications </span>
 
-        @elseif($notification->type == "App\Notifications\RenewDriverLicence")
+                                <div class="dropdown-divider"></div>
+                            @endif
 
-        @php($d++)
+                            <a href="{{ url('admin/vehicle_notification', ['type' => 'renew-registrations']) }}"
+                                class="dropdown-item">
 
-        @elseif($notification->type == "App\Notifications\ServiceReminderNotification")
+                                <i class="fa fa-newspaper mr-2"></i> @lang('fleet.renew_registration')
 
-        @php($s++)
+                                <span class="float-right text-muted text-sm">
+                                    @if ($r > 0)
+                                        {{ $r }}
+                                    @endif
+                                </span>
 
-        @endif
+                            </a>
 
-        @endforeach
+                            <div class="dropdown-divider"></div>
 
-        @php($n = $r + $i +$l + $d + $s)
+                            <a href="{{ url('admin/vehicle_notification', ['type' => 'renew-insurance']) }}"
+                                class="dropdown-item">
 
-        <li class="nav-item dropdown">
+                                <i class="fa fa-file-text mr-2"></i> @lang('fleet.renew_insurance')
 
-          <a class="nav-link" data-toggle="dropdown" href="#">
+                                <span class="float-right text-muted text-sm">
+                                    @if ($i > 0)
+                                        {{ $i }}
+                                    @endif
+                                </span>
 
-            <i class="far fa-bell"></i>
+                            </a>
 
-            <span class="badge badge-warning navbar-badge">@if($n>0) {{$n}} @endif</span>
+                            <div class="dropdown-divider"></div>
 
-          </a>
+                            <a href="{{ url('admin/vehicle_notification', ['type' => 'renew-licence']) }}"
+                                class="dropdown-item">
 
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <i class="fa fa-file mr-2"></i> @lang('fleet.renew_licence')
 
-            @if($n>0)<span class="dropdown-item dropdown-header"> {{$n}} Notifications </span>
+                                <span class="float-right text-muted text-sm">
+                                    @if ($l > 0)
+                                        {{ $l }}
+                                    @endif
+                                </span>
 
-            <div class="dropdown-divider"></div>@endif
+                            </a>
 
-            <a href="{{url('admin/vehicle_notification',['type'=>'renew-registrations'])}}" class="dropdown-item">
+                            <div class="dropdown-divider"></div>
 
-              <i class="fa fa-newspaper mr-2"></i> @lang('fleet.renew_registration')
+                            <a href="{{ url('admin/driver_notification', ['type' => 'renew-driving-licence']) }}"
+                                class="dropdown-item">
 
-              <span class="float-right text-muted text-sm">@if($r>0) {{$r}} @endif</span>
+                                <i class="fa fa-vcard mr-2"></i> @lang('fleet.renew_driving_licence')
 
-            </a>
+                                <span class="float-right text-muted text-sm">
+                                    @if ($d > 0)
+                                        {{ $d }}
+                                    @endif
+                                </span>
 
-            <div class="dropdown-divider"></div>
+                            </a>
 
-            <a href="{{url('admin/vehicle_notification',['type'=>'renew-insurance'])}}" class="dropdown-item">
+                            <div class="dropdown-divider"></div>
 
-              <i class="fa fa-file-text mr-2"></i> @lang('fleet.renew_insurance')
+                            <a href="{{ url('admin/reminder', ['type' => 'service-reminder']) }}"
+                                class="dropdown-item">
 
-              <span class="float-right text-muted text-sm">@if($i>0) {{$i}} @endif</span>
+                                <i class="fa fa-clock-rotate-left mr-2"></i> @lang('fleet.serviceReminders')
 
-            </a>
+                                <span class="float-right text-muted text-sm">
+                                    @if ($s > 0)
+                                        {{ $s }}
+                                    @endif
+                                </span>
 
-            <div class="dropdown-divider"></div>
+                            </a>
 
-            <a href="{{url('admin/vehicle_notification',['type'=>'renew-licence'])}}" class="dropdown-item">
+                        </div>
 
-              <i class="fa fa-file mr-2"></i> @lang('fleet.renew_licence')
-
-              <span class="float-right text-muted text-sm">@if($l>0) {{$l}} @endif</span>
-
-            </a>
-
-            <div class="dropdown-divider"></div>
-
-            <a href="{{url('admin/driver_notification',['type'=>'renew-driving-licence'])}}" class="dropdown-item">
-
-              <i class="fa fa-vcard mr-2"></i> @lang('fleet.renew_driving_licence')
-
-              <span class="float-right text-muted text-sm">@if($d>0) {{$d}} @endif</span>
-
-            </a>
-
-            <div class="dropdown-divider"></div>
-
-            <a href="{{url('admin/reminder',['type'=>'service-reminder'])}}" class="dropdown-item">
-
-              <i class="fa fa-clock-rotate-left mr-2"></i> @lang('fleet.serviceReminders')
-
-              <span class="float-right text-muted text-sm">@if($s>0) {{$s}} @endif</span>
-
-            </a>
-
-          </div>
-
-        </li>
-
-        @endif
-
-        <!-- logout -->
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link" data-toggle="dropdown" href="#">
-
-            <i class="fa fa-user-circle"></i>
-
-            <span class="badge badge-danger navbar-badge"></span>
-
-          </a>
-
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
-            <a href="#" class="dropdown-item">
-
-              <!-- Message Start -->
-
-              <div class="media">
-
-                @if(Auth::user()->user_type == 'D' && Auth::user()->getMeta('driver_image') != null)
-
-                @if(starts_with(Auth::user()->getMeta('driver_image'),'http'))
-
-                @php($src = Auth::user()->getMeta('driver_image'))
-
-                @else
-
-                @php($src=asset('uploads/'.Auth::user()->getMeta('driver_image')))
+                    </li>
 
                 @endif
 
-                <img src="{{$src}}" class="img-size-50 mr-3 img-circle" alt="User Image">
+                <!-- logout -->
 
-                @elseif(Auth::user()->user_type == 'S' || Auth::user()->user_type == 'O')
+                <li class="nav-item dropdown">
 
-                @if(Auth::user()->getMeta('profile_image') == null)
+                    <a class="nav-link" data-toggle="dropdown" href="#">
 
-                <img src="{{ asset("assets/images/no-user.jpg")}}" class="img-size-50 mr-3 img-circle"
+                        <i class="fa fa-user-circle"></i>
 
-                  alt="User Image">
+                        <span class="badge badge-danger navbar-badge"></span>
 
-                @else
+                    </a>
 
-                <img src="{{asset('uploads/'.Auth::user()->getMeta('profile_image'))}}"
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-                  class="img-size-50 mr-3 img-circle" alt="User Image">
+                        <a href="#" class="dropdown-item">
 
-                @endif
+                            <!-- Message Start -->
 
-                @elseif(Auth::user()->user_type == 'C' && Auth::user()->getMeta('profile_pic') != null)
+                            <div class="media">
 
-                @if(starts_with(Auth::user()->getMeta('profile_pic'),'http'))
+                                @if (Auth::user()->user_type == 'D' && Auth::user()->getMeta('driver_image') != null)
 
-                @php($src = Auth::user()->getMeta('profile_pic'))
+                                    @if (starts_with(Auth::user()->getMeta('driver_image'), 'http'))
+                                        @php($src = Auth::user()->getMeta('driver_image'))
+                                    @else
+                                        @php($src = asset('uploads/' . Auth::user()->getMeta('driver_image')))
+                                    @endif
 
-                @else
+                                    <img src="{{ $src }}" class="img-size-50 mr-3 img-circle"
+                                        alt="User Image">
+                                @elseif(Auth::user()->user_type == 'S' || Auth::user()->user_type == 'O')
+                                    @if (Auth::user()->getMeta('profile_image') == null)
+                                        <img src="{{ asset('assets/images/no-user.jpg') }}"
+                                            class="img-size-50 mr-3 img-circle" alt="User Image">
+                                    @else
+                                        <img src="{{ asset('uploads/' . Auth::user()->getMeta('profile_image')) }}"
+                                            class="img-size-50 mr-3 img-circle" alt="User Image">
+                                    @endif
+                                @elseif(Auth::user()->user_type == 'C' && Auth::user()->getMeta('profile_pic') != null)
+                                    @if (starts_with(Auth::user()->getMeta('profile_pic'), 'http'))
+                                        @php($src = Auth::user()->getMeta('profile_pic'))
+                                    @else
+                                        @php($src = asset('uploads/' . Auth::user()->getMeta('profile_pic')))
+                                    @endif
 
-                @php($src=asset('uploads/'.Auth::user()->getMeta('profile_pic')))
+                                    <img src="{{ $src }}" class="img-size-50 mr-3 img-circle"
+                                        alt="User Image">
+                                @else
+                                    <img src="{{ asset('assets/images/no-user.jpg') }}"
+                                        class="img-size-50 mr-3 img-circle" alt="User Image">
 
-                @endif
-
-                <img src="{{$src}}" class="img-size-50 mr-3 img-circle" alt="User Image">
-
-                @else
-
-                <img src="{{ asset("assets/images/no-user.jpg")}}" class="img-size-50 mr-3 img-circle"
-
-                  alt="User Image">
-
-                @endif
-
-
-
-                <div class="media-body">
-
-                  <h3 class="dropdown-item-title">
-
-                    {{Auth::user()->name}}
-
-
-
-                    <span class="float-right text-sm text-danger">
-
-
-
-                    </span>
-
-                  </h3>
-
-                  <p class="text-sm text-muted">{{Auth::user()->email}}</p>
-
-                  <p class="text-sm text-muted"></p>
+                                @endif
 
 
 
-                </div>
+                                <div class="media-body">
 
-              </div>
+                                    <h3 class="dropdown-item-title">
 
-            </a>
-
-            <div>
-
-              <div style="margin: 5px;">
-
-                <a href="{{ url('admin/change-details/'.Auth::user()->id)}}" class="btn btn-secondary btn-flat"><i
-
-                    class="fa fa-edit"></i> @lang('fleet.editProfile')</a>
+                                        {{ Auth::user()->name }}
 
 
 
-                <a href="{{ route('logout') }}"
-
-                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-
-                  class="btn btn-secondary btn-flat pull-right"> <i class="fa fa-sign-out"></i>
-
-                  @lang('menu.logout')
-
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-
-                  {{ csrf_field() }}
-
-                </form>
+                                        <span class="float-right text-sm text-danger">
 
 
 
-              </div>
+                                        </span>
 
-              <div class="clear"></div>
+                                    </h3>
 
-            </div>
+                                    <p class="text-sm text-muted">{{ Auth::user()->email }}</p>
 
-            <!-- Message End -->
+                                    <p class="text-sm text-muted"></p>
 
 
 
-          </div>
+                                </div>
 
-        </li>
+                            </div>
 
-        {{-- <li class="nav-item">
+                        </a>
+
+                        <div>
+
+                            <div style="margin: 5px;">
+
+                                <a href="{{ url('admin/change-details/' . Auth::user()->id) }}"
+                                    class="btn btn-secondary btn-flat"><i class="fa fa-edit"></i>
+                                    @lang('fleet.editProfile')</a>
+
+
+
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    class="btn btn-secondary btn-flat pull-right"> <i class="fa fa-sign-out"></i>
+
+                                    @lang('menu.logout')
+
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+
+                                    {{ csrf_field() }}
+
+                                </form>
+
+
+
+                            </div>
+
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <!-- Message End -->
+
+
+
+                    </div>
+
+                </li>
+
+                {{-- <li class="nav-item">
 
           <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
 
@@ -627,297 +612,273 @@ input:checked + .slider:before {
 
         </li> --}}
 
-        <!-- logout -->
+                <!-- logout -->
 
-      </ul>
+            </ul>
 
-    </nav>
+        </nav>
 
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-
-
-
-      <a href="{{ url('admin/')}}" class="brand-link">
-
-        <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" alt="Fleet Logo" class="brand-image"
-
-          style="opacity: .8">
-
-        <span class="brand-text font-weight-light">{{ AtlasLogistics::get('app_name') }}</span>
-
-      </a>
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
 
 
-      <div class="sidebar">
+            <a href="{{ url('admin/') }}" class="brand-link">
 
-        <!-- Sidebar user panel (optional) -->
+                <img src="{{ asset('assets/images/' . AtlasLogistics::get('icon_img')) }}" alt="Fleet Logo"
+                    class="brand-image" style="opacity: .8">
 
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <span class="brand-text font-weight-light">{{ AtlasLogistics::get('app_name') }}</span>
 
-          <div class="image">
-
-            @if(Auth::user()->user_type == 'D' && Auth::user()->getMeta('driver_image') != null)
-
-            @if(starts_with(Auth::user()->getMeta('driver_image'),'http'))
-
-            @php($src = Auth::user()->getMeta('driver_image'))
-
-            @else
-
-            @php($src=asset('uploads/'.Auth::user()->getMeta('driver_image')))
-
-            @endif
-
-            <img src="{{$src}}" class="img-circle elevation-2" alt="User Image">
-
-            @elseif(Auth::user()->user_type == 'S' || Auth::user()->user_type == 'O')
-
-            @if(Auth::user()->getMeta('profile_image') == null)
-
-            <img src="{{ asset("assets/images/no-user.jpg")}}" class="img-circle elevation-2" alt="User Image">
-
-            @else
-
-            <img src="{{asset('uploads/'.Auth::user()->getMeta('profile_image'))}}" class="img-circle elevation-2"
-
-              alt="User Image">
-
-            @endif
-
-            @elseif(Auth::user()->user_type == 'C' && Auth::user()->getMeta('profile_pic') != null)
-
-            @if(starts_with(Auth::user()->getMeta('profile_pic'),'http'))
-
-            @php($src = Auth::user()->getMeta('profile_pic'))
-
-            @else
-
-            @php($src=asset('uploads/'.Auth::user()->getMeta('profile_pic')))
-
-            @endif
-
-            <img src="{{$src}}" class="img-circle elevation-2" alt="User Image">
-
-            @else
-
-            <img src="{{ asset("assets/images/no-user.jpg")}}" class="img-circle elevation-2" alt="User Image">
-
-            @endif
+            </a>
 
 
 
-          </div>
+            <div class="sidebar">
 
-          <div class="info">
+                <!-- Sidebar user panel (optional) -->
 
-            <a href="{{ url('admin/change-details/'.Auth::user()->id)}}" class="d-block">{{Auth::user()->name}}</a>
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
-          </div>
+                    <div class="image">
 
-        </div>
+                        @if (Auth::user()->user_type == 'D' && Auth::user()->getMeta('driver_image') != null)
 
-        <div class="form-inline">
+                            @if (starts_with(Auth::user()->getMeta('driver_image'), 'http'))
+                                @php($src = Auth::user()->getMeta('driver_image'))
+                            @else
+                                @php($src = asset('uploads/' . Auth::user()->getMeta('driver_image')))
+                            @endif
 
-          <div class="input-group" data-widget="sidebar-search">
+                            <img src="{{ $src }}" class="img-circle elevation-2" alt="User Image">
+                        @elseif(Auth::user()->user_type == 'S' || Auth::user()->user_type == 'O')
+                            @if (Auth::user()->getMeta('profile_image') == null)
+                                <img src="{{ asset('assets/images/no-user.jpg') }}" class="img-circle elevation-2"
+                                    alt="User Image">
+                            @else
+                                <img src="{{ asset('uploads/' . Auth::user()->getMeta('profile_image')) }}"
+                                    class="img-circle elevation-2" alt="User Image">
+                            @endif
+                        @elseif(Auth::user()->user_type == 'C' && Auth::user()->getMeta('profile_pic') != null)
+                            @if (starts_with(Auth::user()->getMeta('profile_pic'), 'http'))
+                                @php($src = Auth::user()->getMeta('profile_pic'))
+                            @else
+                                @php($src = asset('uploads/' . Auth::user()->getMeta('profile_pic')))
+                            @endif
+
+                            <img src="{{ $src }}" class="img-circle elevation-2" alt="User Image">
+                        @else
+                            <img src="{{ asset('assets/images/no-user.jpg') }}" class="img-circle elevation-2"
+                                alt="User Image">
+
+                        @endif
 
 
 
-            <input class="form-control form-control-sidebar" type="search" placeholder=" @lang('fleet.search')" aria-label="Search">
+                    </div>
 
-            <div class="input-group-append">
+                    <div class="info">
 
-              <button class="btn btn-sidebar">
+                        <a href="{{ url('admin/change-details/' . Auth::user()->id) }}"
+                            class="d-block">{{ Auth::user()->name }}</a>
 
-                <i class="fa fa-search"></i>
-
-              </button>
-
-            </div>
-
-          </div>
-
-          <div class="sidebar-search-results">
-
-            <div class="list-group">
-
-              <a href="#" class="list-group-item">
-
-                <div class="search-title">
-
-                  <div class="search-path"></div>
+                    </div>
 
                 </div>
 
-              </a>
+                <div class="form-inline">
 
-            </div>
-
-          </div>
+                    <div class="input-group" data-widget="sidebar-search">
 
 
 
-          <!-- Sidebar Menu -->
+                        <input class="form-control form-control-sidebar" type="search"
+                            placeholder=" @lang('fleet.search')" aria-label="Search">
 
-          <nav class="mt-2">
+                        <div class="input-group-append">
 
-            <ul class="nav nav-pills nav-sidebar nav-flat flex-column" data-widget="treeview" role="menu"
+                            <button class="btn btn-sidebar">
 
-              data-accordion="false">
+                                <i class="fa fa-search"></i>
 
-              <!-- Add icons to the links using the .nav-icon class
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="sidebar-search-results">
+
+                        <div class="list-group">
+
+                            <a href="#" class="list-group-item">
+
+                                <div class="search-title">
+
+                                    <div class="search-path"></div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Sidebar Menu -->
+
+                    <nav class="mt-2">
+
+                        <ul class="nav nav-pills nav-sidebar nav-flat flex-column" data-widget="treeview"
+                            role="menu" data-accordion="false">
+
+                            <!-- Add icons to the links using the .nav-icon class
 
          with font-awesome or any other icon font library -->
 
-              <!-- customer -->
+                            <!-- customer -->
 
-              @if(Auth::user()->user_type=="C")
-
-
-
-              @if(Request::is('admin/bookings*'))
-
-              @php($class="menu-open")
-
-              @php($active="active")
-
-              @else
-
-              @php($class="")
-
-              @php($active="")
-
-              @endif
+                            @if (Auth::user()->user_type == 'C')
 
 
 
-              <li class="nav-item has-treeview {{$class}}">
+                                @if (Request::is('admin/bookings*'))
+                                    @php($class = 'menu-open')
 
-                <a href="#" class="nav-link {{$active}}">
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  <i class="nav-icon fa fa-address-card"></i>
-
-                  <p>
-
-                    @lang('menu.bookings')
-
-                    <i class="right fa fa-angle-left"></i>
-
-                  </p>
-
-                </a>
-
-                <ul class="nav nav-treeview">
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('bookings.create')}}"
-
-                      class="nav-link @if(Request::is('admin/bookings/create')) active @endif">
-
-                      <i class="fa fa-address-book nav-icon "></i>
-
-                      <p>
-
-                        @lang('menu.newbooking')</p>
-
-                    </a>
-
-                  </li>
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('bookings.index')}}"
-
-                      class="nav-link @if((Request::is('admin/bookings*')) && !(Request::is('admin/bookings/create')) && !(Request::is('admin/bookings_calendar'))) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p>
-
-                        @lang('menu.manage_bookings')</p>
-
-                    </a>
-
-                  </li>
-
-                </ul>
-
-              </li>
+                                    @php($active = '')
+                                @endif
 
 
+
+                                <li class="nav-item has-treeview {{ $class }}">
+
+                                    <a href="#" class="nav-link {{ $active }}">
+
+                                        <i class="nav-icon fa fa-address-card"></i>
+
+                                        <p>
+
+                                            @lang('menu.bookings')
+
+                                            <i class="right fa fa-angle-left"></i>
+
+                                        </p>
+
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+
+                                        <li class="nav-item">
+
+                                            <a href="{{ route('bookings.create') }}"
+                                                class="nav-link @if (Request::is('admin/bookings/create')) active @endif">
+
+                                                <i class="fa fa-address-book nav-icon "></i>
+
+                                                <p>
+
+                                                    @lang('menu.newbooking')</p>
+
+                                            </a>
+
+                                        </li>
+
+                                        <li class="nav-item">
+
+                                            <a href="{{ route('bookings.index') }}"
+                                                class="nav-link @if (Request::is('admin/bookings*') && !Request::is('admin/bookings/create') && !Request::is('admin/bookings_calendar')) active @endif">
+
+                                                <i class="fa fa-tasks nav-icon"></i>
+
+                                                <p>
+
+                                                    @lang('menu.manage_bookings')</p>
+
+                                            </a>
+
+                                        </li>
+
+                                    </ul>
+
+                                </li>
+
+
+
+                                <li class="nav-item">
+
+                                    <a href="{{ url('admin/change-details/' . Auth::user()->id) }}"
+                                        class="nav-link @if (Request::is('admin/change-details*')) active @endif">
+
+                                        <i class="nav-icon fa fa-edit"></i>
+
+                                        <p>
+
+                                            @lang('fleet.editProfile')
+
+                                            <span class="right badge badge-danger"></span>
+
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                                <li class="nav-item">
+
+                                    <a href="{{ url('admin/addresses') }}"
+                                        class="nav-link @if (Request::is('admin/addresses*')) active @endif">
+
+                                        <i class="nav-icon fa fa-map-marker"></i>
+
+                                        <p>
+
+                                            @lang('fleet.addresses')
+
+                                            <span class="right badge badge-danger"></span>
+
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                                <li class="nav-item">
+
+                                    <a href="{{ url('admin/') }}"
+                                        class="nav-link @if (Request::is('admin')) active @endif">
+
+                                        <i class="nav-icon fa fa-money-bill-alt"></i>
+
+                                        <p>
+
+                                            @lang('fleet.expenses')
+
+                                            <span class="right badge badge-danger"></span>
+
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                            @endif
+
+                            <!-- customer -->
+
+                            <!-- user-type S or O -->
+
+
+
+                            {{-- @if (Auth::user()->user_type == 'S' || Auth::user()->user_type == 'O')
 
               <li class="nav-item">
 
-                <a href="{{ url('admin/change-details/'.Auth::user()->id)}}"
-
-                  class="nav-link @if(Request::is('admin/change-details*')) active @endif">
-
-                  <i class="nav-icon fa fa-edit"></i>
-
-                  <p>
-
-                    @lang('fleet.editProfile')
-
-                    <span class="right badge badge-danger"></span>
-
-                  </p>
-
-                </a>
-
-              </li>
-
-              <li class="nav-item">
-
-                <a href="{{url('admin/addresses') }}"
-
-                  class="nav-link @if(Request::is('admin/addresses*')) active @endif">
-
-                  <i class="nav-icon fa fa-map-marker"></i>
-
-                  <p>
-
-                    @lang('fleet.addresses')
-
-                    <span class="right badge badge-danger"></span>
-
-                  </p>
-
-                </a>
-
-              </li>
-
-              <li class="nav-item">
-
-                <a href="{{url('admin/') }}" class="nav-link @if(Request::is('admin')) active @endif">
-
-                  <i class="nav-icon fa fa-money-bill-alt"></i>
-
-                  <p>
-
-                    @lang('fleet.expenses')
-
-                    <span class="right badge badge-danger"></span>
-
-                  </p>
-
-                </a>
-
-              </li>
-
-              @endif
-
-              <!-- customer -->
-
-              <!-- user-type S or O -->
-
-
-
-              {{-- @if(Auth::user()->user_type=="S" || Auth::user()->user_type=="O")
-
-              <li class="nav-item">
-
-                <a href="{{ url('admin/')}}" class="nav-link @if(Request::is('admin')) active @endif">
+                <a href="{{ url('admin/')}}" class="nav-link @if (Request::is('admin')) active @endif">
 
                   <i class="nav-icon fa fa-tachograph-digital"></i>
 
@@ -935,429 +896,394 @@ input:checked + .slider:before {
 
               @endif --}}
 
-              <!-- user-type S or O -->
+                            <!-- user-type S or O -->
 
 
 
-              <!-- driver -->
+                            <!-- driver -->
 
-              @if(Auth::user()->user_type=="D")
+                            @if (Auth::user()->user_type == 'D')
 
 
 
-              <li class="nav-item">
+                                <li class="nav-item">
 
-                <a href="{{url('admin/')}}" class="nav-link @if(Request::is('admin')) active @endif">
+                                    <a href="{{ url('admin/') }}"
+                                        class="nav-link @if (Request::is('admin')) active @endif">
 
-                  <i class="nav-icon fa fa-user"></i>
+                                        <i class="nav-icon fa fa-user"></i>
 
-                  <p>
+                                        <p>
 
-                    @lang('fleet.myProfile')
+                                            @lang('fleet.myProfile')
 
-                    <span class="right badge badge-danger"></span>
+                                            <span class="right badge badge-danger"></span>
 
-                  </p>
+                                        </p>
 
-                </a>
+                                    </a>
 
-              </li>
+                                </li>
 
-              <li class="nav-item">
+                                <li class="nav-item">
 
-                <a href="{{ route('my_bookings')}}"
+                                    <a href="{{ route('my_bookings') }}"
+                                        class="nav-link @if (Request::is('admin/my_bookings')) active @endif">
 
-                  class="nav-link @if(Request::is('admin/my_bookings')) active @endif">
+                                        <i class="nav-icon fa fa-book"></i>
 
-                  <i class="nav-icon fa fa-book"></i>
+                                        <p>
 
-                  <p>
+                                            @lang('menu.my_bookings')
 
-                    @lang('menu.my_bookings')
+                                            <span class="right badge badge-danger"></span>
 
-                    <span class="right badge badge-danger"></span>
+                                        </p>
 
-                  </p>
+                                    </a>
 
-                </a>
+                                </li>
 
-              </li>
+                                <li class="nav-item">
 
-              <li class="nav-item">
+                                    <a href="{{ url('admin/vehicle-inspection') }}"
+                                        class="nav-link @if (Request::is('admin/vehicle-inspection*') ||
+                                                Request::is('admin/view-vehicle-inspection*') ||
+                                                Request::is('admin/print-vehicle-inspection*')) active @endif">
 
-                <a href="{{ url('admin/vehicle-inspection')}}"
+                                        <i class="fa fa-briefcase nav-icon"></i>
 
-                  class="nav-link @if((Request::is('admin/vehicle-inspection*')) || (Request::is('admin/view-vehicle-inspection*')) || (Request::is('admin/print-vehicle-inspection*'))) active @endif">
+                                        <p>@lang('fleet.vehicle_inspection')</p>
 
-                  <i class="fa fa-briefcase nav-icon"></i>
+                                    </a>
 
-                  <p>@lang('fleet.vehicle_inspection')</p>
+                                </li>
 
-                </a>
+                                <li class="nav-item">
 
-              </li>
+                                    <a href="{{ url('admin/change-details/' . Auth::user()->id) }}"
+                                        class="nav-link @if (Request::is('admin/change-details*')) active @endif">
 
-              <li class="nav-item">
+                                        <i class="nav-icon fa fa-edit"></i>
 
-                <a href="{{ url('admin/change-details/'.Auth::user()->id)}}"
+                                        <p>
 
-                  class="nav-link @if(Request::is('admin/change-details*')) active @endif">
+                                            @lang('fleet.editProfile')
 
-                  <i class="nav-icon fa fa-edit"></i>
+                                            <span class="right badge badge-danger"></span>
 
-                  <p>
+                                        </p>
 
-                    @lang('fleet.editProfile')
+                                    </a>
 
-                    <span class="right badge badge-danger"></span>
+                                </li>
 
-                  </p>
+                                @if (
+                                    !empty(AtlasLogistics::chat('pusher_app_id')) &&
+                                        !empty(AtlasLogistics::chat('pusher_app_key')) &&
+                                        !empty(AtlasLogistics::chat('pusher_app_secret')) &&
+                                        !empty(AtlasLogistics::chat('pusher_app_cluster')))
+                                    <li class="nav-item">
 
-                </a>
+                                        <a href="{{ url('admin/chat/') }}"
+                                            class="nav-link @if (Request::is('admin/chat')) active @endif">
 
-              </li>
+                                            <i class="nav-icon fa fa-comments-o"></i>
 
-              @if (!empty(AtlasLogistics::chat('pusher_app_id')) && !empty(AtlasLogistics::chat ('pusher_app_key')) &&
+                                            <p>
 
-              !empty(AtlasLogistics::chat('pusher_app_secret')) && !empty(AtlasLogistics::chat('pusher_app_cluster')))
+                                                @lang('fleet.chat')
 
+                                                <span class="right badge badge-danger"></span>
 
+                                            </p>
 
-              <li class="nav-item">
+                                        </a>
 
-                <a href="{{ url('admin/chat/')}}" class="nav-link @if(Request::is('admin/chat')) active @endif">
+                                    </li>
+                                @endif
 
-                  <i class="nav-icon fa fa-comments-o"></i>
 
-                  <p>
 
-                    @lang('fleet.chat')
+                                @if (Request::is('admin/notes*'))
+                                    @php($class = 'menu-open')
 
-                    <span class="right badge badge-danger"></span>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  </p>
+                                    @php($active = '')
+                                @endif
 
-                </a>
 
-              </li>
 
-              @endif
+                                <li class="nav-item has-treeview {{ $class }}">
 
+                                    <a href="#" class="nav-link {{ $active }}">
 
+                                        <i class="nav-icon fa fa-sticky-note"></i>
 
-              @if(Request::is('admin/notes*'))
+                                        <p>
 
-              @php($class="menu-open")
+                                            @lang('fleet.notes')
 
-              @php($active="active")
+                                            <i class="right fa fa-angle-left"></i>
 
+                                        </p>
 
+                                    </a>
 
-              @else
+                                    <ul class="nav nav-treeview">
 
-              @php($class="")
+                                        <li class="nav-item">
 
-              @php($active="")
+                                            <a href="{{ route('notes.index') }}"
+                                                class="nav-link @if (Request::is('admin/notes*') && !Request::is('admin/notes/create')) active @endif">
 
-              @endif
+                                                <i class="fa fa-flag nav-icon"></i>
 
+                                                <p> @lang('fleet.manage_note')</p>
 
+                                            </a>
 
-              <li class="nav-item has-treeview {{$class}}">
+                                        </li>
 
-                <a href="#" class="nav-link {{$active}}">
+                                        <li class="nav-item">
 
-                  <i class="nav-icon fa fa-sticky-note"></i>
+                                            <a href="{{ route('notes.create') }}"
+                                                class="nav-link @if (Request::is('admin/notes/create')) active @endif">
 
-                  <p>
+                                                <i class="fa fa-plus-square nav-icon"></i>
 
-                    @lang('fleet.notes')
+                                                <p>@lang('fleet.create_note')</p>
 
-                    <i class="right fa fa-angle-left"></i>
+                                            </a>
 
-                  </p>
+                                        </li>
 
-                </a>
+                                    </ul>
 
-                <ul class="nav nav-treeview">
+                                </li>
 
-                  <li class="nav-item">
 
-                    <a href="{{ route('notes.index') }}"
 
-                      class="nav-link @if((Request::is('admin/notes*') && !(Request::is('admin/notes/create')))) active @endif">
+                                @if (Request::is('admin/driver-reports*'))
+                                    @php($class = 'menu-open')
 
-                      <i class="fa fa-flag nav-icon"></i>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                      <p> @lang('fleet.manage_note')</p>
+                                    @php($active = '')
+                                @endif
 
-                    </a>
 
-                  </li>
 
-                  <li class="nav-item">
+                                <li class="nav-item has-treeview {{ $class }}">
 
-                    <a href="{{ route('notes.create') }}"
+                                    <a href="#" class="nav-link {{ $active }}">
 
-                      class="nav-link @if(Request::is('admin/notes/create')) active @endif">
+                                        <i class="nav-icon fa fa-book"></i>
 
-                      <i class="fa fa-plus-square nav-icon"></i>
+                                        <p>
 
-                      <p>@lang('fleet.create_note')</p>
+                                            @lang('menu.reports')
 
-                    </a>
+                                            <i class="right fa fa-angle-left"></i>
 
-                  </li>
+                                        </p>
 
-                </ul>
+                                    </a>
 
-              </li>
+                                    <ul class="nav nav-treeview">
 
+                                        <li class="nav-item">
 
+                                            <a href="{{ route('dreports.monthly') }}"
+                                                class="nav-link @if (Request::is('admin/driver-reports/monthly')) active @endif">
 
-              @if(Request::is('admin/driver-reports*'))
+                                                <i class="fa fa-calendar nav-icon"></i>
 
-              @php($class="menu-open")
+                                                <p>@lang('menu.monthlyReport')</p>
 
-              @php($active="active")
+                                            </a>
 
+                                        </li>
 
+                                        <li class="nav-item">
 
-              @else
+                                            <a href="{{ route('dreports.yearly') }}"
+                                                class="nav-link @if (Request::is('admin/driver-reports/yearly')) active @endif">
 
-              @php($class="")
+                                                <i class="fa fa-calendar nav-icon"></i>
 
-              @php($active="")
+                                                <p>@lang('fleet.yearlyReport')</p>
 
-              @endif
+                                            </a>
 
+                                        </li>
 
+                                    </ul>
 
-              <li class="nav-item has-treeview {{$class}}">
+                                </li>
 
-                <a href="#" class="nav-link {{$active}}">
 
-                  <i class="nav-icon fa fa-book"></i>
 
-                  <p>
+                                @if (AtlasLogistics::get('fuel_enable_driver') == 1)
 
-                    @lang('menu.reports')
+                                    @if (Request::is('admin/fuel*'))
+                                        @php($class = 'menu-open')
 
-                    <i class="right fa fa-angle-left"></i>
+                                        @php($active = 'active')
+                                    @else
+                                        @php($class = '')
 
-                  </p>
+                                        @php($active = '')
+                                    @endif
 
-                </a>
 
-                <ul class="nav nav-treeview">
 
-                  <li class="nav-item">
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                    <a href="{{ route('dreports.monthly')}}"
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                      class="nav-link @if(Request::is('admin/driver-reports/monthly')) active @endif">
+                                            <i class="nav-icon fa fa-filter"></i>
 
-                      <i class="fa fa-calendar nav-icon"></i>
+                                            <p>
 
-                      <p>@lang('menu.monthlyReport')</p>
+                                                @lang('fleet.fuel')
 
-                    </a>
+                                                <i class="right fa fa-angle-left"></i>
 
-                  </li>
+                                            </p>
 
-                  <li class="nav-item">
+                                        </a>
 
-                    <a href="{{ route('dreports.yearly')}}"
 
-                      class="nav-link @if(Request::is('admin/driver-reports/yearly')) active @endif">
 
-                      <i class="fa fa-calendar nav-icon"></i>
+                                        <ul class="nav nav-treeview">
 
-                      <p>@lang('fleet.yearlyReport')</p>
+                                            <li class="nav-item">
 
-                    </a>
+                                                <a href="{{ route('fuel.create') }}"
+                                                    class="nav-link @if (Request::is('admin/fuel/create')) active @endif">
 
-                  </li>
+                                                    <i class="fa fa-plus-square nav-icon"></i>
 
-                </ul>
+                                                    <p> @lang('fleet.add_fuel')</p>
 
-              </li>
+                                                </a>
 
+                                            </li>
 
 
-              @if(AtlasLogistics::get('fuel_enable_driver') == 1)
 
-              @if(Request::is('admin/fuel*'))
+                                            <li class="nav-item">
 
-              @php($class="menu-open")
+                                                <a href="{{ route('fuel.index') }}"
+                                                    class="nav-link @if (Request::is('admin/fuel*') && !Request::is('admin/fuel/create')) active @endif">
 
-              @php($active="active")
+                                                    <i class="fa fa-history nav-icon"></i>
 
+                                                    <p>@lang('fleet.manage_fuel')</p>
 
+                                                </a>
 
-              @else
+                                            </li>
 
-              @php($class="")
+                                        </ul>
 
-              @php($active="")
+                                    </li>
 
-              @endif
+                                @endif
 
 
 
-              <li class="nav-item has-treeview {{$class}}">
+                                @if (AtlasLogistics::get('income_enable_driver') == 1 || AtlasLogistics::get('expense_enable_driver') == 1)
 
-                <a href="#" class="nav-link {{$active}}">
+                                    @if (Request::is('admin/income') ||
+                                            Request::is('admin/expense') ||
+                                            Request::is('admin/transaction') ||
+                                            Request::is('admin/income_records') ||
+                                            Request::is('admin/expense_records'))
+                                        @php($class = 'menu-open')
 
-                  <i class="nav-icon fa fa-filter"></i>
+                                        @php($active = 'active')
+                                    @else
+                                        @php($class = '')
 
-                  <p>
+                                        @php($active = '')
+                                    @endif
 
-                    @lang('fleet.fuel')
+                                    @can('Transactions list')
+                                        <li class="nav-item has-treeview {{ $class }}">
 
-                    <i class="right fa fa-angle-left"></i>
+                                            <a href="#" class="nav-link {{ $active }}">
 
-                  </p>
+                                                <i class="nav-icon fa fa-money-bill-alt"></i>
 
-                </a>
+                                                <p>
 
+                                                    @lang('menu.transactions')
 
+                                                    <i class="right fa fa-angle-left"></i>
 
-                <ul class="nav nav-treeview">
+                                                </p>
 
-                  <li class="nav-item">
+                                            </a>
 
-                    <a href="{{ route('fuel.create') }}"
+                                            <ul class="nav nav-treeview">
 
-                      class="nav-link @if(Request::is('admin/fuel/create')) active @endif">
+                                                @if (AtlasLogistics::get('income_enable_driver') == 1)
+                                                    <li class="nav-item">
 
-                      <i class="fa fa-plus-square nav-icon"></i>
+                                                        <a href="{{ route('income.index') }}"
+                                                            class="nav-link @if (Request::is('admin/income') || Request::is('admin/income_records')) active @endif">
 
-                      <p> @lang('fleet.add_fuel')</p>
+                                                            <i class="fa fa-newspaper nav-icon"></i>
 
-                    </a>
+                                                            <p>@lang('fleet.manage_income')
 
-                  </li>
 
 
+                                                            </p>
 
-                  <li class="nav-item">
+                                                            <i class="fa fa-plus"></i>
 
-                    <a href="{{ route('fuel.index') }}"
+                                                        </a>
 
-                      class="nav-link @if(Request::is('admin/fuel*') && !Request::is('admin/fuel/create')) active @endif">
+                                                    </li>
+                                                @endif
 
-                      <i class="fa fa-history nav-icon"></i>
+                                                @if (AtlasLogistics::get('expense_enable_driver') == 1)
+                                                    <li class="nav-item">
 
-                      <p>@lang('fleet.manage_fuel')</p>
+                                                        <a href="{{ route('expense.index') }}"
+                                                            class="nav-link @if (Request::is('admin/expense') || Request::is('admin/expense_records')) active @endif">
 
-                    </a>
+                                                            <i class="fa fa-newspaper nav-icon"></i>
 
-                  </li>
+                                                            <p>@lang('fleet.manage_expense')</p>
 
-                </ul>
+                                                        </a>
 
-              </li>
+                                                    </li>
+                                                @endif
 
-              @endif
+                                            </ul>
 
+                                        </li>
+                                    @endcan
 
+                                @endif
 
-              @if(AtlasLogistics::get('income_enable_driver') == 1 || AtlasLogistics::get('expense_enable_driver') == 1)
 
-              @if((Request::is('admin/income')) || (Request::is('admin/expense')) || (Request::is('admin/transaction'))
 
-              || (Request::is('admin/income_records')) || (Request::is('admin/expense_records')) )
-
-              @php($class="menu-open")
-
-              @php($active="active")
-
-
-
-              @else
-
-              @php($class="")
-
-              @php($active="")
-
-              @endif
-
-              @can('Transactions list')
-
-              <li class="nav-item has-treeview {{$class}}">
-
-                <a href="#" class="nav-link {{$active}}">
-
-                  <i class="nav-icon fa fa-money-bill-alt"></i>
-
-                  <p>
-
-                    @lang('menu.transactions')
-
-                    <i class="right fa fa-angle-left"></i>
-
-                  </p>
-
-                </a>
-
-                <ul class="nav nav-treeview">
-
-                  @if(AtlasLogistics::get('income_enable_driver') == 1)
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('income.index')}}"
-
-                      class="nav-link @if((Request::is('admin/income'))|| (Request::is('admin/income_records'))) active @endif">
-
-                      <i class="fa fa-newspaper nav-icon"></i>
-
-                      <p>@lang('fleet.manage_income')
-
-
-
-                      </p>
-
-                      <i class="fa fa-plus"></i>
-
-                    </a>
-
-                  </li>
-
-                  @endif
-
-                  @if(AtlasLogistics::get('expense_enable_driver') == 1)
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('expense.index')}}"
-
-                      class="nav-link @if((Request::is('admin/expense')) || (Request::is('admin/expense_records'))) active @endif">
-
-                      <i class="fa fa-newspaper nav-icon"></i>
-
-                      <p>@lang('fleet.manage_expense')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endif
-
-                </ul>
-
-              </li> @endcan
-
-              @endif
-
-
-
-              {{-- <li class="nav-item">
+                                {{-- <li class="nav-item">
 
                 <a href="{{ url('admin/booking-expense')}}"
 
-                  class="nav-link @if(Request::is('admin/booking-expense*')) active @endif">
+                  class="nav-link @if (Request::is('admin/booking-expense*')) active @endif">
 
                   <i class="fa fa-newspaper nav-icon"></i>
 
@@ -1367,265 +1293,244 @@ input:checked + .slider:before {
 
               </li> --}}
 
-              @endif
+                            @endif
 
-              <!-- driver -->
+                            <!-- driver -->
 
 
 
-              <!-- sidebar menus for office-admin and super-admin -->
+                            <!-- sidebar menus for office-admin and super-admin -->
 
 
 
-              @if(Auth::user()->user_type=="S" || Auth::user()->user_type=="O")
+                            @if (Auth::user()->user_type == 'S' || Auth::user()->user_type == 'O')
+                                <li class="nav-item">
 
-              <li class="nav-item">
+                                    <a href="{{ url('admin/') }}"
+                                        class="nav-link @if (Request::is('admin')) active @endif">
 
-                <a href="{{ url('admin/')}}" class="nav-link @if(Request::is('admin')) active @endif">
+                                        <i class="nav-icon fa fa-tachograph-digital"></i>
 
-                  <i class="nav-icon fa fa-tachograph-digital"></i>
+                                        <p>
 
-                  <p>
+                                            @lang('menu.Dashboard')
 
-                    @lang('menu.Dashboard')
+                                            <span class="right badge badge-danger"></span>
 
-                    <span class="right badge badge-danger"></span>
+                                        </p>
 
-                  </p>
+                                    </a>
 
-                </a>
+                                </li>
+                            @endif
 
-              </li>
 
-              @endif
 
+                            @if (!Auth::guest() && Auth::user()->user_type != 'D' && Auth::user()->user_type != 'C')
 
 
-              @if (!Auth::guest() && Auth::user()->user_type != "D" && Auth::user()->user_type != "C" )
 
+                                @if (Request::is('admin/drivers*') ||
+                                        Request::is('admin/users*') ||
+                                        Request::is('admin/customers*') ||
+                                        Request::is('admin/chat'))
+                                    @php($class = 'menu-open')
 
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-              @if((Request::is('admin/drivers*')) || (Request::is('admin/users*')) || (Request::is('admin/customers*'))
+                                    @php($active = '')
+                                @endif
 
-              || (Request::is('admin/chat')) )
+                                @canany(['Users list', 'Drivers list', 'Customer list'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-              @php($class="menu-open")
+                                        <a href="#" class="nav-link {{ $active }}">
 
-              @php($active="active")
+                                            <i class="nav-icon fa fa-users"></i>
 
+                                            <p>
 
+                                                @lang('menu.users')
 
-              @else
+                                                <i class="right fa fa-angle-left"></i>
 
-              @php($class="")
+                                            </p>
 
-              @php($active="")
+                                        </a>
 
-              @endif
+                                        <ul class="nav nav-treeview">
 
-              @canany(['Users list','Drivers list','Customer list'])
+                                            @can('Drivers list')
+                                                <li class="nav-item">
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                    <a href="{{ route('drivers.index') }}"
+                                                        class="nav-link @if (Request::is('admin/drivers*')) active @endif">
 
-                <a href="#" class="nav-link {{$active}}">
+                                                        <i class="fa fa-id-card nav-icon"></i>
 
-                  <i class="nav-icon fa fa-users"></i>
+                                                        <p>@lang('menu.drivers')</p>
 
-                  <p>
+                                                    </a>
 
-                    @lang('menu.users')
+                                                </li>
+                                            @endcan
 
-                    <i class="right fa fa-angle-left"></i>
+                                            @can('Users list')
+                                                <li class="nav-item">
 
-                  </p>
+                                                    <a href="{{ route('users.index') }}"
+                                                        class="nav-link @if (Request::is('admin/users*')) active @endif">
 
-                </a>
+                                                        <i class="fa fa-user nav-icon"></i>
 
-                <ul class="nav nav-treeview">
+                                                        <p>@lang('fleet.users')@lang('fleet.managers')</p>
 
-                  @can('Drivers list')
+                                                    </a>
 
-                  <li class="nav-item">
+                                                </li>
+                                            @endcan
 
-                    <a href="{{ route('drivers.index')}}"
+                                            @can('Customer list')
+                                                <li class="nav-item">
 
-                      class="nav-link @if(Request::is('admin/drivers*')) active @endif">
+                                                    <a href="{{ route('customers.index') }}"
+                                                        class="nav-link @if (Request::is('admin/customers*')) active @endif">
 
-                      <i class="fa fa-id-card nav-icon"></i>
+                                                        <i class="fa fa-address-card nav-icon"></i>
 
-                      <p>@lang('menu.drivers')</p>
+                                                        <p>@lang('fleet.customers')</p>
 
-                    </a>
+                                                    </a>
 
-                  </li>
+                                                </li>
+                                            @endcan
 
-                  @endcan
+                                            @if (
+                                                !empty(AtlasLogistics::chat('pusher_app_id')) &&
+                                                    !empty(AtlasLogistics::chat('pusher_app_key')) &&
+                                                    !empty(AtlasLogistics::chat('pusher_app_secret')) &&
+                                                    !empty(AtlasLogistics::chat('pusher_app_cluster')))
+                                                <li class="nav-item">
 
-                  @can('Users list')
+                                                    <a href="{{ route('chat.index') }}"
+                                                        class="nav-link @if (Request::is('admin/chat')) active @endif">
 
-                  <li class="nav-item">
+                                                        <i class="fa fa-comments-o nav-icon"></i>
 
-                    <a href="{{ route('users.index')}}" class="nav-link @if(Request::is('admin/users*')) active @endif">
+                                                        <p>@lang('fleet.chat')</p>
 
-                      <i class="fa fa-user nav-icon"></i>
+                                                    </a>
 
-                      <p>@lang('fleet.users')@lang('fleet.managers')</p>
+                                                </li>
+                                            @endif
 
-                    </a>
+                                        </ul>
 
-                  </li>
+                                    </li>
+                                @endcanany
 
-                  @endcan
 
-                  @can('Customer list')
 
-                  <li class="nav-item">
+                                @if (Request::is('admin/driver-logs') ||
+                                        Request::is('admin/vehicle-types*') ||
+                                        Request::is('admin/vehicles*') ||
+                                        Request::is('admin/vehicle_group*') ||
+                                        Request::is('admin/vehicle-reviews*') ||
+                                        Request::is('admin/view-vehicle-review*') ||
+                                        Request::is('admin/vehicle-review*') ||
+                                        Request::is('admin/vehicle-make*') ||
+                                        Request::is('admin/vehicle-model*') ||
+                                        Request::is('admin/vehicle-color*'))
+                                    @php($class = 'menu-open')
 
-                    <a href="{{ route('customers.index')}}"
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                      class="nav-link @if(Request::is('admin/customers*')) active @endif">
+                                    @php($active = '')
+                                @endif
 
-                      <i class="fa fa-address-card nav-icon"></i>
+                                @canany([
+                                    'Vehicles list',
+                                    'VehicleType list',
+                                    'VehicleGroup list',
+                                    'VehicleInspection list',
+                                    'VehicleColors
 
-                      <p>@lang('fleet.customers')</p>
+                                    list',
+                                    'VehicleModels list',
+                                    'VehicleMaker list',
+                                    ])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                    </a>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                  </li>
+                                            <i class="nav-icon fa fa-taxi"></i>
 
-                  @endcan
+                                            <p>
 
-                  @if (!empty(AtlasLogistics::chat('pusher_app_id')) && !empty(AtlasLogistics::chat ('pusher_app_key')) &&
+                                                @lang('menu.vehicles')
 
-                  !empty(AtlasLogistics::chat('pusher_app_secret')) && !empty(AtlasLogistics::chat('pusher_app_cluster')))
+                                                <i class="right fa fa-angle-left"></i>
 
+                                            </p>
 
+                                        </a>
 
-                  <li class="nav-item">
+                                        <ul class="nav nav-treeview">
 
-                    <a href="{{ route('chat.index')}}" class="nav-link @if(Request::is('admin/chat')) active @endif">
+                                            @can('Vehicles list')
+                                                <li class="nav-item">
 
-                      <i class="fa fa-comments-o nav-icon"></i>
+                                                    <a href="{{ route('vehicles.index') }}"
+                                                        class="nav-link @if (Request::is('admin/vehicles') || Request::is('admin/vehicles/create') || Request::is('admin/vehicles/*/edit')) active @endif"
+                                                        style="position:relative">
 
-                      <p>@lang('fleet.chat')</p>
+                                                        <i class="fa fa-truck nav-icon"></i>
 
-                    </a>
+                                                        <p>@lang('menu.manageVehicles')</p>
 
-                  </li>
+                                                    </a>
 
-                  @endif
+                                                </li>
 
-                </ul>
 
-              </li>
 
-              @endcanany
 
 
-
-              @if((Request::is('admin/driver-logs')) || (Request::is('admin/vehicle-types*')) ||
-
-              (Request::is('admin/vehicles*')) || (Request::is('admin/vehicle_group*')) ||
-
-              (Request::is('admin/vehicle-reviews*')) || (Request::is('admin/view-vehicle-review*')) ||
-
-              (Request::is('admin/vehicle-review*')) || (Request::is('admin/vehicle-make*')) ||
-
-              (Request::is('admin/vehicle-model*')) || (Request::is('admin/vehicle-color*')))
-
-              @php($class="menu-open")
-
-              @php($active="active")
-
-
-
-              @else
-
-              @php($class="")
-
-              @php($active="")
-
-              @endif
-
-              @canany(['Vehicles list','VehicleType list','VehicleGroup list','VehicleInspection list','VehicleColors
-
-              list','VehicleModels list','VehicleMaker list'])
-
-              <li class="nav-item has-treeview {{$class}}">
-
-                <a href="#" class="nav-link {{$active}}">
-
-                  <i class="nav-icon fa fa-taxi"></i>
-
-                  <p>
-
-                    @lang('menu.vehicles')
-
-                    <i class="right fa fa-angle-left"></i>
-
-                  </p>
-
-                </a>
-
-                <ul class="nav nav-treeview">
-
-                  @can('Vehicles list')
-
-
-
-                    <li class="nav-item">
-
-                      <a href="{{ route('vehicles.index')}}"
-
-                      class="nav-link @if(Request::is('admin/vehicles')  || Request::is('admin/vehicles/create') || Request::is('admin/vehicles/*/edit')) active @endif" style="position:relative">
-
-                      <i class="fa fa-truck nav-icon"></i>
-
-                      <p>@lang('menu.manageVehicles')</p>
-
-                    </a>
-
-                    </li>
-
-
-
-
-
-                  {{-- <span style="display:inline !important;">
+                                                {{-- <span style="display:inline !important;">
 
                     <a href="{{ route('vehicles.create')}}" class="nav-link" title="@lang('fleet.addNew')"><i class="fa fa-plus" style="color: green;"></i></a>
 
                   </span> --}}
 
-                  {{-- </li> --}}
+                                                {{-- </li> --}}
+                                            @endcan
 
-                  @endcan
+                                            @can('VehicleType list')
+                                                <li class="nav-item">
 
-                  @can('VehicleType list')
+                                                    <a href="{{ route('vehicle-types.index') }}"
+                                                        class="nav-link @if (Request::is('admin/vehicle-types*')) active @endif">
 
-                  <li class="nav-item">
+                                                        <i class="fa fa-th-list nav-icon"></i>
 
-                    <a href="{{ route('vehicle-types.index')}}"
+                                                        <p>@lang('fleet.manage_vehicle_types')</p>
 
-                      class="nav-link @if(Request::is('admin/vehicle-types*')) active @endif">
+                                                    </a>
 
-                      <i class="fa fa-th-list nav-icon"></i>
+                                                </li>
+                                            @endcan
 
-                      <p>@lang('fleet.manage_vehicle_types')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                  {{-- @can('Vehicles list')
+                                            {{-- @can('Vehicles list')
 
                   <li class="nav-item">
 
                     <a href="{{ url('admin/driver-logs')}}"
 
-                      class="nav-link @if(Request::is('admin/driver-logs*')) active @endif">
+                      class="nav-link @if (Request::is('admin/driver-logs*')) active @endif">
 
                       <i class="fa fa-history nav-icon"></i>
 
@@ -1637,1671 +1542,1456 @@ input:checked + .slider:before {
 
                   @endcan --}}
 
-                  @can('VehicleGroup list')
+                                            @can('VehicleGroup list')
+                                                <li class="nav-item">
 
-                  <li class="nav-item">
+                                                    <a href="{{ route('vehicle_group.index') }}"
+                                                        class="nav-link @if (Request::is('admin/vehicle_group*')) active @endif">
 
-                    <a href="{{ route('vehicle_group.index')}}"
+                                                        <i class="fa fa-inbox nav-icon"></i>
 
-                      class="nav-link @if(Request::is('admin/vehicle_group*')) active @endif">
+                                                        <p>@lang('fleet.manageGroup')</p>
 
-                      <i class="fa fa-inbox nav-icon"></i>
+                                                    </a>
 
-                      <p>@lang('fleet.manageGroup')</p>
+                                                </li>
+                                            @endcan
 
-                    </a>
 
-                  </li>
 
-                  @endcan
+                                            @can('VehicleInspection list')
+                                                <li class="nav-item">
 
+                                                    <a href="{{ url('admin/vehicle-reviews') }}"
+                                                        class="nav-link @if (Request::is('admin/vehicle-reviews*') ||
+                                                                Request::is('admin/view-vehicle-review*') ||
+                                                                Request::is('admin/vehicle-review*')) active @endif">
 
+                                                        <i class="fa fa-briefcase nav-icon"></i>
 
-                  @can('VehicleInspection list')
+                                                        <p>@lang('fleet.vehicle_inspection')</p>
 
-                  <li class="nav-item">
+                                                    </a>
 
-                    <a href="{{ url('admin/vehicle-reviews')}}"
+                                                </li>
+                                            @endcan
 
-                      class="nav-link @if((Request::is('admin/vehicle-reviews*')) || (Request::is('admin/view-vehicle-review*')) || (Request::is('admin/vehicle-review*'))) active @endif">
 
-                      <i class="fa fa-briefcase nav-icon"></i>
 
-                      <p>@lang('fleet.vehicle_inspection')</p>
+                                            @if (Auth::user()->user_type == 'S')
+                                                @if (AtlasLogistics::get('traccar_enable') == 1 ? true : false)
+                                                    <li class="nav-item">
 
-                    </a>
+                                                        <a href="{{ url('admin/vehicles-track') }}"
+                                                            class="nav-link @if (Request::is('admin/vehicles-track*')) active @endif">
 
-                  </li>
+                                                            <i class="fa fa-location-dot nav-icon"></i>
 
-                  @endcan
+                                                            <p>@lang('fleet.vehicles-track')</p>
 
+                                                        </a>
 
+                                                    </li>
+                                                @endif
+                                            @endif
 
-                  @if(Auth::user()->user_type=='S')
+                                        </ul>
 
-                  @if(AtlasLogistics::get('traccar_enable') == 1 ? true : false)
+                                    </li>
+                                @endcanany
 
-                  <li class="nav-item">
+                                @if (Request::is('admin/income') ||
+                                        Request::is('admin/expense') ||
+                                        Request::is('admin/transaction') ||
+                                        Request::is('admin/income_records') ||
+                                        Request::is('admin/expense_records'))
+                                    @php($class = 'menu-open')
 
-                    <a href="{{ url('admin/vehicles-track')}}"
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                      class="nav-link @if((Request::is('admin/vehicles-track*'))) active @endif">
+                                    @php($active = '')
+                                @endif
 
-                      <i class="fa fa-location-dot nav-icon"></i>
+                                @can('Transactions list')
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                      <p>@lang('fleet.vehicles-track')</p>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                    </a>
+                                            <i class="nav-icon fa fa-money-bill-alt"></i>
 
-                  </li>
+                                            <p>
 
-                  @endif
+                                                @lang('menu.transactions')
 
-                  @endif
+                                                <i class="right fa fa-angle-left"></i>
 
-                </ul>
+                                            </p>
 
-              </li>
+                                        </a>
 
-            @endcanany
+                                        <ul class="nav nav-treeview">
 
-              @if((Request::is('admin/income')) || (Request::is('admin/expense')) || (Request::is('admin/transaction'))
+                                            <li class="nav-item">
 
-              || (Request::is('admin/income_records')) || (Request::is('admin/expense_records')) )
+                                                <a href="{{ route('income.index') }}"
+                                                    class="nav-link @if (Request::is('admin/income') || Request::is('admin/income_records')) active @endif">
 
-              @php($class="menu-open")
+                                                    <i class="fa fa-newspaper nav-icon"></i>
 
-              @php($active="active")
+                                                    <p>@lang('fleet.manage_income')</p>
 
+                                                    <!-- <i class="fa fa-plus" style="float:right;"></i> -->
 
+                                                </a>
 
-              @else
+                                            </li>
 
-              @php($class="")
+                                            <li class="nav-item">
 
-              @php($active="")
+                                                <a href="{{ route('expense.index') }}"
+                                                    class="nav-link @if (Request::is('admin/expense') || Request::is('admin/expense_records')) active @endif">
 
-              @endif
+                                                    <i class="fa fa-newspaper nav-icon"></i>
 
-              @can('Transactions list')
+                                                    <p>@lang('fleet.manage_expense')</p>
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                </a>
 
-                <a href="#" class="nav-link {{$active}}">
+                                            </li>
 
-                  <i class="nav-icon fa fa-money-bill-alt"></i>
+                                        </ul>
 
-                  <p>
+                                    </li>
+                                @endcan
 
-                    @lang('menu.transactions')
 
-                    <i class="right fa fa-angle-left"></i>
 
-                  </p>
+                                @if (Request::is('admin/transactions*') ||
+                                        Request::is('admin/bookings*') ||
+                                        Request::is('admin/bookings_calendar') ||
+                                        Request::is('admin/booking-quotation*'))
+                                    @php($class = 'menu-open')
 
-                </a>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                <ul class="nav nav-treeview">
+                                    @php($active = '')
+                                @endif
 
-                  <li class="nav-item">
+                                @canany(['Bookings list', 'Bookings add', 'BookingQuotations list'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                    <a href="{{ route('income.index')}}"
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                      class="nav-link @if((Request::is('admin/income'))|| (Request::is('admin/income_records'))) active @endif">
+                                            <i class="nav-icon fa fa-address-card"></i>
 
-                      <i class="fa fa-newspaper nav-icon"></i>
+                                            <p>
 
-                      <p>@lang('fleet.manage_income')</p>
+                                                @lang('menu.bookings')
 
-                      <!-- <i class="fa fa-plus" style="float:right;"></i> -->
+                                                <i class="right fa fa-angle-left"></i>
 
-                    </a>
+                                            </p>
 
-                  </li>
+                                        </a>
 
-                  <li class="nav-item">
+                                        <ul class="nav nav-treeview">
 
-                    <a href="{{ route('expense.index')}}"
+                                            @can('Bookings add')
+                                                <li class="nav-item">
 
-                      class="nav-link @if((Request::is('admin/expense')) || (Request::is('admin/expense_records'))) active @endif">
+                                                    <a href="{{ route('bookings.create') }}"
+                                                        class="nav-link @if (Request::is('admin/bookings/create')) active @endif">
 
-                      <i class="fa fa-newspaper nav-icon"></i>
+                                                        <i class="fa fa-address-book nav-icon "></i>
 
-                      <p>@lang('fleet.manage_expense')</p>
+                                                        <p>
 
-                    </a>
+                                                            @lang('menu.newbooking')</p>
 
-                  </li>
+                                                    </a>
 
-                </ul>
+                                                </li>
+                                            @endcan
 
-              </li> @endcan
+                                            @can('Bookings list')
+                                                <li class="nav-item">
 
+                                                    <a href="{{ route('bookings.index') }}"
+                                                        class="nav-link @if (Request::is('admin/bookings*') && !Request::is('admin/bookings/create') && !Request::is('admin/bookings_calendar')) active @endif">
 
+                                                        <i class="fa fa-tasks nav-icon"></i>
 
-              @if((Request::is('admin/transactions*')) || (Request::is('admin/bookings*')) ||(Request::is('admin/bookings_calendar')) || (Request::is('admin/booking-quotation*')))
+                                                        <p>
 
-              @php($class="menu-open")
+                                                            @lang('menu.manage_bookings')</p>
 
-              @php($active="active")
+                                                    </a>
 
+                                                </li>
 
+                                                <li class="nav-item">
 
-              @else
+                                                    <a href="{{ url('admin/transactions') }}"
+                                                        class="nav-link @if (Request::is('admin/transactions')) active @endif">
 
-              @php($class="")
+                                                        <i class="fa fa-money-bill-alt nav-icon"></i>
 
-              @php($active="")
+                                                        <p>
 
+                                                            @lang('fleet.transactions')</p>
 
+                                                    </a>
 
-              @endif
+                                                </li>
+                                            @endcan
 
-              @canany(['Bookings list','Bookings add','BookingQuotations list'])
+                                            @can('BookingQuotations list')
+                                                <li class="nav-item">
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                    <a href="{{ route('booking-quotation.index') }}"
+                                                        class="nav-link @if (Request::is('admin/booking-quotation*')) active @endif">
 
-                <a href="#" class="nav-link {{$active}}">
+                                                        <i class="fa fa-quote-left nav-icon"></i>
 
-                  <i class="nav-icon fa fa-address-card"></i>
+                                                        <p>
 
-                  <p>
+                                                            @lang('fleet.booking_quotes')</p>
 
-                    @lang('menu.bookings')
+                                                    </a>
 
-                    <i class="right fa fa-angle-left"></i>
+                                                </li>
+                                            @endcan
 
-                  </p>
+                                            @can('Bookings list')
+                                                <li class="nav-item">
 
-                </a>
+                                                    <a href="{{ route('bookings.calendar') }}"
+                                                        class="nav-link @if (Request::is('admin/bookings_calendar')) active @endif">
 
-                <ul class="nav nav-treeview">
+                                                        <i class="fa fa-calendar nav-icon"></i>
 
-                  @can('Bookings add')
+                                                        <p>
 
-                  <li class="nav-item">
+                                                            @lang('menu.calendar')</p>
 
-                    <a href="{{ route('bookings.create')}}"
+                                                    </a>
 
-                      class="nav-link @if(Request::is('admin/bookings/create')) active @endif">
+                                                </li>
+                                            @endcan
 
-                      <i class="fa fa-address-book nav-icon "></i>
+                                        </ul>
 
-                      <p>
+                                    </li>
+                                @endcanany
 
-                        @lang('menu.newbooking')</p>
 
-                    </a>
 
-                  </li>
+                                @if (Request::is('admin/reports*'))
+                                    @php($class = 'menu-open')
 
-                  @endcan
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  @can('Bookings list')
+                                    @php($active = '')
+                                @endif
 
-                  <li class="nav-item">
+                                @can('Reports list')
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                    <a href="{{ route('bookings.index')}}"
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                      class="nav-link @if((Request::is('admin/bookings*')) && !(Request::is('admin/bookings/create')) && !(Request::is('admin/bookings_calendar'))) active @endif">
+                                            <i class="nav-icon fa fa-book"></i>
 
-                      <i class="fa fa-tasks nav-icon"></i>
+                                            <p>
 
-                      <p>
+                                                @lang('menu.reports')
 
-                        @lang('menu.manage_bookings')</p>
+                                                <i class="right fa fa-angle-left"></i>
 
-                    </a>
+                                            </p>
 
-                  </li>
+                                        </a>
 
-                  <li class="nav-item">
+                                        <ul class="nav nav-treeview">
 
-                    <a href="{{ url('admin/transactions') }}"
 
-                      class="nav-link @if((Request::is('admin/transactions'))) active @endif">
 
-                      <i class="fa fa-money-bill-alt nav-icon"></i>
+                                            <li class="nav-item">
 
-                      <p>
+                                                <a href="{{ url('admin/reports/income') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/income')) active @endif">
 
-                        @lang('fleet.transactions')</p>
+                                                    <i class="fa fa-credit-card nav-icon"></i>
 
-                    </a>
+                                                    <p> @lang('fleet.income') @lang('fleet.report')</p>
 
-                  </li>
+                                                </a>
 
-                  @endcan
+                                            </li>
 
-                  @can('BookingQuotations list')
+                                            <li class="nav-item">
 
-                  <li class="nav-item">
+                                                <a href="{{ url('admin/reports/expense') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/expense')) active @endif">
 
-                    <a href="{{ route('booking-quotation.index')}}"
+                                                    <i class="fa fa-money-bill-alt nav-icon"></i>
 
-                      class="nav-link @if(Request::is('admin/booking-quotation*')) active @endif">
+                                                    <p> @lang('fleet.expense') @lang('fleet.report')</p>
 
-                      <i class="fa fa-quote-left nav-icon"></i>
+                                                </a>
 
-                      <p>
+                                            </li>
 
-                        @lang('fleet.booking_quotes')</p>
+                                            <li class="nav-item">
 
-                    </a>
+                                                <a href="{{ route('reports.delinquent') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/delinquent')) active @endif">
 
-                  </li>
+                                                    <i class="fa fa-file-text nav-icon"></i>
 
-                  @endcan
+                                                    <p> @lang('menu.deliquentReport')</p>
 
-                  @can('Bookings list')
+                                                </a>
 
-                  <li class="nav-item">
+                                            </li>
 
-                    <a href="{{ route('bookings.calendar')}}"
+                                            <li class="nav-item">
 
-                      class="nav-link @if(Request::is('admin/bookings_calendar')) active @endif">
+                                                <a href="{{ route('reports.monthly') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/monthly')) active @endif">
 
-                      <i class="fa fa-calendar nav-icon"></i>
+                                                    <i class="fa fa-calendar nav-icon"></i>
 
-                      <p>
+                                                    <p>@lang('menu.monthlyReport')</p>
 
-                        @lang('menu.calendar')</p>
+                                                </a>
 
-                    </a>
+                                            </li>
 
-                  </li>
 
-                  @endcan
 
-                </ul>
+                                            <li class="nav-item">
 
-              </li>
+                                                <a href="{{ route('reports.booking') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/booking')) active @endif">
 
-              @endcanany
+                                                    <i class="fa fa-book nav-icon"></i>
 
+                                                    <p>@lang('menu.bookingReport')</p>
 
+                                                </a>
 
-              @if(Request::is('admin/reports*'))
+                                            </li>
 
-              @php($class="menu-open")
 
-              @php($active="active")
 
+                                            <li class="nav-item">
 
+                                                <a href="{{ route('reports.users') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/users')) active @endif">
 
-              @else
+                                                    <i class="fa fa-address-book nav-icon"></i>
 
-              @php($class="")
+                                                    <p>@lang('fleet.user_report')</p>
 
-              @php($active="")
+                                                </a>
 
-              @endif
+                                            </li>
 
-              @can('Reports list')
 
-              <li class="nav-item has-treeview {{$class}}">
 
-                <a href="#" class="nav-link {{$active}}">
 
-                  <i class="nav-icon fa fa-book"></i>
 
-                  <p>
+                                            <li class="nav-item">
 
-                    @lang('menu.reports')
+                                                <a href="{{ route('reports.work_order') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/work-order')) active @endif">
 
-                    <i class="right fa fa-angle-left"></i>
+                                                    <i class="nav-icon fa fa-book"></i>
 
-                  </p>
+                                                    <p>@lang('fleet.work_order_report')</p>
 
-                </a>
+                                                </a>
 
-                <ul class="nav nav-treeview">
+                                            </li>
 
 
 
-                  <li class="nav-item">
 
-                    <a href="{{ url('admin/reports/income') }}"
 
-                      class="nav-link @if(Request::is('admin/reports/income')) active @endif">
+                                            <li class="nav-item">
 
-                      <i class="fa fa-credit-card nav-icon"></i>
+                                                <a href="{{ route('reports.fuel') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/fuel')) active @endif">
 
-                      <p> @lang('fleet.income') @lang('fleet.report')</p>
+                                                    <i class="fa fa-truck nav-icon"></i>
 
-                    </a>
+                                                    <p>@lang('fleet.fuelReport')</p>
 
-                  </li>
+                                                </a>
 
-                  <li class="nav-item">
+                                            </li>
 
-                    <a href="{{ url('admin/reports/expense') }}"
 
-                      class="nav-link @if(Request::is('admin/reports/expense')) active @endif">
 
-                      <i class="fa fa-money-bill-alt nav-icon"></i>
 
-                      <p> @lang('fleet.expense') @lang('fleet.report')</p>
 
-                    </a>
+                                            <li class="nav-item">
 
-                  </li>
+                                                <a href="{{ route('reports.drivers') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/drivers')) active @endif">
 
-                  <li class="nav-item">
+                                                    <i class="fa fa-id-card nav-icon"></i>
 
-                    <a href="{{ route('reports.delinquent') }}"
+                                                    <p>@lang('fleet.driverReport')</p>
 
-                      class="nav-link @if(Request::is('admin/reports/delinquent')) active @endif">
+                                                </a>
 
-                      <i class="fa fa-file-text nav-icon"></i>
+                                            </li>
 
-                      <p> @lang('menu.deliquentReport')</p>
+                                            <li class="nav-item">
 
-                    </a>
+                                                <a href="{{ route('reports.customers') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/customers')) active @endif">
 
-                  </li>
+                                                    <i class="fa fa-users nav-icon"></i>
 
-                  <li class="nav-item">
+                                                    <p>@lang('fleet.customerReport')</p>
 
-                    <a href="{{ route('reports.monthly') }}"
+                                                </a>
 
-                      class="nav-link @if(Request::is('admin/reports/monthly')) active @endif">
+                                            </li>
 
-                      <i class="fa fa-calendar nav-icon"></i>
 
-                      <p>@lang('menu.monthlyReport')</p>
 
-                    </a>
+                                            <li class="nav-item">
 
-                  </li>
+                                                <a href="{{ route('reports.vendors') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/vendors')) active @endif">
 
+                                                    <i class="fa fa-cubes nav-icon"></i>
 
+                                                    <p>@lang('fleet.vendorReport')</p>
 
-                  <li class="nav-item">
+                                                </a>
 
-                    <a href="{{ route('reports.booking') }}"
+                                            </li>
 
-                      class="nav-link @if(Request::is('admin/reports/booking')) active @endif">
 
-                      <i class="fa fa-book nav-icon"></i>
 
-                      <p>@lang('menu.bookingReport')</p>
+                                            <li class="nav-item">
 
-                    </a>
+                                                <a href="{{ route('reports.yearly') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/yearly')) active @endif">
 
-                  </li>
+                                                    <i class="fa fa-calendar nav-icon"></i>
 
+                                                    <p>@lang('fleet.yearlyReport')</p>
 
+                                                </a>
 
-                  <li class="nav-item">
+                                            </li>
 
-                    <a href="{{ route('reports.users') }}"
+                                            <li class="nav-item">
 
-                      class="nav-link @if(Request::is('admin/reports/users')) active @endif">
+                                                <a href="{{ route('reports.payments') }}"
+                                                    class="nav-link @if (Request::is('admin/reports/payments')) active @endif">
 
-                      <i class="fa fa-address-book nav-icon"></i>
+                                                    <i class="fa fa-money-check-alt nav-icon"></i>
 
-                      <p>@lang('fleet.user_report')</p>
+                                                    <p>@lang('fleet.paymentReport')</p>
 
-                    </a>
+                                                </a>
 
-                  </li>
+                                            </li>
 
+                                        </ul>
 
+                                    </li>
+                                @endcan
 
 
 
-                  <li class="nav-item">
+                                @if (Request::is('admin/fuel*'))
+                                    @php($class = 'menu-open')
 
-                    <a href="{{ route('reports.work_order') }}"
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                      class="nav-link @if(Request::is('admin/reports/work-order')) active @endif">
+                                    @php($active = '')
+                                @endif
 
-                      <i class="nav-icon fa fa-book"></i>
+                                @canany(['Fuel list', 'Fuel add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                      <p>@lang('fleet.work_order_report')</p>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                    </a>
+                                            <i class="nav-icon fa fa-filter"></i>
 
-                  </li>
+                                            <p>
 
+                                                @lang('fleet.fuel')
 
+                                                <i class="right fa fa-angle-left"></i>
 
+                                            </p>
 
+                                        </a>
 
-                  <li class="nav-item">
+                                        <ul class="nav nav-treeview">
 
-                    <a href="{{ route('reports.fuel') }}"
+                                            @can('Fuel add')
+                                                <li class="nav-item">
 
-                      class="nav-link @if(Request::is('admin/reports/fuel')) active @endif">
+                                                    <a href="{{ route('fuel.create') }}"
+                                                        class="nav-link @if (Request::is('admin/fuel/create')) active @endif">
 
-                      <i class="fa fa-truck nav-icon"></i>
+                                                        <i class="fa fa-plus-square nav-icon"></i>
 
-                      <p>@lang('fleet.fuelReport')</p>
+                                                        <p> @lang('fleet.add_fuel')</p>
 
-                    </a>
+                                                    </a>
 
-                  </li>
+                                                </li>
+                                            @endcan
 
+                                            @can('Fuel list')
+                                                <li class="nav-item">
 
+                                                    <a href="{{ route('fuel.index') }}"
+                                                        class="nav-link @if (Request::is('admin/fuel*') && !Request::is('admin/fuel/create')) active @endif">
 
+                                                        <i class="fa fa-history nav-icon"></i>
 
+                                                        <p>@lang('fleet.manage_fuel')</p>
 
-                  <li class="nav-item">
+                                                    </a>
 
-                    <a href="{{ route('reports.drivers') }}"
+                                                </li>
+                                            @endcan
 
-                      class="nav-link @if(Request::is('admin/reports/drivers')) active @endif">
+                                        </ul>
 
-                      <i class="fa fa-id-card nav-icon"></i>
+                                    </li>
+                                @endcanany
 
-                      <p>@lang('fleet.driverReport')</p>
 
-                    </a>
 
-                  </li>
+                                @if (Request::is('admin/vendors*'))
+                                    @php($class = 'menu-open')
 
-                  <li class="nav-item">
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                    <a href="{{ route('reports.customers') }}"
+                                    @php($active = '')
+                                @endif
 
-                      class="nav-link @if(Request::is('admin/reports/customers')) active @endif">
+                                @canany(['Vendors list', 'Vendors add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                      <i class="fa fa-users nav-icon"></i>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                      <p>@lang('fleet.customerReport')</p>
+                                            <i class="nav-icon fa fa-cubes"></i>
 
-                    </a>
+                                            <p>
 
-                  </li>
+                                                @lang('fleet.vendors')
 
+                                                <i class="right fa fa-angle-left"></i>
 
+                                            </p>
 
-                  <li class="nav-item">
+                                        </a>
 
-                    <a href="{{ route('reports.vendors') }}"
+                                        <ul class="nav nav-treeview">
 
-                      class="nav-link @if(Request::is('admin/reports/vendors')) active @endif">
+                                            @can('Vendors add')
+                                                <li class="nav-item">
 
-                      <i class="fa fa-cubes nav-icon"></i>
+                                                    <a href="{{ route('vendors.create') }}"
+                                                        class="nav-link @if (Request::is('admin/vendors/create')) active @endif">
 
-                      <p>@lang('fleet.vendorReport')</p>
+                                                        <i class="fa fa-plus-square nav-icon"></i>
 
-                    </a>
+                                                        <p> @lang('fleet.add_vendor')</p>
 
-                  </li>
+                                                    </a>
 
+                                                </li>
+                                            @endcan
 
+                                            @can('Vendors list')
+                                                <li class="nav-item">
 
-                  <li class="nav-item">
+                                                    <a href="{{ route('vendors.index') }}"
+                                                        class="nav-link @if (Request::is('admin/vendors*') && !Request::is('admin/vendors/create')) active @endif">
 
-                    <a href="{{ route('reports.yearly') }}"
+                                                        <i class="fa fa-cube nav-icon"></i>
 
-                      class="nav-link @if(Request::is('admin/reports/yearly')) active @endif">
+                                                        <p>@lang('fleet.manage_vendor')</p>
 
-                      <i class="fa fa-calendar nav-icon"></i>
+                                                    </a>
 
-                      <p>@lang('fleet.yearlyReport')</p>
+                                                </li>
+                                            @endcan
 
-                    </a>
+                                        </ul>
 
-                  </li>
+                                    </li>
+                                @endcanany
 
-                  <li class="nav-item">
 
-                    <a href="{{ route('reports.payments') }}"
 
-                      class="nav-link @if(Request::is('admin/reports/payments')) active @endif">
 
-                      <i class="fa fa-money-check-alt nav-icon"></i>
 
-                      <p>@lang('fleet.paymentReport')</p>
+                                @if (Request::is('admin/parts*') && !Request::is('admin/parts-used*'))
+                                    @php($class = 'menu-open')
 
-                    </a>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  </li>
+                                    @php($active = '')
+                                @endif
 
-                </ul>
+                                @canany(['Parts list', 'Parts add', 'PartsCategory list'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-              </li>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-              @endcan
+                                            <i class="nav-icon fa fa-gear"></i>
 
+                                            <p>
 
+                                                @lang('fleet.parts')
 
-              @if(Request::is('admin/fuel*'))
+                                                <i class="right fa fa-angle-left"></i>
 
-              @php($class="menu-open")
+                                            </p>
 
-              @php($active="active")
+                                        </a>
 
+                                        <ul class="nav nav-treeview">
 
+                                            @can('Parts add')
+                                                <li class="nav-item">
 
-              @else
+                                                    <a href="{{ route('parts.create') }}"
+                                                        class="nav-link @if (Request::is('admin/parts/create')) active @endif">
 
-              @php($class="")
+                                                        <i class="fa fa-plus-square nav-icon"></i>
 
-              @php($active="")
+                                                        <p> @lang('fleet.addParts')</p>
 
-              @endif
+                                                    </a>
 
-              @canany(['Fuel list','Fuel add'])
+                                                </li>
+                                            @endcan
 
-              <li class="nav-item has-treeview {{$class}}">
+                                            @can('Parts list')
+                                                <li class="nav-item">
 
-                <a href="#" class="nav-link {{$active}}">
+                                                    <a href="{{ route('parts.index') }}"
+                                                        class="nav-link @if (Request::is('admin/parts*') && !Request::is('admin/parts-category*') && !Request::is('admin/parts/create')) active @endif">
 
-                  <i class="nav-icon fa fa-filter"></i>
+                                                        <i class="fa fa-gears nav-icon"></i>
 
-                  <p>
+                                                        <p>@lang('menu.manageParts')</p>
 
-                    @lang('fleet.fuel')
+                                                    </a>
 
-                    <i class="right fa fa-angle-left"></i>
+                                                </li>
+                                            @endcan
 
-                  </p>
+                                            @can('PartsCategory list')
+                                                <li class="nav-item">
 
-                </a>
+                                                    <a href="{{ route('parts-category.index') }}"
+                                                        class="nav-link @if (Request::is('admin/parts-category*')) active @endif">
 
-                <ul class="nav nav-treeview">
+                                                        <i class="fa fa-list nav-icon"></i>
 
-                  @can('Fuel add')
+                                                        <p>@lang('fleet.partsCategory')</p>
 
-                  <li class="nav-item">
+                                                    </a>
 
-                    <a href="{{ route('fuel.create') }}"
+                                                </li>
+                                            @endcan
 
-                      class="nav-link @if(Request::is('admin/fuel/create')) active @endif">
+                                        </ul>
 
-                      <i class="fa fa-plus-square nav-icon"></i>
+                                    </li>
+                                @endcanany
 
-                      <p> @lang('fleet.add_fuel')</p>
 
-                    </a>
 
-                  </li>
+                                @if (Request::is('admin/work_order*') || Request::is('admin/parts-used*') || Request::is('admin/mechanic*'))
+                                    @php($class = 'menu-open')
 
-                  @endcan
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  @can('Fuel list')
+                                    @php($active = '')
+                                @endif
 
-                  <li class="nav-item">
+                                @canany(['WorkOrders list', 'WorkOrders add', 'Mechanics list'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                    <a href="{{ route('fuel.index') }}"
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                      class="nav-link @if(Request::is('admin/fuel*') && !Request::is('admin/fuel/create')) active @endif">
+                                            <i class="nav-icon fa fa-shopping-cart"></i>
 
-                      <i class="fa fa-history nav-icon"></i>
+                                            <p>
 
-                      <p>@lang('fleet.manage_fuel')</p>
+                                                @lang('fleet.work_orders')
 
-                    </a>
+                                                <i class="right fa fa-angle-left"></i>
 
-                  </li>
+                                            </p>
 
-                  @endcan
+                                        </a>
 
-                </ul>
+                                        <ul class="nav nav-treeview">
 
-              </li>
+                                            @can('WorkOrders add')
+                                                <li class="nav-item">
 
-              @endcanany
+                                                    <a href="{{ route('work_order.create') }}"
+                                                        class="nav-link @if (Request::is('admin/work_order/create')) active @endif">
 
+                                                        <i class="fa fa-plus-square nav-icon"></i>
 
+                                                        <p> @lang('fleet.add_order')</p>
 
-              @if(Request::is('admin/vendors*'))
+                                                    </a>
 
-              @php($class="menu-open")
+                                                </li>
+                                            @endcan
 
-              @php($active="active")
+                                            @can('WorkOrders list')
+                                                <li class="nav-item">
 
+                                                    <a href="{{ route('work_order.index') }}"
+                                                        class="nav-link @if (
+                                                            (Request::is('admin/work_order*') &&
+                                                                !Request::is('admin/work_order/create') &&
+                                                                !Request::is('admin/work_order/logs')) ||
+                                                                Request::is('admin/parts-used*')) active @endif">
 
+                                                        <i class="fa fa-inbox nav-icon"></i>
 
-              @else
+                                                        <p>@lang('fleet.manage_work_order')</p>
 
-              @php($class="")
+                                                    </a>
 
-              @php($active="")
+                                                </li>
+                                            @endcan
 
-              @endif
+                                            @can('WorkOrders list')
+                                                <li class="nav-item">
 
-              @canany(['Vendors list','Vendors add'])
+                                                    <a href="{{ url('admin/work_order/logs') }}"
+                                                        class="nav-link @if (Request::is('admin/work_order/logs')) active @endif">
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                        <i class="fa fa-history nav-icon"></i>
 
-                <a href="#" class="nav-link {{$active}}">
+                                                        <p>@lang('fleet.work_order_logs')</p>
 
-                  <i class="nav-icon fa fa-cubes"></i>
+                                                    </a>
 
-                  <p>
+                                                </li>
+                                            @endcan
 
-                    @lang('fleet.vendors')
+                                            @can('Mechanics list')
+                                                <li class="nav-item">
 
-                    <i class="right fa fa-angle-left"></i>
+                                                    <a href="{{ url('admin/mechanic') }}"
+                                                        class="nav-link @if (Request::is('admin/mechanic*')) active @endif">
 
-                  </p>
+                                                        <i class="fa fa-user nav-icon"></i>
 
-                </a>
+                                                        <p>@lang('fleet.mechanics')</p>
 
-                <ul class="nav nav-treeview">
+                                                    </a>
 
-                  @can('Vendors add')
+                                                </li>
+                                            @endcan
 
-                  <li class="nav-item">
+                                        </ul>
 
-                    <a href="{{ route('vendors.create') }}"
+                                    </li>
+                                @endcanany
 
-                      class="nav-link @if(Request::is('admin/vendors/create')) active @endif">
 
-                      <i class="fa fa-plus-square nav-icon"></i>
 
-                      <p> @lang('fleet.add_vendor')</p>
+                                @if (Request::is('admin/notes*'))
+                                    @php($class = 'menu-open')
 
-                    </a>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  </li>
+                                    @php($active = '')
+                                @endif
 
-                  @endcan
+                                @canany(['Notes list', 'Notes add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                  @can('Vendors list')
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                  <li class="nav-item">
+                                            <i class="nav-icon fa fa-sticky-note"></i>
 
-                    <a href="{{ route('vendors.index') }}"
+                                            <p>
 
-                      class="nav-link @if((Request::is('admin/vendors*') && !(Request::is('admin/vendors/create')))) active @endif">
+                                                @lang('fleet.notes')
 
-                      <i class="fa fa-cube nav-icon"></i>
+                                                <i class="right fa fa-angle-left"></i>
 
-                      <p>@lang('fleet.manage_vendor')</p>
+                                            </p>
 
-                    </a>
+                                        </a>
 
-                  </li>
+                                        <ul class="nav nav-treeview">
 
-                  @endcan
+                                            @can('Notes list')
+                                                <li class="nav-item">
 
-                </ul>
+                                                    <a href="{{ route('notes.index') }}"
+                                                        class="nav-link @if (Request::is('admin/notes*') && !Request::is('admin/notes/create')) active @endif">
 
-              </li> @endcanany
+                                                        <i class="fa fa-flag nav-icon"></i>
 
+                                                        <p> @lang('fleet.manage_note')</p>
 
+                                                    </a>
 
+                                                </li>
+                                            @endcan
 
+                                            @can('Notes add')
+                                                <li class="nav-item">
 
-              @if(Request::is('admin/parts*') && !Request::is('admin/parts-used*'))
+                                                    <a href="{{ route('notes.create') }}"
+                                                        class="nav-link @if (Request::is('admin/notes/create')) active @endif">
 
-              @php($class="menu-open")
+                                                        <i class="fa fa-plus-square nav-icon"></i>
 
-              @php($active="active")
+                                                        <p>@lang('fleet.create_note')</p>
 
+                                                    </a>
 
+                                                </li>
+                                            @endcan
 
-              @else
+                                        </ul>
 
-              @php($class="")
+                                    </li>
+                                @endcanany
 
-              @php($active="")
 
-              @endif
 
-              @canany(['Parts list','Parts add','PartsCategory list'])
 
-              <li class="nav-item has-treeview {{$class}}">
 
-                <a href="#" class="nav-link {{$active}}">
 
-                  <i class="nav-icon fa fa-gear"></i>
+                                @if (Request::is('admin/vehicle-breakdown*'))
+                                    @php($class = 'menu-open')
 
-                  <p>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                    @lang('fleet.parts')
+                                    @php($active = '')
+                                @endif
 
-                    <i class="right fa fa-angle-left"></i>
+                                @canany(['VehicleBreakdown list', 'VehicleBreakdown add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                  </p>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                </a>
+                                            <i class="nav-icon fa fa-users"></i>
 
-                <ul class="nav nav-treeview">
+                                            <p>
 
-                  @can('Parts add')
+                                                @lang('fleet.vehicle_breakdown')
 
-                  <li class="nav-item">
+                                                <i class="right fa fa-angle-left"></i>
 
-                    <a href="{{ route('parts.create') }}"
+                                            </p>
 
-                      class="nav-link @if(Request::is('admin/parts/create')) active @endif">
+                                        </a>
 
-                      <i class="fa fa-plus-square nav-icon"></i>
+                                        <ul class="nav nav-treeview">
 
-                      <p> @lang('fleet.addParts')</p>
+                                            @can('VehicleBreakdown list')
+                                                <li class="nav-item">
 
-                    </a>
+                                                    <a href="{{ route('vehicle-breakdown.index') }}"
+                                                        class="nav-link @if (Request::is('admin/vehicle-breakdown*') && !Request::is('admin/vehicle-breakdown/create')) active @endif">
 
-                  </li>
 
-                  @endcan
 
-                  @can('Parts list')
+                                                        <p> @lang('fleet.manage_vehicle_breakdown')</p>
 
-                  <li class="nav-item">
+                                                    </a>
 
-                    <a href="{{ route('parts.index') }}"
+                                                </li>
+                                            @endcan
 
-                      class="nav-link @if(Request::is('admin/parts*') && !(Request::is('admin/parts-category*')) && !Request::is('admin/parts/create')) active @endif">
 
-                      <i class="fa fa-gears nav-icon"></i>
+                                            @can('VehicleBreakdown add')
+                                                <li class="nav-item">
 
-                      <p>@lang('menu.manageParts')</p>
+                                                    <a href="{{ route('vehicle-breakdown.create') }}"
+                                                        class="nav-link @if (Request::is('admin/vehicle-breakdown/create')) active @endif">
 
-                    </a>
 
-                  </li>
 
-                  @endcan
+                                                        <p>@lang('fleet.add_vehicle_breakdown')</p>
 
-                  @can('PartsCategory list')
+                                                    </a>
 
-                  <li class="nav-item">
+                                                </li>
+                                            @endcan
 
-                    <a href="{{ route('parts-category.index') }}"
 
-                      class="nav-link @if(Request::is('admin/parts-category*')) active @endif">
+                                        </ul>
 
-                      <i class="fa fa-list nav-icon"></i>
+                                    </li>
+                                @endcanany
 
-                      <p>@lang('fleet.partsCategory')</p>
 
-                    </a>
+                                @if (Request::is('admin/driver-alert*'))
+                                    @php($class = 'menu-open')
 
-                  </li>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  @endcan
+                                    @php($active = '')
+                                @endif
 
-                </ul>
+                                @canany(['DriverAlert list', 'DriverAlert add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-              </li>@endcanany
+                                        <a href="#" class="nav-link {{ $active }}">
 
+                                            <i class="nav-icon fa fa-users"></i>
 
+                                            <p>
 
-              @if(Request::is('admin/work_order*') || Request::is('admin/parts-used*') ||
+                                                @lang('fleet.driver_alert')
 
-              Request::is('admin/mechanic*'))
+                                                <i class="right fa fa-angle-left"></i>
 
-              @php($class="menu-open")
+                                            </p>
 
-              @php($active="active")
+                                        </a>
 
+                                        <ul class="nav nav-treeview">
 
+                                            @can('DriverAlert list')
+                                                <li class="nav-item">
 
-              @else
+                                                    <a href="{{ route('driver-alert.index') }}"
+                                                        class="nav-link @if (Request::is('admin/driver-alert*') && !Request::is('admin/driver-alert/create')) active @endif">
 
-              @php($class="")
 
-              @php($active="")
 
-              @endif
+                                                        <p> @lang('fleet.manage_driver_alert')</p>
 
-              @canany(['WorkOrders list','WorkOrders add','Mechanics list'])
+                                                    </a>
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                </li>
+                                            @endcan
 
-                <a href="#" class="nav-link {{$active}}">
 
-                  <i class="nav-icon fa fa-shopping-cart"></i>
+                                            @can('DriverAlert add')
+                                                <li class="nav-item">
 
-                  <p>
+                                                    <a href="{{ route('driver-alert.create') }}"
+                                                        class="nav-link @if (Request::is('admin/driver-alert/create')) active @endif">
 
-                    @lang('fleet.work_orders')
 
-                    <i class="right fa fa-angle-left"></i>
 
-                  </p>
+                                                        <p>@lang('fleet.add_driver_alert')</p>
 
-                </a>
+                                                    </a>
 
-                <ul class="nav nav-treeview">
+                                                </li>
+                                            @endcan
 
-                  @can('WorkOrders add')
 
-                  <li class="nav-item">
+                                        </ul>
 
-                    <a href="{{ route('work_order.create') }}"
+                                    </li>
+                                @endcanany
 
-                      class="nav-link @if(Request::is('admin/work_order/create')) active @endif">
 
-                      <i class="fa fa-plus-square nav-icon"></i>
 
-                      <p> @lang('fleet.add_order')</p>
 
-                    </a>
 
-                  </li>
 
-                  @endcan
 
-                  @can('WorkOrders list')
 
-                  <li class="nav-item">
+                                @if (Request::is('admin/service-reminder*') || Request::is('admin/service-item*'))
+                                    @php($class = 'menu-open')
 
-                    <a href="{{ route('work_order.index') }}"
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                      class="nav-link @if((Request::is('admin/work_order*')) && !(Request::is('admin/work_order/create')) && !(Request::is('admin/work_order/logs')) || Request::is('admin/parts-used*')) active @endif">
+                                    @php($active = '')
+                                @endif
 
-                      <i class="fa fa-inbox nav-icon"></i>
+                                @canany(['ServiceReminders list', 'ServiceReminders add', 'ServiceItems list'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                      <p>@lang('fleet.manage_work_order')</p>
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                    </a>
+                                            <i class="nav-icon fa fa-clock-rotate-left"></i>
 
-                  </li>
+                                            <p>
 
-                  @endcan
+                                                @lang('fleet.serviceReminders')
 
-                  @can('WorkOrders list')
+                                                <i class="right fa fa-angle-left"></i>
 
-                  <li class="nav-item">
+                                            </p>
 
-                    <a href="{{ url('admin/work_order/logs') }}"
+                                        </a>
 
-                      class="nav-link @if(Request::is('admin/work_order/logs')) active @endif">
+                                        <ul class="nav nav-treeview">
 
-                      <i class="fa fa-history nav-icon"></i>
+                                            @can('ServiceReminders list')
+                                                <li class="nav-item">
 
-                      <p>@lang('fleet.work_order_logs')</p>
+                                                    <a href="{{ route('service-reminder.index') }}"
+                                                        class="nav-link @if (Request::is('admin/service-reminder')) active @endif">
 
-                    </a>
+                                                        <i class="fa fa-arrows-alt nav-icon"></i>
 
-                  </li>
+                                                        <p>@lang('fleet.manage_reminder')</p>
 
-                  @endcan
+                                                    </a>
 
-                  @can('Mechanics list')
+                                                </li>
+                                            @endcan
 
-                  <li class="nav-item">
+                                            @can('ServiceReminders add')
+                                                <li class="nav-item">
 
-                    <a href="{{ url('admin/mechanic') }}"
+                                                    <a href="{{ route('service-reminder.create') }}"
+                                                        class="nav-link @if (Request::is('admin/service-reminder/create')) active @endif">
 
-                      class="nav-link @if(Request::is('admin/mechanic*')) active @endif">
+                                                        <i class="fa fa-check-square nav-icon"></i>
 
-                      <i class="fa fa-user nav-icon"></i>
+                                                        <p>@lang('fleet.add_service_reminder')</p>
 
-                      <p>@lang('fleet.mechanics')</p>
+                                                    </a>
 
-                    </a>
+                                                </li>
+                                            @endcan
 
-                  </li>
+                                            @can('ServiceItems list')
+                                                <li class="nav-item">
 
-                  @endcan
+                                                    <a href="{{ route('service-item.index') }}"
+                                                        class="nav-link @if (Request::is('admin/service-item*')) active @endif">
 
-                </ul>
+                                                        <i class="fa fa-warning nav-icon"></i>
 
-              </li>@endcanany
+                                                        <p>@lang('fleet.service_item')</p>
 
+                                                    </a>
 
+                                                </li>
+                                            @endcan
 
-              @if(Request::is('admin/notes*'))
+                                        </ul>
 
-              @php($class="menu-open")
+                                    </li>
+                                @endcanany
 
-              @php($active="active")
+                                {{-- Testimonials nav disconnected (admin/testimonials* routes removed; views/controllers remain on disk) --}}
+                                @if (false && Request::is('admin/testimonials*'))
+                                    @php($class = 'menu-open')
 
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
+                                    @php($active = '')
+                                @endif
 
-              @else
+                                @canany(['Testimonials list', 'Testimonials add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-              @php($class="")
+                                        <a href="#" class="nav-link {{ $active }}">
 
-              @php($active="")
+                                            <i class="nav-icon fa fa-quote-left"></i>
 
-              @endif
+                                            <p>
 
-              @canany(['Notes list','Notes add'])
+                                                @lang('fleet.testimonials')
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                <i class="right fa fa-angle-left"></i>
 
-                <a href="#" class="nav-link {{$active}}">
+                                            </p>
 
-                  <i class="nav-icon fa fa-sticky-note"></i>
+                                        </a>
 
-                  <p>
+                                        <ul class="nav nav-treeview">
 
-                    @lang('fleet.notes')
+                                            @can('Testimonials list')
+                                                <li class="nav-item">
 
-                    <i class="right fa fa-angle-left"></i>
+                                                    <a href="{{ route('testimonials.index') }}"
+                                                        class="nav-link @if (Request::is('admin/testimonials*') && !Request::is('admin/testimonials/create')) active @endif">
 
-                  </p>
+                                                        <i class="fa fa-tasks nav-icon"></i>
 
-                </a>
+                                                        <p> @lang('fleet.manage_testimonial')</p>
 
-                <ul class="nav nav-treeview">
+                                                    </a>
 
-                  @can('Notes list')
+                                                </li>
+                                            @endcan
 
-                  <li class="nav-item">
+                                            @can('Testimonials add')
+                                                <li class="nav-item">
 
-                    <a href="{{ route('notes.index') }}"
+                                                    <a href="{{ route('testimonials.create') }}"
+                                                        class="nav-link @if (Request::is('admin/testimonials/create')) active @endif">
 
-                      class="nav-link @if((Request::is('admin/notes*') && !(Request::is('admin/notes/create')))) active @endif">
+                                                        <i class="fa fa-plus-square nav-icon"></i>
 
-                      <i class="fa fa-flag nav-icon"></i>
+                                                        <p>@lang('fleet.add_testimonial')</p>
 
-                      <p> @lang('fleet.manage_note')</p>
+                                                    </a>
 
-                    </a>
+                                                </li>
+                                            @endcan
 
-                  </li>
+                                        </ul>
 
-                  @endcan
+                                    </li>
+                                @endcanany
 
-                  @can('Notes add')
 
-                  <li class="nav-item">
 
-                    <a href="{{ route('notes.create') }}"
 
-                      class="nav-link @if(Request::is('admin/notes/create')) active @endif">
 
-                      <i class="fa fa-plus-square nav-icon"></i>
 
-                      <p>@lang('fleet.create_note')</p>
 
-                    </a>
+                                @if (Request::is('admin/team*'))
+                                    @php($class = 'menu-open')
 
-                  </li>
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                  @endcan
+                                    @php($active = '')
+                                @endif
 
-                </ul>
+                                @canany(['Team list', 'Team add'])
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-              </li> @endcanany
+                                        <a href="#" class="nav-link {{ $active }}">
 
+                                            <i class="nav-icon fa fa-users"></i>
 
+                                            <p>
 
-              
+                                                @lang('fleet.team')
 
+                                                <i class="right fa fa-angle-left"></i>
 
-              @if(Request::is('admin/vehicle-breakdown*'))
+                                            </p>
 
-              @php($class="menu-open")
+                                        </a>
 
-              @php($active="active")
+                                        <ul class="nav nav-treeview">
 
+                                            @can('Team list')
+                                                <li class="nav-item">
 
+                                                    <a href="{{ route('team.index') }}"
+                                                        class="nav-link @if (Request::is('admin/team*') && !Request::is('admin/team/create')) active @endif">
 
-              @else
+                                                        <i class="fa fa-tasks nav-icon"></i>
 
-              @php($class="")
+                                                        <p> @lang('fleet.manage_team')</p>
 
-              @php($active="")
+                                                    </a>
 
-              @endif
+                                                </li>
+                                            @endcan
 
-              @canany(['VehicleBreakdown list','VehicleBreakdown add'])
+                                            @can('Team add')
+                                                <li class="nav-item">
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                    <a href="{{ route('team.create') }}"
+                                                        class="nav-link @if (Request::is('admin/team/create')) active @endif">
 
-                <a href="#" class="nav-link {{$active}}">
+                                                        <i class="fa fa-user-plus nav-icon"></i>
 
-                  <i class="nav-icon fa fa-users"></i>
+                                                        <p>@lang('fleet.addMember')</p>
 
-                  <p>
+                                                    </a>
 
-                    @lang('fleet.vehicle_breakdown')
+                                                </li>
+                                            @endcan
 
-                    <i class="right fa fa-angle-left"></i>
+                                        </ul>
 
-                  </p>
+                                    </li>
+                                @endcanany
 
-                </a>
 
-                <ul class="nav nav-treeview">
 
-                  @can('VehicleBreakdown list')
+                                @if (Request::is('admin/settings*') ||
+                                        Request::is('admin/roles*') ||
+                                        Request::is('admin/fare-settings') ||
+                                        Request::is('admin/api-settings') ||
+                                        Request::is('admin/expensecategories*') ||
+                                        Request::is('admin/incomecategories*') ||
+                                        Request::is('admin/expensecategories*') ||
+                                        Request::is('admin/send-email') ||
+                                        Request::is('admin/set-email') ||
+                                        Request::is('admin/cancel-reason*') ||
+                                        Request::is('admin/frontend-settings*') ||
+                                        Request::is('admin/company-services*') ||
+                                        Request::is('admin/payment-settings*') ||
+                                        Request::is('admin/twilio-settings*') ||
+                                        (Request::is('admin/chat-settings*') || Request::is('admin/traccar-settings')))
+                                    @php($class = 'menu-open')
 
-                  <li class="nav-item">
+                                    @php($active = 'active')
+                                @else
+                                    @php($class = '')
 
-                    <a href="{{ route('vehicle-breakdown.index') }}"
+                                    @php($active = '')
+                                @endif
 
-                      class="nav-link @if((Request::is('admin/vehicle-breakdown*') && !(Request::is('admin/vehicle-breakdown/create')))) active @endif">
+                                @can('Settings list')
+                                    <li class="nav-item has-treeview {{ $class }}">
 
-                      
+                                        <a href="#" class="nav-link {{ $active }}">
 
-                      <p> @lang('fleet.manage_vehicle_breakdown')</p>
+                                            <i class="nav-icon fa fa-gear"></i>
 
-                    </a>
+                                            <p>
 
-                  </li>
-                  @endcan
-                  
+                                                @lang('menu.settings')
 
-                  @can('VehicleBreakdown add')
+                                                <i class="right fa fa-angle-left"></i>
 
-                  <li class="nav-item">
+                                            </p>
 
-                    <a href="{{ route('vehicle-breakdown.create') }}"
+                                        </a>
 
-                      class="nav-link @if(Request::is('admin/vehicle-breakdown/create')) active @endif">
+                                        <ul class="nav nav-treeview">
 
-                     
+                                            <li class="nav-item">
 
-                      <p>@lang('fleet.add_vehicle_breakdown')</p>
+                                                <a href="{{ route('roles.index') }}"
+                                                    class="nav-link @if (Request::is('admin/roles*')) active @endif">
 
-                    </a>
+                                                    <i class="fa fa-tasks nav-icon"></i>
 
-                  </li>
-                  @endcan
-       
+                                                    <p>@lang('fleet.user_access_management')</p>
 
-                </ul>
+                                                </a>
 
-              </li>
+                                            </li>
 
-              @endcanany
 
 
-              @if(Request::is('admin/driver-alert*'))
+                                            <li class="nav-item">
 
-              @php($class="menu-open")
+                                                <a href="{{ route('settings.index') }}"
+                                                    class="nav-link @if (Request::is('admin/settings')) active @endif">
 
-              @php($active="active")
+                                                    <i class="fa fa-gear nav-icon"></i>
 
+                                                    <p>@lang('menu.general_settings')</p>
 
+                                                </a>
 
-              @else
+                                            </li>
 
-              @php($class="")
 
-              @php($active="")
 
-              @endif
+                                            <li class="nav-item">
 
-              @canany(['DriverAlert list','DriverAlert add'])
+                                                <a href="{{ url('admin/api-settings') }}"
+                                                    class="nav-link @if (Request::is('admin/api-settings')) active @endif">
 
-              <li class="nav-item has-treeview {{$class}}">
+                                                    <i class="fa fa-gear nav-icon"></i>
 
-                <a href="#" class="nav-link {{$active}}">
+                                                    <p>@lang('menu.api_settings')</p>
 
-                  <i class="nav-icon fa fa-users"></i>
+                                                </a>
 
-                  <p>
+                                            </li>
 
-                    @lang('fleet.driver_alert')
+                                            @if (Auth::user()->user_type == 'S')
+                                                <li class="nav-item">
 
-                    <i class="right fa fa-angle-left"></i>
+                                                    <a href="{{ url('admin/payment-settings') }}"
+                                                        class="nav-link @if (Request::is('admin/payment-settings')) active @endif">
 
-                  </p>
+                                                        <i class="fa fa-gear nav-icon"></i>
 
-                </a>
+                                                        <p>@lang('fleet.payment_settings')</p>
 
-                <ul class="nav nav-treeview">
+                                                    </a>
 
-                  @can('DriverAlert list')
+                                                </li>
 
-                  <li class="nav-item">
 
-                    <a href="{{ route('driver-alert.index') }}"
 
-                      class="nav-link @if((Request::is('admin/driver-alert*') && !(Request::is('admin/driver-alert/create')))) active @endif">
 
-                      
 
-                      <p> @lang('fleet.manage_driver_alert')</p>
+                                                <li class="nav-item">
 
-                    </a>
+                                                    <a href="{{ url('admin/traccar-settings') }}"
+                                                        class="nav-link @if (Request::is('admin/traccar-settings')) active @endif">
 
-                  </li>
+                                                        <i class="fa fa-gear nav-icon"></i>
 
-                  @endcan
+                                                        <p>@lang('fleet.traccar_settings')</p>
 
+                                                    </a>
 
-                  @can('DriverAlert add')
+                                                </li>
+                                            @endif
 
+                                            <li class="nav-item">
 
-                  <li class="nav-item">
+                                                <a href="{{ url('admin/twilio-settings') }}"
+                                                    class="nav-link @if (Request::is('admin/twilio-settings')) active @endif">
 
-                    <a href="{{ route('driver-alert.create') }}"
+                                                    <i class="fa fa-gear nav-icon"></i>
 
-                      class="nav-link @if(Request::is('admin/driver-alert/create')) active @endif">
+                                                    <p>@lang('fleet.twilio_settings')</p>
 
-                     
+                                                </a>
 
-                      <p>@lang('fleet.add_driver_alert')</p>
+                                            </li>
 
-                    </a>
+                                            <li class="nav-item">
 
-                  </li>
-                  @endcan
-       
+                                                <a href="{{ route('chat_settings.index') }}"
+                                                    class="nav-link @if (Request::is('admin/chat-settings')) active @endif">
 
-                </ul>
+                                                    <i class="fa fa-gear nav-icon"></i>
 
-              </li>
+                                                    <p>@lang('fleet.chat') @lang('menu.settings')</p>
 
+                                                </a>
 
+                                            </li>
 
-              @endcanany
+                                            <li class="nav-item">
 
+                                                <a href="{{ route('cancel-reason.index') }}"
+                                                    class="nav-link @if (Request::is('admin/cancel-reason*')) active @endif">
 
+                                                    <i class="fa fa-ban nav-icon"></i>
 
+                                                    <p>@lang('fleet.cancellation')</p>
 
+                                                </a>
 
+                                            </li>
 
+                                            <li class="nav-item">
 
+                                                <a href="{{ url('admin/send-email') }}"
+                                                    class="nav-link @if (Request::is('admin/send-email')) active @endif">
 
-              @if((Request::is('admin/service-reminder*')) || (Request::is('admin/service-item*')))
+                                                    <i class="fa fa-envelope nav-icon"></i>
 
-              @php($class="menu-open")
+                                                    <p>@lang('menu.email_notification')</p>
 
-              @php($active="active")
+                                                </a>
 
+                                            </li>
 
+                                            <li class="nav-item">
 
-              @else
+                                                <a href="{{ url('admin/set-email') }}"
+                                                    class="nav-link @if (Request::is('admin/set-email')) active @endif">
 
-              @php($class="")
+                                                    <i class="fa fa-envelope-open nav-icon"></i>
 
-              @php($active="")
+                                                    <p>@lang('menu.email_content')</p>
 
-              @endif
+                                                </a>
 
-              @canany(['ServiceReminders list','ServiceReminders add','ServiceItems list'])
+                                            </li>
 
-              <li class="nav-item has-treeview {{$class}}">
+                                            <li class="nav-item">
 
-                <a href="#" class="nav-link {{$active}}">
+                                                <a href="{{ url('admin/fare-settings') }}"
+                                                    class="nav-link @if (Request::is('admin/fare-settings')) active @endif">
 
-                  <i class="nav-icon fa fa-clock-rotate-left"></i>
+                                                    <i class="fa fa-gear nav-icon"></i>
 
-                  <p>
+                                                    <p>@lang('menu.fare_settings')</p>
 
-                    @lang('fleet.serviceReminders')
+                                                </a>
 
-                    <i class="right fa fa-angle-left"></i>
+                                            </li>
 
-                  </p>
 
-                </a>
 
-                <ul class="nav nav-treeview">
+                                            <li class="nav-item">
 
-                  @can('ServiceReminders list')
+                                                <a href="{{ route('expensecategories.index') }}"
+                                                    class="nav-link @if (Request::is('admin/expensecategories*')) active @endif">
 
-                  <li class="nav-item">
+                                                    <i class="fa fa-tasks nav-icon"></i>
 
-                    <a href="{{ route('service-reminder.index') }}"
+                                                    <p>@lang('menu.expenseCategories')</p>
 
-                      class="nav-link @if(Request::is('admin/service-reminder')) active @endif">
+                                                </a>
 
-                      <i class="fa fa-arrows-alt nav-icon"></i>
+                                            </li>
 
-                      <p>@lang('fleet.manage_reminder')</p>
 
-                    </a>
 
-                  </li>
+                                            <li class="nav-item">
 
-                  @endcan
+                                                <a href="{{ route('incomecategories.index') }}"
+                                                    class="nav-link @if (Request::is('admin/incomecategories*')) active @endif">
 
-                  @can('ServiceReminders add')
+                                                    <i class="fa fa-tasks nav-icon"></i>
 
-                  <li class="nav-item">
+                                                    <p>@lang('menu.incomeCategories')</p>
 
-                    <a href="{{ route('service-reminder.create')}}"
+                                                </a>
 
-                      class="nav-link @if(Request::is('admin/service-reminder/create')) active @endif">
+                                            </li>
 
-                      <i class="fa fa-check-square nav-icon"></i>
 
-                      <p>@lang('fleet.add_service_reminder')</p>
 
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                  @can('ServiceItems list')
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('service-item.index') }}"
-
-                      class="nav-link @if(Request::is('admin/service-item*')) active @endif">
-
-                      <i class="fa fa-warning nav-icon"></i>
-
-                      <p>@lang('fleet.service_item')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                </ul>
-
-              </li> @endcanany
-
-              {{-- Testimonials nav disconnected (admin/testimonials* routes removed; views/controllers remain on disk) --}}
-              @if(false && Request::is('admin/testimonials*'))
-
-              @php($class="menu-open")
-
-              @php($active="active")
-
-
-
-              @else
-
-              @php($class="")
-
-              @php($active="")
-
-              @endif
-
-              @canany(['Testimonials list','Testimonials add'])
-
-              <li class="nav-item has-treeview {{$class}}">
-
-                <a href="#" class="nav-link {{$active}}">
-
-                  <i class="nav-icon fa fa-quote-left"></i>
-
-                  <p>
-
-                    @lang('fleet.testimonials')
-
-                    <i class="right fa fa-angle-left"></i>
-
-                  </p>
-
-                </a>
-
-                <ul class="nav nav-treeview">
-
-                  @can('Testimonials list')
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('testimonials.index') }}"
-
-                      class="nav-link @if((Request::is('admin/testimonials*') && !(Request::is('admin/testimonials/create')))) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p> @lang('fleet.manage_testimonial')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                  @can('Testimonials add')
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('testimonials.create') }}"
-
-                      class="nav-link @if(Request::is('admin/testimonials/create')) active @endif">
-
-                      <i class="fa fa-plus-square nav-icon"></i>
-
-                      <p>@lang('fleet.add_testimonial')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                </ul>
-
-              </li>@endcanany
-
-
-
-
-
-
-
-              @if(Request::is('admin/team*'))
-
-              @php($class="menu-open")
-
-              @php($active="active")
-
-
-
-              @else
-
-              @php($class="")
-
-              @php($active="")
-
-              @endif
-
-              @canany(['Team list','Team add'])
-
-              <li class="nav-item has-treeview {{$class}}">
-
-                <a href="#" class="nav-link {{$active}}">
-
-                  <i class="nav-icon fa fa-users"></i>
-
-                  <p>
-
-                    @lang('fleet.team')
-
-                    <i class="right fa fa-angle-left"></i>
-
-                  </p>
-
-                </a>
-
-                <ul class="nav nav-treeview">
-
-                  @can('Team list')
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('team.index') }}"
-
-                      class="nav-link @if((Request::is('admin/team*') && !(Request::is('admin/team/create')))) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p> @lang('fleet.manage_team')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                  @can('Team add')
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('team.create') }}"
-
-                      class="nav-link @if(Request::is('admin/team/create')) active @endif">
-
-                      <i class="fa fa-user-plus nav-icon"></i>
-
-                      <p>@lang('fleet.addMember')</p>
-
-                    </a>
-
-                  </li>
-
-                  @endcan
-
-                </ul>
-
-              </li>
-
-              @endcanany
-
-
-
-              @if(Request::is('admin/settings*') || Request::is('admin/roles*') || Request::is('admin/fare-settings') ||
-
-              Request::is('admin/api-settings') || (Request::is('admin/expensecategories*')) ||
-
-              (Request::is('admin/incomecategories*')) || (Request::is('admin/expensecategories*')) ||
-
-              (Request::is('admin/send-email')) || (Request::is('admin/set-email')) ||
-
-              (Request::is('admin/cancel-reason*')) || (Request::is('admin/frontend-settings*')) ||
-
-              (Request::is('admin/company-services*')) || (Request::is('admin/payment-settings*')) ||
-
-              (Request::is('admin/twilio-settings*')) || (Request::is('admin/chat-settings*') || (Request::is('admin/traccar-settings'))))
-
-              @php($class="menu-open")
-
-              @php($active="active")
-
-
-
-              @else
-
-              @php($class="")
-
-              @php($active="")
-
-              @endif
-
-              @can('Settings list')
-
-              <li class="nav-item has-treeview {{$class}}">
-
-                <a href="#" class="nav-link {{$active}}">
-
-                  <i class="nav-icon fa fa-gear"></i>
-
-                  <p>
-
-                    @lang('menu.settings')
-
-                    <i class="right fa fa-angle-left"></i>
-
-                  </p>
-
-                </a>
-
-                <ul class="nav nav-treeview">
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('roles.index')}}" class="nav-link @if(Request::is('admin/roles*')) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p>@lang('fleet.user_access_management')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('settings.index') }}"
-
-                      class="nav-link @if(Request::is('admin/settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('menu.general_settings')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/api-settings')}}"
-
-                      class="nav-link @if(Request::is('admin/api-settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('menu.api_settings')</p>
-
-                    </a>
-
-                  </li>
-
-                  @if (Auth::user()->user_type == "S")
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/payment-settings')}}"
-
-                      class="nav-link @if(Request::is('admin/payment-settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('fleet.payment_settings')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/traccar-settings')}}"
-
-                      class="nav-link @if(Request::is('admin/traccar-settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('fleet.traccar_settings')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-                  @endif
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/twilio-settings')}}"
-
-                      class="nav-link @if(Request::is('admin/twilio-settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('fleet.twilio_settings')</p>
-
-                    </a>
-
-                  </li>
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('chat_settings.index') }}"
-
-                      class="nav-link @if(Request::is('admin/chat-settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('fleet.chat') @lang('menu.settings')</p>
-
-                    </a>
-
-                  </li>
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('cancel-reason.index')}}"
-
-                      class="nav-link @if(Request::is('admin/cancel-reason*')) active @endif">
-
-                      <i class="fa fa-ban nav-icon"></i>
-
-                      <p>@lang('fleet.cancellation')</p>
-
-                    </a>
-
-                  </li>
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/send-email')}}"
-
-                      class="nav-link @if(Request::is('admin/send-email')) active @endif">
-
-                      <i class="fa fa-envelope nav-icon"></i>
-
-                      <p>@lang('menu.email_notification')</p>
-
-                    </a>
-
-                  </li>
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/set-email')}}"
-
-                      class="nav-link @if(Request::is('admin/set-email')) active @endif">
-
-                      <i class="fa fa-envelope-open nav-icon"></i>
-
-                      <p>@lang('menu.email_content')</p>
-
-                    </a>
-
-                  </li>
-
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/fare-settings')}}"
-
-                      class="nav-link @if(Request::is('admin/fare-settings')) active @endif">
-
-                      <i class="fa fa-gear nav-icon"></i>
-
-                      <p>@lang('menu.fare_settings')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('expensecategories.index') }}"
-
-                      class="nav-link @if(Request::is('admin/expensecategories*')) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p>@lang('menu.expenseCategories')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-                  <li class="nav-item">
-
-                    <a href="{{ route('incomecategories.index') }}"
-
-                      class="nav-link @if(Request::is('admin/incomecategories*')) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p>@lang('menu.incomeCategories')</p>
-
-                    </a>
-
-                  </li>
-
-
-
-                  {{-- Frontend settings nav disconnected (admin/frontend-settings routes removed) --}}
-                  {{--
+                                            {{-- Frontend settings nav disconnected (admin/frontend-settings routes removed) --}}
+                                            {{--
                   <li class="nav-item">
 
                     <a href="{{ url('admin/frontend-settings')}}"
 
-                      class="nav-link @if(Request::is('admin/frontend-settings')) active @endif">
+                      class="nav-link @if (Request::is('admin/frontend-settings')) active @endif">
 
                       <i class="fa fa-address-card nav-icon"></i>
 
@@ -3314,13 +3004,13 @@ input:checked + .slider:before {
 
 
 
-                  {{-- Company services nav disconnected (admin/company-services routes removed) --}}
-                  {{--
+                                            {{-- Company services nav disconnected (admin/company-services routes removed) --}}
+                                            {{--
                   <li class="nav-item">
 
                     <a href="{{ url('admin/company-services')}}"
 
-                      class="nav-link @if(Request::is('admin/company-services*')) active @endif">
+                      class="nav-link @if (Request::is('admin/company-services*')) active @endif">
 
                       <i class="fa fa-tasks nav-icon"></i>
 
@@ -3333,44 +3023,44 @@ input:checked + .slider:before {
 
 
 
-                </ul>
+                                        </ul>
 
-              </li>
+                                    </li>
+                                @endcan
 
-              @endcan
 
+                                @if (AtlasLogistics::api('api_key') != null && AtlasLogistics::api('db_url') != null)
+                                    @can('Drivers map')
+                                        <li class="nav-item">
+                                            <a href="{{ url('admin/driver-maps') }}"
+                                                class="nav-link @if (Request::is('admin/driver-maps') || Request::is('admin/track-driver*')) active @endif">
 
-              @if(AtlasLogistics::api('api_key') != null && AtlasLogistics::api('db_url') != null)
-                @can('Drivers map')
-                  <li class="nav-item">
-                    <a href="{{ url('admin/driver-maps')}}"
+                                                <i class="nav-icon fa fa-map"></i>
 
-                      class="nav-link @if(Request::is('admin/driver-maps') || Request::is('admin/track-driver*')) active @endif">
+                                                <p>
 
-                      <i class="nav-icon fa fa-map"></i>
+                                                    @lang('fleet.maps')
 
-                      <p>
+                                                    <span class="right badge badge-danger"></span>
 
-                        @lang('fleet.maps')
+                                                </p>
 
-                        <span class="right badge badge-danger"></span>
+                                            </a>
 
-                      </p>
+                                        </li>
+                                    @endcan
+                                @endif
 
-                    </a>
-
-                  </li>
-                @endcan
-              @endif
-
-              <!-- super-admin -->
+                                <!-- super-admin -->
 
 
 
-              {{-- Reviews nav disconnected (admin/reviews route removed; controller remains on disk) --}}
-              @if(false) <li class="nav-item">
+                                {{--
+              Reviews nav disconnected (admin/reviews route removed; controller remains on disk)
 
-                <a href="{{ url('admin/reviews')}}" class="nav-link @if(Request::is('admin/reviews')) active @endif">
+              @if (false) <li class="nav-item">
+
+                <a href="{{ url('admin/reviews')}}" class="nav-link @if (Request::is('admin/reviews')) active @endif">
 
                   <i class="nav-icon fa fa-star"></i>
 
@@ -3386,14 +3076,13 @@ input:checked + .slider:before {
 
               </li> @endif
 
+              Inquiries nav disconnected (admin/messages routes removed; ContactUs controller remains on disk)
 
-
-              {{-- Inquiries nav disconnected (admin/messages routes removed; ContactUs controller remains on disk) --}}
-              @if(false)
+              @if (false)
 
               <li class="nav-item">
 
-                <a href="{{ url('admin/messages')}}" class="nav-link @if(Request::is('admin/messages')) active @endif">
+                <a href="{{ url('admin/messages')}}" class="nav-link @if (Request::is('admin/messages')) active @endif">
 
                   <i class="nav-icon fa fa-comments"></i>
 
@@ -3410,671 +3099,678 @@ input:checked + .slider:before {
               </li>
 
               @endif
-              {{-- outer @endif restored; inner can/if removed with nav disconnect --}}
+              --}}
 
-              @if(Auth::user()->user_type=="S")
+                                @if (Auth::user()->user_type == 'S')
+                                    <li class="nav-item">
 
-              <li class="nav-item">
+                                        <a href="https://goo.gl/forms/PtzIirmT3ap8m5dY2" target="_blank"
+                                            class="nav-link">
 
-                <a href="https://goo.gl/forms/PtzIirmT3ap8m5dY2" target="_blank" class="nav-link">
+                                            <i class="nav-icon fa fa-comment"></i>
 
-                  <i class="nav-icon fa fa-comment"></i>
+                                            <p>
 
-                  <p>
+                                                @lang('fleet.helpus')
 
-                    @lang('fleet.helpus')
+                                                <span class="right badge badge-danger"></span>
 
-                    <span class="right badge badge-danger"></span>
+                                            </p>
 
-                  </p>
+                                        </a>
 
-                </a>
+                                    </li>
+                                @endif
 
-              </li>
+                            @endif
 
-              @endif
+                        </ul>
 
-            </ul>
+                    </nav>
 
-          </nav>
+                </div>
+
+            </div>
+
+
+
+        </aside>
+
+
+
+        <!-- Content Wrapper. Contains page content -->
+
+        <div class="content-wrapper">
+
+            <!-- Content Header (Page header) -->
+
+            <div class="content-header">
+
+                <div class="container-fluid">
+
+                    <div class="row mb-2">
+
+                        <div class="col-sm-6">
+
+                            <h1 class="m-0 text-dark">@yield('heading') </h1>
+
+                        </div><!-- /.col -->
+
+                        <div class="col-sm-6">
+
+                            <ol class="breadcrumb float-sm-right">
+
+                                @if (!Request::is('admin'))
+                                    <li class="breadcrumb-item"><a
+                                            href="{{ url('admin/') }}">@lang('fleet.home')</a></li>
+                                @endif
+
+                                @yield('breadcrumb')
+
+                            </ol>
+
+                        </div><!-- /.col -->
+
+                    </div><!-- /.row -->
+
+                </div><!-- /.container-fluid -->
+
+            </div>
+
+
+
+            <!-- /.content-header -->
+
+
+
+            <!-- Main content -->
+
+            <section class="content">
+
+                <div class="container-fluid">
+
+                    @yield('content')
+
+                </div><!-- /.container-fluid -->
+
+            </section>
+
+            <div id="chat-overlay" class="row"></div>
+
+            <audio id="chat-alert-sound" style="display: none">
+
+                <source src="{{ asset('assets/chat-sound.mp3') }}" />
+
+            </audio>
+
+            <!-- /.content -->
 
         </div>
 
-      </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+
+            {!! AtlasLogistics::get('web_footer') !!}
+
+            <div class="float-right d-none d-sm-inline-block">
+
+                <b>@lang('fleet.version')</b> 7.0
+
+            </div>
+
+        </footer>
 
 
 
-    </aside>
+        <!-- Control Sidebar -->
 
+        <aside class="control-sidebar control-sidebar-dark">
 
+            <!-- Control sidebar content goes here -->
 
-    <!-- Content Wrapper. Contains page content -->
+        </aside>
 
-    <div class="content-wrapper">
-
-      <!-- Content Header (Page header) -->
-
-      <div class="content-header">
-
-        <div class="container-fluid">
-
-          <div class="row mb-2">
-
-            <div class="col-sm-6">
-
-              <h1 class="m-0 text-dark">@yield('heading') </h1>
-
-            </div><!-- /.col -->
-
-            <div class="col-sm-6">
-
-              <ol class="breadcrumb float-sm-right">
-
-                @if(!(Request::is('admin')))
-
-                <li class="breadcrumb-item"><a href="{{ url('admin/')}}">@lang('fleet.home')</a></li>
-
-                @endif
-
-                @yield('breadcrumb')
-
-              </ol>
-
-            </div><!-- /.col -->
-
-          </div><!-- /.row -->
-
-        </div><!-- /.container-fluid -->
-
-      </div>
-
-
-
-      <!-- /.content-header -->
-
-
-
-      <!-- Main content -->
-
-      <section class="content">
-
-        <div class="container-fluid">
-
-          @yield('content')
-
-        </div><!-- /.container-fluid -->
-
-      </section>
-
-      <div id="chat-overlay" class="row"></div>
-
-      <audio id="chat-alert-sound" style="display: none">
-
-        <source src="{{ asset('assets/chat-sound.mp3') }}" />
-
-      </audio>
-
-      <!-- /.content -->
+        <!-- /.control-sidebar -->
 
     </div>
 
-    <!-- /.content-wrapper -->
+    <!-- ./wrapper -->
 
-    <footer class="main-footer">
+    <script src="{{ asset('assets/js/cdn-canvasjs.min.js') }}"></script>
 
-      {!! AtlasLogistics::get('web_footer') !!}
+    @yield('script2')
 
-      <div class="float-right d-none d-sm-inline-block">
+    <script src="{{ asset('assets/js/plugins-jquery.min.js') }}"></script>
 
-        <b>@lang('fleet.version')</b> 7.0
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
-      </div>
-
-    </footer>
-
-
-
-    <!-- Control Sidebar -->
-
-    <aside class="control-sidebar control-sidebar-dark">
-
-      <!-- Control sidebar content goes here -->
-
-    </aside>
-
-    <!-- /.control-sidebar -->
-
-  </div>
-
-  <!-- ./wrapper -->
-
-  <script src="{{ asset('assets/js/cdn-canvasjs.min.js')}}"></script>
-
-  @yield('script2')
-
-  <script src="{{asset('assets/js/plugins-jquery.min.js')}}"></script>
-
-  <script src="{{asset('assets/js/jquery-ui.min.js')}}"></script>
-
-  {{-- <script>
+    {{-- <script>
 
     $.widget.bridge('uibutton', $.ui.button)
 
   </script> --}}
 
-  <script src="{{ asset('assets/js/moment.js') }}"></script>
+    <script src="{{ asset('assets/js/moment.js') }}"></script>
 
-  <script src="{{ asset('assets/js/datetimepicker.js') }}"></script>
+    <script src="{{ asset('assets/js/datetimepicker.js') }}"></script>
 
-  <script src="{{asset('assets/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datepicker.min.js') }}"></script>
 
-  {{-- <!-- fullCalendar 2.2.5 --> --}}
+    {{-- <!-- fullCalendar 2.2.5 --> --}}
 
-  <script src="{{asset('assets/js/new_moment.min.js')}}"></script>
+    <script src="{{ asset('assets/js/new_moment.min.js') }}"></script>
 
-  <script src="{{asset('assets/js/plugins-fullcalendar.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins-fullcalendar.min.js') }}"></script>
 
-  {{-- <script src="{{asset('assets/plugins/iCheck/icheck.min.js')}}"></script> --}}
+    {{-- <script src="{{asset('assets/plugins/iCheck/icheck.min.js')}}"></script> --}}
 
-  {{-- <script src="{{asset('assets/js/plugins-icheck.min.js')}}"></script> --}}
+    {{-- <script src="{{asset('assets/js/plugins-icheck.min.js')}}"></script> --}}
 
-  <script src="{{asset('assets/js/plugins-bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins-bootstrap.bundle.min.js') }}"></script>
 
-  <script src="{{asset('assets/js/plugins-select2.full.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins-select2.full.min.js') }}"></script>
 
-  <script src="{{asset('assets/js/plugins-fastclick.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins-fastclick.js') }}"></script>
 
-  <script src="{{asset('assets/js/cdn-jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('assets/js/cdn-jquery.dataTables.min.js') }}"></script>
 
-  <script src="{{asset('assets/js/plugins-dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('assets/js/plugins-dataTables.bootstrap4.min.js') }}"></script>
 
-  <script src="{{ asset('assets/js/cdn-dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('assets/js/cdn-dataTables.buttons.min.js') }}"></script>
 
-  <script src="{{ asset('assets/js/cdn-buttons.print.min.js')}}"></script>
+    <script src="{{ asset('assets/js/cdn-buttons.print.min.js') }}"></script>
 
-  <script src="{{asset('assets/js/adminlte.js')}}"></script>
+    <script src="{{ asset('assets/js/adminlte.js') }}"></script>
 
-  <script src="{{asset('web-sw.js?v3') }}"></script>
+    <script src="{{ asset('web-sw.js?v3') }}"></script>
 
 
 
-  <script type="text/javascript" src="{{ asset('assets/js/cdn-jszip.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/cdn-jszip.min.js') }}"></script>
 
-  <script type="text/javascript" src="{{ asset('assets/js/cdn-pdfmake.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/cdn-pdfmake.min.js') }}"></script>
 
-  <script type="text/javascript" src="{{ asset('assets/js/cdn-vfs_fonts.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/cdn-vfs_fonts.js') }}"></script>
 
-  <script type="text/javascript" src="{{ asset('assets/js/cdn-buttons.html5.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/cdn-buttons.html5.min.js') }}"></script>
 
 
 
-  <script src="{{ asset('assets/js/cdn-Chart.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/js/cdn-Chart.bundle.min.js') }}"></script>
 
-  <script src="{{ asset('assets/js/cdn-ckeditor.js')}}"></script>
+    <script src="{{ asset('assets/js/cdn-ckeditor.js') }}"></script>
 
 
 
-  <script>
+    <script>
+        $('[title]').tooltip();
 
-    $('[title]').tooltip();
 
 
+        if ('serviceWorker' in navigator) {
 
-    if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('{{ asset('web-sw.js?v3') }}', {
 
-      navigator.serviceWorker.register('{{ asset("web-sw.js?v3") }}', {
+                scope: '.' // <--- THIS BIT IS REQUIRED
 
-        scope: '.' // <--- THIS BIT IS REQUIRED
+            }).then(function(registration) {
 
-      }).then(function(registration) {
+                // Registration was successful
 
-        // Registration was successful
+                // console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
-        // console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
 
-      }, function(err) {
+                // registration failed :(
 
-        // registration failed :(
-
-        // console.log('ServiceWorker registration failed: ', err);
-
-      });
-
-    }
-
-  </script>
-
-  <script type="text/javascript">
-
-    $(document).ready(function() {
-
-      // $('button').on('click', function() {
-      //   if (!$(this).data('clicked')) {
-      //     console.log('Button clicked!');
-      //     $(this).data('clicked', true);
-      //     $(this).prop('disabled', true);
-      //   }
-      // });
-
-      $('#phone').on('input', function(evt) {
-
-        var inputVal = $(this).val();
-
-        var cleanedVal = inputVal.replace(/[^0-9.]/g, '').replace(/^0+/, '');
-
-        if (cleanedVal.length > 15) {
-
-          cleanedVal = cleanedVal.slice(0, 15);
-
-        }
-
-        $(this).val(cleanedVal);
-
-      });
-
-
-
-      $('input[type="number"]').on('keypress', function(evt) {
-
-        var inputVal = $(this).val();
-
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-
-
-
-        if (inputVal.length >= 15) {
-
-          return false;
-
-        }
-
-        if (ASCIICode === 46 && inputVal.length === 0) {
-
-          return false;
-
-        }
-
-        if (ASCIICode === 46 || (ASCIICode >= 48 && ASCIICode <= 57)) {
-
-          return true;
-
-        }
-
-        return false;
-
-      });
-
-
-
-      $('input[type="text"]').on('keypress', function(evt) {
-
-        var inputVal = $(this).val();
-
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode;
-
-        var inputId = $(this).attr("id");
-
-
-
-        if (
-
-          (ASCIICode >= 65 && ASCIICode <= 90) || // A-Z
-
-          (ASCIICode >= 97 && ASCIICode <= 122) || // a-z
-
-          ASCIICode === 32 ||        // Space
-
-          ASCIICode === 44 ||        // Comma
-
-          ASCIICode === 45 ||        // Hyphen (minus)
-
-          ASCIICode === 46 ||        // Period
-
-          ASCIICode === 47 ||        // Slash
-
-          (ASCIICode >= 48 && ASCIICode <= 57) || // Digits 0-9
-
-          ASCIICode === 58 ||        // Colon
-
-          ASCIICode === 64 ||        // At symbol (@)
-
-          (inputId === "currency" && [36, 8364, 163, 165, 8377, 165, 8355, 8363].includes(ASCIICode)) // Currency symbols
-
-        ) {
-
-          return true;
-
-        }
-
-        return false;
-
-      });
-
-
-
-      // $('input').on('input', function(evt) {
-
-      //   var inputVal = $(this).val();
-
-      //   // Allow alphanumeric characters (A-Z, a-z, 0-9), specific symbols (-, /, ., ,, :, space, and @)
-
-      //   var cleanedVal = inputVal.replace(/[^A-Za-z0-9\/\.\,\:\-\s@]/g, '')
-
-      //   $(this).val(cleanedVal);
-
-      // });
-
-
-
-      $("input[type=search]").on("input", function () {
-
-        const inputValue = this.value.trim(); // Trim the input value to remove whitespace
-
-        if (inputValue.length > 0) {
-
-          $(".nav-sidebar li").hide().filter(function () {
-
-            return $(this).text().toLowerCase().indexOf(inputValue.toLowerCase()) !== -1;
-
-          }) //.show();
-
-        } else {
-
-          $(".nav-sidebar li").show();
-
-        }
-
-      });
-
-
-
-      // old search input code
-
-      // $("input[type=search]").on("keydown", function () {
-
-        //   if (this.value.length > 0) {
-
-        //     $(".nav-sidebar li").hide().filter(function () {
-
-        //       return $(this).text().toLowerCase().indexOf($("input[type=search]").val().toLowerCase()) != -1;
-
-        //     })//.show();
-
-        //   }
-
-        //   else {
-
-        //     $(".nav-sidebar li").show();
-
-        //   }
-
-        // });
-
-
-
-      $.ajaxSetup({
-
-        headers: {
-
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-        }
-
-      });
-
-
-
-      $('#data_table tfoot th').each( function () {
-
-        // console.log($('#data_table tfoot th').length);
-
-        if($(this).index() != 0 && $(this).index() != $('#data_table tfoot th').length - 1) {
-
-          var title = $(this).text();
-
-          $(this).html( '<input type="text" placeholder="'+title+'" />' );
-
-        }
-
-      });
-
-
-
-      $('#ajax_data_table tfoot th').each( function () {
-
-        // console.log($('#data_table tfoot th').length);
-
-        if($(this).index() != 0 && $(this).index() != $('#data_table tfoot th').length - 1) {
-
-          var title = $(this).text();
-
-          $(this).html( '<input type="text" placeholder="'+title+'" />' );
-
-        }
-
-      });
-
-
-
-      $('#data_table1 tfoot th').each( function () {
-
-        // console.log($(this).index());
-
-        if($(this).index() != 0 && $(this).index() != $('#data_table1 tfoot th').length - 1){
-
-          var title = $(this).text();
-
-          $(this).html( '<input type="text" placeholder="'+title+'" />' );
-
-        }
-
-      });
-
-
-
-      var table1 = $('#data_table1').DataTable({
-
-      dom: 'Bfrtip',
-
-
-
-      buttons: [
-
-          {
-
-        extend: 'print',
-
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
-
-
-
-        exportOptions: {
-
-          columns: ([1,2,3,4,5,6,7,8,9,10]),
-
-        },
-
-        customize: function ( win ) {
-
-                $(win.document.body)
-
-                    .css( 'font-size', '10pt' )
-
-                    .prepend(
-
-                        '<h3>{{__("fleet.bookings")}}</h3>'
-
-                    );
-
-                $(win.document.body).find( 'table' )
-
-                    .addClass( 'table-bordered' );
-
-                // $(win.document.body).find( 'td' ).css( 'font-size', '10pt' );
-
-
-
-            }
-
-          }
-
-      ],
-
-      "language": {
-
-            "url": '{{ asset("assets/datatables/")."/".__("fleet.datatable_lang") }}',
-
-          },
-
-      columnDefs: [ { orderable: false, targets: [0] } ],
-
-      // individual column search
-
-      "initComplete": function() {
-
-            table1.columns().every(function () {
-
-              var that = this;
-
-              $('input', this.footer()).on('keyup change', function () {
-
-                  that.search(this.value).draw();
-
-              });
+                // console.log('ServiceWorker registration failed: ', err);
 
             });
 
-          }
+        }
+    </script>
 
-      });
+    <script type="text/javascript">
+        $(document).ready(function() {
 
+            // $('button').on('click', function() {
+            //   if (!$(this).data('clicked')) {
+            //     console.log('Button clicked!');
+            //     $(this).data('clicked', true);
+            //     $(this).prop('disabled', true);
+            //   }
+            // });
 
+            $('#phone').on('input', function(evt) {
 
-      var table = $('#data_table').DataTable({
+                var inputVal = $(this).val();
 
-      "language": {
+                var cleanedVal = inputVal.replace(/[^0-9.]/g, '').replace(/^0+/, '');
 
-        "url": '{{ asset("assets/datatables/")."/".__("fleet.datatable_lang") }}',
+                if (cleanedVal.length > 15) {
 
-      },
-      
+                    cleanedVal = cleanedVal.slice(0, 15);
 
-      columnDefs: [ { orderable: false, targets: [0] } ],
-     
+                }
 
-      // individual column search
+                $(this).val(cleanedVal);
 
-      "initComplete": function() {
+            });
 
-              table.columns().every(function () {
 
-                var that = this;
 
-                $('input', this.footer()).on('keyup change', function () {
+            $('input[type="number"]').on('keypress', function(evt) {
 
-                  // console.log($(this).parent().index());
+                var inputVal = $(this).val();
 
-                    that.search(this.value).draw();
+                var ASCIICode = (evt.which) ? evt.which : evt.keyCode;
 
-                });
 
-              });
 
-            }
+                if (inputVal.length >= 15) {
 
-      });
+                    return false;
 
-      $('[data-toggle="tooltip"]').tooltip();
+                }
 
+                if (ASCIICode === 46 && inputVal.length === 0) {
 
+                    return false;
 
-    });
+                }
 
+                if (ASCIICode === 46 || (ASCIICode >= 48 && ASCIICode <= 57)) {
 
+                    return true;
 
+                }
 
+                return false;
 
+            });
 
-    var table11 = $('#data_table11').DataTable({
-        "language": {
-            "url": '{{ asset("assets/datatables/")."/".__("fleet.datatable_lang") }}',
-        },
-        "columnDefs": [
-            { orderable: false, targets: [0] } // Make the first column not orderable
-        ],
-        "order": [[3, 'desc']], // Order by the fourth column in descending order (index 3)
-       
-        
-    });
 
-    $('[data-toggle="tooltip"]').tooltip();
 
+            $('input[type="text"]').on('keypress', function(evt) {
 
+                var inputVal = $(this).val();
 
+                var ASCIICode = (evt.which) ? evt.which : evt.keyCode;
 
-  </script>
+                var inputId = $(this).attr("id");
 
-  <script> // Routes and Labels
 
-    // Bookings
 
-    var getDriverRoute='{{ url("admin/get_driver") }}';
+                if (
 
-    var getVehicleRoute='{{ url("admin/get_vehicle") }}';
+                    (ASCIICode >= 65 && ASCIICode <= 90) || // A-Z
 
-    var prevAddress='{{ url("admin/prev-address") }}';
+                    (ASCIICode >= 97 && ASCIICode <= 122) || // a-z
 
-    var selectDriver="@lang('fleet.selectDriver')";
+                    ASCIICode === 32 || // Space
 
-    var selectCustomer="@lang('fleet.selectCustomer')";
+                    ASCIICode === 44 || // Comma
 
-    var selectVehicle="@lang('fleet.selectVehicle')";
+                    ASCIICode === 45 || // Hyphen (minus)
 
-    var addCustomer="@lang('fleet.add_customer')";
+                    ASCIICode === 46 || // Period
 
-    var prevAddressLang="@lang('fleet.prev_addr')";
+                    ASCIICode === 47 || // Slash
 
-    var fleet_email_already_taken="@lang('fleet.email_already_taken')";
+                    (ASCIICode >= 48 && ASCIICode <= 57) || // Digits 0-9
 
+                    ASCIICode === 58 || // Colon
 
+                    ASCIICode === 64 || // At symbol (@)
 
-    // Driver
+                    (inputId === "currency" && [36, 8364, 163, 165, 8377, 165, 8355, 8363].includes(
+                        ASCIICode)) // Currency symbols
 
-    var driver_comission_amount="@lang('fleet.enter_amount')";
+                ) {
 
-    var driver_comission_percentage="@lang('fleet.enter_percent')";
+                    return true;
 
+                }
 
+                return false;
 
-    // Users
+            });
 
-    var group_id_label="@lang('fleet.selectGroup')";
 
-    var role_id_label="@lang('fleet.role')";
 
+            // $('input').on('input', function(evt) {
 
+            //   var inputVal = $(this).val();
 
-  </script>
+            //   // Allow alphanumeric characters (A-Z, a-z, 0-9), specific symbols (-, /, ., ,, :, space, and @)
 
+            //   var cleanedVal = inputVal.replace(/[^A-Za-z0-9\/\.\,\:\-\s@]/g, '')
 
+            //   $(this).val(cleanedVal);
 
-  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+            // });
 
-  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
-  <script>var current_route = "{{Route::current()->getName() ?? '' }}"; </script>
 
-  {{-- <script>var google_api = "{{ AtlasLogistics::api('google_api') }}"; </script>  --}}
+            $("input[type=search]").on("input", function() {
 
-  <script src="{{ asset('assets/js/pnotify.custom.min.js')}}"></script>
+                const inputValue = this.value.trim(); // Trim the input value to remove whitespace
 
+                if (inputValue.length > 0) {
 
+                    $(".nav-sidebar li").hide().filter(function() {
 
-  @yield('script')
+                        return $(this).text().toLowerCase().indexOf(inputValue.toLowerCase()) !== -
+                            1;
 
+                    }) //.show();
 
+                } else {
 
-  <script> var base_url = '{{ url("/") }}'; </script>
+                    $(".nav-sidebar li").show();
+
+                }
+
+            });
+
+
+
+            // old search input code
+
+            // $("input[type=search]").on("keydown", function () {
+
+            //   if (this.value.length > 0) {
+
+            //     $(".nav-sidebar li").hide().filter(function () {
+
+            //       return $(this).text().toLowerCase().indexOf($("input[type=search]").val().toLowerCase()) != -1;
+
+            //     })//.show();
+
+            //   }
+
+            //   else {
+
+            //     $(".nav-sidebar li").show();
+
+            //   }
+
+            // });
+
+
+
+            $.ajaxSetup({
+
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+                }
+
+            });
+
+
+
+            $('#data_table tfoot th').each(function() {
+
+                // console.log($('#data_table tfoot th').length);
+
+                if ($(this).index() != 0 && $(this).index() != $('#data_table tfoot th').length - 1) {
+
+                    var title = $(this).text();
+
+                    $(this).html('<input type="text" placeholder="' + title + '" />');
+
+                }
+
+            });
+
+
+
+            $('#ajax_data_table tfoot th').each(function() {
+
+                // console.log($('#data_table tfoot th').length);
+
+                if ($(this).index() != 0 && $(this).index() != $('#data_table tfoot th').length - 1) {
+
+                    var title = $(this).text();
+
+                    $(this).html('<input type="text" placeholder="' + title + '" />');
+
+                }
+
+            });
+
+
+
+            $('#data_table1 tfoot th').each(function() {
+
+                // console.log($(this).index());
+
+                if ($(this).index() != 0 && $(this).index() != $('#data_table1 tfoot th').length - 1) {
+
+                    var title = $(this).text();
+
+                    $(this).html('<input type="text" placeholder="' + title + '" />');
+
+                }
+
+            });
+
+
+
+            var table1 = $('#data_table1').DataTable({
+
+                dom: 'Bfrtip',
+
+
+
+                buttons: [
+
+                    {
+
+                        extend: 'print',
+
+                        text: '<i class="fa fa-print"></i> {{ __('fleet.print') }}',
+
+
+
+                        exportOptions: {
+
+                            columns: ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+
+                        },
+
+                        customize: function(win) {
+
+                            $(win.document.body)
+
+                                .css('font-size', '10pt')
+
+                                .prepend(
+
+                                    '<h3>{{ __('fleet.bookings') }}</h3>'
+
+                                );
+
+                            $(win.document.body).find('table')
+
+                                .addClass('table-bordered');
+
+                            // $(win.document.body).find( 'td' ).css( 'font-size', '10pt' );
+
+
+
+                        }
+
+                    }
+
+                ],
+
+                "language": {
+
+                    "url": '{{ asset('assets/datatables/') . '/' . __('fleet.datatable_lang') }}',
+
+                },
+
+                columnDefs: [{
+                    orderable: false,
+                    targets: [0]
+                }],
+
+                // individual column search
+
+                "initComplete": function() {
+
+                    table1.columns().every(function() {
+
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change', function() {
+
+                            that.search(this.value).draw();
+
+                        });
+
+                    });
+
+                }
+
+            });
+
+
+
+            var table = $('#data_table').DataTable({
+
+                "language": {
+
+                    "url": '{{ asset('assets/datatables/') . '/' . __('fleet.datatable_lang') }}',
+
+                },
+
+
+                columnDefs: [{
+                    orderable: false,
+                    targets: [0]
+                }],
+
+
+                // individual column search
+
+                "initComplete": function() {
+
+                    table.columns().every(function() {
+
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change', function() {
+
+                            // console.log($(this).parent().index());
+
+                            that.search(this.value).draw();
+
+                        });
+
+                    });
+
+                }
+
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+
+
+        });
+
+
+
+
+
+
+        var table11 = $('#data_table11').DataTable({
+            "language": {
+                "url": '{{ asset('assets/datatables/') . '/' . __('fleet.datatable_lang') }}',
+            },
+            "columnDefs": [{
+                    orderable: false,
+                    targets: [0]
+                } // Make the first column not orderable
+            ],
+            "order": [
+                [3, 'desc']
+            ], // Order by the fourth column in descending order (index 3)
+
+
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
+
+    <script>
+        // Routes and Labels
+
+        // Bookings
+
+        var getDriverRoute = '{{ url('admin/get_driver') }}';
+
+        var getVehicleRoute = '{{ url('admin/get_vehicle') }}';
+
+        var prevAddress = '{{ url('admin/prev-address') }}';
+
+        var selectDriver = "@lang('fleet.selectDriver')";
+
+        var selectCustomer = "@lang('fleet.selectCustomer')";
+
+        var selectVehicle = "@lang('fleet.selectVehicle')";
+
+        var addCustomer = "@lang('fleet.add_customer')";
+
+        var prevAddressLang = "@lang('fleet.prev_addr')";
+
+        var fleet_email_already_taken = "@lang('fleet.email_already_taken')";
+
+
+
+        // Driver
+
+        var driver_comission_amount = "@lang('fleet.enter_amount')";
+
+        var driver_comission_percentage = "@lang('fleet.enter_percent')";
+
+
+
+        // Users
+
+        var group_id_label = "@lang('fleet.selectGroup')";
+
+        var role_id_label = "@lang('fleet.role')";
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+    <script>
+        var current_route = "{{ Route::current()->getName() ?? '' }}";
+    </script>
+
+    {{-- <script>var google_api = "{{ AtlasLogistics::api('google_api') }}"; </script>  --}}
+
+    <script src="{{ asset('assets/js/pnotify.custom.min.js') }}"></script>
+
+
+
+    @yield('script')
+
+
+
+    <script>
+        var base_url = '{{ url('/') }}';
+    </script>
 
 
 

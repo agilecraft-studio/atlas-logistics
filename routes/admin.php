@@ -231,27 +231,27 @@ Route::namespace ('Admin')->group(function () {
         Route::get('/bookings/payment/{id}', 'BookingsController@payment');
         Route::get("/reports/monthly", "ReportsController@monthly")->name("reports.monthly");
         Route::get("/reports/vendors", "ReportsController@vendors")->name("reports.vendors");
-        Route::post("/reports/vendors", "ReportsController@vendors_post")->name("reports.vendors");
+        Route::post("/reports/vendors", "ReportsController@vendors_post");
         Route::get("reports/drivers", "ReportsController@drivers")->name("reports.drivers");
-        Route::post("reports/drivers", "ReportsController@drivers_post")->name("reports.drivers");
+        Route::post("reports/drivers", "ReportsController@drivers_post");
         Route::get("reports/customers", "ReportsController@customers")->name("reports.customers");
-        Route::post("reports/customers", "ReportsController@customers_post")->name("reports.customers");
+        Route::post("reports/customers", "ReportsController@customers_post");
         Route::get("/reports/booking", "ReportsController@booking")->name("reports.booking");
         Route::get("/reports/delinquent", "ReportsController@delinquent")->name("reports.delinquent");
         Route::get("/reports/users", "ReportsController@users")->name("reports.users");
-        Route::post("/reports/users", "ReportsController@users_post")->name("reports.users");
+        Route::post("/reports/users", "ReportsController@users_post");
         Route::get('/calendar', 'BookingsController@calendar');
         Route::get('/calendar/event/{id}', 'BookingsController@calendar_event');
         Route::get("/drivers/enable/{id}", 'DriversController@enable');
         Route::get("/drivers/disable/{id}", 'DriversController@disable');
         Route::get("/reports/vehicle", "ReportsController@vehicle")->name("reports.vehicle");
-        Route::post("/reports/booking", "ReportsController@booking_post")->name("reports.booking");
-        Route::post("/reports/fuel", "ReportsController@fuel_post")->name("reports.fuel");
+        Route::post("/reports/booking", "ReportsController@booking_post");
+        Route::post("/reports/fuel", "ReportsController@fuel_post");
         Route::get("/reports/fuel", "ReportsController@fuel")->name("reports.fuel");
         Route::get("/reports/yearly", "ReportsController@yearly")->name("reports.yearly");
-        Route::post("/reports/yearly", "ReportsController@yearly_post")->name("reports.yearly");
+        Route::post("/reports/yearly", "ReportsController@yearly_post");
         Route::get("/reports/payments", "ReportsController@drivers_payments")->name("reports.payments");
-        Route::post("/reports/payments", "ReportsController@drivers_payments_post")->name("reports.payments");
+        Route::post("/reports/payments", "ReportsController@drivers_payments_post");
 
         Route::post('/customer/ajax_save', 'CustomersController@ajax_store')->name('customers.ajax_store');
         Route::get("/bookings_calendar", 'BookingsController@calendar_view')->name("bookings.calendar");
@@ -260,12 +260,12 @@ Route::namespace ('Admin')->group(function () {
         Route::get('/calendar', 'BookingsController@calendar');
         Route::post('/get_driver', 'BookingsController@get_driver');
         Route::post('/get_vehicle', 'BookingsController@get_vehicle');
-        Route::post('/bookings/complete', 'BookingsController@complete_post')->name("bookings.complete");
+        Route::post('/bookings/complete', 'BookingsController@complete_post');
         Route::get('/bookings/complete', 'BookingsController@complete_post')->name("bookings.complete");
 
-        Route::post("/reports/monthly", "ReportsController@monthly_post")->name("reports.monthly");
-        Route::post("/reports/booking", "ReportsController@booking_post")->name("reports.booking");
-        Route::post("/reports/delinquent", "ReportsController@delinquent_post")->name("reports.delinquent");
+        Route::post("/reports/monthly", "ReportsController@monthly_post");
+        Route::post("/reports/booking", "ReportsController@booking_post");
+        Route::post("/reports/delinquent", "ReportsController@delinquent_post");
         Route::get("/send-email", "SettingsController@send_email");
         Route::post("/email-settings", "SettingsController@email_settings");
         Route::post('enable-mail', 'SettingsController@enable_mail');
@@ -291,7 +291,7 @@ Route::namespace ('Admin')->group(function () {
         Route::get('changepassword/{id}', 'UtilityController@change');
         Route::post('changepassword/{id}', 'UtilityController@change_post');
         Route::get('/change-details/{id}', 'UtilityController@changepass')->name("changepass");
-        Route::post('/change-details/{id}', 'UtilityController@changepassword')->name("changepass");
+        Route::post('/change-details/{id}', 'UtilityController@changepassword');
         Route::post('/change_password', 'UtilityController@password_change');
         Route::get('/vehicle_notification/{type}', 'NotificationController@vehicle_notification');
         Route::resource('/notes', 'NotesController');
@@ -301,7 +301,7 @@ Route::namespace ('Admin')->group(function () {
 
 //report work order
         Route::get("/reports/work-order", "ReportsController@work_order")->name("reports.work_order");
-        Route::post("/reports/work-order", "ReportsController@work_order_post")->name("reports.work_order");
+        Route::post("/reports/work-order", "ReportsController@work_order_post");
         Route::post('print-workOrder-report', 'ReportsController@print_workOrder_report');
 //mechanics  CRUD
         Route::resource('mechanic', 'MechanicController');
@@ -324,9 +324,9 @@ Route::namespace ('Admin')->group(function () {
         Route::post('/income_records', 'IncomeController@income_records');
 // driver reports
         Route::get("/driver-reports/yearly", "DriversController@yearly")->name("dreports.yearly");
-        Route::post("/driver-reports/yearly", "DriversController@yearly_post")->name("dreports.yearly");
+        Route::post("/driver-reports/yearly", "DriversController@yearly_post");
         Route::get("/driver-reports/monthly", "DriversController@monthly")->name("dreports.monthly");
-        Route::post("/driver-reports/monthly", "DriversController@monthly_post")->name("dreports.monthly");
+        Route::post("/driver-reports/monthly", "DriversController@monthly_post");
         Route::get('/addresses', 'AddressController@index');
 
         Route::resource('/cancel-reason', 'ReasonController');
