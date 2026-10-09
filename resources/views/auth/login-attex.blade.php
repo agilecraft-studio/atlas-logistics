@@ -4,7 +4,7 @@
     <h4 class="text-dark-50 text-center mt-0 fw-bold">@lang('passwords.sign_in')</h4>
     <p class="text-muted mb-4">@lang('passwords.login_desc')</p>
 </div>
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 <div class="alert alert-danger" role="alert">
     <ul class="mb-0">
         @foreach($errors->all() as $error)
