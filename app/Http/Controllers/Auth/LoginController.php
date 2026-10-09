@@ -17,7 +17,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        App::setLocale(AtlasLogistics::get('language'));
+        App::setLocale('English-en');
         $this->middleware('guest')->except('logout');
     }
 

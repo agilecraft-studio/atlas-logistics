@@ -16,7 +16,7 @@ class ResetPasswordController extends Controller {
 	use ResetsPasswords;
 	protected $redirectTo = 'admin/';
 	public function __construct() {
-		App::setLocale(AtlasLogistics::get('language'));
+		App::setLocale('English-en');
 		$this->middleware('guest');
 	}
 

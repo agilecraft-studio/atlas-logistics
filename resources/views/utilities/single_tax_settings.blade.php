@@ -71,26 +71,7 @@
             {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], AtlasLogistics::get("dis_format"),['class'=>"form-control",'required']) !!}
           </div>
 
-          <div class="form-group col-md-4">
-            {!! Form::label('language',__('fleet.language'),['class'=>"form-label"]) !!}
-            <select id='name[language]' name='name[language]' class="form-control" required>
-              <option value="">-</option>
-              @if(Auth::user()->getMeta('language')!= null)
-              @php ($language = Auth::user()->getMeta('language'))
-              @else
-              @php($language = AtlasLogistics::get("language"))
-              @endif
-              @foreach($languages as $lang)
-              @php($l = explode('-',$lang))
-              @if($language == $lang)
-
-              <option value="{{$lang}}" selected> {{$l[0]}}</option>
-              @else
-              <option value="{{$lang}}" > {{$l[0]}} </option>
-              @endif
-              @endforeach
-            </select>
-          </div>
+          <input type="hidden" name="name[language]" value="English-en">
 
           <div class="form-group col-md-4">
             {!! Form::label('currency',__('fleet.currency'),['class'=>"form-label"]) !!}

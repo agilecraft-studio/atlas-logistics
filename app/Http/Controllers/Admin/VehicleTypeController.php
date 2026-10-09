@@ -41,7 +41,7 @@ class VehicleTypeController extends Controller {
 					return ($vehicle->isenable) ? "YES" : "NO";
 				})
 				->filterColumn('isenable', function ($query, $keyword) {
-					$query->whereRaw("CASE WHEN isenable = 1 THEN 'YES' ELSE 'NO' END like ?", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN isenable::text IN ('1','true','t') THEN 'YES' ELSE 'NO' END ilike ?", ["%{$keyword}%"]);
 				})
 				->addColumn('action', function ($vehicle) {
 					return view('vehicle_types.list-actions', ['row' => $vehicle]);

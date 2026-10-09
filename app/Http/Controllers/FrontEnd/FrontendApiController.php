@@ -28,7 +28,7 @@ use Validator;
 class FrontendApiController extends Controller {
 	public function __construct() {
 		if (file_exists(storage_path('installed'))) {
-			app()->setLocale(AtlasLogistics::frontend('language'));
+			app()->setLocale('English-en');
 		}
 	}
 	public function language() {

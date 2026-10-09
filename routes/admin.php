@@ -60,12 +60,10 @@ Route::namespace ('Admin')->group(function () {
         
         
         Route::get('/vehicles-track/{id?}','TrackerController@traccarLocation');
-        Route::get('/track/{id?}','TrackerController@track');
         Route::get('/traccar-settings','TrackerController@traccar_settings')->name('traccar.settings');
         Route::post('/traccar-settings','TrackerController@traccar_settings_store')->name('traccar_settings.store');
 
 
-        Route::get('get-driver-index', 'DriversController@get_driver_index');
         Route::post('transactions-fetch', 'BookingsController@transactions_fetch_data');
         Route::get('transactions', 'BookingsController@transactions');
 
@@ -196,7 +194,7 @@ Route::namespace ('Admin')->group(function () {
         Route::resource('service-item', 'ServiceItemsController');
         Route::post('/vehicle-group-fetch', 'VehicleGroupController@fetch_data');
         Route::resource('/vehicle_group', 'VehicleGroupController');
-        Route::post('/income_records', 'Income@income_records');
+        Route::post('/income_records', 'IncomeController@income_records');
         Route::post('/expense_records', 'ExpenseController@expense_records');
         Route::post('/store_insurance', 'VehiclesController@store_insurance');
         Route::get('vehicle/event/{id}', 'VehiclesController@view_event');
@@ -244,7 +242,6 @@ Route::namespace ('Admin')->group(function () {
         Route::get('/calendar/event/{id}', 'BookingsController@calendar_event');
         Route::get("/drivers/enable/{id}", 'DriversController@enable');
         Route::get("/drivers/disable/{id}", 'DriversController@disable');
-        Route::get("/reports/vehicle", "ReportsController@vehicle")->name("reports.vehicle");
         Route::post("/reports/booking", "ReportsController@booking_post");
         Route::post("/reports/fuel", "ReportsController@fuel_post");
         Route::get("/reports/fuel", "ReportsController@fuel")->name("reports.fuel");

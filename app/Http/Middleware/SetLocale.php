@@ -29,11 +29,7 @@ class SetLocale {
 		if (!$this->alreadyInstalled()) {
 			return redirect('installation');
 		}
-		if (Auth::user()->getMeta('language') != null) {
-			App::setLocale(Auth::user()->getMeta('language'));
-		} else {
-			App::setLocale(AtlasLogistics::get('language'));
-		}
+		App::setLocale('English-en'); // English only
 		return $next($request);
 	}
 	public function alreadyInstalled() {

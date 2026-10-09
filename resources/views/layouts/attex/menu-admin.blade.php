@@ -27,25 +27,17 @@
 @endcanany
 @can('Settings list')
 <li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#sidebarSettings" aria-expanded="{{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') || Request::is('admin/frontend-settings*') || Request::is('admin/chat-settings*') || Request::is('admin/twilio-settings*') || Request::is('admin/traccar-settings*') || Request::is('admin/cancel-reason*') || Request::is('admin/testimonials*') ? 'true' : 'false' }}" aria-controls="sidebarSettings" class="side-nav-link {{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') ? 'active' : '' }}">
+    <a data-bs-toggle="collapse" href="#sidebarSettings" aria-expanded="{{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') || Request::is('admin/chat-settings*') || Request::is('admin/twilio-settings*') || Request::is('admin/traccar-settings*') || Request::is('admin/cancel-reason*') ? 'true' : 'false' }}" aria-controls="sidebarSettings" class="side-nav-link {{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') ? 'active' : '' }}">
         <i class="ri-settings-3-line"></i><span> @lang('menu.settings') </span><span class="menu-arrow"></span>
     </a>
-    <div class="collapse {{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') || Request::is('admin/frontend-settings*') || Request::is('admin/chat-settings*') || Request::is('admin/twilio-settings*') || Request::is('admin/traccar-settings*') || Request::is('admin/cancel-reason*') || Request::is('admin/testimonials*') ? 'show' : '' }}" id="sidebarSettings">
+    <div class="collapse {{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') || Request::is('admin/chat-settings*') || Request::is('admin/twilio-settings*') || Request::is('admin/traccar-settings*') || Request::is('admin/cancel-reason*') ? 'show' : '' }}" id="sidebarSettings">
         <ul class="side-nav-second-level">
             <li><a href="{{ url('admin/settings') }}" class="@if(Request::is('admin/settings')) active @endif">@lang('menu.general_settings')</a></li>
             <li><a href="{{ url('admin/fare-settings') }}" class="@if(Request::is('admin/fare-settings*')) active @endif">@lang('menu.fare_settings')</a></li>
-            {{-- Frontend entry disconnected (route/method slated for deletion) --}}
-            @if(false)
-            <li><a href="{{ url('admin/frontend-settings') }}" class="@if(Request::is('admin/frontend-settings*')) active @endif">@lang('fleet.frontend_settings')</a></li>
-            @endif
             <li><a href="{{ route('chat_settings.index') }}" class="@if(Request::is('admin/chat-settings*')) active @endif">@lang('fleet.chat') @lang('menu.settings')</a></li>
             <li><a href="{{ url('admin/twilio-settings') }}" class="@if(Request::is('admin/twilio-settings*')) active @endif">@lang('fleet.twilio_settings')</a></li>
             <li><a href="{{ route('traccar.settings') }}" class="@if(Request::is('admin/traccar-settings*')) active @endif">@lang('fleet.traccar_settings')</a></li>
             <li><a href="{{ route('cancel-reason.index') }}" class="@if(Request::is('admin/cancel-reason*')) active @endif">@lang('fleet.cancellation')</a></li>
-            {{-- Testimonials entry disconnected (route/controller slated for deletion) --}}
-            @if(false)
-            <li><a href="{{ route('testimonials.index') }}" class="@if(Request::is('admin/testimonials*')) active @endif">@lang('fleet.testimonials')</a></li>
-            @endif {{-- end disconnected entries --}}
         </ul>
     </div>
 </li>

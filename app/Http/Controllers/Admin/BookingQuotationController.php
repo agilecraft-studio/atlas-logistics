@@ -124,12 +124,12 @@ class BookingQuotationController extends Controller {
 					return ($user->vehicle_id != null) ? $user->vehicle->make_name . '-' . $user->vehicle->model_name . '-' . $user->vehicle->license_plate : '';
 				})
 				->filterColumn('vehicle', function ($query, $keyword) {
-					$query->whereRaw("CONCAT(vehicles.make_name, '-', vehicles.model_name, '-', vehicles.license_plate) LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("CONCAT(vehicles.make_name, '-', vehicles.model_name, '-', vehicles.license_plate) ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('ride_status', function ($query, $keyword) {
 					$query->whereHas("metas", function ($q) use ($keyword) {
 						$q->where('key', 'ride_status');
-						$q->whereRaw("value like ?", ["%{$keyword}%"]);
+						$q->whereRaw("value ilike ?", ["%{$keyword}%"]);
 					});
 					return $query;
 				})
@@ -137,13 +137,13 @@ class BookingQuotationController extends Controller {
 					return view('booking_quotation.list-actions', ['row' => $user]);
 				})
 				->filterColumn('payment', function ($query, $keyword) {
-					$query->whereRaw("CASE WHEN payment = 1 THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END like ? ", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN payment::text IN ('1','true','t') THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END ilike ? ", ["%{$keyword}%"]);
 				})
 				->filterColumn('pickup', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(pickup,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(pickup::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('dropoff', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(dropoff,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(dropoff::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
 				})
 				->rawColumns(['payment', 'action', 'check', 'status', 'pickup_addr', 'dest_addr'])
 				->make(true);

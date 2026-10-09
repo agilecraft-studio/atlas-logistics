@@ -133,11 +133,11 @@ class VendorBookingsController extends Controller {
 		return $data;
 	}
 	public function get_month_years() {
-		// $dates = BookingPaymentsModel::selectRaw('year(created_at) year, monthname(created_at) month')
+		// $dates = BookingPaymentsModel::selectRaw('year(created_at) as year, monthname(created_at) as month')
 		//     ->groupBy('year', 'month')
 		//     ->orderBy('year', 'desc')
 		//     ->get();
-		$dates = Bookings::selectRaw('year(created_at) year, monthname(created_at) month')
+		$dates = Bookings::selectRaw('year(created_at) as year, monthname(created_at) as month')
 			->groupBy('year', 'month')
 			->orderBy('year', 'desc')
 			->get();

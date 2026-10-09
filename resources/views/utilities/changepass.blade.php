@@ -74,28 +74,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="form-group">
-							{!! Form::label('language',__('fleet.language'),['class'=>"form-label"]) !!}
-							<select id='language' name='language' class="form-control" required>
-								<option value="">-</option>
-								@if(Auth::user()->getMeta('language')!= null)
-								@php ($language = Auth::user()->getMeta('language'))
-								@else
-								@php($language = AtlasLogistics::get("language"))
-								@endif
-								@foreach($languages as $lang)
-								@if($lang != "vendor")
-								@php($l = explode('-',$lang))
-								@if($language == $lang)
-								<option value="{{$lang}}" selected> {{$l[0]}}</option>
-								@else
-								<option value="{{$lang}}" > {{$l[0]}} </option>
-								@endif
-								@endif
-
-								@endforeach
-							</select>
-						</div>
+						<input type="hidden" name="language" value="English-en">
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">

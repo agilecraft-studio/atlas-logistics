@@ -113,10 +113,10 @@ class WorkOrdersController extends Controller {
 					return date($date_format_setting, strtotime($work_order->required_by));
 				})
 				->filterColumn('created_at', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(work_orders.created_at,'%d-%m-%Y') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(work_orders.created_at::timestamp,'%d-%m-%Y') ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('required_by', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(required_by,'%d-%m-%Y') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(required_by::timestamp,'%d-%m-%Y') ilike ?", ["%$keyword%"]);
 				})
 				->addColumn('action', function ($work_order) {
 					return view('work_orders.list-actions', ['row' => $work_order]);

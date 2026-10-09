@@ -122,7 +122,7 @@
 
                         <tr>
 
-                            <th>@lang('frontend.name')</th>
+                            <th>@lang('fleet.name')</th>
 
                             <td>{{($driver->getMeta('first_name')??'-')}} {{($driver->getMeta('last_name')??'-')}}</td>
 
@@ -130,7 +130,7 @@
 
                         <tr>
 
-                            <th>@lang('frontend.identification_number')</th>
+                            <th>@lang('fleet.identification_number')</th>
 
                             <td>{{($driver->getMeta('identification_number')??'-')}}</td>
 
@@ -138,7 +138,7 @@
 
                         <tr>
 
-                            <th>@lang('frontend.mobile_no')</th>
+                            <th>@lang('fleet.phone')</th>
 
                             <td>{{($driver->getMeta('phone')??'-')}}</td>
 

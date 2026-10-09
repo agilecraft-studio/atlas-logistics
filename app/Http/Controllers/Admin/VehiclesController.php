@@ -117,7 +117,7 @@ class VehiclesController extends Controller {
 					return ($vehicle->in_service) ? "YES" : "NO";
 				})
 				->filterColumn('in_service', function ($query, $keyword) {
-					$query->whereRaw("CASE WHEN in_service = 1 THEN 'YES' ELSE 'NO' END like ?", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN in_service::text IN ('1','true','t') THEN 'YES' ELSE 'NO' END ilike ?", ["%{$keyword}%"]);
 				})
 				->addColumn('assigned_driver', function ($vehicle) {
 					$driverId = $vehicle->getMeta('assign_driver_id');
@@ -171,10 +171,10 @@ class VehiclesController extends Controller {
 					];
 				})
 				->filterColumn('date', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(date,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(date::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('vehicle', function ($query, $keyword) {
-					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) like ?", ["%$keyword%"]);
+					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) ilike ?", ["%$keyword%"]);
 					return $query;
 				})
 				->addColumn('action', function ($vehicle) {
@@ -193,14 +193,14 @@ class VehiclesController extends Controller {
 		}
 		// $index['types'] = VehicleTypeModel::all();
 		$index['types'] = VehicleTypeModel::where('isenable', 1)->get();
-		$index['makes'] = VehicleModel::groupBy('make_name')->get()->pluck('make_name')->toArray();
-		$index['models'] = VehicleModel::groupBy('model_name')->get()->pluck('model_name')->toArray();
-		$index['colors'] = VehicleModel::groupBy('color_name')->get()->pluck('color_name')->toArray();
+		$index['makes'] = VehicleModel::select('make_name')->groupBy('make_name')->get()->pluck('make_name')->toArray();
+		$index['models'] = VehicleModel::select('model_name')->groupBy('model_name')->get()->pluck('model_name')->toArray();
+		$index['colors'] = VehicleModel::select('color_name')->groupBy('color_name')->get()->pluck('color_name')->toArray();
 		$index['drivers'] = User::whereUser_type("D")->get();
 		return view("vehicles.create", $index);
 	}
 	public function get_models($name) {
-		$makes = VehicleModel::groupBy('make_name')->where('make_name', $name)->get();
+		$makes = VehicleModel::select('model_name')->where('make_name', $name)->distinct()->get();
 		$data = array();
 		foreach ($makes as $make) {
 			array_push($data, array("id" => $make->model_name, "text" => $make->model_name));
@@ -236,10 +236,10 @@ class VehiclesController extends Controller {
 		$vehicle = VehicleModel::findOrFail($id);
 		$vehicle->load('drivers');
 		$udfs = unserialize($vehicle->getMeta('udf'));
-		$makes = VehicleModel::groupBy('make_name')->get()->pluck('make_name')->toArray();
-		$models = VehicleModel::groupBy('model_name')->get()->pluck('model_name')->toArray();
+		$makes = VehicleModel::select('make_name')->groupBy('make_name')->get()->pluck('make_name')->toArray();
+		$models = VehicleModel::select('model_name')->groupBy('model_name')->get()->pluck('model_name')->toArray();
 		// dd($makes,$models);
-		$colors = VehicleModel::groupBy('color_name')->get()->pluck('color_name')->toArray();
+		$colors = VehicleModel::select('color_name')->groupBy('color_name')->get()->pluck('color_name')->toArray();
 		// $types = VehicleTypeModel::all();
 		$types = VehicleTypeModel::where('isenable', 1)->get();
 		return view("vehicles.edit", compact('vehicle', 'groups', 'drivers', 'udfs', 'types', 'makes', 'models', 'colors'));
@@ -581,7 +581,7 @@ class VehiclesController extends Controller {
 					return view('vehicles.vehicle_review_index_list_actions', ['row' => $vehicle]);
 				})
 				->filterColumn('vehicle', function ($query, $keyword) {
-					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicle_types.displayname) like ?", ["%$keyword%"]);
+					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicle_types.displayname) ilike ?", ["%$keyword%"]);
 					return $query;
 				})
 				->addIndexColumn()

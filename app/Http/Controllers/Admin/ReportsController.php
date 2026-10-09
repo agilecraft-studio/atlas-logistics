@@ -344,7 +344,7 @@ class ReportsController extends Controller {
 			$data['v'][$row['id']] = $row;
 		}
 		$data['vehicle_id'] = $request->get("vehicle_id");
-		$income = IncomeModel::select(['vehicle_id', 'income_cat', 'date', DB::raw('sum(amount) as Income2,dayname(date) as day')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
+		$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",dayname(date) as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
 		if ($data['vehicle_id'] != "") {
 			$data['data'] = $income->where('vehicle_id', $data['vehicle_id'])->get();
 		} else {
@@ -683,7 +683,7 @@ class ReportsController extends Controller {
 			$vehicle_ids[] = $vehicle->id;
 		}
 		// data of current month and current year
-		$drivers = Bookings::select(['id', 'driver_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
+		$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
 		$drivers_by_year = array();
 		foreach ($drivers as $d) {
 			$drivers_by_year[$d->driver->name] = Bookings::meta()
@@ -728,7 +728,7 @@ class ReportsController extends Controller {
 			$vehicle_ids[] = $vehicle->id;
 		}
 		// data of selected month and year
-		$drivers = Bookings::select(['id', 'driver_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
+		$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
 		$drivers_by_year = array();
 		foreach ($drivers as $d) {
 			$drivers_by_year[$d->driver->name] = Bookings::meta()
@@ -770,7 +770,7 @@ class ReportsController extends Controller {
 			$vehicle_ids[] = $vehicle->id;
 		}
 		// data of current month and current year
-		$customers = Bookings::select(['id', 'customer_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
+		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 		$customers_by_year = array();
 		foreach ($customers as $d) {
 			$customers_by_year[$d->customer->name] = Bookings::meta()
@@ -815,7 +815,7 @@ class ReportsController extends Controller {
 			$vehicle_ids[] = $vehicle->id;
 		}
 		// data of selected month and year
-		$customers = Bookings::select(['id', 'customer_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
+		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 		$customers_by_year = array();
 		foreach ($customers as $d) {
 			$customers_by_year[$d->customer->name] = Bookings::meta()
@@ -862,7 +862,7 @@ class ReportsController extends Controller {
 			$data['v'][$row['id']] = $row;
 		}
 		$data['vehicle_id'] = $request->get("vehicle_id");
-		$income = IncomeModel::select(['vehicle_id', 'income_cat', 'date', DB::raw('sum(amount) as Income2,dayname(date) as day')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
+		$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",dayname(date) as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
 		if ($data['vehicle_id'] != "") {
 			$data['data'] = $income->where('vehicle_id', $data['vehicle_id'])->get();
 		} else {
@@ -1028,7 +1028,7 @@ class ReportsController extends Controller {
 		foreach ($data['vehicles'] as $vehicle) {
 			$vehicle_ids[] = $vehicle->id;
 		}
-		$drivers = Bookings::select(['id', 'driver_id', 'vehicle_id'])->whereIn('vehicle_id', $vehicle_ids)->where('status', 1)->groupBy('driver_id')->get();
+		$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->whereIn('vehicle_id', $vehicle_ids)->where('status', 1)->groupBy('driver_id')->get();
 		$drivers_by_month = array();
 		foreach ($drivers as $d) {
 			$drivers_by_month[$d->driver->name] = Bookings::meta()
@@ -1074,7 +1074,7 @@ class ReportsController extends Controller {
 		foreach ($data['vehicles'] as $vehicle) {
 			$vehicle_ids[] = $vehicle->id;
 		}
-		$customers = Bookings::select(['id', 'customer_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
+		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 		$customers_by_year = array();
 		foreach ($customers as $d) {
 			$customers_by_year[$d->customer->name] = Bookings::meta()

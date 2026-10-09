@@ -215,7 +215,7 @@ class VendorsApiController extends Controller {
 		return $data;
 	}
 	public function types() {
-		$vendor_types = Vendor::orderBy("name")->groupBy("type")->get()->pluck("type")->toArray();
+		$vendor_types = Vendor::select("type")->groupBy("type")->orderBy("type")->get()->pluck("type")->toArray();
 		array_push($vendor_types, "Machinaries", "Fuel", "Parts");
 		$vendor_types = array_unique($vendor_types);
 		$array = array();

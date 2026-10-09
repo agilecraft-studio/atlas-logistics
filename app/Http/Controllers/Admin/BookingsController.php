@@ -79,7 +79,7 @@ class BookingsController extends Controller {
 					return $created_at;
 				})
 				->filterColumn('created_at', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(created_at,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(created_at::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
 				})
 				->make(true);
 		}
@@ -132,16 +132,16 @@ class BookingsController extends Controller {
 
 						if(isset($b))
 						{
-							return url('/assets/customer_dashboard/assets/img/return_way.svg');
+							return url('/assets/images/trip/return_way.svg');
 						}
 						else
 						{
-							return url('/assets/customer_dashboard/assets/img/one_way.svg');
+							return url('/assets/images/trip/one_way.svg');
 						}
 					}
 					else
 					{
-						return url('/assets/customer_dashboard/assets/img/one_way.svg');
+						return url('/assets/images/trip/one_way.svg');
 					}
 
 
@@ -198,21 +198,21 @@ class BookingsController extends Controller {
 					return !empty($row->vehicle_id) ? $row->vehicle->make_name . '-' . $row->vehicle->model_name . '-' . $row->vehicle->license_plate : ($vehicle_type->displayname) ?? "";
 				})
 				->filterColumn('vehicle', function ($query, $keyword) {
-					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) like ?", ["%$keyword%"])
+					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) ilike ?", ["%$keyword%"])
 						->orWhereRaw("(vehicle_types.displayname like ? and bookings.vehicle_id IS NULL)", ["%$keyword%"]);
 					return $query;
 				})
 				->filterColumn('ride_status', function ($query, $keyword) {
 					$query->whereHas("metas", function ($q) use ($keyword) {
 						$q->where('key', 'ride_status');
-						$q->whereRaw("value like ?", ["%{$keyword}%"]);
+						$q->whereRaw("value ilike ?", ["%{$keyword}%"]);
 					});
 					return $query;
 				})
 				->filterColumn('tax_total', function ($query, $keyword) {
 					$query->whereHas("metas", function ($q) use ($keyword) {
 						$q->where('key', 'tax_total');
-						$q->whereRaw("value like ?", ["%{$keyword}%"]);
+						$q->whereRaw("value ilike ?", ["%{$keyword}%"]);
 					});
 					return $query;
 				})
@@ -220,13 +220,13 @@ class BookingsController extends Controller {
 					return view('bookings.list-actions', ['row' => $user]);
 				})
 				->filterColumn('payment', function ($query, $keyword) {
-					$query->whereRaw("CASE WHEN payment = 1 THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END like ? ", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN payment::text IN ('1','true','t') THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END ilike ? ", ["%{$keyword}%"]);
 				})
 				->filterColumn('pickup', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(pickup,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(pickup::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('dropoff', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(dropoff,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
+					$query->whereRaw("DATE_FORMAT(dropoff::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('travellers', function ($query, $keyword) {
 					$query->where("travellers", 'LIKE', '%' . $keyword . '%');

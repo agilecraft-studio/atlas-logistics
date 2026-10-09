@@ -26,11 +26,7 @@ class SetLocaleUser {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next) {
-		if (Auth::user() && Auth::user()->user_type == "C") {
-			App::setLocale(AtlasLogistics::frontend('language'));
-		} else {
-			App::setLocale(AtlasLogistics::frontend('language'));
-		}
+		App::setLocale('English-en'); // English only
 		return $next($request);
 	}
 }

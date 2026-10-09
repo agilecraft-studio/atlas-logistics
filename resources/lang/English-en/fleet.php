@@ -886,7 +886,8 @@ return [
      "Return_Way"=>"Return Way",
      "Return_pickup"=>"Return Pickup Date & Time:",
      "Return_dropoff"=>"Return Dropoff Date & Time:",
-     "skipNote"=>"All records with duplicate emails will be ignored."
+     "skipNote"=>"All records with duplicate emails will be ignored.",
+    "identification_number"=>"Identification Number"
 
     
 ];

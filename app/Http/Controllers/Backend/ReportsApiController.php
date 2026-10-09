@@ -256,7 +256,7 @@ class ReportsApiController extends Controller {
 				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
 			}
 			// data of selected month and year
-			$customers = Bookings::select(['id', 'customer_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
+			$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 			$customers_by_year = array();
 			foreach ($customers as $d) {
 				$customers_by_year[$d->customer->name] = Bookings::meta()
@@ -332,7 +332,7 @@ class ReportsApiController extends Controller {
 				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
 			}
 			// data of selected month and year
-			$drivers = Bookings::select(['id', 'driver_id', 'vehicle_id'])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
+			$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
 			$drivers_by_year = array();
 			foreach ($drivers as $d) {
 				$drivers_by_year[$d->driver->name] = Bookings::meta()
@@ -667,7 +667,7 @@ class ReportsApiController extends Controller {
 			$year_select = $request->year;
 			$month_select = $request->month;
 			$vehicle_id = $request->vehicle_id;
-			$income = IncomeModel::select(['vehicle_id', 'income_cat', 'date', DB::raw('sum(amount) as Income2,dayname(date) as day')])->whereYear('date', $year_select)->whereMonth('date', $month_select)->groupBy('date')->orderBy('date');
+			$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",dayname(date) as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $year_select)->whereMonth('date', $month_select)->groupBy('date')->orderBy('date');
 			if ($vehicle_id) {
 				$income = $income->where('vehicle_id', $vehicle_id)->get();
 			} else {

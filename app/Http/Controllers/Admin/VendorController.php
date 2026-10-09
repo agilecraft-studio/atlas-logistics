@@ -193,7 +193,7 @@ class VendorController extends Controller {
 
 	public function create() {
 
-		$vendor_types = Vendor::orderBy("name")->groupBy("type")->get()->pluck("type")->toArray();
+		$vendor_types = Vendor::select("type")->groupBy("type")->orderBy("type")->get()->pluck("type")->toArray();
 
 		array_push($vendor_types, __("fleet.machinaries"), __("fleet.fuel"), __("fleet.parts"), __("fleet.add_new"));
 
@@ -247,7 +247,7 @@ class VendorController extends Controller {
 
 		$index['data'] = Vendor::whereId($id)->first();
 
-		$vendor_types = Vendor::orderBy("name")->groupBy("type")->get()->pluck("type")->toArray();
+		$vendor_types = Vendor::select("type")->groupBy("type")->orderBy("type")->get()->pluck("type")->toArray();
 
 		array_push($vendor_types, "Machinaries", __("fleet.fuel"), __("fleet.parts"));
 

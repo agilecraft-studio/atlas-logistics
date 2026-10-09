@@ -170,51 +170,7 @@
 
 
 
-          <div class="form-group col-md-3">
-
-            {!! Form::label('language',__('fleet.language'),['class'=>"form-label"]) !!}
-
-            <a data-toggle="modal" data-target="#myModal6"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
-
-            <select id='name[language]' name='name[language]' class="form-control" required>
-
-              <option value="">-</option>
-
-              @if(Auth::user()->getMeta('language')!= null)
-
-              @php ($language = Auth::user()->getMeta('language'))
-
-              @else
-
-              @php($language = AtlasLogistics::get("language"))
-
-              @endif
-
-              @foreach($languages as $lang)
-
-                @if($lang != "vendor")
-
-                  @php($l = explode('-',$lang))
-
-                  @if($language == $lang)
-
-
-
-                  <option value="{{$lang}}" selected> {{$l[0]}}</option>
-
-                  @else
-
-                  <option value="{{$lang}}" > {{$l[0]}} </option>
-
-                  @endif
-
-                @endif  
-
-              @endforeach
-
-            </select>
-
-          </div>
+          <input type="hidden" name="name[language]" value="English-en">
 
 
 

@@ -2620,70 +2620,7 @@
                                     </li>
                                 @endcanany
 
-                                {{-- Testimonials nav disconnected (admin/testimonials* routes removed; views/controllers remain on disk) --}}
-                                @if (false && Request::is('admin/testimonials*'))
-                                    @php($class = 'menu-open')
-
-                                    @php($active = 'active')
-                                @else
-                                    @php($class = '')
-
-                                    @php($active = '')
-                                @endif
-
-                                @canany(['Testimonials list', 'Testimonials add'])
-                                    <li class="nav-item has-treeview {{ $class }}">
-
-                                        <a href="#" class="nav-link {{ $active }}">
-
-                                            <i class="nav-icon fa fa-quote-left"></i>
-
-                                            <p>
-
-                                                @lang('fleet.testimonials')
-
-                                                <i class="right fa fa-angle-left"></i>
-
-                                            </p>
-
-                                        </a>
-
-                                        <ul class="nav nav-treeview">
-
-                                            @can('Testimonials list')
-                                                <li class="nav-item">
-
-                                                    <a href="{{ route('testimonials.index') }}"
-                                                        class="nav-link @if (Request::is('admin/testimonials*') && !Request::is('admin/testimonials/create')) active @endif">
-
-                                                        <i class="fa fa-tasks nav-icon"></i>
-
-                                                        <p> @lang('fleet.manage_testimonial')</p>
-
-                                                    </a>
-
-                                                </li>
-                                            @endcan
-
-                                            @can('Testimonials add')
-                                                <li class="nav-item">
-
-                                                    <a href="{{ route('testimonials.create') }}"
-                                                        class="nav-link @if (Request::is('admin/testimonials/create')) active @endif">
-
-                                                        <i class="fa fa-plus-square nav-icon"></i>
-
-                                                        <p>@lang('fleet.add_testimonial')</p>
-
-                                                    </a>
-
-                                                </li>
-                                            @endcan
-
-                                        </ul>
-
-                                    </li>
-                                @endcanany
+                                
 
 
 
@@ -2767,8 +2704,6 @@
                                         Request::is('admin/send-email') ||
                                         Request::is('admin/set-email') ||
                                         Request::is('admin/cancel-reason*') ||
-                                        Request::is('admin/frontend-settings*') ||
-                                        Request::is('admin/company-services*') ||
                                         Request::is('admin/payment-settings*') ||
                                         Request::is('admin/twilio-settings*') ||
                                         (Request::is('admin/chat-settings*') || Request::is('admin/traccar-settings')))
@@ -2985,41 +2920,11 @@
 
 
 
-                                            {{-- Frontend settings nav disconnected (admin/frontend-settings routes removed) --}}
-                                            {{--
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/frontend-settings')}}"
-
-                      class="nav-link @if (Request::is('admin/frontend-settings')) active @endif">
-
-                      <i class="fa fa-address-card nav-icon"></i>
-
-                      <p>@lang('fleet.frontend_settings')</p>
-
-                    </a>
-
-                  </li>
-                  --}}
+                                            
 
 
 
-                                            {{-- Company services nav disconnected (admin/company-services routes removed) --}}
-                                            {{--
-                  <li class="nav-item">
-
-                    <a href="{{ url('admin/company-services')}}"
-
-                      class="nav-link @if (Request::is('admin/company-services*')) active @endif">
-
-                      <i class="fa fa-tasks nav-icon"></i>
-
-                      <p>@lang('fleet.companyServices')</p>
-
-                    </a>
-
-                  </li>
-                  --}}
+                                            
 
 
 
@@ -3055,51 +2960,7 @@
 
 
 
-                                {{--
-              Reviews nav disconnected (admin/reviews route removed; controller remains on disk)
-
-              @if (false) <li class="nav-item">
-
-                <a href="{{ url('admin/reviews')}}" class="nav-link @if (Request::is('admin/reviews')) active @endif">
-
-                  <i class="nav-icon fa fa-star"></i>
-
-                  <p>
-
-                    @lang('fleet.reviews')
-
-                    <span class="right badge badge-danger"></span>
-
-                  </p>
-
-                </a>
-
-              </li> @endif
-
-              Inquiries nav disconnected (admin/messages routes removed; ContactUs controller remains on disk)
-
-              @if (false)
-
-              <li class="nav-item">
-
-                <a href="{{ url('admin/messages')}}" class="nav-link @if (Request::is('admin/messages')) active @endif">
-
-                  <i class="nav-icon fa fa-comments"></i>
-
-                  <p>
-
-                    @lang('fleet.inquiries')
-
-                    <span class="right badge badge-danger"></span>
-
-                  </p>
-
-                </a>
-
-              </li>
-
-              @endif
-              --}}
+                                
 
                                 @if (Auth::user()->user_type == 'S')
                                     <li class="nav-item">

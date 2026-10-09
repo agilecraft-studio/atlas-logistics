@@ -2320,7 +2320,7 @@ class VendorApiController extends Controller {
 		return $data;
 	}
 	public function vehicle_model(Request $request) {
-		$models = VehicleModel::groupBy('model_name')->get()->pluck('model_name')->toArray();
+		$models = VehicleModel::select('model_name')->groupBy('model_name')->get()->pluck('model_name')->toArray();
 		if (count($models) > 0) {
 			$data['success'] = "1";
 			$data['message'] = "Data fetched!";
@@ -2333,7 +2333,7 @@ class VendorApiController extends Controller {
 		return $data;
 	}
 	public function vehicle_make(Request $request) {
-		$makes = VehicleModel::groupBy('make_name')->get()->pluck('make_name')->toArray();
+		$makes = VehicleModel::select('make_name')->groupBy('make_name')->get()->pluck('make_name')->toArray();
 		if (count($makes) > 0) {
 			$data['success'] = "1";
 			$data['message'] = "Data fetched!";
@@ -2346,7 +2346,7 @@ class VendorApiController extends Controller {
 		return $data;
 	}
 	public function vehicle_color(Request $request) {
-		$colors = VehicleModel::groupBy('color_name')->get()->pluck('color_name')->toArray();
+		$colors = VehicleModel::select('color_name')->groupBy('color_name')->get()->pluck('color_name')->toArray();
 		if (count($colors) > 0) {
 			$data['success'] = "1";
 			$data['message'] = "Data fetched!";

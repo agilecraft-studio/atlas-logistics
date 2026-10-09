@@ -67,7 +67,7 @@ class UsersApi extends Controller {
 
 	public function get_make()
 	{
-		$data=VehicleModel::groupBy('make_name')->get();
+		$data=VehicleModel::select('make_name')->groupBy('make_name')->get();
 
 		$arr=[];
 		if(count($data) > 0)
@@ -82,7 +82,7 @@ class UsersApi extends Controller {
 
 	public function get_model(Request $request)
 	{
-		$data=VehicleModel::where('make_name',$request->make_name)->groupBy('model_name')->get();
+		$data=VehicleModel::select('model_name')->where('make_name',$request->make_name)->distinct()->get();
 
 		$arr=[];
 		if(count($data) > 0)

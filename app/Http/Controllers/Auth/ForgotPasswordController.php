@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 class ForgotPasswordController extends Controller {
 	use SendsPasswordResetEmails;
 	public function __construct() {
-		App::setLocale(AtlasLogistics::get('language'));
+		App::setLocale('English-en');
 		$this->middleware('guest');
 	}
 

@@ -63,9 +63,9 @@
                   @endphp
 
                   @if($bookingType == 1 && $parentBooking)
-                    <img src="{{ asset('assets/customer_dashboard/assets/img/return_way.svg') }}" alt="Return Way" height="30" width="30">
+                    <img src="{{ asset('assets/images/trip/return_way.svg') }}" alt="Return Way" height="30" width="30">
                   @else
-                    <img src="{{ asset('assets/customer_dashboard/assets/img/one_way.svg') }}" alt="One Way" height="30" width="30">
+                    <img src="{{ asset('assets/images/trip/one_way.svg') }}" alt="One Way" height="30" width="30">
                   @endif
                 </td>
               </tr>
