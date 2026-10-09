@@ -30,7 +30,10 @@
             <li><a href="{{ route('service-item.index') }}" class="@if(Request::is('admin/service-item*')) active @endif">@lang('fleet.serviceItems')</a></li>
             @endcan
             @can('CompanyServices list')
+            {{-- CompanyServices nav disconnected (route/controller slated for deletion) --}}
+            @if(false)
             <li><a href="{{ route('company-services.index') }}" class="@if(Request::is('admin/company-services*')) active @endif">@lang('fleet.companyServices')</a></li>
+            @endif
             @endcan
             @can('VehicleBreakdown list')
             <li><a href="{{ route('vehicle-breakdown.index') }}" class="@if(Request::is('admin/vehicle-breakdown*')) active @endif">@lang('fleet.vehicle_breakdown')</a></li>

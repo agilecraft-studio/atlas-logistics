@@ -7,7 +7,6 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FrontEndRequest;
 use App\Http\Requests\PaymentSettignsRequest;
 use App\Http\Requests\SettingsRequest;
 use App\Mail\RenewDrivingLicence;
@@ -28,7 +27,6 @@ use App\Model\EmailContent;
 use App\Model\ExpCats;
 use App\Model\Expense;
 use App\Model\FareSettings;
-use App\Model\FrontendModel;
 use App\Model\FuelModel;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
@@ -141,105 +139,6 @@ class SettingsController extends Controller {
 		PaymentSettings::where('name', 'razorpay_secret')->update(['value' => $request->razorpay_secret]);
 		PaymentSettings::where('name', 'paystack_secret')->update(['value' => $request->paystack_secret]);
 		return back()->with(['msg' => __('fleet.payment_settingsUpdated')]);
-	}
-	public function frontend() {
-		$data['languages'] = Storage::disk('views')->directories('');
-		return view('utilities.frontend', $data);
-	}
-	public function store_frontend(FrontEndRequest $request) {
-		if ($request->approval_required == 1) {
-			$admin_approval = 1;
-		} else {
-			$admin_approval = 0;
-		}
-		FrontendModel::where('key_name', 'about_us')->update(['key_value' => $request->about]);
-		FrontendModel::where('key_name', 'contact_email')->update(['key_value' => $request->email]);
-		FrontendModel::where('key_name', 'contact_phone')->update(['key_value' => $request->phone]);
-		FrontendModel::where('key_name', 'customer_support')->update(['key_value' => $request->customer_support]);
-		FrontendModel::where('key_name', 'about_description')->update(['key_value' => $request->about_description]);
-		FrontendModel::where('key_name', 'about_title')->update(['key_value' => $request->about_title]);
-		FrontendModel::where('key_name', 'facebook')->update(['key_value' => $request->facebook]);
-		FrontendModel::where('key_name', 'twitter')->update(['key_value' => $request->twitter]);
-		FrontendModel::where('key_name', 'instagram')->update(['key_value' => $request->instagram]);
-		FrontendModel::where('key_name', 'linkedin')->update(['key_value' => $request->linkedin]);
-		FrontendModel::where('key_name', 'faq_link')->update(['key_value' => $request->faq_link]);
-		FrontendModel::where('key_name', 'cities')->update(['key_value' => $request->cities]);
-		FrontendModel::where('key_name', 'vehicles')->update(['key_value' => $request->vehicles]);
-		FrontendModel::where('key_name', 'booking_time')->update(['key_value' => $request->booking_time]);
-		FrontendModel::where('key_name', 'cancellation')->update(['key_value' => $request->cancellation]);
-		FrontendModel::where('key_name', 'terms')->update(['key_value' => $request->terms]);
-		FrontendModel::where('key_name', 'privacy_policy')->update(['key_value' => $request->privacy_policy]);
-		FrontendModel::where('key_name', 'enable')->update(['key_value' => $request->enable]);
-		FrontendModel::where('key_name', 'admin_approval')->update(['key_value' => $admin_approval]);
-
-
-		$links = [];
-        foreach ($request->title as $index => $title) {
-            $links[] = [
-                'title' => $title,
-                'url' => $request->url[$index],
-            ];
-        }
-
-
-		FrontendModel::where('key_name', 'footer_link')->update(['key_value' => $links]);
-
-
-		
-
-		$signupData = [];
-
-	foreach ($request->signup_title as $index => $title) {
-		$filePath = $request->existing_file_path[$index] ?? null; // Keep old file path if exists
-
-		// Check if a new file is uploaded
-		if ($request->hasFile('signup_file') && isset($request->signup_file[$index])) {
-			$file = $request->signup_file[$index]; // Get the file
-			$fileName = time() . '_' . $index . '.' . $file->getClientOriginalExtension();
-
-			$destinationPath = './uploads';
-			$file->move($destinationPath, $fileName);
-
-			$filePath = $fileName; // Update file path
-		}
-
-		$signupData[] = [
-			'file_path' => $filePath,
-			'title' => $title,
-			'subtitle' => $request->signup_subtitle[$index],
-		];
-	}
-
-
-
-
-
-
-
-
-		FrontendModel::where('key_name', 'sign_up_content')->update(['key_value' => json_encode($signupData)]);
-
-
-		FrontendModel::where('key_name', 'sign_up_title')->update(['key_value' => $request->sign_up_title]);
-
-
-		FrontendModel::where('key_name', 'sign_up_sub_title')->update(['key_value' => $request->sign_up_sub_title]);
-
-
-
-		$enable = 'no';
-		if ($request->enable == 1) {
-			$enable = 'yes';
-		}
-		if (!(env('front_enable'))) {
-			file_put_contents(base_path('.env'), "front_enable=" . $enable . PHP_EOL, FILE_APPEND);
-		}
-		if ((env('front_enable'))) {
-			file_put_contents(base_path('.env'), str_replace(
-				'front_enable=' . env('front_enable'), 'front_enable=' . $enable, file_get_contents(base_path('.env'))));
-		}
-		FrontendModel::where('key_name', 'language')->update(['key_value' => $request->language]);
-	return redirect('admin/frontend-settings');
 	}
 	public function index() {
 		$data['settings'] = Settings::all();

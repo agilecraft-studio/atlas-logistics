@@ -3,7 +3,8 @@ Auth::routes();
 Route::namespace ('Admin')->group(function () {
     // Route::get('export-events', 'HomeController@export_calendar');
 
-    Route::get('test-login', 'Testcontroller@login');
+    // Public test-login disconnected (auto-login as user 1; controller remains on disk).
+    // Route::get('test-login', 'Testcontroller@login');
 
     Route::get('/migrate', function () {
         \Artisan::call('migrate');
@@ -94,14 +95,14 @@ Route::namespace ('Admin')->group(function () {
 
         Route::post('reject-quotation', 'BookingQuotationController@reject');
 
-        Route::get('fetch-data', 'Testcontroller@fetch');
+        // Public test fetch-data disconnected (returns Auth::user(); controller remains on disk).
+        // Route::get('fetch-data', 'Testcontroller@fetch');
         // Route::get('test', function () {
         //     return view('geocode');
         // });
         Route::post('clear-database', 'SettingsController@clear_database');
         Route::post('cancel-booking', 'BookingsController@cancel_booking');
         Route::resource('team', 'TeamController');
-        Route::resource('company-services', 'CompanyServicesController');
         Route::get('parts-used/{id}', 'WorkOrdersController@parts_used');
         Route::get('remove-part/{id}', 'WorkOrdersController@remove_part');
         Route::post('add-stock', 'PartsController@add_stock');
@@ -117,13 +118,8 @@ Route::namespace ('Admin')->group(function () {
         Route::post('import-expense', 'ExpenseCategories@importExpense');
         Route::post('import-customers', 'CustomersController@importCutomers');
         Route::post('import-vendors', 'VendorController@importVendors');
-        Route::get('frontend-settings', 'SettingsController@frontend');
-        Route::post('frontend-settings', 'SettingsController@store_frontend');
-        Route::resource('testimonials', 'TestimonialController');
         // routes for bulk delete action
         Route::post('delete-team', 'TeamController@bulk_delete');
-        Route::post('delete-company-services', 'CompanyServicesController@bulk_delete');
-        Route::post('delete-testimonials', 'TestimonialController@bulk_delete');
         Route::post('delete-reasons', 'ReasonController@bulk_delete');
         Route::post('delete-income', 'IncomeController@bulk_delete');
         Route::post('delete-expense', 'ExpenseController@bulk_delete');
@@ -185,14 +181,7 @@ Route::namespace ('Admin')->group(function () {
         Route::post('print-deliquent-report', 'ReportsController@print_deliquent');
         Route::post('print-monthly-report', 'ReportsController@print_monthly');
         // Route::get('print-bookings', 'BookingsController@print_bookings');
-        Route::get('reviews', 'ReviewRatings@index');
 
-        Route::post('delete-inquiry/{id}', 'ContactUs@destroy');
-        
-        // Route for bulk deletion
-        Route::post('delete-inquiries', 'ContactUs@bulkDelete');
-        
-        Route::get('messages', 'ContactUs@index');
         Route::get('api-settings', 'SettingsController@api_settings');
         Route::post('api-settings', 'SettingsController@store_settings');
 

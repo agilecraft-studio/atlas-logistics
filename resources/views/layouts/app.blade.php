@@ -2884,7 +2884,8 @@ input:checked + .slider:before {
 
               </li> @endcanany
 
-              @if(Request::is('admin/testimonials*'))
+              {{-- Testimonials nav disconnected (admin/testimonials* routes removed; views/controllers remain on disk) --}}
+              @if(false && Request::is('admin/testimonials*'))
 
               @php($class="menu-open")
 
@@ -3294,6 +3295,8 @@ input:checked + .slider:before {
 
 
 
+                  {{-- Frontend settings nav disconnected (admin/frontend-settings routes removed) --}}
+                  {{--
                   <li class="nav-item">
 
                     <a href="{{ url('admin/frontend-settings')}}"
@@ -3307,9 +3310,12 @@ input:checked + .slider:before {
                     </a>
 
                   </li>
+                  --}}
 
 
 
+                  {{-- Company services nav disconnected (admin/company-services routes removed) --}}
+                  {{--
                   <li class="nav-item">
 
                     <a href="{{ url('admin/company-services')}}"
@@ -3323,6 +3329,7 @@ input:checked + .slider:before {
                     </a>
 
                   </li>
+                  --}}
 
 
 
@@ -3360,7 +3367,8 @@ input:checked + .slider:before {
 
 
 
-              @if(AtlasLogistics::api('api') && AtlasLogistics::api('driver_review') == 1) <li class="nav-item">
+              {{-- Reviews nav disconnected (admin/reviews route removed; controller remains on disk) --}}
+              @if(false) <li class="nav-item">
 
                 <a href="{{ url('admin/reviews')}}" class="nav-link @if(Request::is('admin/reviews')) active @endif">
 
@@ -3380,9 +3388,8 @@ input:checked + .slider:before {
 
 
 
-              @can('Inquiries list')
-
-              @if(in_array(Auth::user()->user_type, ['S','O']))
+              {{-- Inquiries nav disconnected (admin/messages routes removed; ContactUs controller remains on disk) --}}
+              @if(false)
 
               <li class="nav-item">
 
@@ -3403,10 +3410,7 @@ input:checked + .slider:before {
               </li>
 
               @endif
-
-              @endcan
-
-              @endif
+              {{-- outer @endif restored; inner can/if removed with nav disconnect --}}
 
               @if(Auth::user()->user_type=="S")
 

@@ -30,10 +30,12 @@ return Application::configure()
                 ->namespace($namespace)
                 ->group(base_path('routes/api1.php'));
 
-            Route::prefix('frontend')
-                ->middleware('throttle')
-                ->namespace($namespace)
-                ->group(base_path('routes/frontend.php'));
+            // Public customer frontend routes disconnected (internal admin app;
+            // controllers/views remain on disk for reference, no routes registered).
+            // Route::prefix('frontend')
+            //     ->middleware('throttle')
+            //     ->namespace($namespace)
+            //     ->group(base_path('routes/frontend.php'));
 
             Route::prefix('admin')
                 ->middleware('web')

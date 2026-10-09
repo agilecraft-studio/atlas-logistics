@@ -168,11 +168,8 @@ class RouteServiceProvider extends ServiceProvider {
 
 	protected function mapFrontendRoutes() {
 
-		Route::prefix('frontend')
-
-			->namespace($this->namespace)
-
-			->group(base_path('routes/frontend.php'));
+		// Public customer frontend routes disconnected (internal admin app;
+		// controllers/views remain on disk for reference, no routes registered).
 
 	}
 
