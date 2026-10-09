@@ -26,10 +26,10 @@
         </div>
         @endif
         <ul class="side-nav">
-            <li class="side-nav-title">@lang('menu.main')</li>
+            <li class="side-nav-title">@lang('menu.Dashboard')</li>
             <li class="side-nav-item">
                 <a href="{{ url('admin/') }}" class="side-nav-link @if(Request::is('admin') || Request::is('admin/')) active @endif">
-                    <i class="ri-dashboard-line"></i><span> @lang('menu.dashboard') </span>
+                    <i class="ri-dashboard-line"></i><span> @lang('menu.Dashboard') </span>
                 </a>
             </li>
             @include('layouts.attex.menu-bookings')

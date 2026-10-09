@@ -1,8 +1,8 @@
 @canany(['Fuel list','Vendor list','Parts list','WorkOrders list','Notes list','ServiceReminders list','ServiceItems list','CompanyServices list','VehicleBreakdown list','DriverAlert list'])
-<li class="side-nav-title">@lang('menu.operation')</li>
+<li class="side-nav-title">@lang('fleet.parts')</li>
 <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarOps" aria-expanded="{{ Request::is('admin/fuel*') || Request::is('admin/vendors*') || Request::is('admin/parts*') || Request::is('admin/work_order*') || Request::is('admin/work-orders*') || Request::is('admin/notes*') || Request::is('admin/service-reminder*') || Request::is('admin/service-item*') || Request::is('admin/mechanic*') || Request::is('admin/company-services*') || Request::is('admin/vehicle-breakdown*') || Request::is('admin/driver-alert*') ? 'true' : 'false' }}" aria-controls="sidebarOps" class="side-nav-link {{ Request::is('admin/fuel*') || Request::is('admin/vendors*') || Request::is('admin/parts*') || Request::is('admin/work_order*') || Request::is('admin/notes*') || Request::is('admin/service-reminder*') || Request::is('admin/service-item*') || Request::is('admin/mechanic*') ? 'active' : '' }}">
-        <i class="ri-settings-2-line"></i><span> @lang('menu.operation') </span><span class="menu-arrow"></span>
+        <i class="ri-settings-2-line"></i><span> @lang('fleet.parts') </span><span class="menu-arrow"></span>
     </a>
     <div class="collapse {{ Request::is('admin/fuel*') || Request::is('admin/vendors*') || Request::is('admin/parts*') || Request::is('admin/work_order*') || Request::is('admin/notes*') || Request::is('admin/service-reminder*') || Request::is('admin/service-item*') || Request::is('admin/mechanic*') || Request::is('admin/company-services*') || Request::is('admin/vehicle-breakdown*') || Request::is('admin/driver-alert*') ? 'show' : '' }}" id="sidebarOps">
         <ul class="side-nav-second-level">
@@ -33,10 +33,10 @@
             <li><a href="{{ route('company-services.index') }}" class="@if(Request::is('admin/company-services*')) active @endif">@lang('fleet.companyServices')</a></li>
             @endcan
             @can('VehicleBreakdown list')
-            <li><a href="{{ route('vehicle-breakdown.index') }}" class="@if(Request::is('admin/vehicle-breakdown*')) active @endif">@lang('menu.vehicle_breakdown')</a></li>
+            <li><a href="{{ route('vehicle-breakdown.index') }}" class="@if(Request::is('admin/vehicle-breakdown*')) active @endif">@lang('fleet.vehicle_breakdown')</a></li>
             @endcan
             @can('DriverAlert list')
-            <li><a href="{{ route('driver-alert.index') }}" class="@if(Request::is('admin/driver-alert*')) active @endif">@lang('menu.driver_alert')</a></li>
+            <li><a href="{{ route('driver-alert.index') }}" class="@if(Request::is('admin/driver-alert*')) active @endif">@lang('fleet.driver_alert')</a></li>
             @endcan
         </ul>
     </div>

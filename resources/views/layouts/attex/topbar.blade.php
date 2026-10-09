@@ -50,10 +50,10 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
-                    <div class="dropdown-header noti-title"><h6 class="text-overflow m-0">@lang('fleet.hello') {{ auth()->check() ? auth()->user()->name : '' }}</h6></div>
+                    <div class="dropdown-header noti-title"><h6 class="text-overflow m-0">@lang('passwords.Hello') {{ auth()->check() ? auth()->user()->name : '' }}</h6></div>
                     @if(auth()->check())
                     <a href="{{ url('admin/change-details/' . auth()->id()) }}" class="dropdown-item">
-                        <i class="ri-account-circle-line fs-18 align-middle me-1"></i><span>@lang('fleet.my_profile')</span>
+                        <i class="ri-account-circle-line fs-18 align-middle me-1"></i><span>@lang('menu.profile')</span>
                     </a>
                     @endif
                     <form method="POST" action="{{ url('admin/logout') }}">

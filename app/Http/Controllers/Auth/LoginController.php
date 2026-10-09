@@ -33,6 +33,11 @@ class LoginController extends Controller
     {
 
 
+        if ($user->user_type == 'C') {
+            Auth::logout();
+            session()->flash('error', 'Customer portal has been removed. Please contact Atlas Logistics staff for assistance.');
+            return redirect('/admin/login');
+        }
         if(AtlasLogistics::get('driver_doc_verification') == 1 && $user->user_type == 'D')
         {
             if ($user->is_verified == '1') 
@@ -48,15 +53,7 @@ class LoginController extends Controller
         }
         else
         {
-            if($user->user_type == 'C')
-            {
-                return redirect('admin/');
-            }
-            else
-            {
-                return redirect()->intended($this->redirectTo);
-            }
-            
+            return redirect()->intended($this->redirectTo);
         }
        
 

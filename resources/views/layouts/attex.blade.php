@@ -23,7 +23,7 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{ url('admin') }}">@lang('menu.dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ url('admin') }}">@lang('menu.Dashboard')</a></li>
                                         @yield('breadcrumb')
                                     </ol>
                                 </div>

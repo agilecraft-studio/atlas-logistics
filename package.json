@@ -1,6 +1,9 @@
 {
     "private": true,
     "type": "module",
+    "engines": {
+        "node": "22.x (built and verified with v22.22.1; select2@4.1 prefers >=24 but builds fine on 22)"
+    },
     "scripts": {
         "dev": "vite",
         "build": "vite build"
