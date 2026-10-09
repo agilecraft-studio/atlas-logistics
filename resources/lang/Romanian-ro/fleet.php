@@ -907,5 +907,8 @@ return [
 "Return_pickup" => "Data și ora preluării pentru retur:",
 "Return_dropoff" => "Data și ora returnării pentru retur:",
 
+    'driver_alert' => 'Driver Alert',
+    'vehicle_breakdown' => 'Vehicle Breakdown',
+    'addresses' => 'Addresses',
 ];
 

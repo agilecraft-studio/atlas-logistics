@@ -1,5 +1,5 @@
 @canany(['Transactions list','Reports list','Income list','Expense list'])
-<li class="side-nav-title">@lang('fleet.reports')</li>
+<li class="side-nav-title">@lang('menu.reports')</li>
 @can('Transactions list')
 <li class="side-nav-item">
     <a href="{{ url('admin/transactions') }}" class="side-nav-link @if(Request::is('admin/transactions*')) active @endif">

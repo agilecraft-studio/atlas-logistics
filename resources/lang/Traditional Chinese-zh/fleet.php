@@ -902,4 +902,6 @@ return [
 "Return_dropoff" => "回程還車日期與時間：",
 
 
+    'driver_alert' => 'Driver Alert',
+    'vehicle_breakdown' => 'Vehicle Breakdown',
 ];

@@ -882,4 +882,6 @@ return [
     
 
 
+    'driver_alert' => 'Driver Alert',
+    'vehicle_breakdown' => 'Vehicle Breakdown',
 ];

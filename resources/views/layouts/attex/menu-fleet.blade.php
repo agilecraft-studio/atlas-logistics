@@ -16,7 +16,7 @@
             <li><a href="{{ route('vehicle_group.index') }}" class="@if(Request::is('admin/vehicle_group*')) active @endif">@lang('fleet.manageGroup')</a></li>
             @endcan
             @can('VehicleInspection list')
-            <li><a href="{{ url('admin/vehicle-reviews') }}" class="@if(Request::is('admin/vehicle-reviews*') || Request::is('admin/vehicle-inspection*') || Request::is('admin/view-vehicle-inspection*')) active @endif">@lang('fleet.vehicleInspection')</a></li>
+            <li><a href="{{ url('admin/vehicle-reviews') }}" class="@if(Request::is('admin/vehicle-reviews*') || Request::is('admin/vehicle-inspection*') || Request::is('admin/view-vehicle-inspection*')) active @endif">@lang('fleet.vehicle_inspection')</a></li>
             @endcan
         </ul>
     </div>

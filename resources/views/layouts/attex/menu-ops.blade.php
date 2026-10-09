@@ -18,7 +18,7 @@
             <li><a href="{{ route('mechanics') }}" class="@if(Request::is('admin/mechanic*')) active @endif">@lang('menu.mechanics')</a></li>
             @endcan
             @can('WorkOrders logs')
-            <li><a href="{{ url('admin/work-orders/logs') }}" class="@if(Request::is('admin/work-orders/logs')) active @endif">@lang('fleet.work_orders_logs')</a></li>
+            <li><a href="{{ url('admin/work-orders/logs') }}" class="@if(Request::is('admin/work-orders/logs')) active @endif">@lang('fleet.work_order_logs')</a></li>
             @endcan
             @can('Notes list')
             <li><a href="{{ route('notes.index') }}" class="@if(Request::is('admin/notes*')) active @endif">@lang('menu.notes')</a></li>

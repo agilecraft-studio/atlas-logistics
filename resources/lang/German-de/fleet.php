@@ -873,4 +873,6 @@ return [
 "Return_dropoff" => "Datum und Uhrzeit der Rückfahrt-Rückgabe:",
 
 
+    'driver_alert' => 'Driver Alert',
+    'vehicle_breakdown' => 'Vehicle Breakdown',
 ];

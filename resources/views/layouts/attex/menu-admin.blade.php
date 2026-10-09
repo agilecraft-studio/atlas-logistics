@@ -1,8 +1,8 @@
 @canany(['Users list','Roles list','Team list','Settings list','Chat list'])
-<li class="side-nav-title">@lang('menu.admin')</li>
+<li class="side-nav-title">@lang('menu.userManagement')</li>
 <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarAdmin" aria-expanded="{{ Request::is('admin/users*') || Request::is('admin/roles*') || Request::is('admin/team*') || Request::is('admin/chat*') || Request::is('admin/api-settings*') ? 'true' : 'false' }}" aria-controls="sidebarAdmin" class="side-nav-link {{ Request::is('admin/users*') || Request::is('admin/roles*') || Request::is('admin/team*') || Request::is('admin/chat*') ? 'active' : '' }}">
-        <i class="ri-admin-line"></i><span> @lang('menu.admin') </span><span class="menu-arrow"></span>
+        <i class="ri-admin-line"></i><span> @lang('menu.userManagement') </span><span class="menu-arrow"></span>
     </a>
     <div class="collapse {{ Request::is('admin/users*') || Request::is('admin/roles*') || Request::is('admin/team*') || Request::is('admin/chat*') || Request::is('admin/api-settings*') ? 'show' : '' }}" id="sidebarAdmin">
         <ul class="side-nav-second-level">
@@ -34,10 +34,10 @@
         <ul class="side-nav-second-level">
             <li><a href="{{ url('admin/settings') }}" class="@if(Request::is('admin/settings')) active @endif">@lang('menu.general_settings')</a></li>
             <li><a href="{{ url('admin/fare-settings') }}" class="@if(Request::is('admin/fare-settings*')) active @endif">@lang('menu.fare_settings')</a></li>
-            <li><a href="{{ url('admin/frontend-settings') }}" class="@if(Request::is('admin/frontend-settings*')) active @endif">@lang('menu.frontend_settings')</a></li>
-            <li><a href="{{ route('chat_settings.index') }}" class="@if(Request::is('admin/chat-settings*')) active @endif">@lang('menu.chat_settings')</a></li>
-            <li><a href="{{ url('admin/twilio-settings') }}" class="@if(Request::is('admin/twilio-settings*')) active @endif">@lang('menu.sms_settings')</a></li>
-            <li><a href="{{ route('traccar.settings') }}" class="@if(Request::is('admin/traccar-settings*')) active @endif">@lang('menu.traccar_settings')</a></li>
+            <li><a href="{{ url('admin/frontend-settings') }}" class="@if(Request::is('admin/frontend-settings*')) active @endif">@lang('fleet.frontend_settings')</a></li>
+            <li><a href="{{ route('chat_settings.index') }}" class="@if(Request::is('admin/chat-settings*')) active @endif">@lang('fleet.chat') @lang('menu.settings')</a></li>
+            <li><a href="{{ url('admin/twilio-settings') }}" class="@if(Request::is('admin/twilio-settings*')) active @endif">@lang('fleet.twilio_settings')</a></li>
+            <li><a href="{{ route('traccar.settings') }}" class="@if(Request::is('admin/traccar-settings*')) active @endif">@lang('fleet.traccar_settings')</a></li>
             <li><a href="{{ route('cancel-reason.index') }}" class="@if(Request::is('admin/cancel-reason*')) active @endif">@lang('fleet.cancellation')</a></li>
             <li><a href="{{ route('testimonials.index') }}" class="@if(Request::is('admin/testimonials*')) active @endif">@lang('fleet.testimonials')</a></li>
         </ul>
