@@ -6,6 +6,7 @@
 /storage/framework/cache/*
 /storage/framework/sessions/*
 /storage/framework/views/*
+/skin/
 /bootstrap/cache/*
 *.log
 .DS_Store
