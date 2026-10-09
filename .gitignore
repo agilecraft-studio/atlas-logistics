@@ -13,5 +13,4 @@
 /public/storage
 /public/uploads/*
 !/public/uploads/.gitkeep
-/public/build/
 docs/email-settings.md
