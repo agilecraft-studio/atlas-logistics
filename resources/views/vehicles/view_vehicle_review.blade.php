@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 <div class="row">
   <div class="col-md-12">
     <div class="card card-success">
@@ -41,14 +41,14 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              {!! Form::label('kms_out',__('fleet.kms_out')." (".Hyvikk::get('dis_format').") : ", ['class' => 'form-label']) !!}
-              {{$review->kms_outgoing}} {{Hyvikk::get('dis_format')}}
+              {!! Form::label('kms_out',__('fleet.kms_out')." (".AtlasLogistics::get('dis_format').") : ", ['class' => 'form-label']) !!}
+              {{$review->kms_outgoing}} {{AtlasLogistics::get('dis_format')}}
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              {!! Form::label('kms_in',__('fleet.kms_in')." (".Hyvikk::get('dis_format').") : ", ['class' => 'form-label']) !!}
-              {{$review->kms_incoming}} {{Hyvikk::get('dis_format')}}
+              {!! Form::label('kms_in',__('fleet.kms_in')." (".AtlasLogistics::get('dis_format').") : ", ['class' => 'form-label']) !!}
+              {{$review->kms_incoming}} {{AtlasLogistics::get('dis_format')}}
             </div>
           </div>
         </div>

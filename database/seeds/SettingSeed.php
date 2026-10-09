@@ -49,7 +49,7 @@ class SettingSeed extends Seeder
         Settings::create(['label' => 'Tax Charge', 'name' => 'tax_charge', 'value' => 'null']);
         Settings::create(['label' => 'Fuel Unit', 'name' => 'fuel_unit', 'value' => 'gallon']);
         Settings::create(['label' => 'Date Format', 'name' => 'date_format', 'value' => 'd-m-Y']);
-        Settings::create(['label' => 'Website Footer', 'name' => 'web_footer', 'value' => '<p><span style="font-size: 16px;">© Hyvikk Solutions '.date('Y').'. All Rights Reserved.&nbsp;<span class="vertical-spacer d-none d-lg-inline">|</span>&nbsp;Powered By&nbsp;</span><a href="https://hyvikk.com/" target="_blank" class="link"><span style="font-size: 16px;">Hyvikk</span></a></p>']);
+        Settings::create(['label' => 'Website Footer', 'name' => 'web_footer', 'value' => '<p><span style="font-size: 16px;">© Atlas Logistics '.date('Y').'. All Rights Reserved.&nbsp;<span class="vertical-spacer d-none d-lg-inline">|</span>&nbsp;Powered By&nbsp;</span><a href="https://app.atlaslogistics.co.mw" target="_blank" class="link"><span style="font-size: 16px;">Atlas Logistics</span></a></p>']);
         Settings::create(['label' => 'Fuel enable for Driver', 'name' => 'fuel_enable_driver', 'value' => 0]);
         Settings::create(['label' => 'Income enable for Driver', 'name' => 'income_enable_driver', 'value' => 0]);
 		Settings::create(['label' => 'Expense enable for Driver', 'name' => 'expense_enable_driver', 'value' => 0]);
@@ -117,10 +117,10 @@ class SettingSeed extends Seeder
         FrontendModel::create(['key_name' => 'customer_support', 'key_value' => '0999988888']);
         FrontendModel::create(['key_name' => 'about_description', 'key_value' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']);
         FrontendModel::create(['key_name' => 'about_title', 'key_value' => 'Proudly serving you']);
-        FrontendModel::create(['key_name' => 'facebook', 'key_value' => 'https://www.facebook.com/hyvikk/']);
-        FrontendModel::create(['key_name' => 'twitter', 'key_value' => 'https://x.com/hyvikks?mx=2']);
-        FrontendModel::create(['key_name' => 'instagram', 'key_value' => 'https://www.instagram.com/hyvikk_solutions/?hl=en']);
-        FrontendModel::create(['key_name' => 'linkedin', 'key_value' => 'https://in.linkedin.com/company/hyvikk-solutions']);
+        FrontendModel::create(['key_name' => 'facebook', 'key_value' => 'https://www.facebook.com/Atlas Logistics/']);
+        FrontendModel::create(['key_name' => 'twitter', 'key_value' => 'https://x.com/Atlas Logisticss?mx=2']);
+        FrontendModel::create(['key_name' => 'instagram', 'key_value' => 'https://www.instagram.com/Atlas Logistics_solutions/?hl=en']);
+        FrontendModel::create(['key_name' => 'linkedin', 'key_value' => 'https://in.linkedin.com/company/Atlas Logistics-solutions']);
         FrontendModel::create(['key_name' => 'faq_link', 'key_value' => null]);
         FrontendModel::create(['key_name' => 'cities', 'key_value' => 5]);
         FrontendModel::create(['key_name' => 'vehicles', 'key_value' => 10]);

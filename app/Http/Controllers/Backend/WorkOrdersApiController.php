@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ use App\Model\Vendor;
 use App\Model\WorkOrderLogs;
 use App\Model\WorkOrders;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -200,8 +200,8 @@ class WorkOrdersApiController extends Controller {
 				'description' => $order->description,
 				'part' => $row->part->title,
 				'qty' => $row->qty,
-				'unit_cost' => Hyvikk::get('currency') . " " . $row->price,
-				'total_cost' => Hyvikk::get('currency') . " " . $row->total,
+				'unit_cost' => AtlasLogistics::get('currency') . " " . $row->price,
+				'total_cost' => AtlasLogistics::get('currency') . " " . $row->total,
 			);
 		}
 		$data['success'] = "1";
@@ -235,7 +235,7 @@ class WorkOrdersApiController extends Controller {
 				'work_order_price' => $row->price,
 				'parts_cost' => $row->parts_price,
 				'total_cost' => $row->price + $row->parts_price,
-				'currency' => Hyvikk::get('currency'),
+				'currency' => AtlasLogistics::get('currency'),
 				'status' => $row->status,
 				'type' => $row->type,
 				'timestamp' => date('Y-m-d H:i:s', strtotime($row->created_at)),
@@ -310,7 +310,7 @@ class WorkOrdersApiController extends Controller {
 				'work_order_price' => $row->price,
 				'parts_cost' => $row->parts->sum('total'),
 				'total_cost' => $row->price + $row->parts->sum('total'),
-				'currency' => Hyvikk::get('currency'),
+				'currency' => AtlasLogistics::get('currency'),
 				'status' => $row->status,
 				'meter_reading' => $row->meter,
 				'note' => $row->note,

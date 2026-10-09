@@ -5,8 +5,8 @@
 
 Fleet Manager v6.1
 
-Copyright (C) 2017-2022 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2022 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 namespace App\Http\Controllers\Api;
@@ -16,7 +16,7 @@ use App\Model\BookingIncome;
 use App\Model\BookingPaymentsModel;
 use App\Model\Bookings;
 use App\Model\FareSettings;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\IncomeModel;
 use App\Model\ReasonsModel;
 use App\Model\ReviewModel;
@@ -447,7 +447,7 @@ class DriversApi extends Controller {
     }
     private function isVehicleAvailable($vehicle, $from_date)
     {
-        $vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE'; 
+        $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE'; 
     
         $bookings = Bookings::where('deleted_at', null)
             ->where('cancellation', 0)
@@ -466,7 +466,7 @@ class DriversApi extends Controller {
     
     private function isDriverAvailable($driverId, $pickupTime)
     {
-        $driverInterval = Hyvikk::get('driver_interval').' MINUTE';
+        $driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
 
         $bookings = DB::table('bookings')
             ->join('bookings_meta', 'bookings.id', '=', 'bookings_meta.booking_id')
@@ -769,9 +769,9 @@ class DriversApi extends Controller {
 			$u_rides = array();
 			$c_rides = array();
 			$cancel = array();
-			if (Hyvikk::get('dis_format') == 'meter') {
+			if (AtlasLogistics::get('dis_format') == 'meter') {
 				$unit = 'm';
-			}if (Hyvikk::get('dis_format') == 'km') {
+			}if (AtlasLogistics::get('dis_format') == 'km') {
 				$unit = 'km';
 			}
 			foreach ($bookings as $u) {
@@ -832,9 +832,9 @@ class DriversApi extends Controller {
 			$data['message'] = "Unable to Receive Ride Info. Please, Try again Later !";
 			$data['data'] = "";
 		} else {
-			if (Hyvikk::get('dis_format') == 'meter') {
+			if (AtlasLogistics::get('dis_format') == 'meter') {
 				$unit = 'm';
-			}if (Hyvikk::get('dis_format') == 'km') {
+			}if (AtlasLogistics::get('dis_format') == 'km') {
 				$unit = 'km';
 			}
 			$ride_reviews = array('user_id' => '', 'ratings' => '', 'review_text' => '', 'date' => '');
@@ -894,7 +894,7 @@ class DriversApi extends Controller {
 			$data['success'] = 1;
 			$data['message'] = "Data Received.";
 			$data['data'] = array('rideinfo' => $ride_info, 'user_details' => $user_details, 'ride_review' => $ride_reviews,
-				'fare_breakdown' => array('base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), 'ride_amount' => $booking->getMeta('tax_total'), 'extra_charges' => 0, 'payment_mode' => 'CASH')); //done
+				'fare_breakdown' => array('base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), 'ride_amount' => $booking->getMeta('tax_total'), 'extra_charges' => 0, 'payment_mode' => 'CASH')); //done
 
 		}
 
@@ -1146,11 +1146,11 @@ class DriversApi extends Controller {
 
 
 
-            if (Hyvikk::get('dis_format') == 'meter') {
+            if (AtlasLogistics::get('dis_format') == 'meter') {
 
                 $unit = 'm';
 
-            }if (Hyvikk::get('dis_format') == 'km') {
+            }if (AtlasLogistics::get('dis_format') == 'km') {
 
                 $unit = 'km';
 
@@ -1176,17 +1176,17 @@ class DriversApi extends Controller {
 
 
 
-            $km_base = Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_km');
+            $km_base = AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_km');
 
             if ($request->get('total_kms') <= $km_base) {
 
-                $total_fare = Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare');
+                $total_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare');
 
 
 
             } else {
 
-                $total_fare = Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare') + (($request->get('total_kms') - $km_base) * Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_std_fare'));
+                $total_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare') + (($request->get('total_kms') - $km_base) * AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_std_fare'));
 
             }
 
@@ -1194,9 +1194,9 @@ class DriversApi extends Controller {
 
             $count = 0;
 
-            if (Hyvikk::get('tax_charge') != "null") {
+            if (AtlasLogistics::get('tax_charge') != "null") {
 
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 
                 foreach ($taxes as $key => $val) {
 
@@ -1282,7 +1282,7 @@ class DriversApi extends Controller {
 
             $data['message'] = "Ride Completed";
 
-            $data['data'] = array('rideinfo' => $rideinfo, 'user_details' => $user_details, 'ride_review' => $reviews, 'fare_breakdown' => array('base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), 'ride_amount' => $booking->getMeta('tax_total'), 'extra_charges' => 0)); //done
+            $data['data'] = array('rideinfo' => $rideinfo, 'user_details' => $user_details, 'ride_review' => $reviews, 'fare_breakdown' => array('base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), 'ride_amount' => $booking->getMeta('tax_total'), 'extra_charges' => 0)); //done
 
         }
 
@@ -1310,11 +1310,11 @@ class DriversApi extends Controller {
 
         }
 
-        if (Hyvikk::get('dis_format') == 'meter') {
+        if (AtlasLogistics::get('dis_format') == 'meter') {
 
             $unit = 'm';
 
-        }if (Hyvikk::get('dis_format') == 'km') {
+        }if (AtlasLogistics::get('dis_format') == 'km') {
 
             $unit = 'km';
 
@@ -1380,7 +1380,7 @@ class DriversApi extends Controller {
 
                 'profile_pic' => $booking->customer->getMeta('profile_pic')),
 
-            'fare_breakdown' => array('base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), //done
+            'fare_breakdown' => array('base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), //done
 
                 'ride_amount' => $booking->getMeta('tax_total'),
 
@@ -1443,9 +1443,9 @@ class DriversApi extends Controller {
 
         $tax_percent = 0;
 
-        if (Hyvikk::get('tax_charge') != "null") {
+        if (AtlasLogistics::get('tax_charge') != "null") {
 
-            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 
             foreach ($taxes as $key => $val) {
 
@@ -1545,11 +1545,11 @@ class DriversApi extends Controller {
 
         }
 
-        if (Hyvikk::get('dis_format') == 'meter') {
+        if (AtlasLogistics::get('dis_format') == 'meter') {
 
             $unit = 'm';
 
-        }if (Hyvikk::get('dis_format') == 'km') {
+        }if (AtlasLogistics::get('dis_format') == 'km') {
 
             $unit = 'km';
 
@@ -1609,7 +1609,7 @@ class DriversApi extends Controller {
 
             ),
 
-            'fare_breakdown' => array('base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), //done
+            'fare_breakdown' => array('base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', ($booking->vehicle_id != null ? $booking->vehicle->types->vehicletype : ($vehicle_type->vehicletype ?? "")))) . '_base_fare'), //done
 
                 'ride_amount' => $booking->getMeta('tax_total'),
 
@@ -1684,18 +1684,18 @@ class DriversApi extends Controller {
 				'displayname' => $vehicle_type->displayname,
 				'icon' => $url,
 				'no_seats' => $vehicle_type->seats,
-				'base_fare' => Hyvikk::fare($type . '_base_fare'), //done
-				'base_km' => Hyvikk::fare($type . '_base_km'),
-				'std_fare' => Hyvikk::fare($type . '_std_fare'),
-				'base_waiting_time' => Hyvikk::fare($type . '_base_time'),
-				'weekend_base_fare' => Hyvikk::fare($type . '_weekend_base_fare'),
-				'weekend_base_km' => Hyvikk::fare($type . '_weekend_base_km'),
-				'weekend_wait_time' => Hyvikk::fare($type . '_weekend_wait_time'),
-				'weekend_std_fare' => Hyvikk::fare($type . '_weekend_std_fare'),
-				'night_base_fare' => Hyvikk::fare($type . '_night_base_fare'),
-				'night_base_km' => Hyvikk::fare($type . '_night_base_km'),
-				'night_wait_time' => Hyvikk::fare($type . '_night_wait_time'),
-				'night_std_fare' => Hyvikk::fare($type . '_night_std_fare'),
+				'base_fare' => AtlasLogistics::fare($type . '_base_fare'), //done
+				'base_km' => AtlasLogistics::fare($type . '_base_km'),
+				'std_fare' => AtlasLogistics::fare($type . '_std_fare'),
+				'base_waiting_time' => AtlasLogistics::fare($type . '_base_time'),
+				'weekend_base_fare' => AtlasLogistics::fare($type . '_weekend_base_fare'),
+				'weekend_base_km' => AtlasLogistics::fare($type . '_weekend_base_km'),
+				'weekend_wait_time' => AtlasLogistics::fare($type . '_weekend_wait_time'),
+				'weekend_std_fare' => AtlasLogistics::fare($type . '_weekend_std_fare'),
+				'night_base_fare' => AtlasLogistics::fare($type . '_night_base_fare'),
+				'night_base_km' => AtlasLogistics::fare($type . '_night_base_km'),
+				'night_wait_time' => AtlasLogistics::fare($type . '_night_wait_time'),
+				'night_std_fare' => AtlasLogistics::fare($type . '_night_std_fare'),
 			);
 
 		}
@@ -1719,9 +1719,9 @@ class DriversApi extends Controller {
 			'night_wait_time' => 2,
 			'night_std_fare' => 20,
 			'reasons' => $reason,
-			'distance_format' => Hyvikk::get('dis_format'),
-			'max_trip_time' => Hyvikk::api('max_trip'),
-			'currency_symbol' => Hyvikk::get('currency'),
+			'distance_format' => AtlasLogistics::get('dis_format'),
+			'max_trip_time' => AtlasLogistics::api('max_trip'),
+			'currency_symbol' => AtlasLogistics::get('currency'),
 			'vehicle_types' => $vehicle_type_data,
 			'max_capacity_vehicle' => $max_capacity,
 		);
@@ -3080,7 +3080,7 @@ class DriversApi extends Controller {
 	}
 	// private function isVehicleAvailable($vehicle, $from_date, $to_date)
 	// {
-	//     $vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE';
+	//     $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
 	//     $bookings = Bookings::where('deleted_at', null)
 	//         ->where('cancellation', 0)
 	//         ->where(function ($query) use ($from_date, $to_date, $vehicleInterval) {

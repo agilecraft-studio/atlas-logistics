@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -44,7 +44,7 @@ use App\Model\WorkOrderLogs;
 use App\Model\WorkOrders;
 use Auth;
 use DB;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -133,25 +133,25 @@ class SettingsApiController extends Controller {
 	}
 	public function get_front_settings() {
 		$details = array(
-			'is_enable' => (Hyvikk::frontend('enable') == 1) ? 1 : 0,
-			'is_enable_value' => (Hyvikk::frontend('enable') == 1) ? "Enable" : "Disable",
-			'about_us' => Hyvikk::frontend('about_us'),
-			'customer_support' => Hyvikk::frontend('customer_support'),
-			'contact_number' => Hyvikk::frontend('contact_phone'),
-			'contact_email' => Hyvikk::frontend('contact_email'),
-			'about_description' => Hyvikk::frontend('about_description'),
-			'about_title' => Hyvikk::frontend('about_title'),
-			'language' => Hyvikk::frontend('language'),
-			'faq_link' => Hyvikk::frontend('faq_link'),
-			'cities' => Hyvikk::frontend('cities'),
-			'vehicles' => Hyvikk::frontend('vehicles'),
-			'cancellation_link' => Hyvikk::frontend('cancellation'),
-			'terms' => Hyvikk::frontend('terms'),
-			'privacy_policy' => Hyvikk::frontend('privacy_policy'),
-			'facebook' => Hyvikk::frontend('facebook'),
-			'twitter' => Hyvikk::frontend('twitter'),
-			'instagram' => Hyvikk::frontend('instagram'),
-			'linkedin' => Hyvikk::frontend('linkedin'),
+			'is_enable' => (AtlasLogistics::frontend('enable') == 1) ? 1 : 0,
+			'is_enable_value' => (AtlasLogistics::frontend('enable') == 1) ? "Enable" : "Disable",
+			'about_us' => AtlasLogistics::frontend('about_us'),
+			'customer_support' => AtlasLogistics::frontend('customer_support'),
+			'contact_number' => AtlasLogistics::frontend('contact_phone'),
+			'contact_email' => AtlasLogistics::frontend('contact_email'),
+			'about_description' => AtlasLogistics::frontend('about_description'),
+			'about_title' => AtlasLogistics::frontend('about_title'),
+			'language' => AtlasLogistics::frontend('language'),
+			'faq_link' => AtlasLogistics::frontend('faq_link'),
+			'cities' => AtlasLogistics::frontend('cities'),
+			'vehicles' => AtlasLogistics::frontend('vehicles'),
+			'cancellation_link' => AtlasLogistics::frontend('cancellation'),
+			'terms' => AtlasLogistics::frontend('terms'),
+			'privacy_policy' => AtlasLogistics::frontend('privacy_policy'),
+			'facebook' => AtlasLogistics::frontend('facebook'),
+			'twitter' => AtlasLogistics::frontend('twitter'),
+			'instagram' => AtlasLogistics::frontend('instagram'),
+			'linkedin' => AtlasLogistics::frontend('linkedin'),
 		);
 		$data['success'] = "1";
 		$data['message'] = "Data fetched!";
@@ -287,22 +287,22 @@ class SettingsApiController extends Controller {
 	public function get_general_settings() {
 		$user = Auth::user();
 		$date_setting = "DD-MM-YYYY";
-		if (Hyvikk::get('date_format') == 'Y-m-d') {
+		if (AtlasLogistics::get('date_format') == 'Y-m-d') {
 			$date_setting = "YYYY-MM-DD";
 		}
-		if (Hyvikk::get('date_format') == 'm-d-Y') {
+		if (AtlasLogistics::get('date_format') == 'm-d-Y') {
 			$date_setting = "MM-DD-YYYY";
 		}
 		if ($user->language != null) {
 			$lang = $user->language;
 		} else {
-			$lang = Hyvikk::get("language");
+			$lang = AtlasLogistics::get("language");
 		}
 		$language = explode('-', $lang);
 		$taxes = null;
 		$new_taxes = array();
-		if (Hyvikk::get('tax_charge') != "null") {
-			$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+		if (AtlasLogistics::get('tax_charge') != "null") {
+			$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 			foreach ($taxes as $key => $val) {
 				$new_taxes[] = array(
 					'name' => $key,
@@ -311,22 +311,22 @@ class SettingsApiController extends Controller {
 			}
 		}
 		$details = array(
-			'app_name' => Hyvikk::get('app_name'),
-			'email' => Hyvikk::get('email'),
-			'address1' => Hyvikk::get('badd1'),
-			'address2' => Hyvikk::get('badd2'),
-			'city' => Hyvikk::get('city'),
-			'state' => Hyvikk::get('state'),
-			'country' => Hyvikk::get('country'),
-			'distance_format' => Hyvikk::get("dis_format"),
-			'fuel_unit' => Hyvikk::get("fuel_unit"),
-			'time_interval' => Hyvikk::get('time_interval'),
-			'icon_image' => asset('assets/images/' . Hyvikk::get('icon_img')),
-			'logo_image' => asset('assets/images/' . Hyvikk::get('logo_img')),
-			'currency' => Hyvikk::get('currency'),
+			'app_name' => AtlasLogistics::get('app_name'),
+			'email' => AtlasLogistics::get('email'),
+			'address1' => AtlasLogistics::get('badd1'),
+			'address2' => AtlasLogistics::get('badd2'),
+			'city' => AtlasLogistics::get('city'),
+			'state' => AtlasLogistics::get('state'),
+			'country' => AtlasLogistics::get('country'),
+			'distance_format' => AtlasLogistics::get("dis_format"),
+			'fuel_unit' => AtlasLogistics::get("fuel_unit"),
+			'time_interval' => AtlasLogistics::get('time_interval'),
+			'icon_image' => asset('assets/images/' . AtlasLogistics::get('icon_img')),
+			'logo_image' => asset('assets/images/' . AtlasLogistics::get('logo_img')),
+			'currency' => AtlasLogistics::get('currency'),
 			'date_format' => $date_setting,
-			'tax_no' => Hyvikk::get('tax_no'),
-			'invoice_text' => Hyvikk::get('invoice_text'),
+			'tax_no' => AtlasLogistics::get('tax_no'),
+			'invoice_text' => AtlasLogistics::get('invoice_text'),
 			'language' => ($language[1] == "en") ? "en-us" : $language[1],
 			'selected_lang' => $lang,
 			// 'tax' => $taxes,

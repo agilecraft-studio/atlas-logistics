@@ -13,7 +13,7 @@ maintenance, finance) — NOT a taxi/passenger-booking business.
 - Sender: noreply@atlaslogistics.co.mw, SMTP creds in .env only
 
 ## Codebase (as found 2026-10-08)
-- Hyvikk Fleet Manager v6.1 ported to Laravel 10 (`laravel/framework ^10.0`, PHP `^8.0`)
+- Atlas Logistics Fleet Manager v6.1 ported to Laravel 10 (`laravel/framework ^10.0`, PHP `^8.0`)
 - Location: /var/www/atlas-logistic (note: singular, no trailing s; NOT a git repo)
 - vendor/ present (146M); app/, config/, routes/, storage/ present
 - MISSING: public/, resources/views+assets, database/migrations, .env.example,

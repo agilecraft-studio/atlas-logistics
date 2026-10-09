@@ -6,7 +6,7 @@
 <body>
 	<script src="https://js.stripe.com/v3/"></script>
 	<script type="text/javascript">
-		var stripe = Stripe("{{ Hyvikk::payment('stripe_publishable_key') }}");
+		var stripe = Stripe("{{ AtlasLogistics::payment('stripe_publishable_key') }}");
 		stripe.redirectToCheckout({
 		  // Make the id field from the Checkout Session creation API response
 		  // available to this file, so you can provide it as parameter here

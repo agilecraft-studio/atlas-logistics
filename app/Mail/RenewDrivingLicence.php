@@ -5,13 +5,13 @@
 
 Fleet Manager v7.0
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 namespace App\Mail;
 
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -41,6 +41,6 @@ class RenewDrivingLicence extends Mailable {
 	 * @return $this
 	 */
 	public function build() {
-		return $this->from(Hyvikk::get("email"))->subject('Renew Driving Licence')->markdown('emails.renew_driving_licence');
+		return $this->from(AtlasLogistics::get("email"))->subject('Renew Driving Licence')->markdown('emails.renew_driving_licence');
 	}
 }

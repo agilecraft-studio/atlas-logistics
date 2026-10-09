@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ use App\Model\VehicleModel;
 use App\Model\Vendor;
 use Auth;
 use DB;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth as Login;
@@ -50,7 +50,7 @@ class BackendApiController extends Controller {
 		$index['income'] = IncomeModel::whereRaw('year(date) = ? and month(date)=?', [date("Y"), date("n")])->whereIn('vehicle_id', $vehicle_ids)->sum("amount");
 		// dd($vehicle_ids);
 		$index['expense'] = Expense::whereRaw('year(date) = ? and month(date)=?', [date("Y"), date("n")])->whereIn('vehicle_id', $vehicle_ids)->sum("amount");
-		$index['currency'] = Hyvikk::get('currency');
+		$index['currency'] = AtlasLogistics::get('currency');
 		$vv = array();
 		if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
 			$all_vehicles = VehicleModel::get();
@@ -135,7 +135,7 @@ class BackendApiController extends Controller {
 		foreach ($all_vehicles as $key) {
 			$vehicle_ids[] = $key->id;
 		}
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by month(date)', [$year]);
+		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -155,7 +155,7 @@ class BackendApiController extends Controller {
 		foreach ($all_vehicles as $key) {
 			$vehicle_ids[] = $key->id;
 		}
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by month(date)', [$year]);
+		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -249,20 +249,20 @@ class BackendApiController extends Controller {
 			$mileage = $request->mileage;
 			$waiting_time = $request->waiting_time;
 			if ($day == 1) {
-				$base_km = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_km');
-				$base_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_fare');
-				$wait_time_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_time');
-				$std_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_std_fare');
+				$base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_km');
+				$base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_fare');
+				$wait_time_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_time');
+				$std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_std_fare');
 			} elseif ($day == 2) {
-				$base_km = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_base_km');
-				$base_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_base_fare');
-				$wait_time_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_wait_time');
-				$std_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_std_fare');
+				$base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_base_km');
+				$base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_base_fare');
+				$wait_time_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_wait_time');
+				$std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_std_fare');
 			} elseif ($day == 3) {
-				$base_km = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_base_km');
-				$base_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_base_fare');
-				$wait_time_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_wait_time');
-				$std_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_std_fare');
+				$base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_base_km');
+				$base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_base_fare');
+				$wait_time_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_wait_time');
+				$std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_std_fare');
 			} else {
 				$data['success'] = "0";
 				$data['message'] = "Type of day is incorrect";
@@ -276,8 +276,8 @@ class BackendApiController extends Controller {
 				$total = round($base_fare + $sum + ($waiting_time * $wait_time_fare), 2);
 			}
 			$tax_percent = 0;
-			if (Hyvikk::get('tax_charge') != "null") {
-				$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+			if (AtlasLogistics::get('tax_charge') != "null") {
+				$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 				foreach ($taxes as $key => $val) {
 					$tax_percent += $val;
 				}
@@ -298,8 +298,8 @@ class BackendApiController extends Controller {
 	}
 	public function get_fare_calc(Request $request) {
 		$tax_percent = 0;
-		if (Hyvikk::get('tax_charge') != "null") {
-			$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+		if (AtlasLogistics::get('tax_charge') != "null") {
+			$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 			foreach ($taxes as $key => $val) {
 				$tax_percent += $val;
 			}
@@ -395,7 +395,7 @@ class BackendApiController extends Controller {
 			if ($user->language != null) {
 				$language = explode('-', $user->language);
 			} else {
-				$language = explode('-', Hyvikk::get("language"));
+				$language = explode('-', AtlasLogistics::get("language"));
 			}
 			$modules = array();
 			if ($user->user_type == "S" || $user->user_type == "O") {
@@ -456,10 +456,10 @@ class BackendApiController extends Controller {
 			}
 			$accessToken = $user->createToken('authToken')->accessToken;
 			$date_setting = "DD-MM-YYYY";
-			if (Hyvikk::get('date_format') == 'Y-m-d') {
+			if (AtlasLogistics::get('date_format') == 'Y-m-d') {
 				$date_setting = "YYYY-MM-DD";
 			}
-			if (Hyvikk::get('date_format') == 'm-d-Y') {
+			if (AtlasLogistics::get('date_format') == 'm-d-Y') {
 				$date_setting = "MM-DD-YYYY";
 			}
 			$data['userinfo'] = array(

@@ -46,7 +46,7 @@
                 <td>{{$row->method}}</td>
                 <td>{{$row->transaction_id}}</td>
                 <td>{{$row->payment_status}}</td>
-                <td>{{Hyvikk::get('currency').' '. $row->amount}}</td>
+                <td>{{AtlasLogistics::get('currency').' '. $row->amount}}</td>
                 <td>{{date('d-m-Y g:i A',strtotime($row->created_at))}}</td>
               </tr>
               @endforeach

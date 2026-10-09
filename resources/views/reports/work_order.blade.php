@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
@@ -89,9 +89,9 @@
               <td> {{date($date_format_setting,strtotime($row->required_by))}}</td>
               <td>{{$row->vendor->name}}</td>
               <td>{{$row->description}}</td>
-              <td> {{Hyvikk::get('currency')}} {{$row->price}}</td>
-              <td> {{Hyvikk::get('currency')}} {{ $row->parts->sum('total') }}</td>
-              <td> {{Hyvikk::get('currency')}} {{ $row->price + $row->parts->sum('total') }}</td>
+              <td> {{AtlasLogistics::get('currency')}} {{$row->price}}</td>
+              <td> {{AtlasLogistics::get('currency')}} {{ $row->parts->sum('total') }}</td>
+              <td> {{AtlasLogistics::get('currency')}} {{ $row->price + $row->parts->sum('total') }}</td>
               <td>{{$row->meter}}</td>
               <td>{{$row->status}}</td>
               

@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\FrontEnd;
 use App\Http\Controllers\Controller;
@@ -12,7 +12,7 @@ use App\Mail\VehicleBooked;
 use App\Model\Address;
 use App\Model\Bookings;
 use App\Model\CompanyServicesModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\MessageModel;
 use App\Model\PasswordResetModel;
 use App\Model\TeamModel;
@@ -45,7 +45,7 @@ class HomeController extends Controller {
 
 	public function __construct() {
 		if (file_exists(storage_path('installed'))) {
-			app()->setLocale(Hyvikk::frontend('language'));
+			app()->setLocale(AtlasLogistics::frontend('language'));
 		}
 	}
 	// public function edit_profile() {
@@ -174,7 +174,7 @@ class HomeController extends Controller {
 		}
 
 
-		$vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE';
+		$vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
 		$condition = " and type_id = '" . $request->type_id . "'";
 		
 		
@@ -238,7 +238,7 @@ class HomeController extends Controller {
 			foreach ($d as $ro) {
                 $vhc = VehicleModel::find($ro->id);
     
-                if(Hyvikk::get('fare_mode') == "price_wise")
+                if(AtlasLogistics::get('fare_mode') == "price_wise")
                 {
                     if($vhc && $vhc->getMeta('price') != 0 )
                     {
@@ -248,7 +248,7 @@ class HomeController extends Controller {
                     }
     
                 }
-               else if(Hyvikk::get('fare_mode') == "type_wise")
+               else if(AtlasLogistics::get('fare_mode') == "type_wise")
                {
                     $text = $vhc->make_name . "-" . $vhc->model_name . "-" . $vhc->license_plate;
                     $luggage=$vhc->luggage??'';
@@ -660,7 +660,7 @@ class HomeController extends Controller {
 			if ($request->radio1 == "book_now") {
 				
 				
-					$booking_time = Hyvikk::frontend('booking_time');
+					$booking_time = AtlasLogistics::frontend('booking_time');
 					$id = Bookings::create(['customer_id' => Auth::user()->id,
 						'pickup_addr' => $request->pickup_address,
 						'dest_addr' => $request->dropoff_address,
@@ -683,7 +683,7 @@ class HomeController extends Controller {
 					
 					
 
-					$key1 = (Hyvikk::api('api_key') ?? '-');
+					$key1 = (AtlasLogistics::api('api_key') ?? '-');
         
 					$pickupAddress1 = urlencode($request->pickup_address);
 					$dropoffAddress1 = urlencode($request->dropoff_address);
@@ -724,7 +724,7 @@ class HomeController extends Controller {
 
 					if(isset($request->booking_type) && $request->booking_type  == "return_way")
 					{
-							$booking_time = Hyvikk::frontend('booking_time');
+							$booking_time = AtlasLogistics::frontend('booking_time');
 							$ids = Bookings::create(['customer_id' => Auth::user()->id,
 								'pickup_addr' => $request->dropoff_address,
 								'dest_addr' => $request->pickup_address,
@@ -751,7 +751,7 @@ class HomeController extends Controller {
 						$bookings->parent_booking_id=$booking->id;
 
 
-						$key2 = (Hyvikk::api('api_key') ?? '-');
+						$key2 = (AtlasLogistics::api('api_key') ?? '-');
 			
 						$pickupAddress2 = urlencode($request->pickup_address);
 						$dropoffAddress2 = urlencode($request->dropoff_address);
@@ -799,7 +799,7 @@ class HomeController extends Controller {
 					Address::updateOrCreate(['customer_id' => Auth::user()->id, 'address' => $request->pickup_address]);
 					Address::updateOrCreate(['customer_id' => Auth::user()->id, 'address' => $request->dropoff_address]);
 					$this->book_now_notification($booking->id, $booking->vehicle_typeid);
-					if (Hyvikk::email_msg('email') == 1) {
+					if (AtlasLogistics::email_msg('email') == 1) {
 						Mail::to($booking->customer->email)->send(new VehicleBooked($booking));
 					}
 				//}
@@ -824,7 +824,7 @@ class HomeController extends Controller {
 					$booking->ride_status = "Pending";
 					$booking->vehicle_typeid = $request->vehicle_type;
 
-					$key1 = (Hyvikk::api('api_key') ?? '-');
+					$key1 = (AtlasLogistics::api('api_key') ?? '-');
         
 					$pickupAddress1 = urlencode($request->pickup_address);
 					$dropoffAddress1 = urlencode($request->dropoff_address);
@@ -889,7 +889,7 @@ class HomeController extends Controller {
 
 						$bookings->parent_booking_id=$booking->id;
 
-						$key2 = (Hyvikk::api('api_key') ?? '-');
+						$key2 = (AtlasLogistics::api('api_key') ?? '-');
 			
 						$pickupAddress2 = urlencode($request->pickup_address);
 						$dropoffAddress2 = urlencode($request->dropoff_address);
@@ -935,15 +935,15 @@ class HomeController extends Controller {
 					Address::updateOrCreate(['customer_id' => Auth::user()->id, 'address' => $request->pickup_address]);
 					Address::updateOrCreate(['customer_id' => Auth::user()->id, 'address' => $request->dropoff_address]);
 					$this->book_later_notification($booking->id, $booking->vehicle_typeid);
-					if (Hyvikk::email_msg('email') == 1) {
+					if (AtlasLogistics::email_msg('email') == 1) {
 						Mail::to($booking->customer->email)->send(new VehicleBooked($booking));
 					}
 				// }
 			}
 			try {
-				if (isset($request->method) && Hyvikk::frontend('admin_approval') == 0) {
+				if (isset($request->method) && AtlasLogistics::frontend('admin_approval') == 0) {
 					// fare calc
-					$key = Hyvikk::api('api_key');
+					$key = AtlasLogistics::api('api_key');
 					$url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . str_replace(" ", "", $booking->pickup_addr) . "&destination=" . str_replace(" ", "", $booking->dest_addr) . "&mode=driving&units=metric&sensor=false&key=" . $key;
 					// dd($url);
 					$ch = curl_init();
@@ -960,10 +960,10 @@ class HomeController extends Controller {
 						$type = strtolower(str_replace(" ", "", $v_type->vehicletype));
 						$fare_details = array();
 						$total_kms = explode(" ", str_replace(",", "", $response['routes'][0]['legs'][0]['distance']['text']))[0];
-						$km_base = Hyvikk::fare($type . '_base_km');
-						$base_fare = Hyvikk::fare($type . '_base_fare');
-						$std_fare = Hyvikk::fare($type . '_std_fare');
-						$base_km = Hyvikk::fare($type . '_base_km');
+						$km_base = AtlasLogistics::fare($type . '_base_km');
+						$base_fare = AtlasLogistics::fare($type . '_base_fare');
+						$std_fare = AtlasLogistics::fare($type . '_std_fare');
+						$base_km = AtlasLogistics::fare($type . '_base_km');
 						if ($total_kms <= $km_base) {
 							$total_fare = $base_fare;
 						} else {
@@ -971,8 +971,8 @@ class HomeController extends Controller {
 						}
 						// calculate tax charges
 						$count = 0;
-						if (Hyvikk::get('tax_charge') != "null") {
-							$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+						if (AtlasLogistics::get('tax_charge') != "null") {
+							$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 							foreach ($taxes as $key => $val) {
 								$count = $count + $val;
 							}
@@ -1190,7 +1190,7 @@ class HomeController extends Controller {
 			$vehicles = VehicleModel::where('type_id', $type_id)->get()->pluck('id')->toArray();
 		}
 		$drivers = User::where('user_type', 'D')->get();
-		if (Hyvikk::api('is_on_ven_app') == 1) {
+		if (AtlasLogistics::api('is_on_ven_app') == 1) {
 			$vendors = User::where('user_type', 'O')->get();
 			//dd($vendors);
 			foreach ($vendors as $v) {
@@ -1273,7 +1273,7 @@ class HomeController extends Controller {
 			$vehicles = VehicleModel::where('type_id', $type_id)->get()->pluck('id')->toArray();
 		}
 		$drivers = User::where('user_type', 'D')->get();
-		if (Hyvikk::api('is_on_ven_app') == 1) {
+		if (AtlasLogistics::api('is_on_ven_app') == 1) {
 			$vendors = User::where('user_type', 'O')->get();
 			foreach ($vendors as $v) {
 

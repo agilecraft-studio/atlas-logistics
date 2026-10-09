@@ -29,7 +29,7 @@ crossorigin="anonymous"
     <div class="row mb-4">
       <div class="col-6">
         <div class="invoice-logo mb-3">
-        <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" class="img-fluid" 
+        <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" class="img-fluid" 
         alt="Logo">
         </div>
         <h1 class="mb-0">Tax Invoice</h1>
@@ -38,12 +38,12 @@ crossorigin="anonymous"
       <div class="col-6 text-end">
         <h6 class="mb-0">@lang('fleet.From')</h6>
         <p>
-          {{ Hyvikk::get('app_name') }}<br>
-          {{ Hyvikk::get('badd1') }},<br>
-          {{ Hyvikk::get('badd2') }},<br>
-          {{ Hyvikk::get('city') }}, {{ Hyvikk::get('state') }},{{ Hyvikk::get('country') }}<br>
+          {{ AtlasLogistics::get('app_name') }}<br>
+          {{ AtlasLogistics::get('badd1') }},<br>
+          {{ AtlasLogistics::get('badd2') }},<br>
+          {{ AtlasLogistics::get('city') }}, {{ AtlasLogistics::get('state') }},{{ AtlasLogistics::get('country') }}<br>
           @lang('fleet.tax_no'):
-          {{ Hyvikk::get('tax_no') }}
+          {{ AtlasLogistics::get('tax_no') }}
         </p>
       </div>
     </div>
@@ -103,10 +103,10 @@ crossorigin="anonymous"
           <div class="col-12">
             <div class="row">
               <div class="col-6">
-                <p>Total (in {{ Hyvikk::get('currency') }})</p>
+                <p>Total (in {{ AtlasLogistics::get('currency') }})</p>
               </div>
               <div class="col-6 text-end">
-                <h4>{{ Hyvikk::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</h4>
+                <h4>{{ AtlasLogistics::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</h4>
               </div>
               <div class="col-12">
                 <p style="border-bottom: 2px solid #5d5d5d;" class="mb-0"></p>
@@ -131,7 +131,7 @@ crossorigin="anonymous"
                   @endif
                   <tr>
                     <th>@lang('fleet.mileage')</th>
-                    <td>{{ $i->booking_income->mileage ?? '-' }} {{ Hyvikk::get('dis_format') }}</td>
+                    <td>{{ $i->booking_income->mileage ?? '-' }} {{ AtlasLogistics::get('dis_format') }}</td>
                   </tr>
                   <tr>
                     <th>@lang('fleet.waitingtime')</th>
@@ -139,7 +139,7 @@ crossorigin="anonymous"
                   </tr>
                   <tr>
                     <th>@lang('fleet.amount')</th>
-                    <td>{{ Hyvikk::get('currency') }} {{ $booking->total }}</td>
+                    <td>{{ AtlasLogistics::get('currency') }} {{ $booking->total }}</td>
                   </tr>
                   <tr>
                     <th>@lang('fleet.total_tax') (%) </th>
@@ -147,11 +147,11 @@ crossorigin="anonymous"
                   </tr>
                   <tr>
                     <th>@lang('fleet.total') @lang('fleet.tax_charge') </th>
-                    <td>{{ Hyvikk::get('currency') }} {{ ($booking->total_tax_charge_rs) ? $booking->total_tax_charge_rs : 0 }}</td>
+                    <td>{{ AtlasLogistics::get('currency') }} {{ ($booking->total_tax_charge_rs) ? $booking->total_tax_charge_rs : 0 }}</td>
                   </tr>
                   <tr>
                     <th>@lang('fleet.total')</th>
-                    <td>{{ Hyvikk::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</td>
+                    <td>{{ AtlasLogistics::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</td>
                   </tr>
                   <tr>
 
@@ -160,7 +160,7 @@ crossorigin="anonymous"
                 
               </table>
               <div class="text-end">
-                <p><strong>@lang('fleet.total'): {{ Hyvikk::get('currency') }}{{ $i->booking_income->amount ?? '-' }}</strong></p>
+                <p><strong>@lang('fleet.total'): {{ AtlasLogistics::get('currency') }}{{ $i->booking_income->amount ?? '-' }}</strong></p>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@ crossorigin="anonymous"
     </div>
     <div class="row mt-3">
       <div class="col-12">
-        <p><b>NOTE:</b> {{ Hyvikk::get('invoice_text') }}</p>
+        <p><b>NOTE:</b> {{ AtlasLogistics::get('invoice_text') }}</p>
       </div>
     </div>
    

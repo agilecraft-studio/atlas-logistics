@@ -2,13 +2,13 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceItem;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\ServiceItemsModel;
 use App\Model\ServiceReminderModel;
 use Auth;
@@ -32,7 +32,7 @@ class ServiceItemsController extends Controller {
 		if ($request->get('time1') != null) {
 			$overdue_time = $request->get('time1');
 		} else {
-			$overdue_time = Hyvikk::get('time_interval');
+			$overdue_time = AtlasLogistics::get('time_interval');
 		}
 		ServiceItemsModel::create(['description' => $request->get('description'),
 			'time_interval' => $request->get('chk1'),
@@ -57,7 +57,7 @@ class ServiceItemsController extends Controller {
 		if ($request->get('time1') != null) {
 			$overdue_time = $request->get('time1');
 		} else {
-			$overdue_time = Hyvikk::get('time_interval');
+			$overdue_time = AtlasLogistics::get('time_interval');
 		}
 		$service = ServiceItemsModel::find($request->get('id'));
 		$service->description = $request->get('description');

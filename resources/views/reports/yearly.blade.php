@@ -70,17 +70,17 @@
                 <thead>
                   <tr>
                     <th scope="row">@lang('fleet.pl')</th>
-                    <td><strong>{{ Hyvikk::get("currency")}}{{ $income_amt-$expense_amt}}</strong></td>
+                    <td><strong>{{ AtlasLogistics::get("currency")}}{{ $income_amt-$expense_amt}}</strong></td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">@lang('fleet.income')</th>
-                    <td>{{ Hyvikk::get("currency")}}{{$income_amt}}</td>
+                    <td>{{ AtlasLogistics::get("currency")}}{{$income_amt}}</td>
                   </tr>
                   <tr>
                     <th scope="row">@lang('fleet.expenses')</th>
-                    <td>{{ Hyvikk::get("currency")}}{{$expense_amt}}</td>
+                    <td>{{ AtlasLogistics::get("currency")}}{{$expense_amt}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -104,14 +104,14 @@
                 <thead>
                   <tr>
                     <th scope="row">@lang('fleet.incomeByCategory')</th>
-                    <td><strong>{{ Hyvikk::get("currency")}}{{$tot}}</strong></td>
+                    <td><strong>{{ AtlasLogistics::get("currency")}}{{$tot}}</strong></td>
                   </tr>
                 </thead>
                 <tbody>
                 @foreach($income_by_cat as $exp)
                   <tr>
                     <th scope="row">{{$income_cats[$exp->income_cat]}}</th>
-                    <td>{{ Hyvikk::get("currency")}}{{$exp->amount}}</td>
+                    <td>{{ AtlasLogistics::get("currency")}}{{$exp->amount}}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -137,7 +137,7 @@
                     @php($tot = $tot + $exp->expense)
                     @endforeach
                     <th scope="row">@lang('fleet.expensesByCategory')</th>
-                    <td><strong>{{ Hyvikk::get("currency")}}{{$tot}}</strong></td>
+                    <td><strong>{{ AtlasLogistics::get("currency")}}{{$tot}}</strong></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,7 +150,7 @@
                     {{$expense_cats[$exp->expense_type]}}
                     @endif
                     </th>
-                    <td>{{ Hyvikk::get("currency")}}{{$exp->expense}}</td>
+                    <td>{{ AtlasLogistics::get("currency")}}{{$exp->expense}}</td>
                   </tr>
                   @endforeach
                 </tbody>

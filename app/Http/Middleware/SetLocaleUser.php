@@ -5,8 +5,8 @@
 
 Fleet Manager v7.0
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 
@@ -15,7 +15,7 @@ namespace App\Http\Middleware;
 use App;
 use Auth;
 use Closure;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 
 class SetLocaleUser {
 	/**
@@ -27,9 +27,9 @@ class SetLocaleUser {
 	 */
 	public function handle($request, Closure $next) {
 		if (Auth::user() && Auth::user()->user_type == "C") {
-			App::setLocale(Hyvikk::frontend('language'));
+			App::setLocale(AtlasLogistics::frontend('language'));
 		} else {
-			App::setLocale(Hyvikk::frontend('language'));
+			App::setLocale(AtlasLogistics::frontend('language'));
 		}
 		return $next($request);
 	}

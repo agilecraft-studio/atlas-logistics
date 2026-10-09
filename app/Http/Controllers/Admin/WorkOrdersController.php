@@ -2,13 +2,13 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkOrderRequest;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\Mechanic;
 use App\Model\PartsModel;
 use App\Model\PartsUsedModel;
@@ -55,7 +55,7 @@ class WorkOrdersController extends Controller {
 			$work_orders = WorkOrders::select('work_orders.*')->whereIn('vehicle_id', $vehicle_ids)->orderBy('id', 'desc')
 				->leftJoin('vehicles', 'work_orders.vehicle_id', '=', 'vehicles.id')
 				->with(['mechanic', 'vendor', 'parts']);
-			$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 			return DataTables::eloquent($work_orders)
 				->addColumn('check', function ($work_order) {
 					$tag = '<input type="checkbox" name="ids[]" value="' . $work_order->id . '" class="checkbox" id="chk' . $work_order->id . '" onclick=\'checkcheckbox();\'>';
@@ -80,13 +80,13 @@ class WorkOrdersController extends Controller {
 					return ($work_order->vendor->name) ?? "";
 				})
 				->editColumn('price', function ($work_order) {
-					return Hyvikk::get('currency') . $work_order->price;
+					return AtlasLogistics::get('currency') . $work_order->price;
 				})
 				->editColumn('parts_price_total', function ($work_order) {
-					return Hyvikk::get('currency') . $work_order->parts->sum('total');
+					return AtlasLogistics::get('currency') . $work_order->parts->sum('total');
 				})
 				->editColumn('total', function ($work_order) {
-					return Hyvikk::get('currency') . ($work_order->price + $work_order->parts->sum('total'));
+					return AtlasLogistics::get('currency') . ($work_order->price + $work_order->parts->sum('total'));
 				})
 				->addColumn('mechanic', function ($work_order) {
 					return ($work_order->mechanic->name) ?? "";

@@ -7,7 +7,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <div class="main-menubar">
-                <a class="navbar-brand" href="{{ route('frontend.home') }}"> <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" width="172px" height="auto"></a> 
+                <a class="navbar-brand" href="{{ route('frontend.home') }}"> <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" width="172px" height="auto"></a> 
 
                 <div class="res-collapse d-flex d-sm-flex d-md-flex d-lg-none d-xl-none ">
                     @if (!Auth::guest() && (Auth::user()->user_type == 'C' || Auth::user()->user_type == 'D'))

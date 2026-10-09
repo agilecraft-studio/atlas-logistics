@@ -6,7 +6,7 @@ Dear {{$booking->customer->name}},
 	Your Ride is booked for your journey. Below are the details for your journey.
 
 @component('mail::table')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 <table>
 	@if($booking->vehicle_id)

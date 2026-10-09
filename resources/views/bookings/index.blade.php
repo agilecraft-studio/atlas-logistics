@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 @section('extra_css')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
@@ -277,9 +277,9 @@
           <input type="hidden" name="wait_time_3" value="" id="wait_time_3">
           <input type="hidden" name="std_fare_3" value="" id="std_fare_3">
           @php($no_of_tax = 0)
-          @if(Hyvikk::get('tax_charge') != "null")
-          @php($no_of_tax = sizeof(json_decode(Hyvikk::get('tax_charge'), true)))
-          @php($taxes = json_decode(Hyvikk::get('tax_charge'), true))
+          @if(AtlasLogistics::get('tax_charge') != "null")
+          @php($no_of_tax = sizeof(json_decode(AtlasLogistics::get('tax_charge'), true)))
+          @php($taxes = json_decode(AtlasLogistics::get('tax_charge'), true))
           @php($i=0)
           @foreach($taxes as $key => $val)
           <input type="hidden" name="{{ 'tax_'.$i }}" value="{{ $val }}" class="{{ 'tax_'.$i }}">
@@ -313,7 +313,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="form-label">@lang('fleet.trip_mileage') ({{Hyvikk::get('dis_format')}})</label>
+                <label class="form-label">@lang('fleet.trip_mileage') ({{AtlasLogistics::get('dis_format')}})</label>
                 {!! Form::number('mileage',null,['class'=>'form-control sum','min'=>1,'step' => '0.01','id'=>'mileage']) !!}
               </div>
             </div>
@@ -343,7 +343,7 @@
                 <label class="form-label">@lang('fleet.total') @lang('fleet.tax_charge')</label>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">{{ Hyvikk::get('currency') }}</span>
+                    <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
                   </div>
                   {!! Form::number('total_tax_charge_rs',0,['class'=>'form-control
                   sum','readonly','id'=>'total_tax_charge_rs','min'=>0,'step'=>'0.01']) !!}
@@ -355,7 +355,7 @@
                 <label class="form-label">@lang('fleet.amount') </label>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">{{Hyvikk::get('currency')}}</span>
+                    <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                   </div>
                   {!! Form::number('total',null,['class'=>'form-control','id'=>'total','required','min'=>1,
                   'step'=>'0.01']) !!}
@@ -367,7 +367,7 @@
                 <label class="form-label">@lang('fleet.total') @lang('fleet.amount') </label>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">{{Hyvikk::get('currency')}}</span>
+                    <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                   </div>
                   {!! Form::number('tax_total',null,['class'=>'form-control','id'=>'tax_total','readonly','min'=>0,
                   'step'=>'0.01']) !!}

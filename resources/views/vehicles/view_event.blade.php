@@ -46,16 +46,16 @@
 
 				<tr>
 					<th>@lang('fleet.average') 
-					@if(Hyvikk::get('dis_format') == "km" && Hyvikk::get('fuel_unit') == "gallon")
+					@if(AtlasLogistics::get('dis_format') == "km" && AtlasLogistics::get('fuel_unit') == "gallon")
 					(@lang('fleet.kmpg'))
 					@endif
-					@if(Hyvikk::get('dis_format') == "km" && Hyvikk::get('fuel_unit') == "liter")
+					@if(AtlasLogistics::get('dis_format') == "km" && AtlasLogistics::get('fuel_unit') == "liter")
 					(@lang('fleet.kmpl'))
 					@endif
-					@if(Hyvikk::get('dis_format') == "miles" && Hyvikk::get('fuel_unit') == "gallon")
+					@if(AtlasLogistics::get('dis_format') == "miles" && AtlasLogistics::get('fuel_unit') == "gallon")
 					(@lang('fleet.mpg'))
 					@endif
-					@if(Hyvikk::get('dis_format') == "miles" && Hyvikk::get('fuel_unit') == "liter")
+					@if(AtlasLogistics::get('dis_format') == "miles" && AtlasLogistics::get('fuel_unit') == "liter")
 					(@lang('fleet.mpl'))
 					@endif
 				    </th>
@@ -65,7 +65,7 @@
 				</tr>
 
 				<tr>
-					<th>@lang('fleet.intMileage') @if(Hyvikk::get('dis_format') == "km")(@lang('fleet.km')) @endif @if(Hyvikk::get('dis_format') == "miles")(@lang('fleet.miles')) @endif</th>
+					<th>@lang('fleet.intMileage') @if(AtlasLogistics::get('dis_format') == "km")(@lang('fleet.km')) @endif @if(AtlasLogistics::get('dis_format') == "miles")(@lang('fleet.miles')) @endif</th>
 					<td>
 						{{$vehicle->int_mileage}}
 					</td>
@@ -121,7 +121,7 @@
 					<th>@lang('fleet.lic_exp_date')</th>
 					<td>
 						@if($vehicle->lic_exp_date)
-						{{date(Hyvikk::get('date_format'),strtotime($vehicle->lic_exp_date))}}
+						{{date(AtlasLogistics::get('date_format'),strtotime($vehicle->lic_exp_date))}}
 						@endif
 					</td>
 				</tr>
@@ -130,7 +130,7 @@
 					<th>@lang('fleet.reg_exp_date')</th>
 					<td>
 						@if($vehicle->reg_exp_date)
-						{{date(Hyvikk::get('date_format'),strtotime($vehicle->reg_exp_date))}}
+						{{date(AtlasLogistics::get('date_format'),strtotime($vehicle->reg_exp_date))}}
 						@endif
 					</td>
 				</tr>
@@ -180,7 +180,7 @@
 					<th>@lang('fleet.inc_expirationDate')</th>
 					<td>
 						@if($vehicle->getMeta('ins_exp_date'))
-							{{date(Hyvikk::get('date_format'),strtotime($vehicle->getMeta('ins_exp_date')))}}
+							{{date(AtlasLogistics::get('date_format'),strtotime($vehicle->getMeta('ins_exp_date')))}}
 						@endif
 					</td>
 				</tr>
@@ -213,12 +213,12 @@
 										$i+=$row['exp_amount'];
 										@endphp
 										<td>{{$row['exp_name']}}</td>
-										<td>{{Hyvikk::get('currency')." ". $row['exp_amount']}}</td>
+										<td>{{AtlasLogistics::get('currency')." ". $row['exp_amount']}}</td>
 									</tr>
 									@endforeach
 									<tr>
 										<td><strong>@lang('fleet.total')</strong></td>
-										<td><strong>{{Hyvikk::get('currency')." ". $i}}</strong></td>
+										<td><strong>{{AtlasLogistics::get('currency')." ". $i}}</strong></td>
 										<td></td>
 									</tr>
 									@endif

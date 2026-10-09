@@ -2,14 +2,14 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Bookings;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\Settings;
 use App\Model\VehicleModel;
 use Exception;
@@ -28,10 +28,10 @@ class TrackerController extends Controller
 
 	public function __construct()
 	{
-		$this->username = Hyvikk::get('traccar_username');
-		$this->password = Hyvikk::get('traccar_password');
-		$this->serverLink = Hyvikk::get('traccar_server_link');
-		$this->mapKey = Hyvikk::get('traccar_map_key');
+		$this->username = AtlasLogistics::get('traccar_username');
+		$this->password = AtlasLogistics::get('traccar_password');
+		$this->serverLink = AtlasLogistics::get('traccar_server_link');
+		$this->mapKey = AtlasLogistics::get('traccar_map_key');
 	}
 
 	public function traccarLocation(Request $request, $id = null)

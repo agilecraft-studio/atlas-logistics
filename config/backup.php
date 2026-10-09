@@ -4,8 +4,8 @@
 
 Fleet Manager v6.1
 
-Copyright (C) 2017-2022 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2022 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 return array(
@@ -150,7 +150,7 @@ return array(
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'info@hyvikk.com',
+            'to' => 'info@atlaslogistics.co.mw',
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),

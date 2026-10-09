@@ -138,7 +138,7 @@
 
               </td>
 
-              <td>{{Hyvikk::get('currency')." ". $row->unit_cost}}</td>
+              <td>{{AtlasLogistics::get('currency')." ". $row->unit_cost}}</td>
 
               <td>{{$row->stock}}</td>
 

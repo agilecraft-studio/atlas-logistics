@@ -111,19 +111,19 @@ input:checked + .slider:before {
                     
                   </h6>
                   <label class="switch">
-                  <input type="checkbox" class="api" id="api" name="name[api]" value="1"  @if(Hyvikk::api('api') == "1") checked @endif>
+                  <input type="checkbox" class="api" id="api" name="name[api]" value="1"  @if(AtlasLogistics::api('api') == "1") checked @endif>
                   <span class="slider round"></span>
                   </label>
                 </div>
 
-                @if(Hyvikk::api('api') == "1")
+                @if(AtlasLogistics::api('api') == "1")
                 <div class="form-group col-md-3">
                   <h6>{!! Form::label('google_api',__('fleet.google_places_api'),['class'=>"form-label"]) !!} 
                     <a data-toggle="modal" data-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
                     <strong class="text-muted">(<a href="https://docs.listingprowp.com/knowledgebase/how-to-get-map-working-with-google-api-key/" target="blank">@lang('fleet.api_guide')</a>)</strong>
                   </h6>
                   <label class="switch">
-                  <input type="checkbox" name="name[google_api]" value="1" @if(Hyvikk::api('google_api') == "1") checked @endif>
+                  <input type="checkbox" name="name[google_api]" value="1" @if(AtlasLogistics::api('google_api') == "1") checked @endif>
                   <span class="slider round"></span>
                   </label>
                 </div>
@@ -131,7 +131,7 @@ input:checked + .slider:before {
                 <div class="form-group col-md-3">
                   <h6>{!! Form::label('anyone_register',__('fleet.anyone_register'),['class'=>"form-label"]) !!} </h6>
                   <label class="switch">
-                  <input type="checkbox" name="name[anyone_register]" value="1" @if(Hyvikk::api('anyone_register') == "1") checked @endif>
+                  <input type="checkbox" name="name[anyone_register]" value="1" @if(AtlasLogistics::api('anyone_register') == "1") checked @endif>
                   <span class="slider round"></span>
                   </label>
                 </div>
@@ -141,7 +141,7 @@ input:checked + .slider:before {
                     <a data-toggle="modal" data-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   </h6>
                   <label class="switch">
-                  <input type="checkbox" name="name[driver_review]" value="1" @if(Hyvikk::api('driver_review') == "1") checked @endif>
+                  <input type="checkbox" name="name[driver_review]" value="1" @if(AtlasLogistics::api('driver_review') == "1") checked @endif>
                   <span class="slider round"></span>
                   </label>
                 </div>
@@ -149,7 +149,7 @@ input:checked + .slider:before {
                 <div class="form-group col-md-12">
                   {!! Form::label('region_availability',__('fleet.region_availability'),['class'=>"form-label"]) !!}
                   {!! Form::text('name[region_availability]',
-                  Hyvikk::api('region_availability'),['class'=>"form-control"]) !!}
+                  AtlasLogistics::api('region_availability'),['class'=>"form-control"]) !!}
                 </div>
 
                 <div class="form-group col-md-4">
@@ -157,7 +157,7 @@ input:checked + .slider:before {
                   <div class="input-group mb-3">
                   <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-clock-o"></i></span></div>
-                  {!! Form::number('name[max_trip]',Hyvikk::api('max_trip'),['class'=>"form-control trip","required"]) !!}
+                  {!! Form::number('name[max_trip]',AtlasLogistics::api('max_trip'),['class'=>"form-control trip","required"]) !!}
                   </div>
                 </div>
 
@@ -166,7 +166,7 @@ input:checked + .slider:before {
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-calendar-check-o"></i></span></div>
-                    {!! Form::number('name[booking]',Hyvikk::api('booking'),['class'=>"form-control",'required']) !!}
+                    {!! Form::number('name[booking]',AtlasLogistics::api('booking'),['class'=>"form-control",'required']) !!}
                   </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -175,7 +175,7 @@ input:checked + .slider:before {
                     <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-calendar-times-o"></i></span>
                     </div>
-                    {!! Form::number('name[cancel]',Hyvikk::api('cancel'),['class'=>"form-control"]) !!}
+                    {!! Form::number('name[cancel]',AtlasLogistics::api('cancel'),['class'=>"form-control"]) !!}
                   </div>
                 </div>
                 @endif
@@ -197,13 +197,13 @@ input:checked + .slider:before {
                   {!! Form::label('db_url',__('fleet.db_url'),['class'=>"form-label"]) !!}
                   <a data-toggle="modal" data-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('db_url',
-                  Hyvikk::api('db_url'),['class'=>"form-control",'required','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
+                  AtlasLogistics::api('db_url'),['class'=>"form-control",'required','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
                 </div>
                 {{-- <div class="form-group col-md-6">
                   {!! Form::label('db_secret',__('fleet.db_secret'),['class'=>"form-label"]) !!}
 
                   {!! Form::text('db_secret',
-                  Hyvikk::api('db_secret'),['class'=>"form-control",'required']) !!}
+                  AtlasLogistics::api('db_secret'),['class'=>"form-control",'required']) !!}
                 </div> --}}
                 <div class="col-md-12" style="font-size:20px" >
                
@@ -234,7 +234,7 @@ input:checked + .slider:before {
                   {!! Form::label('server_key',__('fleet.legacy_key'),['class'=>"form-label"]) !!}
                   <a data-toggle="modal" data-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('server_key',
-                  Hyvikk::api('server_key'),['class'=>"form-control",'required']) !!}
+                  AtlasLogistics::api('server_key'),['class'=>"form-control",'required']) !!}
                 </div>
                 <div class="col-md-6">
                   <button type="submit" class="btn btn-success" style="margin-right: 10px">@lang('fleet.test')</button>
@@ -249,7 +249,7 @@ input:checked + .slider:before {
                   {!! Form::label('api_key',__('fleet.google_maps'),['class'=>"form-label"]) !!}
                   <a data-toggle="modal" data-target="#myModal6"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('api_key',
-                  Hyvikk::api('api_key'),['class'=>"form-control",'required']) !!}
+                  AtlasLogistics::api('api_key'),['class'=>"form-control",'required']) !!}
                 </div>
                 <div class="col-md-6">
                   <button type="submit" id="test_api" class="btn btn-success" style="margin-right: 10px">@lang('fleet.test')</button>

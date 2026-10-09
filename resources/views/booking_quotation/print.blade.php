@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{Hyvikk::get('app_name')}}</title>
+  <title>{{AtlasLogistics::get('app_name')}}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/cdn/fonts.css')}}">
 </head>
 <body onload="window.print();">
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
   
   <div class="wrapper">
     <section class="invoice">
@@ -34,8 +34,8 @@
         <div class="col-xs-12">
           <h2 class="page-header">
             <span class="logo-lg">
-              <img src="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
-              {{  Hyvikk::get('app_name')  }}
+              <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
+              {{  AtlasLogistics::get('app_name')  }}
             </span>
               <small class="pull-right"> <b>@lang('fleet.date') : </b>{{ date($date_format_setting) }}</small>
           </h2>
@@ -45,15 +45,15 @@
         <div class="col-sm-4 invoice-col">
           <b>From</b>
           <address>
-           {{Hyvikk::get('badd1')}}
+           {{AtlasLogistics::get('badd1')}}
            <br>
-           {{Hyvikk::get('badd2')}}
+           {{AtlasLogistics::get('badd2')}}
            <br>
-           {{Hyvikk::get('city')}},
+           {{AtlasLogistics::get('city')}},
 
-           {{Hyvikk::get('state')}}
+           {{AtlasLogistics::get('state')}}
            <br>
-           {{Hyvikk::get('country')}}
+           {{AtlasLogistics::get('country')}}
           </address>
         </div>
         <div class="col-sm-4 invoice-col">
@@ -95,9 +95,9 @@
       </div>
       <div class="row">
         <div class="col-xs-6">
-          @if(Hyvikk::get('invoice_text') != null)
+          @if(AtlasLogistics::get('invoice_text') != null)
           <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-           {{Hyvikk::get('invoice_text')}}
+           {{AtlasLogistics::get('invoice_text')}}
           </p>
           @endif
         </div>
@@ -119,7 +119,7 @@
               @endif
               <tr>
                 <th>@lang('fleet.mileage'):</th>
-                <td>{{ $data->mileage }} {{ Hyvikk::get('dis_format') }}</td>
+                <td>{{ $data->mileage }} {{ AtlasLogistics::get('dis_format') }}</td>
               </tr>
               <tr>
                 <th>@lang('fleet.waitingtime'):</th>
@@ -129,7 +129,7 @@
               </tr>
               <tr>
                 <th>@lang('fleet.amount'):</th>
-                <td>{{ Hyvikk::get('currency') }} {{ $data->total }}</td>
+                <td>{{ AtlasLogistics::get('currency') }} {{ $data->total }}</td>
               </tr>
               <tr>
                 <th>@lang('fleet.total_tax') (%) :</th>
@@ -137,11 +137,11 @@
               </tr>
               <tr>
                 <th>@lang('fleet.total') @lang('fleet.tax_charge') :</th>
-                <td>{{ Hyvikk::get('currency') }} {{ ($data->total_tax_charge_rs) ? $data->total_tax_charge_rs : 0 }} </td>
+                <td>{{ AtlasLogistics::get('currency') }} {{ ($data->total_tax_charge_rs) ? $data->total_tax_charge_rs : 0 }} </td>
               </tr>
               <tr>
                 <th>@lang('fleet.total'):</th>
-                <td>{{ Hyvikk::get('currency') }} {{ ($data->tax_total) ? $data->tax_total : $data->total }}</td>
+                <td>{{ AtlasLogistics::get('currency') }} {{ ($data->tax_total) ? $data->tax_total : $data->total }}</td>
               </tr>
             </table>
           </div>

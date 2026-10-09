@@ -66,7 +66,7 @@
                       @foreach($details as $d)
                       <tr>
                         <th scope="row">{{$vendors[$d->vendor_id]}}</th>
-                        <td>{{ Hyvikk::get("currency")}} {{$d->total}}</td>
+                        <td>{{ AtlasLogistics::get("currency")}} {{$d->total}}</td>
                       </tr>
                       @endforeach
                     </tbody>

@@ -5,8 +5,8 @@
 
 Fleet Manager v6.5
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 
@@ -14,7 +14,7 @@ Design and developed by Hyvikk Solutions <https://hyvikk.com/>
 
 use App\Http\Controllers\Controller;
 use App\Model\Bookings;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\MessageModel;
 use App\Model\ReviewModel;
 use App\Model\User;
@@ -142,7 +142,7 @@ class UsersApi extends Controller {
 				}
 				else
 				{
-					$base = Hyvikk::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
+					$base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
 					$base_fare = (string)$base;
 					
 					$total_fare=$book->total;
@@ -202,7 +202,7 @@ class UsersApi extends Controller {
 		
 
 		if ($book) {
-				$key = Hyvikk::api('api_key');
+				$key = AtlasLogistics::api('api_key');
 
 	
 				$vhc = VehicleModel::find($book->vehicle_id);
@@ -235,7 +235,7 @@ class UsersApi extends Controller {
 					}
 					else
 					{
-						$base = Hyvikk::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
+						$base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
 						$base_fare = (string)$base;
 						
 						$total_fare=$book->total;
@@ -348,7 +348,7 @@ class UsersApi extends Controller {
 				}
 				else
 				{
-					$base = Hyvikk::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
+					$base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
 					$base_fare = (string)$base;
 					
 					$total_fare=$book->total;
@@ -438,7 +438,7 @@ class UsersApi extends Controller {
 		} else {
 			if (User::where('id', $request->user_id)->where('api_token', $request->api_token)->exists()) {
 
-				$key = Hyvikk::api('api_key');
+				$key = AtlasLogistics::api('api_key');
 
 				// $url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $request->source . "&destination=" . $request->destination . "&mode=driving&units=metric&sensor=false&key=" . $key;
 				$url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . $request->src_lat . "," . $request->src_long . "&destination=" . $request->dest_lat . "," . $request->dest_long . "&mode=driving&units=metric&sensor=false&key=" . $key;
@@ -458,10 +458,10 @@ class UsersApi extends Controller {
 
 				// $total_kms = explode(" ", $response['routes'][0]['legs'][0]['distance']['text'])[0];
 
-				// $km_base = Hyvikk::fare($type . '_base_km');
-				// $base_fare = Hyvikk::fare($type . '_base_fare');
-				// $std_fare = Hyvikk::fare($type . '_std_fare');
-				// $base_km = Hyvikk::fare($type . '_base_km');
+				// $km_base = AtlasLogistics::fare($type . '_base_km');
+				// $base_fare = AtlasLogistics::fare($type . '_base_fare');
+				// $std_fare = AtlasLogistics::fare($type . '_std_fare');
+				// $base_km = AtlasLogistics::fare($type . '_base_km');
 
 				// if ($total_kms <= $km_base) {
 				//  $total_fare = $base_fare;
@@ -471,8 +471,8 @@ class UsersApi extends Controller {
 				// }
 				// // calculate tax charges
 				// $count = 0;
-				// if (Hyvikk::get('tax_charge') != "null") {
-				//  $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+				// if (AtlasLogistics::get('tax_charge') != "null") {
+				//  $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 				//  foreach ($taxes as $key => $val) {
 				//      $count = $count + $val;
 				//  }
@@ -629,7 +629,7 @@ class UsersApi extends Controller {
 	// 		if ($user->user_type == "C") {
 	// 			$data['data'] = ['userinfo' => array("user_id" => $user->id,
 	// 				"api_token" => $user->api_token,
-	// 				"currency"=>Hyvikk::get('currency'),
+	// 				"currency"=>AtlasLogistics::get('currency'),
 	// 				"fcm_id" => $user->getMeta('fcm_id'),
 	// 				"device_token" => $user->getMeta('device_token'),
 	// 				"socialmedia_uid" => $user->getMeta('socialmedia_uid'),
@@ -661,7 +661,7 @@ class UsersApi extends Controller {
 	// 					} else { $vehicle = "";}
 	// 				$data['data'] = ['userinfo' => array("user_id" => ($user->id??'-'),
 	// 					"api_token" => ($user->api_token??'-'),
-	// 					"currency"=>(Hyvikk::get('currency')??'-'),
+	// 					"currency"=>(AtlasLogistics::get('currency')??'-'),
 	// 					"fcm_id" => ($user->getMeta('fcm_id')??'-'),
 	// 					"device_token" => ($user->getMeta('device_token')??'-'),
 	// 					"socialmedia_uid" => "",
@@ -730,7 +730,7 @@ public function user_login(Request $request) {
 		if ($user->user_type == "C") {
 			$data['data'] = ['userinfo' => array("user_id" => $user->id,
 				"api_token" => $user->api_token,
-				"currency"=>Hyvikk::get('currency'),
+				"currency"=>AtlasLogistics::get('currency'),
 				"fcm_id" => $user->getMeta('fcm_id'),
 				"device_token" => $user->getMeta('device_token'),
 				"socialmedia_uid" => $user->getMeta('socialmedia_uid'),
@@ -750,7 +750,7 @@ public function user_login(Request $request) {
 		if ($user->user_type == "D") {
 
 
-			if(Hyvikk::get('driver_doc_verification') == 1)
+			if(AtlasLogistics::get('driver_doc_verification') == 1)
 			{
 				if($user->getMeta('is_verified') != null && $user->getMeta('is_verified') == 1)
 				{
@@ -765,7 +765,7 @@ public function user_login(Request $request) {
 					   } else { $vehicle = "";}
 				   $data['data'] = ['userinfo' => array("user_id" => ($user->id??'-'),
 					   "api_token" => ($user->api_token??'-'),
-					   "currency"=>(Hyvikk::get('currency')??'-'),
+					   "currency"=>(AtlasLogistics::get('currency')??'-'),
 					   "fcm_id" => ($user->getMeta('fcm_id')??'-'),
 					   "device_token" => ($user->getMeta('device_token')??'-'),
 					   "socialmedia_uid" => "",
@@ -801,7 +801,7 @@ public function user_login(Request $request) {
 				   $data['data'] = "";
 				}
 			}
-			else if(Hyvikk::get('driver_doc_verification') == 0)
+			else if(AtlasLogistics::get('driver_doc_verification') == 0)
 			{
 					if ($user->vehicle_id != null) {
 						$v = VehicleModel::where('id', $user->vehicle_id)->first();
@@ -816,7 +816,7 @@ public function user_login(Request $request) {
 
 					$data['data'] = ['userinfo' => array("user_id" => ($user->id??'-'),
 						"api_token" => ($user->api_token??'-'),
-						"currency"=>(Hyvikk::get('currency')??'-'),
+						"currency"=>(AtlasLogistics::get('currency')??'-'),
 						"fcm_id" => ($user->getMeta('fcm_id')??'-'),
 						"device_token" => ($user->getMeta('device_token')??'-'),
 						"socialmedia_uid" => "",
@@ -1095,8 +1095,8 @@ public function user_login(Request $request) {
 					if($vhc->getMeta('price'))
 					{
 						$count = 0;
-							if (Hyvikk::get('tax_charge') != "null") {
-								$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+							if (AtlasLogistics::get('tax_charge') != "null") {
+								$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 								foreach ($taxes as $key => $val) {
 									$count = $count + $val;
 								}
@@ -1119,12 +1119,12 @@ public function user_login(Request $request) {
 					}
 					else
 					{
-						$base = Hyvikk::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
+						$base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
 	
-						$km_base = Hyvikk::fare($type . '_base_km');
+						$km_base = AtlasLogistics::fare($type . '_base_km');
 						$base_fare = (string)$base;
-						$std_fare = Hyvikk::fare($type . '_std_fare');
-						$base_km = Hyvikk::fare($type . '_base_km');
+						$std_fare = AtlasLogistics::fare($type . '_std_fare');
+						$base_km = AtlasLogistics::fare($type . '_base_km');
 		
 						if ($total_kms <= $km_base) {
 							$total_fare = $base_fare;
@@ -1134,8 +1134,8 @@ public function user_login(Request $request) {
 						}
 	
 						$count = 0;
-						if (Hyvikk::get('tax_charge') != "null") {
-							$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+						if (AtlasLogistics::get('tax_charge') != "null") {
+							$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 							foreach ($taxes as $key => $val) {
 								$count = $count + $val;
 							}
@@ -1190,7 +1190,7 @@ public function user_login(Request $request) {
 		
 			$from_date = $date;
 			$to_date = $date;
-			$vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE';
+			$vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
 			$condition = " and type_id = '" . $request->type_id . "'";
 		
 				if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
@@ -1239,7 +1239,7 @@ public function user_login(Request $request) {
 					$vhc = VehicleModel::find($ro->id);
 					//$text = $vhc->make_name . "-" . $vhc->model_name . "-" . $vhc->license_plate;
 					$vtypes = VehicleTypeModel::find($vhc->type_id);
-					$base= Hyvikk::fare(strtolower(str_replace(' ', '', $vtypes->vehicletype)) . '_base_fare');
+					$base= AtlasLogistics::fare(strtolower(str_replace(' ', '', $vtypes->vehicletype)) . '_base_fare');
 					$a = [
 						'vehicle_id'=> $vhc->id,
 						'vehicle_name' => $vhc->make_name . "-" . $vhc->model_name,
@@ -1766,7 +1766,7 @@ public function user_login(Request $request) {
 		$arr=[
 			'payment_intent_id'=>$request->transaction_id
 		];
-		\Stripe\Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+		\Stripe\Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 
 		$payment_int = \Stripe\PaymentIntent::retrieve(
 			$request->transaction_id
@@ -2208,9 +2208,9 @@ public function user_login(Request $request) {
 		if (count($bookings) > 0) {
 			$data['success'] = 1;
 			$data['message'] = "Data Received.";
-			if (Hyvikk::get('dis_format') == 'meter') {
+			if (AtlasLogistics::get('dis_format') == 'meter') {
 				$unit = 'm';
-			}if (Hyvikk::get('dis_format') == 'km') {
+			}if (AtlasLogistics::get('dis_format') == 'km') {
 				$unit = 'km';
 			}
 
@@ -2246,9 +2246,9 @@ public function user_login(Request $request) {
 		->where('bookings_meta.value', 'Completed')
 		->first();
 
-		if (Hyvikk::get('dis_format') == 'meter') {
+		if (AtlasLogistics::get('dis_format') == 'meter') {
 			$unit = 'm';
-		}if (Hyvikk::get('dis_format') == 'km') {
+		}if (AtlasLogistics::get('dis_format') == 'km') {
 			$unit = 'km';
 		}
 
@@ -2328,7 +2328,7 @@ public function user_login(Request $request) {
 					}
 					else
 					{
-						$base = Hyvikk::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
+						$base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $v_type->vehicletype)) . '_base_fare');
 						$base_fare = (string)$base;
 						
 						$total_fare=$booking->total;
@@ -2657,11 +2657,11 @@ public function user_login(Request $request) {
 
 		}
 
-		if (Hyvikk::get('dis_format') == 'meter') {
+		if (AtlasLogistics::get('dis_format') == 'meter') {
 
 			$unit = 'm';
 
-		}if (Hyvikk::get('dis_format') == 'km') {
+		}if (AtlasLogistics::get('dis_format') == 'km') {
 
 			$unit = 'km';
 
@@ -2725,7 +2725,7 @@ public function user_login(Request $request) {
 
 			'ride_status' => $booking->getMeta('ride_status'),
 
-			'base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype)) . '_base_fare'),
+			'base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype)) . '_base_fare'),
 
 			'ride_amount' => $booking->getMeta('total'),
 

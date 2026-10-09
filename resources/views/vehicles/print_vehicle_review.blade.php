@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{Hyvikk::get('app_name')}}</title>
+  <title>{{AtlasLogistics::get('app_name')}}</title>
   <!-- Tell be browser to be responsive to screen widb -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -31,7 +31,7 @@
   </style>
 </head>
 <body onload="window.print();">
-  @php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+  @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
   <div class="wrapper">
   <!-- Main content -->
   <section class="invoice">
@@ -40,8 +40,8 @@
       <div class="col-xs-12">
         <h2 class="page-header">
           <span class="logo-lg">
-          <img src="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
-          {{  Hyvikk::get('app_name')  }}
+          <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
+          {{  AtlasLogistics::get('app_name')  }}
           </span>
 
           <small class="pull-right"> <b>@lang('fleet.date') :</b> {{date($date_format_setting)}}</small>
@@ -73,12 +73,12 @@
             {{$review->reg_no}}</td>
           </tr>
           <tr>
-            <td><b>@lang('fleet.kms_out') ({{Hyvikk::get('dis_format')}}): </b>
-            {{$review->kms_outgoing}} {{Hyvikk::get('dis_format')}}</td>
+            <td><b>@lang('fleet.kms_out') ({{AtlasLogistics::get('dis_format')}}): </b>
+            {{$review->kms_outgoing}} {{AtlasLogistics::get('dis_format')}}</td>
           </tr>
           <tr>
-            <td><b>@lang('fleet.kms_in') ({{Hyvikk::get('dis_format')}}): </b>
-            {{$review->kms_incoming}} {{Hyvikk::get('dis_format')}}</td>
+            <td><b>@lang('fleet.kms_in') ({{AtlasLogistics::get('dis_format')}}): </b>
+            {{$review->kms_incoming}} {{AtlasLogistics::get('dis_format')}}</td>
           </tr>
           <tr>
             <td><b>@lang('fleet.fuel_out'): </b>

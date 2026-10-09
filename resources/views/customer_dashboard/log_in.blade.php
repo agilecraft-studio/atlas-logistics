@@ -8,7 +8,7 @@
 
 @section('title')
 
-    <title>@lang('frontend.login') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.login') | {{ AtlasLogistics::get('app_name') }}</title>
 
     
 

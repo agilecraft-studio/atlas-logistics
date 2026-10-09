@@ -2,15 +2,15 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\FrontEnd;
 use App\Http\Controllers\Controller;
 use App\Model\Address;
 use App\Model\Bookings;
 use App\Model\CompanyServicesModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\MessageModel;
 use App\Model\TeamModel;
 use App\Model\Testimonial;
@@ -28,18 +28,18 @@ use Validator;
 class FrontendApiController extends Controller {
 	public function __construct() {
 		if (file_exists(storage_path('installed'))) {
-			app()->setLocale(Hyvikk::frontend('language'));
+			app()->setLocale(AtlasLogistics::frontend('language'));
 		}
 	}
 	public function language() {
 		$data['success'] = "1";
 		$data['message'] = "Data fetched!";
-		$l = explode('-', Hyvikk::get("language"));
+		$l = explode('-', AtlasLogistics::get("language"));
 		$data['data'] = array('language' => $l[1]);
 		return $data;
 	}
 	public function user_booking_history($id) {
-		$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 		$user = User::find($id);
 		// $bookings = Bookings::where('user_id', $id)->latest()->get();
 		if ($user->group_id == null || $user->user_type == "S") {
@@ -106,7 +106,7 @@ class FrontendApiController extends Controller {
 		}
 	}
 	public function methods() {
-		return json_decode(Hyvikk::payment('method'));
+		return json_decode(AtlasLogistics::payment('method'));
 	}
 	public function reset_password(Request $request) {
 		$validation = Validator::make($request->all(), [
@@ -176,28 +176,28 @@ class FrontendApiController extends Controller {
 	}
 	public function company_info() {
 		$date_setting = "DD-MM-YYYY";
-		if (Hyvikk::get('date_format') == 'Y-m-d') {
+		if (AtlasLogistics::get('date_format') == 'Y-m-d') {
 			$date_setting = "YYYY-MM-DD";
 		}
-		if (Hyvikk::get('date_format') == 'm-d-Y') {
+		if (AtlasLogistics::get('date_format') == 'm-d-Y') {
 			$date_setting = "MM-DD-YYYY";
 		}
-		$data['company_logo'] = url('assets/images/' . Hyvikk::get('logo_img'));
-		$data['contact_email'] = Hyvikk::frontend('contact_email');
-		$data['company_address'] = Hyvikk::get('badd1') . ", " . Hyvikk::get('badd2') . ", " . Hyvikk::get('city') . ", " . Hyvikk::get('state') . ", " . Hyvikk::get('country') . ".";
-		$data['company_phone'] = Hyvikk::frontend('contact_phone');
-		$data['customer_support'] = Hyvikk::frontend('customer_support');
-		$data['about_breif'] = Hyvikk::frontend('about_us');
-		$data['faq_link'] = Hyvikk::frontend('faq_link');
+		$data['company_logo'] = url('assets/images/' . AtlasLogistics::get('logo_img'));
+		$data['contact_email'] = AtlasLogistics::frontend('contact_email');
+		$data['company_address'] = AtlasLogistics::get('badd1') . ", " . AtlasLogistics::get('badd2') . ", " . AtlasLogistics::get('city') . ", " . AtlasLogistics::get('state') . ", " . AtlasLogistics::get('country') . ".";
+		$data['company_phone'] = AtlasLogistics::frontend('contact_phone');
+		$data['customer_support'] = AtlasLogistics::frontend('customer_support');
+		$data['about_breif'] = AtlasLogistics::frontend('about_us');
+		$data['faq_link'] = AtlasLogistics::frontend('faq_link');
 		$data['driver_login_url'] = url('admin/login');
-		$data['gmap_api_key'] = Hyvikk::api('api_key');
-		$data['facebook'] = Hyvikk::frontend('facebook');
-		$data['twitter'] = Hyvikk::frontend('twitter');
-		$data['instagram'] = Hyvikk::frontend('instagram');
-		$data['linkedin'] = Hyvikk::frontend('linkedin');
-		$data['cancellation'] = Hyvikk::frontend('cancellation');
-		$data['terms'] = Hyvikk::frontend('terms');
-		$data['privacy_policy'] = Hyvikk::frontend('privacy_policy');
+		$data['gmap_api_key'] = AtlasLogistics::api('api_key');
+		$data['facebook'] = AtlasLogistics::frontend('facebook');
+		$data['twitter'] = AtlasLogistics::frontend('twitter');
+		$data['instagram'] = AtlasLogistics::frontend('instagram');
+		$data['linkedin'] = AtlasLogistics::frontend('linkedin');
+		$data['cancellation'] = AtlasLogistics::frontend('cancellation');
+		$data['terms'] = AtlasLogistics::frontend('terms');
+		$data['privacy_policy'] = AtlasLogistics::frontend('privacy_policy');
 		$data['date_format'] = $date_setting;
 		return response()->json($data);
 	}
@@ -230,10 +230,10 @@ class FrontendApiController extends Controller {
 		return response()->json($data);
 	}
 	public function about_fleet() {
-		$data['description'] = Hyvikk::frontend('about_description');
-		$data['title'] = Hyvikk::frontend('about_title');
-		$data['cities'] = Hyvikk::frontend('cities');
-		$data['vehicles'] = Hyvikk::frontend('vehicles');
+		$data['description'] = AtlasLogistics::frontend('about_description');
+		$data['title'] = AtlasLogistics::frontend('about_title');
+		$data['cities'] = AtlasLogistics::frontend('cities');
+		$data['vehicles'] = AtlasLogistics::frontend('vehicles');
 		$team = TeamModel::get();
 		$records = array();
 		foreach ($team as $test) {
@@ -261,19 +261,19 @@ class FrontendApiController extends Controller {
 		return response()->json($data);
 	}
 	public function footer_data() {
-		$data['about_us'] = Hyvikk::frontend('about_us');
-		$data['contact_email'] = Hyvikk::frontend('contact_email');
-		$data['contact_phone'] = Hyvikk::frontend('contact_phone');
-		$data['address'] = Hyvikk::get('badd1') . ", " . Hyvikk::get('badd2') . ", " . Hyvikk::get('city') . ", " . Hyvikk::get('state') . ", " . Hyvikk::get('country') . ".";
-		$data['icon'] = url('assets/images/' . Hyvikk::get('icon_img'));
-		$data['logo'] = url('assets/images/' . Hyvikk::get('logo_img'));
-		$data['facebook'] = Hyvikk::frontend('facebook');
-		$data['twitter'] = Hyvikk::frontend('twitter');
-		$data['instagram'] = Hyvikk::frontend('instagram');
-		$data['linkedin'] = Hyvikk::frontend('linkedin');
-		$data['cancellation'] = Hyvikk::frontend('cancellation');
-		$data['terms'] = Hyvikk::frontend('terms');
-		$data['privacy_policy'] = Hyvikk::frontend('privacy_policy');
+		$data['about_us'] = AtlasLogistics::frontend('about_us');
+		$data['contact_email'] = AtlasLogistics::frontend('contact_email');
+		$data['contact_phone'] = AtlasLogistics::frontend('contact_phone');
+		$data['address'] = AtlasLogistics::get('badd1') . ", " . AtlasLogistics::get('badd2') . ", " . AtlasLogistics::get('city') . ", " . AtlasLogistics::get('state') . ", " . AtlasLogistics::get('country') . ".";
+		$data['icon'] = url('assets/images/' . AtlasLogistics::get('icon_img'));
+		$data['logo'] = url('assets/images/' . AtlasLogistics::get('logo_img'));
+		$data['facebook'] = AtlasLogistics::frontend('facebook');
+		$data['twitter'] = AtlasLogistics::frontend('twitter');
+		$data['instagram'] = AtlasLogistics::frontend('instagram');
+		$data['linkedin'] = AtlasLogistics::frontend('linkedin');
+		$data['cancellation'] = AtlasLogistics::frontend('cancellation');
+		$data['terms'] = AtlasLogistics::frontend('terms');
+		$data['privacy_policy'] = AtlasLogistics::frontend('privacy_policy');
 		return response()->json($data);
 	}
 	public function vehicles() {
@@ -301,7 +301,7 @@ class FrontendApiController extends Controller {
 		return response()->json($data);
 	}
 	public function booking_history($id) {
-		$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 		$bookings = Bookings::where('customer_id', $id)->latest()->get();
 		$data = array();
 		foreach ($bookings as $booking) {
@@ -345,7 +345,7 @@ class FrontendApiController extends Controller {
 			$data['message'] = "Unable to Process your Ride Request. Please, Try again Later!";
 			$data['data'] = "";
 		} else {
-			$booking_time = Hyvikk::frontend('booking_time');
+			$booking_time = AtlasLogistics::frontend('booking_time');
 			$booking = Bookings::create(['customer_id' => $request->user_id,
 				'pickup_addr' => $request->source_address,
 				'dest_addr' => $request->dest_address,

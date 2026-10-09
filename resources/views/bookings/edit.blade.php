@@ -330,7 +330,7 @@
 
  {{-- <script src="{{asset('assets/js/bookings/returnbooking.js?435435')}}"></script> --}}
 
-@if(Hyvikk::api('google_api') == "1")
+@if(AtlasLogistics::api('google_api') == "1")
 <script>
   function initMap() {
     $('#pickup_addr').attr("placeholder","");
@@ -348,7 +348,7 @@
       // });
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{Hyvikk::api('api_key')}}&libraries=places&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key={{AtlasLogistics::api('api_key')}}&libraries=places&callback=initMap"
   async defer></script>
 @endif
 @endsection

@@ -8,7 +8,7 @@
 
 
 @section('title')
-    <title>@lang('frontend.Reset_Password') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.Reset_Password') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 
 

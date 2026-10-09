@@ -8,7 +8,7 @@ income, vendors, documents, compliance, reporting, notifications, RBAC, audit.
 
 ## Not a taxi app
 No passenger booking/taxi flows. Booking/quotation tables inherited from the
-Hyvikk base are freight-trip records; taxi-style frontend (cities, fares,
+Atlas Logistics base are freight-trip records; taxi-style frontend (cities, fares,
 testimonials) will be disabled or repurposed during customization.
 
 ## Notifications direction (2026-10-08)

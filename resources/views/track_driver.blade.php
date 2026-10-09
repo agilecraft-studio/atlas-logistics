@@ -53,7 +53,7 @@
 
 @endsection
 @section('script')
-<script src="https://maps.googleapis.com/maps/api/js?key={{Hyvikk::api('api_key')}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{AtlasLogistics::api('api_key')}}"></script>
 <script type="text/javascript">
   function gm_authFailure() {
     new PNotify({

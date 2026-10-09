@@ -6,7 +6,7 @@
                <div class="col-lg-6 mb-lg-0 mb-4">
                    <div class="copyright text-center text-sm text-muted text-lg-start">
                      <p class="mb-0 copyright-link">
-                     {!! Hyvikk::get('web_footer') !!}
+                     {!! AtlasLogistics::get('web_footer') !!}
                    </p>
                    </div>
                </div>
@@ -15,10 +15,10 @@
                      
                
  
-                       @if(Hyvikk::frontend('footer_link'))
+                       @if(AtlasLogistics::frontend('footer_link'))
  
  
-                       @foreach(json_decode(Hyvikk::frontend('footer_link')) as $f)
+                       @foreach(json_decode(AtlasLogistics::frontend('footer_link')) as $f)
          
                          
          
@@ -47,7 +47,7 @@
            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-1 order-2 order-sm-2 order-md-2 order-lg-1 order-xl-1 d-flex  justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-start justify-content-xl-start">
             
              <p class="mb-0 copyright-link">
-               {!! Hyvikk::get('web_footer') !!}
+               {!! AtlasLogistics::get('web_footer') !!}
               
              </p>
            </div> 
@@ -55,10 +55,10 @@
              <div class="footer_link">
           
  
-               @if(Hyvikk::frontend('footer_link'))
+               @if(AtlasLogistics::frontend('footer_link'))
  
  
-               @foreach(json_decode(Hyvikk::frontend('footer_link')) as $f)
+               @foreach(json_decode(AtlasLogistics::frontend('footer_link')) as $f)
  
                    <a href="{{$f->url}}" target="_blank" class="me-0 me-sm-3 me-md-4 me-lg-4 me-xl-5 mb-sm-0 mb-2">{{$f->title}}</a>
                  

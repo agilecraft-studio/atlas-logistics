@@ -1,6 +1,6 @@
 @extends("layouts.app")
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
-@php($currency=Hyvikk::get('currency'))
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
+@php($currency=AtlasLogistics::get('currency'))
 @section("breadcrumb")
 <li class="breadcrumb-item active"> @lang('fleet.fuel')</li>
 @endsection
@@ -68,32 +68,32 @@
                 <b>@lang('fleet.vin'):</b> {{$row->vehicle_data['vin']}}
               </td>
               <td>{{date($date_format_setting,strtotime($row->date))}}</td>
-              <td> {{$row->qty}} @if(Hyvikk::get('fuel_unit') == "gallon") @lang('fleet.gal') @else Liter @endif </td>
+              <td> {{$row->qty}} @if(AtlasLogistics::get('fuel_unit') == "gallon") @lang('fleet.gal') @else Liter @endif </td>
               <td>
                 @php ($total = $row->qty * $row->cost_per_unit)
                 {{ $currency }} {{$total}}
                 <br>
-                {{ $currency }} {{$row->cost_per_unit}}/ {{ Hyvikk::get('fuel_unit') }}
+                {{ $currency }} {{$row->cost_per_unit}}/ {{ AtlasLogistics::get('fuel_unit') }}
               </td>
               <td>
-                @lang('fleet.start'): {{$row->start_meter}} {{Hyvikk::get('dis_format')}}
+                @lang('fleet.start'): {{$row->start_meter}} {{AtlasLogistics::get('dis_format')}}
                 <br>
-                @lang('fleet.end'): {{$row->end_meter}} {{Hyvikk::get('dis_format')}}
+                @lang('fleet.end'): {{$row->end_meter}} {{AtlasLogistics::get('dis_format')}}
                 <br>
                 @lang('fleet.distence'):
 
                 @if($row->end_meter == 0)
-                0.00 {{Hyvikk::get('dis_format')}}
+                0.00 {{AtlasLogistics::get('dis_format')}}
                 @else
-                {{$row->end_meter - $row->start_meter}} {{Hyvikk::get('dis_format')}}
+                {{$row->end_meter - $row->start_meter}} {{AtlasLogistics::get('dis_format')}}
                 @endif
               </td>
               <td>
                 {{ $row->consumption }}
-                @if(Hyvikk::get('dis_format') == "km")
-                @if(Hyvikk::get('fuel_unit') == "gallon")KMPG @else KMPL @endif
+                @if(AtlasLogistics::get('dis_format') == "km")
+                @if(AtlasLogistics::get('fuel_unit') == "gallon")KMPG @else KMPL @endif
                 @else
-                @if(Hyvikk::get('fuel_unit') == "gallon")MPG @else MPL @endif
+                @if(AtlasLogistics::get('fuel_unit') == "gallon")MPG @else MPL @endif
                 @endif
               </td>
               <td>

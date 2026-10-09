@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App;
 use App\Http\Controllers\Controller;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        App::setLocale(Hyvikk::get('language'));
+        App::setLocale(AtlasLogistics::get('language'));
         $this->middleware('guest')->except('logout');
     }
 
@@ -28,7 +28,7 @@ class LoginController extends Controller
     {
 
 
-        if(Hyvikk::get('driver_doc_verification') == 1 && $user->user_type == 'D')
+        if(AtlasLogistics::get('driver_doc_verification') == 1 && $user->user_type == 'D')
         {
             if ($user->is_verified == '1') 
            {

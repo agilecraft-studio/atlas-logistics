@@ -5,15 +5,15 @@
 
 Fleet Manager v7.0
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 
 namespace App\Http\Middleware;
 
 use Closure;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 
 class CheckFrontEnable {
 	/**
@@ -24,7 +24,7 @@ class CheckFrontEnable {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next) {
-		if (Hyvikk::frontend('enable') == 1) {
+		if (AtlasLogistics::frontend('enable') == 1) {
 			return $next($request);
 		} else {
 			return redirect('admin');

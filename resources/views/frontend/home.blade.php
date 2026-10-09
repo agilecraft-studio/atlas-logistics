@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title') 
-    <title> @lang('frontend.home') | {{ Hyvikk::get('app_name') }} </title>
+    <title> @lang('frontend.home') | {{ AtlasLogistics::get('app_name') }} </title>
 @endsection
 
 
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="hero-content--home w-100 text-center mt-4">
-                        <h5 class="light primary">{{ Hyvikk::frontend('contact_phone') }}</h5>
+                        <h5 class="light primary">{{ AtlasLogistics::frontend('contact_phone') }}</h5>
 <h1 class="mb-3" id="image_text">@lang('frontend.reliable_way')</h1>
 <a href="#book_now"><button class="btn mx-auto form-submit-button">@lang('frontend.book_now')</button></a>
 </div>
@@ -52,7 +52,7 @@
                         <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 order-md-first  order-sm-last">
                             <div class="main-slider-content">
                                 <h1>@lang('frontend.reliable_way')</h1>
-                                <h4><a href="#">{{ Hyvikk::frontend('contact_phone') }}</a></h4>
+                                <h4><a href="#">{{ AtlasLogistics::frontend('contact_phone') }}</a></h4>
                                 <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.book_now')</a>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="col-md-6 col-lg-6 col-sm-12 order-md-first order-sm-last">
                             <div class="main-slider-content">
                                 <h1>@lang('frontend.reliable_way')</h1>
-                                <h4><a href="#">{{ Hyvikk::frontend('contact_phone') }}</a></h4>
+                                <h4><a href="#">{{ AtlasLogistics::frontend('contact_phone') }}</a></h4>
                                 <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.book_now')</a>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="col-md-6 col-lg-6 col-sm-12 order-md-first order-sm-last">
                             <div class="main-slider-content">
                                 <h1>@lang('frontend.reliable_way')</h1>
-                                <h4><a href="#">{{ Hyvikk::frontend('contact_phone') }}</a></h4>
+                                <h4><a href="#">{{ AtlasLogistics::frontend('contact_phone') }}</a></h4>
                                 <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.book_now')</a>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
 
 
                       
-                        @if(Hyvikk::get('return_booking') == 1)
+                        @if(AtlasLogistics::get('return_booking') == 1)
 
                         <div>
                             <div class="col-lg-12 mt-3 text-center">
@@ -325,8 +325,8 @@
                             <textarea class="form-control" id="note_textarea" rows="4" cols="30" placeholder="@lang('frontend.other_things')" style="resize: none;opacity: 0.5;" required>{{ old('note') }}</textarea>
                         </div>
 
-                        @php($methods = json_decode(Hyvikk::payment('method')))
-                        @if (Hyvikk::frontend('admin_approval') == 0 && Hyvikk::api('api_key') != null)
+                        @php($methods = json_decode(AtlasLogistics::payment('method')))
+                        @if (AtlasLogistics::frontend('admin_approval') == 0 && AtlasLogistics::api('api_key') != null)
                         <div class="col-lg-12">
                             <div class="checkboxes flex-row-center">
                                 <label class="state custom-state">@lang('frontend.select_payment_method'): &nbsp;</label>

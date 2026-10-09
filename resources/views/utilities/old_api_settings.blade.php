@@ -221,7 +221,7 @@ input:checked + .slider:before {
 
                   <label class="switch">
 
-                  <input type="checkbox" class="api" id="api" name="name[api]" value="1"  @if(Hyvikk::api('api') == "1") checked @endif>
+                  <input type="checkbox" class="api" id="api" name="name[api]" value="1"  @if(AtlasLogistics::api('api') == "1") checked @endif>
 
                   <span class="slider round"></span>
 
@@ -231,7 +231,7 @@ input:checked + .slider:before {
 
 
 
-                @if(Hyvikk::api('api') == "1")
+                @if(AtlasLogistics::api('api') == "1")
 
                 <div class="form-group col-md-3">
 
@@ -245,7 +245,7 @@ input:checked + .slider:before {
 
                   <label class="switch">
 
-                  <input type="checkbox" name="name[google_api]" value="1" @if(Hyvikk::api('google_api') == "1") checked @endif>
+                  <input type="checkbox" name="name[google_api]" value="1" @if(AtlasLogistics::api('google_api') == "1") checked @endif>
 
                   <span class="slider round"></span>
 
@@ -261,7 +261,7 @@ input:checked + .slider:before {
 
                   <label class="switch">
 
-                  <input type="checkbox" name="name[anyone_register]" value="1" @if(Hyvikk::api('anyone_register') == "1") checked @endif>
+                  <input type="checkbox" name="name[anyone_register]" value="1" @if(AtlasLogistics::api('anyone_register') == "1") checked @endif>
 
                   <span class="slider round"></span>
 
@@ -281,7 +281,7 @@ input:checked + .slider:before {
 
                   <label class="switch">
 
-                  <input type="checkbox" name="name[driver_review]" value="1" @if(Hyvikk::api('driver_review') == "1") checked @endif>
+                  <input type="checkbox" name="name[driver_review]" value="1" @if(AtlasLogistics::api('driver_review') == "1") checked @endif>
 
                   <span class="slider round"></span>
 
@@ -297,7 +297,7 @@ input:checked + .slider:before {
 
                   {!! Form::text('name[region_availability]',
 
-                  Hyvikk::api('region_availability'),['class'=>"form-control"]) !!}
+                  AtlasLogistics::api('region_availability'),['class'=>"form-control"]) !!}
 
                 </div>
 
@@ -313,7 +313,7 @@ input:checked + .slider:before {
 
                   <span class="input-group-text"><i class="fa fa-clock-o"></i></span></div>
 
-                  {!! Form::number('name[max_trip]',Hyvikk::api('max_trip'),['class'=>"form-control trip","required"]) !!}
+                  {!! Form::number('name[max_trip]',AtlasLogistics::api('max_trip'),['class'=>"form-control trip","required"]) !!}
 
                   </div>
 
@@ -331,7 +331,7 @@ input:checked + .slider:before {
 
                     <span class="input-group-text"><i class="fa fa-calendar-check-o"></i></span></div>
 
-                    {!! Form::number('name[booking]',Hyvikk::api('booking'),['class'=>"form-control",'required']) !!}
+                    {!! Form::number('name[booking]',AtlasLogistics::api('booking'),['class'=>"form-control",'required']) !!}
 
                   </div>
 
@@ -349,7 +349,7 @@ input:checked + .slider:before {
 
                     </div>
 
-                    {!! Form::number('name[cancel]',Hyvikk::api('cancel'),['class'=>"form-control"]) !!}
+                    {!! Form::number('name[cancel]',AtlasLogistics::api('cancel'),['class'=>"form-control"]) !!}
 
                   </div>
 
@@ -399,7 +399,7 @@ input:checked + .slider:before {
                     </label>
                     <br>
                     {!! Form::text('db_url',
-                    Hyvikk::api('db_url'),['class'=>"form-control",'id'=>'db_url','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
+                    AtlasLogistics::api('db_url'),['class'=>"form-control",'id'=>'db_url','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
 
                 </div>
                 <div class="form-group col-lg-6">
@@ -412,7 +412,7 @@ input:checked + .slider:before {
                       
                     </label>
                     <br>
-                    {!! Form::text('db_vendor_url',Hyvikk::api('db_vendor_url'),['class'=>"form-control",'id'=>'db_vendor_url','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
+                    {!! Form::text('db_vendor_url',AtlasLogistics::api('db_vendor_url'),['class'=>"form-control",'id'=>'db_vendor_url','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
                 </div>
 
                 {{-- <div class="form-group col-md-6">
@@ -423,7 +423,7 @@ input:checked + .slider:before {
 
                   {!! Form::text('db_secret',
 
-                  Hyvikk::api('db_secret'),['class'=>"form-control",'required']) !!}
+                  AtlasLogistics::api('db_secret'),['class'=>"form-control",'required']) !!}
 
                 </div> --}}
 
@@ -483,7 +483,7 @@ input:checked + .slider:before {
 
                   {!! Form::text('server_key',
 
-                  Hyvikk::api('server_key'),['class'=>"form-control",'required']) !!}
+                  AtlasLogistics::api('server_key'),['class'=>"form-control",'required']) !!}
 
                 </div>
 
@@ -513,7 +513,7 @@ input:checked + .slider:before {
 
                   {!! Form::text('api_key',
 
-                  Hyvikk::api('api_key'),['class'=>"form-control",'required']) !!}
+                  AtlasLogistics::api('api_key'),['class'=>"form-control",'required']) !!}
 
                 </div>
 

@@ -2,7 +2,7 @@
 
 @php
   use App\Model\Bookings;
-  $date_format_setting = Hyvikk::get('date_format') ?? 'd-m-Y';
+  $date_format_setting = AtlasLogistics::get('date_format') ?? 'd-m-Y';
 @endphp
 
 @section("breadcrumb")

@@ -50,13 +50,13 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            {!! Form::label('kms_out',__('fleet.kms_out')." (".Hyvikk::get('dis_format').")", ['class' => 'form-label']) !!}
+            {!! Form::label('kms_out',__('fleet.kms_out')." (".AtlasLogistics::get('dis_format').")", ['class' => 'form-label']) !!}
             {!! Form::number('kms_out',$review->kms_outgoing,['class'=>'form-control','required']) !!}
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            {!! Form::label('kms_in',__('fleet.kms_in')." (".Hyvikk::get('dis_format').")", ['class' => 'form-label']) !!}
+            {!! Form::label('kms_in',__('fleet.kms_in')." (".AtlasLogistics::get('dis_format').")", ['class' => 'form-label']) !!}
             {!! Form::number('kms_in',$review->kms_incoming,['class'=>'form-control','required']) !!}
           </div>
         </div>

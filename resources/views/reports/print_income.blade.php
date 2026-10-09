@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{Hyvikk::get('app_name')}}</title>
+  <title>{{AtlasLogistics::get('app_name')}}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -33,7 +33,7 @@
 </head>
 <body onload="window.print();">
   <div class="wrapper">
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
   <!-- Main content -->
     <section class="invoice">
@@ -42,8 +42,8 @@
         <div class="col-xs-12">
           <h2 class="page-header">
           <span class="logo-lg">
-          <img src="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
-          {{  Hyvikk::get('app_name')  }}
+          <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
+          {{  AtlasLogistics::get('app_name')  }}
           </span>
 
             <small class="pull-right"> <b>@lang('fleet.date') : </b> {{date($date_format_setting)}}</small>
@@ -68,7 +68,7 @@
                   <th>@lang('fleet.incomeType')</th>
                   <th>@lang('fleet.date')</th>
                   <th>@lang('fleet.amount')</th>
-                  <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+                  <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
                 </tr>
               </thead>
               <tbody>
@@ -91,7 +91,7 @@
                     </td>
                     <td>{{$row->category->name}}</td>
                     <td>{{date($date_format_setting,strtotime($row->date))}}</td>
-                    <td>{{Hyvikk::get('currency')}} {{$row->amount}}</td>
+                    <td>{{AtlasLogistics::get('currency')}} {{$row->amount}}</td>
                     <td>{{$row->mileage}}</td>
                 </tr>
                 @endforeach

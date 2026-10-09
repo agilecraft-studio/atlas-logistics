@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\FrontEnd;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use App\Model\Address;
 use App\Model\Bookings;
 use App\Model\Expense;
 use App\Model\CompanyServicesModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\MessageModel;
 use App\Model\PasswordResetModel;
 use App\Model\TeamModel;

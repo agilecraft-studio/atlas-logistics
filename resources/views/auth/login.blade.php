@@ -7,8 +7,8 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ Hyvikk::get('app_name') }}</title>
-  <link rel="icon" href="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" type="icon_img">
+  <title>{{ AtlasLogistics::get('app_name') }}</title>
+  <link rel="icon" href="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" type="icon_img">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -60,7 +60,7 @@
   <!-- fleet manager version 4.0.2 -->
   <div class="login-box">
     <div class="login-logo">
-      <center> <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" style="max-height: 100px;max-width:350px;" />
+      <center> <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" style="max-height: 100px;max-width:350px;" />
       </center>
     </div>
     <!-- /.login-logo -->

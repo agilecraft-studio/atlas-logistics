@@ -2,14 +2,14 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Bookings;
 use App\Model\TwilioSettings;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 
 class TwilioController extends Controller {
@@ -25,21 +25,21 @@ class TwilioController extends Controller {
 		$driver_contact = $booking->driver->phone;
 		$pickup_address = $booking->pickup_addr;
 		$destination_address = $booking->dest_addr;
-		$pickup_datetime = date(Hyvikk::get('date_format') . " g:i A", strtotime($booking->pickup));
+		$pickup_datetime = date(AtlasLogistics::get('date_format') . " g:i A", strtotime($booking->pickup));
 		$passengers = $booking->travellers;
 		$search = ['$customer_name', '$customer_contact', '$driver_name', '$driver_contact', '$pickup_address', '$pickup_datetime', '$passengers', '$destination_address'];
 		$replace = [$customer_name, $customer_contact, $driver_name, $driver_contact, $pickup_address, $pickup_datetime, $passengers, $destination_address];
-		$id = Hyvikk::twilio('sid');
-		$token = Hyvikk::twilio('token');
+		$id = AtlasLogistics::twilio('sid');
+		$token = AtlasLogistics::twilio('token');
 		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
-		$from = Hyvikk::twilio('from');
+		$from = AtlasLogistics::twilio('from');
 		// customer sms notification
 		$to = $booking->customer->mobno; // twilio trial verified number
-		$body = str_replace($search, $replace, Hyvikk::twilio("customer_message"));
+		$body = str_replace($search, $replace, AtlasLogistics::twilio("customer_message"));
 		$new_body = str_split($body, 120);
 		$test2 = explode("\n", wordwrap($body, 120));
 		$to_driver = $booking->driver->phone_code . $booking->driver->phone; // twilio trial verified number
-		$msg_body = str_replace($search, $replace, Hyvikk::twilio("driver_message"));
+		$msg_body = str_replace($search, $replace, AtlasLogistics::twilio("driver_message"));
 		$new_msg_body = str_split($msg_body, 120);
 		foreach ($new_msg_body as $row) {
 			$data = array(

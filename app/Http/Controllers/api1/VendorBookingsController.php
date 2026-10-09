@@ -20,7 +20,7 @@ use App\Model\VehicleTypeModel;
 use App\Model\Vehicle_Model;
 use DB;
 use Exception;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Minishlink\WebPush\Subscription;
@@ -64,7 +64,7 @@ class VendorBookingsController extends Controller
                     'vehicle_number' => $offer->vehicle->license_plate,
                     'vehicle_color' => ($offer->vehicle->color_id) ? $offer->vehicle->vehiclecolor->color : "",
                     'vehicle_type' => $offer->vehicle->types->displayname,
-                    'base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', $offer->vehicle->types->vehicletype)) . '_base_fare'),
+                    'base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', $offer->vehicle->types->vehicletype)) . '_base_fare'),
                     'total' => round($offer->total, 2),
                     'tax_total' => round($offer->tax_total, 2), //amount for customer (ride+tax+company_charges)
                     'total_tax_percent' => $offer->total_tax_percent,
@@ -228,7 +228,7 @@ class VendorBookingsController extends Controller
             $booking->booking_option = "Rental";
             $booking->accept_status = 0; //0=yet to accept, 1= accept
             $booking->ride_status = null;
-            $driver_amount = round($request->get('amount') - ($request->get('amount') * Hyvikk::extra('general_company_commission')) / 100, 2);
+            $driver_amount = round($request->get('amount') - ($request->get('amount') * AtlasLogistics::extra('general_company_commission')) / 100, 2);
             $booking->setMeta([
                 'customerId' => $request->user_id,
                 'date' => date('Y-m-d'),
@@ -240,7 +240,7 @@ class VendorBookingsController extends Controller
                 'total_tax_percent' => $request->total_tax_percent,
                 'total_tax_charge_rs' => $request->total_tax_charge_rs,
                 'driver_amount' => $driver_amount,
-                'general_company_commission' => Hyvikk::extra('general_company_commission'),
+                'general_company_commission' => AtlasLogistics::extra('general_company_commission'),
             ]);
             $booking->save();
             // browser notification
@@ -259,7 +259,7 @@ class VendorBookingsController extends Controller
             $receipt_no = substr($random_num, -10);
             try {
                 // $receipt_no = time() . "_" . date('Y_m_d') . "_" . $booking_id;
-                $api = new Api(Hyvikk::payment('razorpay_key'), Hyvikk::payment('razorpay_secret'));
+                $api = new Api(AtlasLogistics::payment('razorpay_key'), AtlasLogistics::payment('razorpay_secret'));
                 $order = $api->order->create(array('receipt' => $receipt_no, 'amount' => $request->total_amount * 100, 'currency' => 'INR', 'payment_capture' => 1));
                 BookingPaymentsModel::create(['method' => 'razorpay', 'payment_status' => "pending",
                     'booking_id' => $booking->id,
@@ -327,7 +327,7 @@ class VendorBookingsController extends Controller
             $data['message'] = implode(", ", $errors->all());
             $data['data'] = null;
         } else {
-            $api = new Api(Hyvikk::payment('razorpay_key'), Hyvikk::payment('razorpay_secret'));
+            $api = new Api(AtlasLogistics::payment('razorpay_key'), AtlasLogistics::payment('razorpay_secret'));
             $attributes = array('razorpay_signature' => $request->razorpay_signature, 'razorpay_payment_id' => $request->razorpay_payment_id, 'razorpay_order_id' => $request->razorpay_order_id);
             try {
                 $order = $api->utility->verifyPaymentSignature($attributes);
@@ -479,9 +479,9 @@ class VendorBookingsController extends Controller
         // ///// /// /// //  fare calculation
         $commission_rs = 0;
         $discount_amount = ($booking->discount_amount) ? $booking->discount_amount : 0;
-        $driver_amount = round($booking->total - ($booking->total * Hyvikk::extra('general_company_commission')) / 100, 2);
+        $driver_amount = round($booking->total - ($booking->total * AtlasLogistics::extra('general_company_commission')) / 100, 2);
         if ($booking->booking_option == "OneWay") {
-            $driver_amount = round($driver_amount - Hyvikk::extra('general_company_charges'), 2);
+            $driver_amount = round($driver_amount - AtlasLogistics::extra('general_company_charges'), 2);
         }
         $fare_details = array(); //vehicletype,time,km,total ride amount, ride amount,company charges ,company commision,driver earnings
         if ($booking->booking_option == "offer") {
@@ -498,17 +498,17 @@ class VendorBookingsController extends Controller
             $ride_amount = $booking->total;
             // $driver_amount = $driver_amount;
             $driver_amount = ($booking->driver_amount) ? $booking->driver_amount : $driver_amount;
-            $company_charges = ($booking->booking_option == "OneWay") ? Hyvikk::extra('general_company_charges') : 0;
-            $company_commission = Hyvikk::extra('general_company_commission') . "%";
+            $company_charges = ($booking->booking_option == "OneWay") ? AtlasLogistics::extra('general_company_charges') : 0;
+            $company_commission = AtlasLogistics::extra('general_company_commission') . "%";
             if ($booking->booking_option == "offer request") {
                 $company_charges = $booking->vendor_fee;
                 $ride_amount = $booking->total + $booking->vendor_fee;
             }
-            $commission_rs = round(($booking->total * Hyvikk::extra('general_company_commission')) / 100, 2);
+            $commission_rs = round(($booking->total * AtlasLogistics::extra('general_company_commission')) / 100, 2);
         }
         $base_fare_value = null;
         if ($booking->booking_option != 'OneWay') {
-            $base_fare_value = ($booking->vehicle_typeid) ? Hyvikk::fare(strtolower(str_replace(' ', '', $booking->types->vehicletype)) . '_base_fare') : null;
+            $base_fare_value = ($booking->vehicle_typeid) ? AtlasLogistics::fare(strtolower(str_replace(' ', '', $booking->types->vehicletype)) . '_base_fare') : null;
         }
         $fare_details = array(
             'vehicle_type' => ($booking->vehicle_typeid != null) ? $booking->types->displayname : null,
@@ -629,7 +629,7 @@ class VendorBookingsController extends Controller
             $random_num = $r1 . $r2 . $r3 . $r4 . $booking->id;
             $receipt_no = substr($random_num, -10);
             try {
-                $api = new Api(Hyvikk::payment('razorpay_key'), Hyvikk::payment('razorpay_secret'));
+                $api = new Api(AtlasLogistics::payment('razorpay_key'), AtlasLogistics::payment('razorpay_secret'));
                 $order = $api->order->create(array('receipt' => $receipt_no, 'amount' => $booking->tax_total * 100, 'currency' => 'INR', 'payment_capture' => 1));
                 BookingPaymentsModel::create(['method' => 'razorpay', 'payment_status' => "pending",
                     'booking_id' => $booking->id,
@@ -678,9 +678,9 @@ class VendorBookingsController extends Controller
         } else {
             $r = new \stdClass;
         }
-        if (Hyvikk::get('dis_format') == 'meter') {
+        if (AtlasLogistics::get('dis_format') == 'meter') {
             $unit = 'm';
-        }if (Hyvikk::get('dis_format') == 'km') {
+        }if (AtlasLogistics::get('dis_format') == 'km') {
             $unit = 'km';
         }
         $data['data'] = array('riderequest_info' => array('user_id' => $booking->customer_id,
@@ -705,7 +705,7 @@ class VendorBookingsController extends Controller
                 'driver_name' => $booking->driver->name,
                 'profile_pic' => $booking->driver->getMeta('driver_image'),
             ),
-            'fare_breakdown' => array('base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype)) . '_base_fare'), //done
+            'fare_breakdown' => array('base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype)) . '_base_fare'), //done
                 'ride_amount' => $booking->getMeta('tax_total'),
                 'extra_charges' => '0',
             ),
@@ -734,9 +734,9 @@ class VendorBookingsController extends Controller
         } else {
             $r = new \stdClass;
         }
-        if (Hyvikk::get('dis_format') == 'meter') {
+        if (AtlasLogistics::get('dis_format') == 'meter') {
             $unit = 'm';
-        }if (Hyvikk::get('dis_format') == 'km') {
+        }if (AtlasLogistics::get('dis_format') == 'km') {
             $unit = 'km';
         }
         $amount = $booking->getMeta('tax_total');
@@ -766,7 +766,7 @@ class VendorBookingsController extends Controller
                 'driver_name' => ($booking->driver_id) ? $booking->driver->name : "",
                 'profile_pic' => ($booking->driver_id) ? $booking->driver->getMeta('driver_image') : "",
             ),
-            'fare_breakdown' => array('base_fare' => ($booking->vehicle_id) ? Hyvikk::fare(strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype)) . '_base_fare') : "", //done
+            'fare_breakdown' => array('base_fare' => ($booking->vehicle_id) ? AtlasLogistics::fare(strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype)) . '_base_fare') : "", //done
                 'ride_amount' => $booking->getMeta('tax_total'),
                 'extra_charges' => '0',
             ),
@@ -816,8 +816,8 @@ class VendorBookingsController extends Controller
                 $count = 0;
                 $tax_charges = array();
                 $tax_percent = array();
-                if (Hyvikk::get('tax_charge') != "null") {
-                    $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                if (AtlasLogistics::get('tax_charge') != "null") {
+                    $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                     foreach ($taxes as $key => $val) {
                         $count = $count + $val;
                         $tax_charges[$key] = round(($subtotal * $val) / 100, 2);
@@ -831,16 +831,16 @@ class VendorBookingsController extends Controller
                 if ($booking) {
                     $driver_amount = null;
                     if ($booking->booking_option == "Local") {
-                        $driver_amount = round($total_amount - ($total_amount * Hyvikk::extra('general_company_commission')) / 100, 2);
+                        $driver_amount = round($total_amount - ($total_amount * AtlasLogistics::extra('general_company_commission')) / 100, 2);
                     }
                     if ($booking->booking_option == "OneWay") {
-                        $driver_amount = round($total_amount - (($total_amount * Hyvikk::extra('general_company_commission')) / 100) - Hyvikk::extra('general_company_charges'), 2);
+                        $driver_amount = round($total_amount - (($total_amount * AtlasLogistics::extra('general_company_commission')) / 100) - AtlasLogistics::extra('general_company_charges'), 2);
                     }
                     if ($booking->booking_option == "offer request") {
-                        $booking->driver_amount = $tax_total - Hyvikk::extra('custom_vendor_fee');
+                        $booking->driver_amount = $tax_total - AtlasLogistics::extra('custom_vendor_fee');
                     }
                     if ($booking->booking_option == "RoundTrip") {
-                        $driver_amount = round($subtotal - ($subtotal * Hyvikk::extra('general_company_commission')) / 100, 2);
+                        $driver_amount = round($subtotal - ($subtotal * AtlasLogistics::extra('general_company_commission')) / 100, 2);
                     }
                     $booking->coupon_id = $coupon->id;
                     $booking->discount_amount = $discount_amount;
@@ -892,15 +892,15 @@ class VendorBookingsController extends Controller
         } else {
             $v_type = VehicleTypeModel::find($request->type_id);
             $type = strtolower(str_replace(" ", "", $v_type->vehicletype));
-            $discount = Hyvikk::get('discount');
+            $discount = AtlasLogistics::get('discount');
             $total_kms = str_replace(",", "", $request->total_kms);
-            $std_fare = Hyvikk::fare($type . '_std_fare');
+            $std_fare = AtlasLogistics::fare($type . '_std_fare');
             $total_amount = $total_kms * $std_fare;
             $discount_amount = ($total_amount * $discount) / 100;
-            $amount = round($total_amount - $discount_amount, 2) + Hyvikk::extra('custom_vendor_fee');
+            $amount = round($total_amount - $discount_amount, 2) + AtlasLogistics::extra('custom_vendor_fee');
             $count = 0;
-            if (Hyvikk::get('tax_charge') != "null") {
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            if (AtlasLogistics::get('tax_charge') != "null") {
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                 foreach ($taxes as $key => $val) {
                     $count = $count + $val;
                 }
@@ -992,10 +992,10 @@ class VendorBookingsController extends Controller
             }
             $v_type = VehicleTypeModel::find($request->type_id);
             $type = strtolower(str_replace(" ", "", $v_type->vehicletype));
-            $rmd = Hyvikk::extra('round_min_distance');
+            $rmd = AtlasLogistics::extra('round_min_distance');
             $ark = $request->total_kms / $days;
-            $std_fare = Hyvikk::fare($type . '_std_fare');
-            $da = Hyvikk::extra('round_driver_allowance');
+            $std_fare = AtlasLogistics::fare($type . '_std_fare');
+            $da = AtlasLogistics::extra('round_driver_allowance');
             $data['driver_allowance'] = $da * $nights;
             if ($ark <= $rmd && $days > 1) {
                 $data['ride_amount'] = ($days * $rmd * $std_fare);
@@ -1010,14 +1010,14 @@ class VendorBookingsController extends Controller
                 $data['ride_amount'] = ($ark * $std_fare);
             }
             // $data['total'] = $data['ride_amount'];
-            // $data['ride_amount'] = Hyvikk::extra('round_min_distance') * $days * Hyvikk::fare($type . '_std_fare');
-            // $data['driver_allowance'] = Hyvikk::extra('round_driver_allowance') * $days;
+            // $data['ride_amount'] = AtlasLogistics::extra('round_min_distance') * $days * AtlasLogistics::fare($type . '_std_fare');
+            // $data['driver_allowance'] = AtlasLogistics::extra('round_driver_allowance') * $days;
             $data['ride_amount'] = round($data['ride_amount'], 2);
             $data['total'] = $data['ride_amount'] + $data['driver_allowance'];
             // calculate tax charges
             $count = 0;
-            if (Hyvikk::get('tax_charge') != "null") {
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            if (AtlasLogistics::get('tax_charge') != "null") {
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                 foreach ($taxes as $key => $val) {
                     $count = $count + $val;
                 }
@@ -1057,10 +1057,10 @@ class VendorBookingsController extends Controller
             $details = array();
             $types = VehicleTypeModel::get();
             foreach ($types as $row) {
-                $price = ($kms * 2 * Hyvikk::fare(strtolower(str_replace(" ", "", $row->vehicletype)) . '_std_fare')) - ((Hyvikk::extra('oneway_discount') * ($kms * 2 * Hyvikk::fare(strtolower(str_replace(" ", "", $row->vehicletype)) . '_std_fare'))) / 100);
+                $price = ($kms * 2 * AtlasLogistics::fare(strtolower(str_replace(" ", "", $row->vehicletype)) . '_std_fare')) - ((AtlasLogistics::extra('oneway_discount') * ($kms * 2 * AtlasLogistics::fare(strtolower(str_replace(" ", "", $row->vehicletype)) . '_std_fare'))) / 100);
                 $tax = 0;
-                if (Hyvikk::get('tax_charge') != "null") {
-                    $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                if (AtlasLogistics::get('tax_charge') != "null") {
+                    $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                     foreach ($taxes as $key => $val) {
                         $tax = $tax + $val;
                     }
@@ -1071,7 +1071,7 @@ class VendorBookingsController extends Controller
                 $details[] = array(
                     'price' => $price,
                     'type' => $row->displayname,
-                    'per_km' => Hyvikk::get('currency') . Hyvikk::fare(strtolower(str_replace(" ", "", $row->vehicletype)) . '_std_fare') . "/km",
+                    'per_km' => AtlasLogistics::get('currency') . AtlasLogistics::fare(strtolower(str_replace(" ", "", $row->vehicletype)) . '_std_fare') . "/km",
                     'type_id' => $row->id,
                     'total' => $price,
                     'tax_total' => $total_amount,
@@ -1091,7 +1091,7 @@ class VendorBookingsController extends Controller
                     'valid_till' => date('Y-m-d H:i:s', strtotime($offer->valid_till)),
                     'vehicle_id' => $offer->vehicle_id,
                     'vehicle' => $offer->vehicle->maker->make . '-' . $offer->vehicle->vehiclemodel->model . '-' . $offer->vehicle->license_plate,
-                    'base_fare' => Hyvikk::fare(strtolower(str_replace(' ', '', $offer->vehicle->types->vehicletype)) . '_base_fare'),
+                    'base_fare' => AtlasLogistics::fare(strtolower(str_replace(' ', '', $offer->vehicle->types->vehicletype)) . '_base_fare'),
                     'total' => $offer->total,
                     'tax_total' => $offer->tax_total,
                     'total_tax_percent' => $offer->total_tax_percent,
@@ -1117,8 +1117,8 @@ class VendorBookingsController extends Controller
         }
         $details = array();
         $tax = 0;
-        if (Hyvikk::get('tax_charge') != "null") {
-            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+        if (AtlasLogistics::get('tax_charge') != "null") {
+            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
             foreach ($taxes as $key => $val) {
                 $tax = $tax + $val;
             }
@@ -1137,7 +1137,7 @@ class VendorBookingsController extends Controller
             //     $code = $package->vehicle->vehiclecolor->code;
             // }
             $tax_total = ($package->package_rate * $tax) / 100 + $package->package_rate;
-            $udfs = json_decode(Hyvikk::get('tax_charge'));
+            $udfs = json_decode(AtlasLogistics::get('tax_charge'));
             $tax_charges = array();
             if ($udfs != null) {
                 foreach ($udfs as $key => $value) {
@@ -1205,8 +1205,8 @@ class VendorBookingsController extends Controller
                 $count = 0;
                 $tax_charges = array();
                 $tax_percent = array();
-                if (Hyvikk::get('tax_charge') != "null") {
-                    $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                if (AtlasLogistics::get('tax_charge') != "null") {
+                    $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                     foreach ($taxes as $key => $val) {
                         $count = $count + $val;
                         $tax_charges[$key] = round(($subtotal * $val) / 100, 2);
@@ -1249,10 +1249,10 @@ class VendorBookingsController extends Controller
             $data['message'] = implode(", ", $errors->all());
             $data['data'] = null;
         } else {
-            $km_base = Hyvikk::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_base_km');
-            $base_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_base_fare');
-            $std_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_std_fare');
-            $base_km = Hyvikk::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_base_km');
+            $km_base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_base_km');
+            $base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_base_fare');
+            $std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_std_fare');
+            $base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $request->vehicletype)) . '_base_km');
             if ($request->total_kms <= $km_base) {
                 $total_fare = $base_fare;
             } else {
@@ -1260,8 +1260,8 @@ class VendorBookingsController extends Controller
             }
             // calculate tax charges
             $count = 0;
-            if (Hyvikk::get('tax_charge') != "null") {
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            if (AtlasLogistics::get('tax_charge') != "null") {
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                 foreach ($taxes as $key => $val) {
                     $count = $count + $val;
                 }
@@ -1348,7 +1348,7 @@ class VendorBookingsController extends Controller
             $booking->driving_time = $request->approx_timetoreach;
             $booking->ride_amount = $request->ride_amount;
             $booking->driver_allowance = $request->driver_allowance;
-            $driver_amount = round($request->subtotal - ($request->subtotal * Hyvikk::extra('general_company_commission')) / 100, 2);
+            $driver_amount = round($request->subtotal - ($request->subtotal * AtlasLogistics::extra('general_company_commission')) / 100, 2);
             $booking->setMeta([
                 'customerId' => $request->user_id,
                 'mileage' => $request->total_kms,
@@ -1359,7 +1359,7 @@ class VendorBookingsController extends Controller
                 'total_tax_percent' => $request->total_tax_percent,
                 'total_tax_charge_rs' => $request->total_tax_charge_rs,
                 'driver_amount' => $driver_amount,
-                'general_company_commission' => Hyvikk::extra('general_company_commission'),
+                'general_company_commission' => AtlasLogistics::extra('general_company_commission'),
             ]);
             $booking->save();
             // browser notification
@@ -1459,10 +1459,10 @@ class VendorBookingsController extends Controller
             $booking->driving_time = $request->approx_timetoreach;
             $driver_amount = null;
             if ($request->booking_option == "Local") {
-                $driver_amount = round($request->ride_amount - ($request->ride_amount * Hyvikk::extra('general_company_commission')) / 100, 2);
+                $driver_amount = round($request->ride_amount - ($request->ride_amount * AtlasLogistics::extra('general_company_commission')) / 100, 2);
             }
             if ($request->booking_option == "OneWay") {
-                $driver_amount = round($request->ride_amount - (($request->ride_amount * Hyvikk::extra('general_company_commission')) / 100) - Hyvikk::extra('general_company_charges'), 2);
+                $driver_amount = round($request->ride_amount - (($request->ride_amount * AtlasLogistics::extra('general_company_commission')) / 100) - AtlasLogistics::extra('general_company_charges'), 2);
             }
             $booking->setMeta([
                 'customerId' => $request->user_id,
@@ -1474,8 +1474,8 @@ class VendorBookingsController extends Controller
                 'total_tax_percent' => $request->total_tax_percent,
                 'total_tax_charge_rs' => $request->total_tax_charge_rs,
                 'driver_amount' => $driver_amount,
-                'general_company_commission' => Hyvikk::extra('general_company_commission'),
-                'general_company_charges' => ($request->booking_option == "OneWay") ? Hyvikk::extra('general_company_charges') : 0,
+                'general_company_commission' => AtlasLogistics::extra('general_company_commission'),
+                'general_company_charges' => ($request->booking_option == "OneWay") ? AtlasLogistics::extra('general_company_charges') : 0,
             ]);
             $booking->save();
             // browser notification
@@ -1587,7 +1587,7 @@ class VendorBookingsController extends Controller
             $array = array(
                 'title' => $title ?? "",
                 'body' => $body ?? "",
-                'img' => url('assets/images/' . Hyvikk::get('icon_img')),
+                'img' => url('assets/images/' . AtlasLogistics::get('icon_img')),
                 'url' => $url ?? url('admin/'),
             );
             $object = json_encode($array);
@@ -2175,7 +2175,7 @@ class VendorBookingsController extends Controller
                 'type_id' => $type_id,
                 'company_charges' => $request->company_charges,
                 'company_commission' => $request->company_commission,
-                'commission' => Hyvikk::extra('company_commission'),
+                'commission' => AtlasLogistics::extra('company_commission'),
             ]);
             $offer_details = array(
                 'id' => $offer->id,
@@ -2196,7 +2196,7 @@ class VendorBookingsController extends Controller
                 'type_id' => $type_id,
                 'company_charges' => $request->company_charges,
                 'company_commission' => $request->company_commission,
-                'commission' => Hyvikk::extra('company_commission'),
+                'commission' => AtlasLogistics::extra('company_commission'),
                 'timestamp' => date('Y-m-d H:i:s', strtotime($offer->updated_at)),
             );
             $vehicle = VehicleModel::find($v_id);
@@ -2489,7 +2489,7 @@ class VendorBookingsController extends Controller
             // $xx->status = 1;
             $xx->receipt = 1;
             $xx->save();
-            if (Hyvikk::email_msg('email') == 1) {
+            if (AtlasLogistics::email_msg('email') == 1) {
                 Mail::to($booking->customer->email)->send(new CustomerInvoice($booking));
             }
             $booking = Bookings::find($request->booking_id);
@@ -2650,9 +2650,9 @@ class VendorBookingsController extends Controller
     {
         $booking = Bookings::find($id);
         $package = PackagesModel::find($booking->package_id);
-        $driver_amount = round($package->package_rate - ($package->package_rate * Hyvikk::extra('general_company_commission')) / 100, 2);
+        $driver_amount = round($package->package_rate - ($package->package_rate * AtlasLogistics::extra('general_company_commission')) / 100, 2);
         $tax = 0;
-        $udfs = json_decode(Hyvikk::get('tax_charge'));
+        $udfs = json_decode(AtlasLogistics::get('tax_charge'));
         if ($udfs != null) {
             foreach ($udfs as $key => $value) {$tax = $tax + $value;
             }
@@ -2670,7 +2670,7 @@ class VendorBookingsController extends Controller
             'total_tax_percent' => $tax,
             'total_tax_charge_rs' => round($total_tax_charge_rs, 2),
             'driver_amount' => round($driver_amount, 2),
-            'general_company_commission' => Hyvikk::extra('general_company_commission'),
+            'general_company_commission' => AtlasLogistics::extra('general_company_commission'),
         ]);
         $booking->mileage = 0;
         $booking->total_kms = 0;
@@ -2683,7 +2683,7 @@ class VendorBookingsController extends Controller
     {
         $booking = Bookings::find($id);
         $vehicletype = $booking->vehicle->types->vehicletype;
-        $key = Hyvikk::api('api_key');
+        $key = AtlasLogistics::api('api_key');
         $url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . str_replace(" ", "", $booking->pickup_addr) . "&destination=" . str_replace(" ", "", $booking->dest_addr) . "&mode=driving&units=metric&sensor=false&key=" . $key;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -2695,10 +2695,10 @@ class VendorBookingsController extends Controller
         $time = $response['routes'][0]['legs'][0]['duration']['text'];
         $distance = $response['routes'][0]['legs'][0]['distance']['text'];
         $total_kms = explode(" ", $distance)[0];
-        $km_base = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_base_km');
-        $base_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_base_fare');
-        $std_fare = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_std_fare');
-        $base_km = Hyvikk::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_base_km');
+        $km_base = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_base_km');
+        $base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_base_fare');
+        $std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_std_fare');
+        $base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicletype)) . '_base_km');
         if ($total_kms <= $km_base) {
             $total_fare = $base_fare;
         } else {
@@ -2706,8 +2706,8 @@ class VendorBookingsController extends Controller
         }
         // calculate tax charges
         $count = 0;
-        if (Hyvikk::get('tax_charge') != "null") {
-            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+        if (AtlasLogistics::get('tax_charge') != "null") {
+            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
             foreach ($taxes as $key => $val) {
                 $count = $count + $val;
             }
@@ -2732,7 +2732,7 @@ class VendorBookingsController extends Controller
     {
         $booking = Bookings::find($id);
         $vehicletype = $booking->vehicle->types->vehicletype;
-        $key = Hyvikk::api('api_key');
+        $key = AtlasLogistics::api('api_key');
         $url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . str_replace(" ", "", $booking->pickup_addr) . "&destination=" . str_replace(" ", "", $booking->dest_addr) . "&mode=driving&units=metric&sensor=false&key=" . $key;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -2746,11 +2746,11 @@ class VendorBookingsController extends Controller
         $total_kms = explode(" ", $distance)[0];
         $total_kms = str_replace(',','',$total_kms);
         // dd($vehicletype,$total_kms, strtolower(str_replace(" ", "", $vehicletype)));
-        $total_fare = ($total_kms * 2 * Hyvikk::fare(strtolower(str_replace(" ", "", $vehicletype)) . '_std_fare')) - ((Hyvikk::extra('oneway_discount') * ($total_kms * 2 * Hyvikk::fare(strtolower(str_replace(" ", "", $vehicletype)) . '_std_fare'))) / 100);
+        $total_fare = ($total_kms * 2 * AtlasLogistics::fare(strtolower(str_replace(" ", "", $vehicletype)) . '_std_fare')) - ((AtlasLogistics::extra('oneway_discount') * ($total_kms * 2 * AtlasLogistics::fare(strtolower(str_replace(" ", "", $vehicletype)) . '_std_fare'))) / 100);
         // calculate tax charges
         $count = 0;
-        if (Hyvikk::get('tax_charge') != "null") {
-            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+        if (AtlasLogistics::get('tax_charge') != "null") {
+            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
             foreach ($taxes as $key => $val) {
                 $count = $count + $val;
             }
@@ -2774,7 +2774,7 @@ class VendorBookingsController extends Controller
     public function round_fare_calculation($id)
     {
         $booking = Bookings::find($id);
-        $key = Hyvikk::api('api_key');
+        $key = AtlasLogistics::api('api_key');
         $url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . str_replace(" ", "", $booking->pickup_addr) . "&destination=" . str_replace(" ", "", $booking->dest_addr) . "&mode=driving&units=metric&sensor=false&key=" . $key;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -2842,10 +2842,10 @@ class VendorBookingsController extends Controller
         //     ->format("%a");
         $type = strtolower(str_replace(' ', '', $booking->vehicle->types->vehicletype));
         // new
-        $rmd = Hyvikk::extra('round_min_distance');
+        $rmd = AtlasLogistics::extra('round_min_distance');
         $ark = $total_kms / $days;
-        $std_fare = Hyvikk::fare($type . '_std_fare');
-        $da = Hyvikk::extra('round_driver_allowance');
+        $std_fare = AtlasLogistics::fare($type . '_std_fare');
+        $da = AtlasLogistics::extra('round_driver_allowance');
         $data['driver_allowance'] = $da * $nights;
         if ($ark <= $rmd && $days > 1) {
             $data['ride_amount'] = ($days * $rmd * $std_fare);
@@ -2861,13 +2861,13 @@ class VendorBookingsController extends Controller
         }
         // $data['total'] = $data['ride_amount'];
         // new
-        // $data['ride_amount'] = Hyvikk::extra('round_min_distance') * $days * Hyvikk::fare($type . '_std_fare');
-        // $data['driver_allowance'] = Hyvikk::extra('round_driver_allowance') * $days;
+        // $data['ride_amount'] = AtlasLogistics::extra('round_min_distance') * $days * AtlasLogistics::fare($type . '_std_fare');
+        // $data['driver_allowance'] = AtlasLogistics::extra('round_driver_allowance') * $days;
         $data['total'] = $data['ride_amount'] + $data['driver_allowance'];
         // calculate tax charges
         $count = 0;
-        if (Hyvikk::get('tax_charge') != "null") {
-            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+        if (AtlasLogistics::get('tax_charge') != "null") {
+            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
             foreach ($taxes as $key => $val) {
                 $count = $count + $val;
             }
@@ -2941,7 +2941,7 @@ class VendorBookingsController extends Controller
             $bookings = $bookings->orderBy('id', 'desc')->withTrashed()->get(['id', 'customer_id', 'vehicle_id', 'user_id', 'pickup', 'dropoff', 'pickup_addr', 'dest_addr', 'travellers', 'status', 'driver_id', 'note', 'created_at', 'updated_at','deleted_at']);
             // dd($bookings);
             $records = array();
-            //$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+            //$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
             foreach ($bookings as $row) {
                 $metas = $row->getMeta();
                 $metas['date'] = $row->date ?? date('Y-m-d',strtotime($row->journey_date));
@@ -3014,7 +3014,7 @@ class VendorBookingsController extends Controller
             $bookings = $bookings->orderBy('id', 'desc')->withTrashed()->get(['id', 'customer_id', 'vehicle_id', 'user_id', 'pickup', 'dropoff', 'pickup_addr', 'dest_addr', 'travellers', 'status', 'driver_id', 'note', 'created_at', 'updated_at','deleted_at']);
             // dd($bookings);
             $records = array();
-            //$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+            //$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
             foreach ($bookings as $row) {
                 $metas = $row->getMeta();
                 $metas['date'] = $row->date ?? date('Y-m-d',strtotime($row->journey_date));
@@ -3073,9 +3073,9 @@ class VendorBookingsController extends Controller
         // ///// /// /// //  fare calculation
         $commission_rs = 0;
         $discount_amount = ($booking->discount_amount) ? $booking->discount_amount : 0;
-        $driver_amount = round($booking->total - ($booking->total * Hyvikk::extra('general_company_commission')) / 100, 2);
+        $driver_amount = round($booking->total - ($booking->total * AtlasLogistics::extra('general_company_commission')) / 100, 2);
         if ($booking->booking_option == "OneWay") {
-            $driver_amount = round($driver_amount - Hyvikk::extra('general_company_charges'), 2);
+            $driver_amount = round($driver_amount - AtlasLogistics::extra('general_company_charges'), 2);
         }
         
 
@@ -3094,18 +3094,18 @@ class VendorBookingsController extends Controller
             $ride_amount = $booking->total;
             // $driver_amount = $driver_amount;
             $driver_amount = ($booking->driver_amount) ? $booking->driver_amount : $driver_amount;
-            $company_charges = ($booking->booking_option == "OneWay") ? Hyvikk::extra('general_company_charges') : 0;
-            $company_commission = Hyvikk::extra('general_company_commission') . "%";
+            $company_charges = ($booking->booking_option == "OneWay") ? AtlasLogistics::extra('general_company_charges') : 0;
+            $company_commission = AtlasLogistics::extra('general_company_commission') . "%";
             if ($booking->booking_option == "offer request") {
                 $company_charges = $booking->vendor_fee;
                 $ride_amount = $booking->total + $booking->vendor_fee;
             }
-            $commission_rs = round(($booking->total * Hyvikk::extra('general_company_commission')) / 100, 2);
+            $commission_rs = round(($booking->total * AtlasLogistics::extra('general_company_commission')) / 100, 2);
         }
 
         $base_fare_value = null;
         if ($booking->booking_option != 'OneWay') {
-            $base_fare_value = ($booking->vehicle_typeid) ? Hyvikk::fare(strtolower(str_replace(' ', '', $booking->types->vehicletype)) . '_base_fare') : null;
+            $base_fare_value = ($booking->vehicle_typeid) ? AtlasLogistics::fare(strtolower(str_replace(' ', '', $booking->types->vehicletype)) . '_base_fare') : null;
         }
 
         $fare_details = array(

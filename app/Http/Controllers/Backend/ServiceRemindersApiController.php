@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use App\Model\ServiceReminderModel;
 use App\Model\User;
 use App\Model\VehicleModel;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -108,14 +108,14 @@ class ServiceRemindersApiController extends Controller {
 			}
 			$interval = $row->services->overdue_time . " " . $row->services->overdue_unit;
 			if ($row->services->overdue_meter != null) {
-				$interval .= " or " . $row->services->overdue_meter . " " . Hyvikk::get('dis_format');
+				$interval .= " or " . $row->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 			}
 			$next_meter = null;
 			if ($row->services->overdue_meter != null) {
 				if ($row->last_meter == 0) {
-					$next_meter = $row->vehicle->int_mileage + $row->services->overdue_meter . " " . Hyvikk::get('dis_format');
+					$next_meter = $row->vehicle->int_mileage + $row->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 				} else {
-					$next_meter = $row->last_meter + $row->services->overdue_meter . " " . Hyvikk::get('dis_format');
+					$next_meter = $row->last_meter + $row->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 				}
 			}
 			$next_date = null;
@@ -123,7 +123,7 @@ class ServiceRemindersApiController extends Controller {
 			if ($row->services->overdue_time != null) {
 				$int = $row->services->overdue_time . $interval;
 			} else {
-				$int = Hyvikk::get('time_interval') . "day";
+				$int = AtlasLogistics::get('time_interval') . "day";
 			}
 			if ($row->last_date != 'N/D') {
 				$next_date = date('Y-m-d', strtotime($int, strtotime($row->last_date)));

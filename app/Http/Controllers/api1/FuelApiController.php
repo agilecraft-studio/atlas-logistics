@@ -11,7 +11,7 @@ use App\Model\Vendor;
 use Auth;
 use Validator;
 use Illuminate\Support\Str;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 class FuelApiController extends Controller
 {
     public function fuelList(Request $request)
@@ -51,7 +51,7 @@ class FuelApiController extends Controller
                 $FuelList = $FuelList->where('updated_at', ">", $time);
             }
             $Fuel_List = $FuelList->orderBy('id','DESC')->withTrashed()->get();
-            $currency=Hyvikk::get('currency');
+            $currency=AtlasLogistics::get('currency');
 
             if(count($Fuel_List)> 0)
             {
@@ -127,7 +127,7 @@ class FuelApiController extends Controller
                 $FuelList = $FuelList->where('updated_at', ">", $time);
             }
             $Fuel_List = $FuelList->orderBy('id','DESC')->withTrashed()->get();
-            $currency=Hyvikk::get('currency');
+            $currency=AtlasLogistics::get('currency');
             dd($Fuel_List);
             if(count($Fuel_List)> 0)
             {
@@ -253,7 +253,7 @@ class FuelApiController extends Controller
             $records = array();
             $FuelList= FuelModel::orderBy('id','desc')->first();
             //dd($FuelList);
-            $currency=Hyvikk::get('currency');
+            $currency=AtlasLogistics::get('currency');
             $total = $FuelList->qty * $FuelList->cost_per_unit;
             $cost = $currency.' '.$total??'0';
             $records[] = array(
@@ -405,7 +405,7 @@ class FuelApiController extends Controller
                 $exp->save();
             }
             VehicleModel::where('id', $request->vehicle_id)->update(['mileage' => $request->start_meter]);
-            $currency=Hyvikk::get('currency');
+            $currency=AtlasLogistics::get('currency');
             $total = $fuel->qty * $fuel->cost_per_unit;
             $cost = $currency.' '.$total??'0';
             $records[] = array(

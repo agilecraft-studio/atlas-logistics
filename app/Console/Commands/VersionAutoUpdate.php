@@ -7,7 +7,7 @@ use App\Model\CompanyServicesModel;
 use App\Model\EmailContent;
 use App\Model\FareSettings;
 use App\Model\FrontendModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\Settings;
 use App\Model\TwilioSettings;
 use App\Model\VehicleModel;
@@ -217,18 +217,18 @@ class VersionAutoUpdate extends Command {
 		$vehicle_types = VehicleTypeModel::get();
 		foreach ($vehicle_types as $key) {
 			$all_types[] = $key->vehicletype;
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_fare', 'key_value' => Hyvikk::fare('base_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_km', 'key_value' => Hyvikk::fare('base_km'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_time', 'key_value' => Hyvikk::fare('base_time'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_std_fare', 'key_value' => Hyvikk::fare('std_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_fare', 'key_value' => Hyvikk::fare('weekend_base_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_km', 'key_value' => Hyvikk::fare('weekend_base_km'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_wait_time', 'key_value' => Hyvikk::fare('weekend_wait_time'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_std_fare', 'key_value' => Hyvikk::fare('weekend_std_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_fare', 'key_value' => Hyvikk::fare('night_base_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_km', 'key_value' => Hyvikk::fare('night_base_km'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_wait_time', 'key_value' => Hyvikk::fare('night_wait_time'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_std_fare', 'key_value' => Hyvikk::fare('night_std_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_fare', 'key_value' => AtlasLogistics::fare('base_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_km', 'key_value' => AtlasLogistics::fare('base_km'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_time', 'key_value' => AtlasLogistics::fare('base_time'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_std_fare', 'key_value' => AtlasLogistics::fare('std_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_fare', 'key_value' => AtlasLogistics::fare('weekend_base_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_km', 'key_value' => AtlasLogistics::fare('weekend_base_km'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_wait_time', 'key_value' => AtlasLogistics::fare('weekend_wait_time'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_std_fare', 'key_value' => AtlasLogistics::fare('weekend_std_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_fare', 'key_value' => AtlasLogistics::fare('night_base_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_km', 'key_value' => AtlasLogistics::fare('night_base_km'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_wait_time', 'key_value' => AtlasLogistics::fare('night_wait_time'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_std_fare', 'key_value' => AtlasLogistics::fare('night_std_fare'), 'type_id' => $key->id]);
 		}
 		foreach ($get_types as $key) {
 			if (!in_array($key, $all_types)) {

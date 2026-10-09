@@ -5,8 +5,8 @@
 
   Fleet Manager v7.0
 
-  Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-  Design and developed by Hyvikk Solutions <https://hyvikk.com/>  -->
+  Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+  Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>  -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

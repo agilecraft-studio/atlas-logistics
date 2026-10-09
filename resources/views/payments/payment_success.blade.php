@@ -8,7 +8,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ Hyvikk::get('app_name') }}</title>
+<title>{{ AtlasLogistics::get('app_name') }}</title>
 
 <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png">
 
@@ -43,7 +43,7 @@ window.Laravel = {!! json_encode([
         <h1 class="headline text-success text-center"> Success!</h1>
       </div>
       <div class="row col-md-8 col-md-offset-2 text-center">
-        <h4>Thank You! You have successfully make booking payment of <strong>{{Hyvikk::payment('currency_code')}} {{$amount}}</strong>.</h4>
+        <h4>Thank You! You have successfully make booking payment of <strong>{{AtlasLogistics::payment('currency_code')}} {{$amount}}</strong>.</h4>
         <p>
           <a href="{{ url('/')}}"><i class="fa fa-backward"></i> BACK TO HOME</a>
         </p>

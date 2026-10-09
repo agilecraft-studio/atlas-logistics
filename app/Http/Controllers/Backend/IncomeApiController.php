@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use App\Model\IncCats;
 use App\Model\IncomeModel;
 use App\Model\VehicleModel;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -108,8 +108,8 @@ class IncomeApiController extends Controller {
 				'type' => $row->name,
 			);
 		}
-		if (Hyvikk::get('tax_charge') != "null") {
-			$taxes = json_decode(Hyvikk::get('tax_charge'), true);
+		if (AtlasLogistics::get('tax_charge') != "null") {
+			$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
 			foreach ($taxes as $key => $val) {
 				$tax += $val;
 			}
@@ -154,15 +154,15 @@ class IncomeApiController extends Controller {
 					'vehicle_license_plate' => $row->vehicle->license_plate,
 					'income_type' => $row->category->name,
 					'date' => $row->date,
-					'amount' => Hyvikk::get('currency') . " " . $row->amount,
-					'mileage' => $row->mileage . " " . Hyvikk::get('dis_format'),
+					'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
+					'mileage' => $row->mileage . " " . AtlasLogistics::get('dis_format'),
 				);
 			}
 			$data['success'] = "1";
 			$data['message'] = "Data fetched!";
 			$data['data'] = array(
 				"income" => $details,
-				"total_today" => Hyvikk::get('currency') . " " . $total_today,
+				"total_today" => AtlasLogistics::get('currency') . " " . $total_today,
 				"from_date" => $request->from_date,
 				"to_date" => $request->to_date,
 			);
@@ -189,15 +189,15 @@ class IncomeApiController extends Controller {
 				'vehicle_license_plate' => $row->vehicle->license_plate,
 				'income_type' => $row->category->name,
 				'date' => $row->date,
-				'amount' => Hyvikk::get('currency') . " " . $row->amount,
-				'mileage' => $row->mileage . " " . Hyvikk::get('dis_format'),
+				'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
+				'mileage' => $row->mileage . " " . AtlasLogistics::get('dis_format'),
 			);
 		}
 		$data['success'] = "1";
 		$data['message'] = "Data fetched!";
 		$data['data'] = array(
 			"income" => $details,
-			'total_today' => Hyvikk::get('currency') . " " . $total,
+			'total_today' => AtlasLogistics::get('currency') . " " . $total,
 		);
 		return $data;
 	}

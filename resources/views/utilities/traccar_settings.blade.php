@@ -24,7 +24,7 @@
                         <div class="col-md-6 col-sm-12 mb-2">
                           <label class="switch">
                               <input type="checkbox" name="traccar_enable" value="1" id="traccar_enable"
-                                  @if (Hyvikk::get('traccar_enable') == 1) checked @endif>
+                                  @if (AtlasLogistics::get('traccar_enable') == 1) checked @endif>
                               <span class="slider round"></span>
                           </label>
                         </div>
@@ -36,17 +36,17 @@
                                 <br>
                                 <label class="switch">
                                     <input type="checkbox" name="traccar_enable" value="1" id="traccar_enable"
-                                        @if (Hyvikk::get('traccar_enable') == 1) checked @endif>
+                                        @if (AtlasLogistics::get('traccar_enable') == 1) checked @endif>
                                     <span class="slider round"></span>
                                 </label>
                             </div>
                         </div> --}}
                         <div class="traccar_settings_enable col-md-12 col-lg-12"
-                            @if (Hyvikk::get('traccar_enable') != 1) style="display:none;" @endif>
+                            @if (AtlasLogistics::get('traccar_enable') != 1) style="display:none;" @endif>
                             <div class="row">
                                 <div class="form-group col-md-6 col-lg-6">
                                     {!! Form::label('traccar_server_link', __('fleet.traccar_server_link'), ['class' => 'form-label']) !!}
-                                    {!! Form::text('traccar_server_link', Hyvikk::get('traccar_server_link') ?? null, [
+                                    {!! Form::text('traccar_server_link', AtlasLogistics::get('traccar_server_link') ?? null, [
                                         'class' => 'form-control',
                                         'id' => 'traccar_server_link',
                                         'required' => 'required',
@@ -55,7 +55,7 @@
 
                                 <div class="form-group col-md-6 col-lg-6">
                                     {!! Form::label('traccar_username', __('fleet.traccar_username'), ['class' => 'form-label']) !!}
-                                    {!! Form::text('traccar_username', Hyvikk::get('traccar_username') ?? null, [
+                                    {!! Form::text('traccar_username', AtlasLogistics::get('traccar_username') ?? null, [
                                         'class' => 'form-control',
                                         'id' => 'traccar_username',
                                         'required' => 'required',
@@ -64,7 +64,7 @@
 
                                 <div class="form-group col-md-6 col-lg-6">
                                     {!! Form::label('traccar_password', __('fleet.traccar_password'), ['class' => 'form-label']) !!}
-                                    {!! Form::text('traccar_password', Hyvikk::get('traccar_password') ?? null, [
+                                    {!! Form::text('traccar_password', AtlasLogistics::get('traccar_password') ?? null, [
                                         'class' => 'form-control',
                                         'id' => 'traccar_password',
                                         'required' => 'required',
@@ -73,7 +73,7 @@
 
                                 <div class="form-group col-md-6 col-lg-6">
                                     {!! Form::label('traccar_map_key', __('fleet.traccar_map_key'), ['class' => 'form-label']) !!}
-                                    {!! Form::text('traccar_map_key', Hyvikk::get('traccar_map_key') ?? null, [
+                                    {!! Form::text('traccar_map_key', AtlasLogistics::get('traccar_map_key') ?? null, [
                                         'class' => 'form-control',
                                         'id' => 'traccar_map_key',
                                         'required' => 'required',

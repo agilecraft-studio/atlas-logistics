@@ -146,13 +146,13 @@
 
 
                 <div class="form-group">
-                  @if(Hyvikk::get('dis_format') == "km")
-                  @if(Hyvikk::get('fuel_unit') == "gallon") {!! Form::label('average',
+                  @if(AtlasLogistics::get('dis_format') == "km")
+                  @if(AtlasLogistics::get('fuel_unit') == "gallon") {!! Form::label('average',
                   __('fleet.average')."(".__('fleet.kmpg').")", ['class' => 'col-xs-5 control-label']) !!} @else {!!
                   Form::label('average', __('fleet.average')."(".__('fleet.kmpl').")", ['class' => 'col-xs-5
                   control-label']) !!} @endif
                   @else
-                  @if(Hyvikk::get('fuel_unit') == "gallon"){!! Form::label('average',
+                  @if(AtlasLogistics::get('fuel_unit') == "gallon"){!! Form::label('average',
                   __('fleet.average')."(".__('fleet.mpg').")", ['class' => 'col-xs-5 control-label']) !!} @else {!!
                   Form::label('average', __('fleet.average')."(".__('fleet.mpl').")", ['class' => 'col-xs-5
                   control-label']) !!} @endif
@@ -232,7 +232,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  @if(Hyvikk::get('dis_format') == "km")
+                  @if(AtlasLogistics::get('dis_format') == "km")
                   {!! Form::label('int_mileage', __('fleet.intMileage')."(".__('fleet.km').")", ['class' => 'col-xs-5
                   control-label']) !!}
                   @else
@@ -301,7 +301,7 @@
                     </select>
                   </div>
                 </div>
-                @if(Hyvikk::get('traccar_enable')==1)
+                @if(AtlasLogistics::get('traccar_enable')==1)
                 <div class="form-group">
                   {!! Form::label('traccar_device_id', __('fleet.traccar_device_id'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">

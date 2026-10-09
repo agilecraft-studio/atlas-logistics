@@ -105,7 +105,7 @@
 
                                             <div class="rent">
 
-                                                <h5>{{ Hyvikk::get('currency') }}{{ $booking->tax_total }}
+                                                <h5>{{ AtlasLogistics::get('currency') }}{{ $booking->tax_total }}
 
                                                 </h5>
 
@@ -125,7 +125,7 @@
 
                                                 <p class="km">{{ $booking->total_kms }}
 
-                                                    {{ Hyvikk::get('dis_format') }}</p>
+                                                    {{ AtlasLogistics::get('dis_format') }}</p>
 
                                                
 

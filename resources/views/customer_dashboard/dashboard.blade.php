@@ -2,7 +2,7 @@
 
 
 @section('title')
-    <title>@lang('frontend.Dashboard') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.Dashboard') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 
 @section('css')
@@ -664,7 +664,7 @@
 
 @section('script')
 
-<script src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key')}}&libraries=places&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key')}}&libraries=places&callback=initMap"
 
 async defer></script>
 

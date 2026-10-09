@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@php($language = Hyvikk::frontend('language'))
+@php($language = AtlasLogistics::frontend('language'))
 <html>
 
 <head>
@@ -8,11 +8,11 @@
     <link rel="manifest" href="{{ asset('manifest.json?v2') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    {{-- <title>{{ Hyvikk::get('app_name') }}</title> --}}
+    {{-- <title>{{ AtlasLogistics::get('app_name') }}</title> --}}
 
     @yield('title')
 
-    <link rel="icon" href="{{ asset('assets/images/' . Hyvikk::get('icon_img')) }}" type="icon_img">
+    <link rel="icon" href="{{ asset('assets/images/' . AtlasLogistics::get('icon_img')) }}" type="icon_img">
 
     <link rel="stylesheet" href="{{ asset('assets/css/frontend-slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
@@ -156,7 +156,7 @@
 
 
     <script>
-        var google_api = "{{ Hyvikk::api('google_api') }}";
+        var google_api = "{{ AtlasLogistics::api('google_api') }}";
     </script>
     <script src="{{ asset('assets/js/fleet-frontend.js?v=1.0.0') }}"></script>
     @if (session('success') || $errors->any())
@@ -171,7 +171,7 @@
 
     @if (request()->is('/'))
 
-        @if (Hyvikk::api('google_api') == '1')
+        @if (AtlasLogistics::api('google_api') == '1')
             <script>
                 function initMap() {
                     $('#pickup_address').attr("placeholder", "");
@@ -187,7 +187,7 @@
                 }
             </script>
             <script
-                src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key') }}&libraries=places&callback=initMap"
+                src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key') }}&libraries=places&callback=initMap"
                 async defer></script>
         @endif
     @endif

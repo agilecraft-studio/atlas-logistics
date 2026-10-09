@@ -33,8 +33,8 @@
               <td>{!! $row->workorder->description !!}</td>
               <td>{{ $row->part->title }}</td>
               <td>{{ $row->qty }}</td>
-              <td>{{Hyvikk::get('currency')." ". $row->price }}</td>
-              <td>{{ Hyvikk::get('currency')." ". $row->total }}</td>
+              <td>{{AtlasLogistics::get('currency')." ". $row->price }}</td>
+              <td>{{ AtlasLogistics::get('currency')." ". $row->total }}</td>
             </tr>
             @endforeach
           </tbody>

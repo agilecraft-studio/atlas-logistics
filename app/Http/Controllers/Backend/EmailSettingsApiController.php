@@ -2,14 +2,14 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Model\EmailContent;
 use App\Model\User;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -47,11 +47,11 @@ class EmailSettingsApiController extends Controller {
 		$data['success'] = "1";
 		$data['message'] = "Data Received.";
 		$data['data'] = array(
-			'insurance' => Hyvikk::email_msg('insurance'),
-			'vehicle_licence' => Hyvikk::email_msg('vehicle_licence'),
-			'driving_licence' => Hyvikk::email_msg('driving_licence'),
-			'registration' => Hyvikk::email_msg('registration'),
-			'service_reminder' => Hyvikk::email_msg('service_reminder'),
+			'insurance' => AtlasLogistics::email_msg('insurance'),
+			'vehicle_licence' => AtlasLogistics::email_msg('vehicle_licence'),
+			'driving_licence' => AtlasLogistics::email_msg('driving_licence'),
+			'registration' => AtlasLogistics::email_msg('registration'),
+			'service_reminder' => AtlasLogistics::email_msg('service_reminder'),
 		);
 		return $data;
 	}
@@ -126,8 +126,8 @@ class EmailSettingsApiController extends Controller {
 			'selected_user_ids' => $selected_user_list,
 			'selected_notifications' => $options,
 			'notification_list' => $notifications,
-			'email' => (Hyvikk::email_msg('email') == 1) ? "Enabled" : "Disabled",
-			'email_value' => Hyvikk::email_msg('email'),
+			'email' => (AtlasLogistics::email_msg('email') == 1) ? "Enabled" : "Disabled",
+			'email_value' => AtlasLogistics::email_msg('email'),
 		);
 		return $data;
 	}

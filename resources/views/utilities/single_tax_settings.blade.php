@@ -27,48 +27,48 @@
           <div class="form-group col-md-4">
             {!! Form::label('app_name',__('fleet.app_name'),['class'=>"form-label"]) !!}
             {!! Form::text('name[app_name]',
-            Hyvikk::get('app_name'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('app_name'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('email',__('fleet.email'),['class'=>"form-label"]) !!}
             {!! Form::text('name[email]',
-            Hyvikk::get('email'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('email'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('badd1',__('fleet.badd1'),['class'=>"form-label"]) !!}
             {!! Form::text('name[badd1]',
-            Hyvikk::get('badd1'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('badd1'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('badd2',__('fleet.badd2'),['class'=>"form-label"]) !!}
             {!! Form::text('name[badd2]',
-            Hyvikk::get('badd2'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('badd2'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('city',__('fleet.city'),['class'=>"form-label"]) !!}
             {!! Form::text('name[city]',
-            Hyvikk::get('city'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('city'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('state',__('fleet.state'),['class'=>"form-label"]) !!}
             {!! Form::text('name[state]',
-            Hyvikk::get('state'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('state'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('country',__('fleet.country'),['class'=>"form-label"]) !!}
             {!! Form::text('name[country]',
-            Hyvikk::get('country'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('country'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('dis_format',__('fleet.dis_format'),['class'=>"form-label"]) !!}
-            {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], Hyvikk::get("dis_format"),['class'=>"form-control",'required']) !!}
+            {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], AtlasLogistics::get("dis_format"),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
@@ -78,7 +78,7 @@
               @if(Auth::user()->getMeta('language')!= null)
               @php ($language = Auth::user()->getMeta('language'))
               @else
-              @php($language = Hyvikk::get("language"))
+              @php($language = AtlasLogistics::get("language"))
               @endif
               @foreach($languages as $lang)
               @php($l = explode('-',$lang))
@@ -95,20 +95,20 @@
           <div class="form-group col-md-4">
             {!! Form::label('currency',__('fleet.currency'),['class'=>"form-label"]) !!}
             {!! Form::text('name[currency]',
-            Hyvikk::get('currency'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('currency'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('tax_no',__('fleet.tax_no'),['class'=>"form-label"]) !!}
             {!! Form::text('name[tax_no]',
-            Hyvikk::get('tax_no'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('tax_no'),['class'=>"form-control",'required']) !!}
           </div>
 
           <div class="form-group col-md-4">
             {!! Form::label('tax_charge',__('fleet.tax_charge')." (%)",['class'=>"form-label"]) !!}
 
               <div class="input-group mb-3">
-                {!! Form::number('name[tax_charge]',Hyvikk::get('tax_charge'),['class'=>"form-control",'required','min'=>0,'step'=>"0.01"]) !!}
+                {!! Form::number('name[tax_charge]',AtlasLogistics::get('tax_charge'),['class'=>"form-control",'required','min'=>0,'step'=>"0.01"]) !!}
                 <div class="input-group-append">
                   <span class="input-group-text fa fa-percent"></span>
                 </div>
@@ -119,7 +119,7 @@
             {!! Form::label('time_interval',__('fleet.defaultTimeInterval'),['class'=>"form-label"]) !!}
 
               <div class="input-group mb-3">
-                {!! Form::number('name[time_interval]',Hyvikk::get('time_interval'),['class'=>"form-control",'required','min'=>1]) !!}
+                {!! Form::number('name[time_interval]',AtlasLogistics::get('time_interval'),['class'=>"form-control",'required','min'=>1]) !!}
                 <div class="input-group-append">
                   <span class="input-group-text">day(s)</span>
                 </div>
@@ -128,7 +128,7 @@
 
           <div class="form-group col-md-4">
             <label for="icon_img"> @lang('fleet.icon_img')</label>
-            @if(Hyvikk::get('icon_img')!= null)
+            @if(AtlasLogistics::get('icon_img')!= null)
             <button type="button" class="btn btn-success view1 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
             @lang('fleet.view')
             </button>
@@ -139,7 +139,7 @@
           </div>
           <div class="form-group col-md-4">
             <label for="logo_img"> @lang('fleet.logo_img')</label>
-            @if(Hyvikk::get('logo_img')!= null)
+            @if(AtlasLogistics::get('logo_img')!= null)
             <button type="button" class="btn btn-success view2 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
             @lang('fleet.view')
             </button>
@@ -152,7 +152,7 @@
           <div class="form-group col-md-12">
             {!! Form::label('invoice_text',__('fleet.invoice_text'),['class'=>"form-label"]) !!}
             {!! Form::textarea('name[invoice_text]',
-            Hyvikk::get('invoice_text'),['class'=>"form-control",'size'=>'30x3']) !!}
+            AtlasLogistics::get('invoice_text'),['class'=>"form-control",'size'=>'30x3']) !!}
           </div>
         </div>
       </div>
@@ -197,13 +197,13 @@
 
 <script type="text/javascript">
   $('.view1').click(function(){
-    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}");
+    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}");
     $('#myModal3 .modal-body .myimg').removeAttr( "height");
     $('#myModal3 .modal-body .myimg').removeAttr( "width");
   });
 
   $('.view2').click(function(){
-    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}");
+    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}");
     $('#myModal3 .modal-body .myimg').attr( "height","140px");
     $('#myModal3 .modal-body .myimg').attr( "width","300px");
   });

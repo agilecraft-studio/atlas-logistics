@@ -142,7 +142,7 @@
                   <div class="form-group col-md-4">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text">{{Hyvikk::get('dis_format')}}</span>
+                        <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span>
                       </div>
                       <input type="number" name="meter1" class="form-control" value="{{$service->overdue_meter}}"
                         id="meter1">
@@ -195,7 +195,7 @@
                   <div class="form-group col-md-4">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text">{{Hyvikk::get('dis_format')}}</span>
+                        <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span>
                       </div>
                       <input type="number" name="meter2" class="form-control" value="{{$service->duesoon_meter}}"
                         id="meter2">

@@ -22,7 +22,7 @@
 
                     </button>
 
-                    <a href="mailto:help@hyvikk.com" class="btn btn-icon btn-3 contact_btn" type="button">
+                    <a href="mailto:help@Atlas Logistics.com" class="btn btn-icon btn-3 contact_btn" type="button">
 
                         <span class="btn-inner--icon"><img src="{{ asset('assets/customer_dashboard/assets/img/svg/contact.svg') }}"></span>
 
@@ -720,7 +720,7 @@
 
                                                         <p class="fare_detail_title">@lang('frontend.Amount')</p>
 
-                                                        <p class="fare_detail_info">{{Hyvikk::get('currency')}} {{($data->total_fare??0)}}</p>
+                                                        <p class="fare_detail_info">{{AtlasLogistics::get('currency')}} {{($data->total_fare??0)}}</p>
 
                                                     </div>
 
@@ -736,7 +736,7 @@
 
                                                         <p class="fare_detail_title">@lang('frontend.Sub_Total')</p>
 
-                                                        <p class="fare_detail_info">{{Hyvikk::get('currency')}} {{($data->total_fare??0)}}</p>
+                                                        <p class="fare_detail_info">{{AtlasLogistics::get('currency')}} {{($data->total_fare??0)}}</p>
 
                                                     </div>
 
@@ -756,7 +756,7 @@
 
                                                         <p class="fare_detail_title">@lang('frontend.Total_Tax') (%)</p>
 
-                                                        <p class="fare_detail_info">{{Hyvikk::get('currency')}} {{($data->total_tax_charge_rs??0)}}</p>
+                                                        <p class="fare_detail_info">{{AtlasLogistics::get('currency')}} {{($data->total_tax_charge_rs??0)}}</p>
 
                                                     </div>
 
@@ -772,7 +772,7 @@
 
                                                         <p class="fare_detail_title">@lang('frontend.Fuel_Charges')</p>
 
-                                                        <p class="fare_detail_info">{{Hyvikk::get('currency')}} {{($data->fuel_charges??0)}}</p>
+                                                        <p class="fare_detail_info">{{AtlasLogistics::get('currency')}} {{($data->fuel_charges??0)}}</p>
 
                                                     </div>
 
@@ -788,7 +788,7 @@
 
                                                         <p class="fare_detail_title">@lang('frontend.Total_Amount')</p>
 
-                                                        <p class="fare_detail_info">{{Hyvikk::get('currency')}} {{($data->tax_total??0)}}</p>
+                                                        <p class="fare_detail_info">{{AtlasLogistics::get('currency')}} {{($data->tax_total??0)}}</p>
 
                                                     </div>
 

@@ -103,7 +103,7 @@ input:checked + .slider:before {
         <div class="row">
           <div class="col-md-4 col-sm-12">
             <h4>  @lang('fleet.frontend_settings')<span id="change" class="text-muted">
-              @if(Hyvikk::frontend('enable')==1)
+              @if(AtlasLogistics::frontend('enable')==1)
                 (@lang('fleet.enable'))
               @else
                 (@lang('fleet.disable'))
@@ -113,7 +113,7 @@ input:checked + .slider:before {
           </div>
           <div class="col-md-3 col-sm-12">
             <label class="switch">
-              <input type="checkbox" name="enable" value="1" id="enable" @if(Hyvikk::frontend('enable')==1) checked @endif>
+              <input type="checkbox" name="enable" value="1" id="enable" @if(AtlasLogistics::frontend('enable')==1) checked @endif>
               <span class="slider round"></span>
             </label>
           </div>
@@ -122,7 +122,7 @@ input:checked + .slider:before {
           <div class="col-md-12">
             <div class="form-group">
               {!! Form::label('about', __('fleet.about_breadcrumb'), ['class' => 'form-label']) !!}
-              <textarea name="about" class="form-control" rows="3" required>{{ Hyvikk::frontend('about_us') }}</textarea>
+              <textarea name="about" class="form-control" rows="3" required>{{ AtlasLogistics::frontend('about_us') }}</textarea>
             </div>
           </div>
           <div class="col-md-4">
@@ -132,7 +132,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-phone"></i></span>
                 </div>
-                {!! Form::number('customer_support', Hyvikk::frontend('customer_support') ,['class' => 'form-control','required']) !!}
+                {!! Form::number('customer_support', AtlasLogistics::frontend('customer_support') ,['class' => 'form-control','required']) !!}
               </div>
             </div>
           </div>
@@ -143,7 +143,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-phone"></i></span>
                 </div>
-                {!! Form::number('phone', Hyvikk::frontend('contact_phone') ,['class' => 'form-control','required']) !!}
+                {!! Form::number('phone', AtlasLogistics::frontend('contact_phone') ,['class' => 'form-control','required']) !!}
               </div>
             </div>
           </div>
@@ -154,20 +154,20 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                 </div>
-                {!! Form::email('email',  Hyvikk::frontend('contact_email') ,['class' => 'form-control','required']) !!}
+                {!! Form::email('email',  AtlasLogistics::frontend('contact_email') ,['class' => 'form-control','required']) !!}
               </div>
             </div>
           </div>
           <div class="col-md-12">
             <div class="form-group">
               {!! Form::label('about_description', __('fleet.aboutFleetManagerDescription'), ['class' => 'form-label']) !!}
-              <textarea name="about_description" class="form-control" rows="3" required>{{ Hyvikk::frontend('about_description') }}</textarea>
+              <textarea name="about_description" class="form-control" rows="3" required>{{ AtlasLogistics::frontend('about_description') }}</textarea>
             </div>
           </div>
             <div class="col-md-6">
               <div class="form-group">
               {!! Form::label('about_title',__('fleet.aboutFleetManagerTitle'), ['class' => 'form-label']) !!}
-              {!! Form::text('about_title', Hyvikk::frontend('about_title') ,['class' => 'form-control','required']) !!}
+              {!! Form::text('about_title', AtlasLogistics::frontend('about_title') ,['class' => 'form-control','required']) !!}
             </div>
             </div>
             <div class="col-md-6">
@@ -175,7 +175,7 @@ input:checked + .slider:before {
             {!! Form::label('language',__('fleet.language'),['class'=>"form-label"]) !!}
             <select id='language' name='language' class="form-control" required>
               <option value="">-</option>              
-              @php($language = Hyvikk::frontend("language"))
+              @php($language = AtlasLogistics::frontend("language"))
               
               @foreach($languages as $lang)
               @if($lang != "vendor")
@@ -195,43 +195,43 @@ input:checked + .slider:before {
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('faq_link',__('fleet.faq_link'), ['class' => 'form-label']) !!}
-              {!! Form::text('faq_link', Hyvikk::frontend('faq_link') ,['class' => 'form-control']) !!}
+              {!! Form::text('faq_link', AtlasLogistics::frontend('faq_link') ,['class' => 'form-control']) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('cities',__('fleet.cities_serving'), ['class' => 'form-label']) !!}
-              {!! Form::number('cities', Hyvikk::frontend('cities') ,['class' => 'form-control','required','min'=>0]) !!}
+              {!! Form::number('cities', AtlasLogistics::frontend('cities') ,['class' => 'form-control','required','min'=>0]) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('vehicles',__('fleet.vehicles_serving'), ['class' => 'form-label']) !!}
-              {!! Form::number('vehicles', Hyvikk::frontend('vehicles') ,['class' => 'form-control','required','min'=>0]) !!}
+              {!! Form::number('vehicles', AtlasLogistics::frontend('vehicles') ,['class' => 'form-control','required','min'=>0]) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('booking_time',__('fleet.booking_time'), ['class' => 'form-label']) !!}
-              {!! Form::number('booking_time', Hyvikk::frontend('booking_time') ,['class' => 'form-control','required','min'=>1,'step'=>1]) !!}
+              {!! Form::number('booking_time', AtlasLogistics::frontend('booking_time') ,['class' => 'form-control','required','min'=>1,'step'=>1]) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('cancellation',__('fleet.cancellation_link'), ['class' => 'form-label']) !!}
-              {!! Form::text('cancellation', Hyvikk::frontend('cancellation') ,['class' => 'form-control']) !!}
+              {!! Form::text('cancellation', AtlasLogistics::frontend('cancellation') ,['class' => 'form-control']) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('terms',__('fleet.terms'), ['class' => 'form-label']) !!}
-              {!! Form::text('terms', Hyvikk::frontend('terms') ,['class' => 'form-control']) !!}
+              {!! Form::text('terms', AtlasLogistics::frontend('terms') ,['class' => 'form-control']) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('privacy_policy',__('fleet.privacy_policy'), ['class' => 'form-label']) !!}
-              {!! Form::text('privacy_policy', Hyvikk::frontend('privacy_policy') ,['class' => 'form-control']) !!}
+              {!! Form::text('privacy_policy', AtlasLogistics::frontend('privacy_policy') ,['class' => 'form-control']) !!}
             </div>
           </div>
         </div>
@@ -245,10 +245,10 @@ input:checked + .slider:before {
 
      
       
-          @if(Hyvikk::frontend('footer_link'))
+          @if(AtlasLogistics::frontend('footer_link'))
 
 
-          @foreach(json_decode(Hyvikk::frontend('footer_link')) as $f)
+          @foreach(json_decode(AtlasLogistics::frontend('footer_link')) as $f)
 
           <div class="link-group col-md-12 d-flex">
               <div class="col-md-3">
@@ -279,7 +279,7 @@ input:checked + .slider:before {
         <div class="col-md-12">
             <label>@lang('fleet.Signup_Page_Title')</label>
 
-            <input type="text" name="sign_up_title" value="{{ Hyvikk::frontend('sign_up_title') }}" class="form-control ">
+            <input type="text" name="sign_up_title" value="{{ AtlasLogistics::frontend('sign_up_title') }}" class="form-control ">
 
         </div>
       </div>
@@ -291,7 +291,7 @@ input:checked + .slider:before {
         <div class="col-md-12">
             <label>@lang('fleet.Signup_Page_Sub_Title')</label>
 
-            <input type="text" name="sign_up_sub_title" value="{{ Hyvikk::frontend('sign_up_sub_title') }}" class="form-control ">
+            <input type="text" name="sign_up_sub_title" value="{{ AtlasLogistics::frontend('sign_up_sub_title') }}" class="form-control ">
 
         </div>
       </div>
@@ -305,10 +305,10 @@ input:checked + .slider:before {
     
             <div class="field-container">
 
-              @if(Hyvikk::frontend('sign_up_content'))
+              @if(AtlasLogistics::frontend('sign_up_content'))
 
 
-              @foreach(json_decode(Hyvikk::frontend('sign_up_content')) as $s)
+              @foreach(json_decode(AtlasLogistics::frontend('sign_up_content')) as $s)
     
 
                 <div class="field-group col-md-12 d-flex mt-3">
@@ -376,7 +376,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-facebook"></i></span>
                 </div>
-                {!! Form::text('facebook', Hyvikk::frontend('facebook') ,['class' => 'form-control']) !!}
+                {!! Form::text('facebook', AtlasLogistics::frontend('facebook') ,['class' => 'form-control']) !!}
               </div>
             </div>
           </div>
@@ -387,7 +387,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-twitter"></i></span>
                 </div>
-                {!! Form::text('twitter', Hyvikk::frontend('twitter') ,['class' => 'form-control']) !!}
+                {!! Form::text('twitter', AtlasLogistics::frontend('twitter') ,['class' => 'form-control']) !!}
               </div>
             </div>
           </div>
@@ -398,7 +398,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-instagram"></i></span>
                 </div>
-                {!! Form::text('instagram', Hyvikk::frontend('instagram') ,['class' => 'form-control']) !!}
+                {!! Form::text('instagram', AtlasLogistics::frontend('instagram') ,['class' => 'form-control']) !!}
               </div>
             </div>
           </div>
@@ -409,7 +409,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-linkedin"></i></span>
                 </div>
-                {!! Form::text('linkedin', Hyvikk::frontend('linkedin') ,['class' => 'form-control']) !!}
+                {!! Form::text('linkedin', AtlasLogistics::frontend('linkedin') ,['class' => 'form-control']) !!}
               </div>
             </div>
           </div>
@@ -420,7 +420,7 @@ input:checked + .slider:before {
               {!! Form::label('approval_required',__('fleet.approval_required'), ['class' => 'form-label']) !!}
               <a data-toggle="modal" data-target="#myModal2"><i class="fa fa-info-circle fa-lg ml-1" aria-hidden="true"  style="color: #8639dd"></i></a>
               <label class="switch">
-                <input type="checkbox" name="approval_required" value="1" id="approval_required" @if(Hyvikk::frontend('admin_approval')==1) checked @endif>
+                <input type="checkbox" name="approval_required" value="1" id="approval_required" @if(AtlasLogistics::frontend('admin_approval')==1) checked @endif>
                 <span class="slider round"></span>
               </label>
             </div>

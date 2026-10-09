@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
@@ -67,7 +67,7 @@
                 <th>@lang('fleet.incomeType')</th>
                 <th>@lang('fleet.date')</th>
                 <th>@lang('fleet.amount')</th>
-                <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+                <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
               </tr>
           </thead>
 
@@ -91,7 +91,7 @@
               </td>
               <td>{{$row->category->name}}</td>
               <td>{{date($date_format_setting,strtotime($row->date))}}</td>
-              <td>{{Hyvikk::get('currency')}} {{$row->amount}}</td>
+              <td>{{AtlasLogistics::get('currency')}} {{$row->amount}}</td>
               <td>{{$row->mileage}}</td>
             </tr>
             @endforeach
@@ -104,7 +104,7 @@
               <th>@lang('fleet.incomeType')</th>
               <th>@lang('fleet.date')</th>
               <th>@lang('fleet.amount')</th>
-              <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+              <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
             </tr>
           </tfoot>
         </table>

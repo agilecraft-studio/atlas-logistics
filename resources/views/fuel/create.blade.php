@@ -116,7 +116,7 @@
               </div>
               <div class="card-body">
                 <div class="form-group">
-                  {!! Form::label('qty',__('fleet.qty').' ('. Hyvikk::get('fuel_unit') .')', ['class' => 'form-label'])
+                  {!! Form::label('qty',__('fleet.qty').' ('. AtlasLogistics::get('fuel_unit') .')', ['class' => 'form-label'])
                   !!}
                   {!! Form::number('qty',"0.00",['class'=>'form-control','step'=>0.01,'min'=>0.01]) !!}
                 </div>
@@ -124,7 +124,7 @@
                   {!! Form::label('cost_per_unit',__('fleet.cost_per_unit'), ['class' => 'form-label']) !!}
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">{{Hyvikk::get('currency')}}</span>
+                      <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                     </div>
                     {!! Form::number('cost_per_unit',"0.00",['class'=>'form-control','step'=>0.01,'min'=>0.01]) !!}
                   </div>

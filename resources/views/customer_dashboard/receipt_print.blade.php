@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-6 set-top-margin">
                     <div class="invoice-logo">
-                        <img src="{{ asset('assets/images/' . Hyvikk::get('logo_img')) }}" class="img-fluid"
+                        <img src="{{ asset('assets/images/' . AtlasLogistics::get('logo_img')) }}" class="img-fluid"
                             alt="Logo">
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <label>Email ID</label>
-                                <p>{{ Hyvikk::get('email') }}</p>
+                                <p>{{ AtlasLogistics::get('email') }}</p>
                             </div>
                             <div class="col-12">
                                 <label>Date Time</label>
@@ -79,12 +79,12 @@
                                 </span>{{ $booking->dest_addr ?? '-' }}</p>
                         </td>
                         <td>{{ isset($booking->total_kms) ? $booking->total_kms . ' kms' : '-' }}</td>
-                        <td>{{ Hyvikk::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</td>
+                        <td>{{ AtlasLogistics::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>Total</td>
-                        <td class="total">{{ Hyvikk::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</td>
+                        <td class="total">{{ AtlasLogistics::get('currency') }} {{ $i->booking_income->amount ?? '-' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -92,28 +92,28 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="invoice-help text-center">
-                            <p>Get help with bookings. visit <a href="https://hyvikk.com/contact-us/" target="_blank"
+                            <p>Get help with bookings. visit <a href="https://app.atlaslogistics.co.mwcontact-us/" target="_blank"
                                     style="text-decoration:none;">support</a>.</p>
                             <div class="company-logo">
                                 <a href="#" target="_blank">
-                                    <img src="{{ asset('assets/images/' . Hyvikk::get('logo_img')) }}" alt="Logo"
+                                    <img src="{{ asset('assets/images/' . AtlasLogistics::get('logo_img')) }}" alt="Logo"
                                         height="100px" width="150px">
                                 </a>
                             </div>
                             <div class="text-center footer-links">
                                 <ul>
-                                    <li><a href="https://hyvikk.com/our-services/">Terms of service</a></li>
-                                    <li><a href="https://shop.hyvikk.co/privacy-policy/">Privacy policy</a></li>
+                                    <li><a href="https://app.atlaslogistics.co.mwour-services/">Terms of service</a></li>
+                                    <li><a href="https://shop.Atlas Logistics.co/privacy-policy/">Privacy policy</a></li>
                                 </ul>
                             </div>
                             <div class="copyright">
                                 <p>Copyright &copy; {{ date('Y') }} <a href="#"
-                                        style="text-decoration: none;color: #5d5d5d;">{{ Hyvikk::get('app_name') }}</a>.<br>
+                                        style="text-decoration: none;color: #5d5d5d;">{{ AtlasLogistics::get('app_name') }}</a>.<br>
                                     All rights reserved.</p>
                             </div>
                             <div class="business-address">
-                                <p>{{ Hyvikk::get('badd1') }} {{ Hyvikk::get('badd2') }} {{ Hyvikk::get('city') }},
-                                    {{ Hyvikk::get('state') }} {{ Hyvikk::get('country') }}</p>
+                                <p>{{ AtlasLogistics::get('badd1') }} {{ AtlasLogistics::get('badd2') }} {{ AtlasLogistics::get('city') }},
+                                    {{ AtlasLogistics::get('state') }} {{ AtlasLogistics::get('country') }}</p>
                             </div>
                             <div class="authorised-sign mt-4">
                                 <span class="small-text">Authorised Signatory:</span><br>

@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ Hyvikk::get('app_name') }}</title>
+  <title>{{ AtlasLogistics::get('app_name') }}</title>
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -27,7 +27,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <center> <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" height="140px" width="300px"/> </center>
+    <center> <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" height="140px" width="300px"/> </center>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -36,8 +36,8 @@
       <form method="POST" name="checkout" action="https://api.razorpay.com/v1/checkout/embedded">
         {{ csrf_field() }}
         {!! Form::hidden('booking_id',$booking_id) !!}
-        <input type="hidden" class="form-control" name="key_id" value="{{Hyvikk::payment('razorpay_key')}}">
-      <input type="hidden" name="name" value="{{ Hyvikk::get('app_name') }}">
+        <input type="hidden" class="form-control" name="key_id" value="{{AtlasLogistics::payment('razorpay_key')}}">
+      <input type="hidden" name="name" value="{{ AtlasLogistics::get('app_name') }}">
       <input type="hidden" name="amount" value="{{ $amount }}">
       <input type="hidden" name="order_id" value="{{$order_id}}">
       <input type="hidden" name="callback_url" value="{{ url('razorpay-success?booking_id='.$booking_id) }}">

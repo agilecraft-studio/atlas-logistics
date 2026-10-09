@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\FrontEnd;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use App\Model\Address;
 use App\Model\Bookings;
 use App\Model\BookingIncome;
 use App\Model\CompanyServicesModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\MessageModel;
 use App\Model\TeamModel;
 use App\Model\Testimonial;
@@ -76,7 +76,7 @@ class BookingController extends Controller {
                  $longitude=$data['fields']['longitude']['doubleValue'];
                  $speed=$data['fields']['speed']['integerValue'] ."kmph";
    
-                 $apiKey = (Hyvikk::api('api_key') ?? '-');
+                 $apiKey = (AtlasLogistics::api('api_key') ?? '-');
                
                  // Build the URL for the API request
                  $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$latitude},{$longitude}&key={$apiKey}";
@@ -137,7 +137,7 @@ class BookingController extends Controller {
         }
 
 
-        $vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE';
+        $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
        
     
             if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
@@ -186,7 +186,7 @@ class BookingController extends Controller {
          foreach ($d as $ro) {
             $vhc = VehicleModel::find($ro->id);
 
-            if(Hyvikk::get('fare_mode') == "price_wise")
+            if(AtlasLogistics::get('fare_mode') == "price_wise")
             {
                 if($vhc && $vhc->getMeta('price') != 0 )
                 {
@@ -196,7 +196,7 @@ class BookingController extends Controller {
                 }
 
             }
-           else if(Hyvikk::get('fare_mode') == "type_wise")
+           else if(AtlasLogistics::get('fare_mode') == "type_wise")
            {
                 $text = $vhc->make_name . "-" . $vhc->model_name . "-" . $vhc->license_plate;
                 $luggage=$vhc->luggage??'';
@@ -351,7 +351,7 @@ class BookingController extends Controller {
         
         $full_date=date("d M 'y h.m A", strtotime($request->pickup_date.' '.$request->pickup_time));
 
-        $key = Hyvikk::api('api_key');
+        $key = AtlasLogistics::api('api_key');
 
         $url = "https://maps.googleapis.com/maps/api/directions/json?origin=" . str_replace(" ", "", $request->pickup_address) . "&destination=" . str_replace(" ", "", $request->dropoff_address) . "&mode=driving&units=metric&sensor=false&key=" . $key;
          
@@ -380,12 +380,12 @@ class BookingController extends Controller {
                 $fare_details = array();
 
 
-                if(Hyvikk::get('fare_mode') == "type_wise")
+                if(AtlasLogistics::get('fare_mode') == "type_wise")
                 {
-                    $base_fare = Hyvikk::fare($type . '_base_fare');
-                    $km_base = Hyvikk::fare($type . '_base_km');
-                    $std_fare = Hyvikk::fare($type . '_std_fare');
-                    $base_km = Hyvikk::fare($type . '_base_km');
+                    $base_fare = AtlasLogistics::fare($type . '_base_fare');
+                    $km_base = AtlasLogistics::fare($type . '_base_km');
+                    $std_fare = AtlasLogistics::fare($type . '_std_fare');
+                    $base_km = AtlasLogistics::fare($type . '_base_km');
     
                     if ($total_kms <= $km_base) {
                         $total_fare = $base_fare;
@@ -395,8 +395,8 @@ class BookingController extends Controller {
                     }
                     // calculate tax charges
                     $count = 0;
-                    if (Hyvikk::get('tax_charge') != "null") {
-                        $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                    if (AtlasLogistics::get('tax_charge') != "null") {
+                        $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                         foreach ($taxes as $key => $val) {
                             $count = $count + $val;
                         }
@@ -413,7 +413,7 @@ class BookingController extends Controller {
                         'tax_total'=>$tax_total
                     ];
                 }
-                else if(Hyvikk::get('fare_mode') == "price_wise")
+                else if(AtlasLogistics::get('fare_mode') == "price_wise")
                 {
                     if($vehicle->getMeta('price') != '0')
                     {
@@ -421,8 +421,8 @@ class BookingController extends Controller {
                         $total_fare=$vehicle->getMeta('price');
 
                         $count = 0;
-                        if (Hyvikk::get('tax_charge') != "null") {
-                            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                        if (AtlasLogistics::get('tax_charge') != "null") {
+                            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                             foreach ($taxes as $key => $val) {
                                 $count = $count + $val;
                             }
@@ -443,7 +443,7 @@ class BookingController extends Controller {
 
              
 
-                $currency=Hyvikk::get('currency');
+                $currency=AtlasLogistics::get('currency');
        
 
         return response()->json(['vehicle'=>$vehicle,'v_type'=>$v_type,'full_date'=>$full_date,'arr'=>$arr,'currency'=>$currency,'luggage'=>($vehicle->getMeta('luggage')??'-')]);
@@ -489,7 +489,7 @@ class BookingController extends Controller {
                 $booking->vehicle_typeid = $vehicle->type_id;
                 $booking->vehicle_id = $vehicle->id;
                 
-                $key = (Hyvikk::api('api_key') ?? '-');
+                $key = (AtlasLogistics::api('api_key') ?? '-');
         
 				$pickupAddress = urlencode($request->pickup_address);
 				$dropoffAddress = urlencode($request->dropoff_address);
@@ -534,12 +534,12 @@ class BookingController extends Controller {
                 $type = strtolower(str_replace(" ", "", $v_type->vehicletype));
                 $fare_details = array();
 
-                if(Hyvikk::get('fare_mode') == "type_wise")
+                if(AtlasLogistics::get('fare_mode') == "type_wise")
                 {
-                    $base_fare = Hyvikk::fare($type . '_base_fare');
-                    $km_base = Hyvikk::fare($type . '_base_km');
-                    $std_fare = Hyvikk::fare($type . '_std_fare');
-                    $base_km = Hyvikk::fare($type . '_base_km');
+                    $base_fare = AtlasLogistics::fare($type . '_base_fare');
+                    $km_base = AtlasLogistics::fare($type . '_base_km');
+                    $std_fare = AtlasLogistics::fare($type . '_std_fare');
+                    $base_km = AtlasLogistics::fare($type . '_base_km');
     
                     if ($total_kms <= $km_base) {
                         $total_fare = $base_fare;
@@ -549,8 +549,8 @@ class BookingController extends Controller {
                     }
                     // calculate tax charges
                     $count = 0;
-                    if (Hyvikk::get('tax_charge') != "null") {
-                        $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                    if (AtlasLogistics::get('tax_charge') != "null") {
+                        $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                         foreach ($taxes as $key => $val) {
                             $count = $count + $val;
                         }
@@ -567,7 +567,7 @@ class BookingController extends Controller {
                         'tax_total'=>$tax_total
                     ];
                 }
-                else if(Hyvikk::get('fare_mode') == "price_wise")
+                else if(AtlasLogistics::get('fare_mode') == "price_wise")
                 {
                     if($vehicle->getMeta('price') != '0')
                     {
@@ -575,8 +575,8 @@ class BookingController extends Controller {
                         $total_fare=$vehicle->getMeta('price');
     
                         $count = 0;
-                        if (Hyvikk::get('tax_charge') != "null") {
-                            $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+                        if (AtlasLogistics::get('tax_charge') != "null") {
+                            $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                             foreach ($taxes as $key => $val) {
                                 $count = $count + $val;
                             }
@@ -603,7 +603,7 @@ class BookingController extends Controller {
                 
 
                 $booking->total_kms=$total_kms;
-                $booking->currency=Hyvikk::get('currency');
+                $booking->currency=AtlasLogistics::get('currency');
 
 
                 $booking->save();
@@ -637,7 +637,7 @@ class BookingController extends Controller {
                  
                     
 
-                    $key2 = (Hyvikk::api('api_key') ?? '-');
+                    $key2 = (AtlasLogistics::api('api_key') ?? '-');
         
                     $pickupAddress2 = urlencode($request->pickup_address);
                     $dropoffAddress2 = urlencode($request->dropoff_address);
@@ -689,7 +689,7 @@ class BookingController extends Controller {
                 Address::updateOrCreate(['customer_id' => Auth::user()->id, 'address' => $request->pickup_address]);
                 Address::updateOrCreate(['customer_id' => Auth::user()->id, 'address' => $request->dropoff_address]);
                 $this->book_later_notification($booking->id, $booking->vehicle_typeid);
-                if (Hyvikk::email_msg('email') == 1) {
+                if (AtlasLogistics::email_msg('email') == 1) {
                     Mail::to($booking->customer->email)->send(new VehicleBooked($booking));
                 }
             }

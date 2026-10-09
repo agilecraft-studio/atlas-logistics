@@ -101,7 +101,7 @@ $dk=array_keys($dates);
               <span class="info-box-icon"><i class="fa fa-money-bill"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.income')</span>
-                <span class="info-box-number">{{ Hyvikk::get("currency")}}{{$income}}</span>
+                <span class="info-box-number">{{ AtlasLogistics::get("currency")}}{{$income}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -109,7 +109,7 @@ $dk=array_keys($dates);
               <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.expense')</span>
-                <span class="info-box-number">{{ Hyvikk::get("currency")}}{{$expense}}</span>
+                <span class="info-box-number">{{ AtlasLogistics::get("currency")}}{{$expense}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>

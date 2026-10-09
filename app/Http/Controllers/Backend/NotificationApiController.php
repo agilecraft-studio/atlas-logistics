@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 // use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use App\Model\ServiceReminderModel;
 use App\Model\User;
 use App\Model\VehicleModel;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 
 class NotificationApiController extends Controller {
 	public function counts() {
@@ -54,7 +54,7 @@ class NotificationApiController extends Controller {
 			$details[] = array(
 				'image' => ($vehicle->vehicle_image != null) ? asset('uploads/' . $vehicle->vehicle_image) : asset("assets/images/vehicle.jpeg"),
 				'vehicle' => $vehicle->make_name . " - " . $vehicle->model_name,
-				'notification' => __('fleet.reg_certificate') . date(Hyvikk::get('date_format'), strtotime($row->data['msg'])),
+				'notification' => __('fleet.reg_certificate') . date(AtlasLogistics::get('date_format'), strtotime($row->data['msg'])),
 				'remaining_days' => $remaining_days,
 			);
 		}
@@ -79,7 +79,7 @@ class NotificationApiController extends Controller {
 			$details[] = array(
 				'image' => ($vehicle->vehicle_image != null) ? asset('uploads/' . $vehicle->vehicle_image) : asset("assets/images/vehicle.jpeg"),
 				'vehicle' => $vehicle->make_name . " - " . $vehicle->model_name,
-				'notification' => __('fleet.vehicle_insurance') . date(Hyvikk::get('date_format'), strtotime($row->data['msg'])),
+				'notification' => __('fleet.vehicle_insurance') . date(AtlasLogistics::get('date_format'), strtotime($row->data['msg'])),
 				'remaining_days' => $remaining_days,
 			);
 		}
@@ -104,7 +104,7 @@ class NotificationApiController extends Controller {
 			$details[] = array(
 				'image' => ($vehicle->vehicle_image != null) ? asset('uploads/' . $vehicle->vehicle_image) : asset("assets/images/vehicle.jpeg"),
 				'vehicle' => $vehicle->make_name . " - " . $vehicle->model_name,
-				'notification' => __('fleet.vehicle_licence') . date(Hyvikk::get('date_format'), strtotime($row->data['msg'])),
+				'notification' => __('fleet.vehicle_licence') . date(AtlasLogistics::get('date_format'), strtotime($row->data['msg'])),
 				'remaining_days' => $remaining_days,
 			);
 		}
@@ -129,7 +129,7 @@ class NotificationApiController extends Controller {
 			$details[] = array(
 				'image' => ($user->driver_image != null) ? asset('uploads/' . $user->driver_image) : asset("assets/images/no-user.jpg"),
 				'name' => $user->first_name . " " . $user->last_name,
-				'notification' => __('fleet.driver_licence') . date(Hyvikk::get('date_format'), strtotime($row->data['msg'])),
+				'notification' => __('fleet.driver_licence') . date(AtlasLogistics::get('date_format'), strtotime($row->data['msg'])),
 				'remaining_days' => $remaining_days,
 			);
 		}

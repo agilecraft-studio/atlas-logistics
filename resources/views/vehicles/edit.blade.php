@@ -168,13 +168,13 @@
 
 
                 <div class="form-group">
-                  @if(Hyvikk::get('dis_format') == "km")
-                  @if(Hyvikk::get('fuel_unit') == "gallon") {!! Form::label('average',
+                  @if(AtlasLogistics::get('dis_format') == "km")
+                  @if(AtlasLogistics::get('fuel_unit') == "gallon") {!! Form::label('average',
                   __('fleet.average')."(".__('fleet.kmpg').")", ['class' => 'col-xs-5 control-label']) !!} @else {!!
                   Form::label('average', __('fleet.average')."(".__('fleet.kmpl').")", ['class' => 'col-xs-5
                   control-label']) !!} @endif
                   @else
-                  @if(Hyvikk::get('fuel_unit') == "gallon"){!! Form::label('average',
+                  @if(AtlasLogistics::get('fuel_unit') == "gallon"){!! Form::label('average',
                   __('fleet.average')."(".__('fleet.mpg').")", ['class' => 'col-xs-5 control-label']) !!} @else {!!
                   Form::label('average', __('fleet.average')."(".__('fleet.mpl').")", ['class' => 'col-xs-5
                   control-label']) !!} @endif
@@ -263,7 +263,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  @if(Hyvikk::get('dis_format') == "km")
+                  @if(AtlasLogistics::get('dis_format') == "km")
                   {!! Form::label('int_mileage', __('fleet.intMileage')."(".__('fleet.km').")", ['class' => 'col-xs-5
                   control-label']) !!}
                   @else
@@ -332,7 +332,7 @@
                   </div>
                 </div>
 
-                @if(Hyvikk::get('traccar_enable')==1)
+                @if(AtlasLogistics::get('traccar_enable')==1)
                 <div class="form-group">
                   {!! Form::label('traccar_device_id', __('fleet.traccar_device_id'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
@@ -447,7 +447,7 @@
                       {!! Form::label('exp_amount', __('fleet.expenseAmount'), ['class' => 'form-label','style'=>'margin-right: 5px']) !!}
                       <div class="input-group" style="margin-right: 10px;">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">{{Hyvikk::get('currency')}}</span>
+                          <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                         </div>
                         {!! Form::number('exp_amount',null,['class'=>'form-control','required','step'=>'any','id'=>'exp_amount','min'=>0.01]) !!}
                       </div>
@@ -485,7 +485,7 @@
                             <tr>
                               @php($i+=$row['exp_amount'])
                               <td>{{$row['exp_name']}}</td>
-                              <td>{{Hyvikk::get('currency')." ". $row['exp_amount']}}</td>
+                              <td>{{AtlasLogistics::get('currency')." ". $row['exp_amount']}}</td>
                               <td>
                                 {!! Form::open(['route'
                                 =>['acquisition.destroy',$vehicle->id],'method'=>'DELETE','class'=>'form-horizontal'])
@@ -502,7 +502,7 @@
                             @endforeach
                             <tr>
                               <td><strong>@lang('fleet.total')</strong></td>
-                              <td><strong>{{Hyvikk::get('currency')." ". $i}}</strong></td>
+                              <td><strong>{{AtlasLogistics::get('currency')." ". $i}}</strong></td>
                               <td></td>
                             </tr>
                             @endif

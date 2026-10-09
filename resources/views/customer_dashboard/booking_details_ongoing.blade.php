@@ -6,7 +6,7 @@
 
 
 
-    <title>@lang('frontend.Booking_Details_Ongoing') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.Booking_Details_Ongoing') | {{ AtlasLogistics::get('app_name') }}</title>
 
 
 
@@ -988,7 +988,7 @@
 
 
 
-                                            <p class="fare_detail">{{ Hyvikk::get('currency') }}
+                                            <p class="fare_detail">{{ AtlasLogistics::get('currency') }}
 
 
 
@@ -1044,7 +1044,7 @@
 
 
 
-                                            <p class="fare_detail">{{ Hyvikk::get('currency') }}
+                                            <p class="fare_detail">{{ AtlasLogistics::get('currency') }}
 
 
 
@@ -1080,7 +1080,7 @@
 
 
 
-                                            <p class="fare_detail">{{ Hyvikk::get('currency') }}
+                                            <p class="fare_detail">{{ AtlasLogistics::get('currency') }}
 
 
 
@@ -1140,7 +1140,7 @@
 
 
 
-                                                <p class="fare_detail">{{ Hyvikk::get('currency') }}
+                                                <p class="fare_detail">{{ AtlasLogistics::get('currency') }}
 
 
 
@@ -1176,7 +1176,7 @@
 
 
 
-                                                <p class="fare_detail">{{ Hyvikk::get('currency') }}
+                                                <p class="fare_detail">{{ AtlasLogistics::get('currency') }}
 
 
 
@@ -2248,7 +2248,7 @@
 
 
 
-                            <a href="mailto:help@hyvikk.com"
+                            <a href="mailto:help@Atlas Logistics.com"
 
 
 
@@ -2812,7 +2812,7 @@
 
 
 
-    src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key') }}&libraries=places&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key') }}&libraries=places&callback=initMap"
 
 
 

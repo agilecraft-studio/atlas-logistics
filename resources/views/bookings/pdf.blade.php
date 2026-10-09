@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{Hyvikk::get('app_name')}}</title>
+  <title>{{AtlasLogistics::get('app_name')}}</title>
   <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -48,7 +48,7 @@
         <div class="col-md-12">
           <h2 class="page-header">
             <span class="logo-lg">
-              <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" class="navbar-brand logo_img" style="margin-top: -15px">
+              <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" class="navbar-brand logo_img" style="margin-top: -15px">
 
             </span>
               <small class="pull-right"> <b>@lang('fleet.date') : </b>{{ isset($booking->date) }}</small>
@@ -59,16 +59,16 @@
         <div class="col-md-4 invoice-col">
           <b>From</b>
           <address>
-            <b>{{  Hyvikk::get('app_name')  }}</b> <br>
-           {{Hyvikk::get('badd1')}}
+            <b>{{  AtlasLogistics::get('app_name')  }}</b> <br>
+           {{AtlasLogistics::get('badd1')}}
            <br>
-           {{Hyvikk::get('badd2')}}
+           {{AtlasLogistics::get('badd2')}}
            <br>
-           {{Hyvikk::get('city')}},
+           {{AtlasLogistics::get('city')}},
 
-           {{Hyvikk::get('state')}}
+           {{AtlasLogistics::get('state')}}
            <br>
-           {{Hyvikk::get('country')}}
+           {{AtlasLogistics::get('country')}}
           </address>
         </div>
         <div class="col-md-4 invoice-col">
@@ -112,9 +112,9 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          @if(Hyvikk::get('invoice_text') != null)
+          @if(AtlasLogistics::get('invoice_text') != null)
           <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-           {{Hyvikk::get('invoice_text')}}
+           {{AtlasLogistics::get('invoice_text')}}
           </p>
           @endif
         </div>
@@ -145,7 +145,7 @@
 
               <tr>
                 <th>@lang('fleet.mileage'):</th>
-                <td>{{ $booking->total_kms }} {{ Hyvikk::get('dis_format') }}</td>
+                <td>{{ $booking->total_kms }} {{ AtlasLogistics::get('dis_format') }}</td>
               </tr>
               @if($booking->booking_option != "Route")
               <tr>
@@ -158,7 +158,7 @@
 
               <tr>
                 <th>@lang('fleet.amount'):</th>
-                <td>{{ Hyvikk::get('currency') }} {{ $booking->total }} </td>
+                <td>{{ AtlasLogistics::get('currency') }} {{ $booking->total }} </td>
               </tr>
               <tr>
                 <th>@lang('fleet.total_tax') (%) :</th>
@@ -166,11 +166,11 @@
               </tr>
               <tr>
                 <th>@lang('fleet.total') @lang('fleet.tax_charge') :</th>
-                <td>{{ Hyvikk::get('currency') }} {{ ($booking->total_tax_charge_rs) ? $booking->total_tax_charge_rs : 0 }} </td>
+                <td>{{ AtlasLogistics::get('currency') }} {{ ($booking->total_tax_charge_rs) ? $booking->total_tax_charge_rs : 0 }} </td>
               </tr>
               <tr>
                 <th>@lang('fleet.total'):</th>
-                <td>{{ Hyvikk::get('currency') }} {{ $booking->tax_total }}</td>
+                <td>{{ AtlasLogistics::get('currency') }} {{ $booking->tax_total }}</td>
               </tr>
             </table>
           </div>

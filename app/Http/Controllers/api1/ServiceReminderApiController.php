@@ -7,7 +7,7 @@ use App\Model\ServiceItemsModel;
 use App\Model\ServiceReminderModel;
 use App\Model\User;
 use App\Model\VehicleModel;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Validator;
 class ServiceReminderApiController extends Controller
 {
@@ -38,7 +38,7 @@ class ServiceReminderApiController extends Controller
                 $service_reminders = $service_reminders->where('updated_at', ">", $time);
             }
             $service_reminders = $service_reminders->orderBy('id','DESC')->withTrashed()->get();
-            $date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y';
+            $date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y';
             if(count($service_reminders)>0)
             {
                 $records = array();
@@ -51,7 +51,7 @@ class ServiceReminderApiController extends Controller
                     }
                     else
                     {
-                        $int = Hyvikk::get('time_interval')."day";
+                        $int = AtlasLogistics::get('time_interval')."day";
                     }
                     if($service_reminder->last_date != 'N/D')
                     {

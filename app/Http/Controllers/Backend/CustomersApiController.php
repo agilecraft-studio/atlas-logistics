@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -15,7 +15,7 @@ use App\Model\User;
 use Auth;
 use DB;
 use Exception;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -191,8 +191,8 @@ class CustomersApiController extends Controller {
 			$language = $user->language;
 			// $language = explode('-', $user->language);
 		} else {
-			$language = Hyvikk::get("language");
-			// $language = explode('-', Hyvikk::get("language"));
+			$language = AtlasLogistics::get("language");
+			// $language = explode('-', AtlasLogistics::get("language"));
 		}
 		if (Auth::user()->getMeta('profile_pic') != null) {
 			if (starts_with(Auth::user()->getMeta('profile_pic'), 'http')) {
@@ -209,8 +209,8 @@ class CustomersApiController extends Controller {
 			"language" => $language,
 			'image' => $src,
 			'customer' => Auth::user()->name,
-			'total_amount' => Hyvikk::get('currency') . " " . ((is_null($income[0]->income) ? 0 : $income[0]->income)),
-			'total_distance' => ((is_null($total_kms[0]->total_kms) ? 0 : $total_kms[0]->total_kms)) . " " . Hyvikk::get('dis_format'),
+			'total_amount' => AtlasLogistics::get('currency') . " " . ((is_null($income[0]->income) ? 0 : $income[0]->income)),
+			'total_distance' => ((is_null($total_kms[0]->total_kms) ? 0 : $total_kms[0]->total_kms)) . " " . AtlasLogistics::get('dis_format'),
 			'total_waiting_time' => $time,
 			'total_travel_time' => $travel_time . " Minutes",
 		);

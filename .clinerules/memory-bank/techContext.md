@@ -1,7 +1,7 @@
 # Atlas Logistics - Technical Context
 
 ## Backend
-Hyvikk Fleet Manager v6.1; Laravel 10 now, target Laravel 13 latest; PHP 8.5; PostgreSQL 18 (atlas_logistics DB, role atlas_logistics).
+Atlas Logistics Fleet Manager v6.1; Laravel 10 now, target Laravel 13 latest; PHP 8.5; PostgreSQL 18 (atlas_logistics DB, role atlas_logistics).
 
 ## PHP extensions (verified 2026-10-08)
 BCMath, Ctype, Fileinfo, GMP (installed), JSON, Mbstring, OpenSSL, PDO, PDO_PGSQL, Tokenizer, XML, Zip, plus curl/gd/intl.

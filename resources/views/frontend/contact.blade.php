@@ -1,7 +1,7 @@
   @extends('frontend.layouts.app')
 
   @section('title')
-  <title> @lang('frontend.contact') | {{ Hyvikk::get('app_name') }}</title>
+  <title> @lang('frontend.contact') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 
   @section('css')
@@ -370,13 +370,13 @@
                                           <div class="col-12">
                                               <div class="contact-phone">
                                                   <span>@lang('frontend.Phone')</span>
-                                                  <p>{{ Hyvikk::frontend('contact_phone') }}</p>
+                                                  <p>{{ AtlasLogistics::frontend('contact_phone') }}</p>
                                               </div>
                                           </div>
                                           <div class="col-12">
                                               <div class="email-enquiry">
                                                   <span>@lang('frontend.e_mail')</span>
-                                                  <p>{{ Hyvikk::frontend('contact_email') }}</p>
+                                                  <p>{{ AtlasLogistics::frontend('contact_email') }}</p>
                                               </div>
                                           </div>
                                           <div class="map w-100 h-100">
@@ -386,7 +386,7 @@
                                                 function initMap() {
 
                                                     var address =
-                                                        "{{ Hyvikk::get('badd1') . ', ' . Hyvikk::get('badd2') . ', ' . Hyvikk::get('city') . ', ' . Hyvikk::get('state') . ', ' . Hyvikk::get('country') . '.' }}";
+                                                        "{{ AtlasLogistics::get('badd1') . ', ' . AtlasLogistics::get('badd2') . ', ' . AtlasLogistics::get('city') . ', ' . AtlasLogistics::get('state') . ', ' . AtlasLogistics::get('country') . '.' }}";
                                                     var geocoder = new google.maps.Geocoder();
                                                     geocoder.geocode({
                                                         'address': address
@@ -560,7 +560,7 @@
                                                     });
                                                 }
                                             </script>
-                                            <script src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key') }}&callback=initMap" async defer>
+                                            <script src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key') }}&callback=initMap" async defer>
                                             </script>
                                             <!-- Google map ends -->
                                         </div>
@@ -569,7 +569,7 @@
 
                                           <div class="address-enquiry">
                                               <span>@lang('frontend.Address')</span>
-                                              <p class="mb-0">{{ Hyvikk::get('badd1') . ', ' . Hyvikk::get('badd2') . ', ' . Hyvikk::get('city') . ', ' . Hyvikk::get('state') . ', ' . Hyvikk::get('country') . '.' }}
+                                              <p class="mb-0">{{ AtlasLogistics::get('badd1') . ', ' . AtlasLogistics::get('badd2') . ', ' . AtlasLogistics::get('city') . ', ' . AtlasLogistics::get('state') . ', ' . AtlasLogistics::get('country') . '.' }}
                                               </p>
                                               {{--  <p>309, Swara Parklane, Atabhai Chowk, Bhavnagar</p>  --}}
                                           </div>

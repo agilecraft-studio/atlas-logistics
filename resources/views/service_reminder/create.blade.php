@@ -67,7 +67,7 @@
                 <td>
                   {{$service->overdue_time}} {{$service->overdue_unit}}
                   @if($service->overdue_meter != null)
-                  @lang('fleet.or') {{$service->overdue_meter}} {{Hyvikk::get('dis_format')}}
+                  @lang('fleet.or') {{$service->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
                   @endif
                 </td>
                 <td>

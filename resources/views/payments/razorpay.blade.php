@@ -5,8 +5,8 @@
 	</head>
 	<body>
 		<form method="POST" name="checkout" action="https://api.razorpay.com/v1/checkout/embedded">
-			<input type="hidden" class="form-control" name="key_id" value="{{Hyvikk::payment('razorpay_key')}}">
-			<input type="hidden" name="name" value="{{ Hyvikk::get('app_name') }}">
+			<input type="hidden" class="form-control" name="key_id" value="{{AtlasLogistics::payment('razorpay_key')}}">
+			<input type="hidden" name="name" value="{{ AtlasLogistics::get('app_name') }}">
 			<input type="hidden" name="amount" value="{{ $amount }}">
 			<input type="hidden" name="order_id" value="{{$order_id}}">
 			<input type="hidden" name="prefill[name]" value="{{ $name }}">

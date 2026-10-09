@@ -6,7 +6,7 @@
 
 
 
-    <title>@lang('frontend.Booking_Details') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.Booking_Details') | {{ AtlasLogistics::get('app_name') }}</title>
 
 
 
@@ -841,7 +841,7 @@
 
 
 
-                            <p class="fare_detail">{{Hyvikk::get('currency')}} {{($data->total_tax_charge_rs??0)}}</p>
+                            <p class="fare_detail">{{AtlasLogistics::get('currency')}} {{($data->total_tax_charge_rs??0)}}</p>
 
 
 
@@ -893,7 +893,7 @@
 
 
 
-                            <p class="fare_detail">{{Hyvikk::get('currency')}} {{($data->total??0)}}</p>
+                            <p class="fare_detail">{{AtlasLogistics::get('currency')}} {{($data->total??0)}}</p>
 
 
 
@@ -925,7 +925,7 @@
 
 
 
-                            <p class="fare_detail">{{Hyvikk::get('currency')}} {{($data->fuel_charges??0)}}</p>
+                            <p class="fare_detail">{{AtlasLogistics::get('currency')}} {{($data->fuel_charges??0)}}</p>
 
 
 
@@ -981,7 +981,7 @@
 
 
 
-                            <p class="fare_detail">{{Hyvikk::get('currency')}} {{($data->tax_total??0)}}</p>
+                            <p class="fare_detail">{{AtlasLogistics::get('currency')}} {{($data->tax_total??0)}}</p>
 
 
 
@@ -1013,7 +1013,7 @@
 
 
 
-                            <p class="fare_detail">{{Hyvikk::get('currency')}} {{($data->tax_total??0)}}</p>
+                            <p class="fare_detail">{{AtlasLogistics::get('currency')}} {{($data->tax_total??0)}}</p>
 
 
 
@@ -2101,7 +2101,7 @@
 
 
 
-src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key') }}&libraries=places&callback=initMap"
+src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key') }}&libraries=places&callback=initMap"
 
 
 

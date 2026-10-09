@@ -63,7 +63,7 @@
 @endsection
 
 @section('script')
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::get('traccar_map_key') }} &loading=async" defer>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::get('traccar_map_key') }} &loading=async" defer>
     </script>
 
     <script>

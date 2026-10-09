@@ -92,12 +92,12 @@
         		</thead>
         		<tbody>
         		    <tr>
-        		        <td><h5 class="text-center text-bold">@lang('fleet.total') @lang('fleet.amount') : {{Hyvikk::get('currency')}} {{(is_null($income[0]->income) ? 0 : $income[0]->income)}}
+        		        <td><h5 class="text-center text-bold">@lang('fleet.total') @lang('fleet.amount') : {{AtlasLogistics::get('currency')}} {{(is_null($income[0]->income) ? 0 : $income[0]->income)}}
         		        </h5></td>
         		    </tr>
         		    <tr>
         		        <td><h5 class="text-center text-bold">
-        		        	@lang('fleet.total') @lang('fleet.distence') : {{(is_null($total_kms[0]->total_kms) ? 0 : $total_kms[0]->total_kms)}} {{Hyvikk::get('dis_format')}}
+        		        	@lang('fleet.total') @lang('fleet.distence') : {{(is_null($total_kms[0]->total_kms) ? 0 : $total_kms[0]->total_kms)}} {{AtlasLogistics::get('dis_format')}}
         		        </h5></td>
         		    </tr>
         		    <tr>

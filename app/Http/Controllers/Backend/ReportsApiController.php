@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -20,7 +20,7 @@ use App\Model\WorkOrders;
 use Auth;
 use DB;
 use Exporter;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -169,7 +169,7 @@ class ReportsApiController extends Controller {
 				$expense_values[] = $exp->expense;
 			}
 			$records = array(
-				'currency' => Hyvikk::get("currency"),
+				'currency' => AtlasLogistics::get("currency"),
 				'income' => array(
 					'profit_loss' => ($income_amt - $expense_amt),
 					'income' => $income_amt,
@@ -218,7 +218,7 @@ class ReportsApiController extends Controller {
 		foreach ($results as $d) {
 			$records[] = array(
 				'vendor' => $vendors[$d->vendor_id],
-				'currency' => Hyvikk::get('currency'),
+				'currency' => AtlasLogistics::get('currency'),
 				'total' => $d->total,
 			);
 			$table[] = array(
@@ -235,7 +235,7 @@ class ReportsApiController extends Controller {
 			'table' => $table,
 			'labels' => $labels,
 			'values' => $values,
-			'currency' => Hyvikk::get('currency'),
+			'currency' => AtlasLogistics::get('currency'),
 		);
 		return $data;
 	}
@@ -408,14 +408,14 @@ class ReportsApiController extends Controller {
 				$fuel = FuelModel::whereYear('date', $year_select)->whereMonth('date', $month_select)->where('vehicle_id', $request->vehicle_id)->get();
 			}
 			foreach ($fuel as $row) {
-				if (Hyvikk::get('dis_format') == "km") {
-					if (Hyvikk::get('fuel_unit') == "gallon") {
+				if (AtlasLogistics::get('dis_format') == "km") {
+					if (AtlasLogistics::get('fuel_unit') == "gallon") {
 						$unit = "KMPG";
 					} else {
 						$unit = "KMPL";
 					}
 				} else {
-					if (Hyvikk::get('fuel_unit') == "gallon") {
+					if (AtlasLogistics::get('fuel_unit') == "gallon") {
 						$unit = "MPG";
 					} else {
 						$unit = "MPL";
@@ -424,10 +424,10 @@ class ReportsApiController extends Controller {
 				$records[] = array(
 					'date' => date('Y-m-d', strtotime($row->date)),
 					'vehicle' => $row->vehicle_data->make_name . "-" . $row->vehicle_data->model_name . "-" . $row->vehicle_data->license_plate,
-					'start_meter' => $row->start_meter . " " . Hyvikk::get('dis_format'),
-					'end_meter' => $row->end_meter . " " . Hyvikk::get('dis_format'),
+					'start_meter' => $row->start_meter . " " . AtlasLogistics::get('dis_format'),
+					'end_meter' => $row->end_meter . " " . AtlasLogistics::get('dis_format'),
 					'consumption' => $row->consumption . " " . $unit,
-					'cost' => Hyvikk::get('currency') . " " . $row->qty * $row->cost_per_unit,
+					'cost' => AtlasLogistics::get('currency') . " " . $row->qty * $row->cost_per_unit,
 				);
 			}
 			$data['success'] = "1";
@@ -466,7 +466,7 @@ class ReportsApiController extends Controller {
 					'pickup_datetime' => date('Y-m-d H:i:s', strtotime($row->pickup)),
 					'dropoff_datetime' => date('Y-m-d H:i:s', strtotime($row->dropoff)),
 					'journey_status' => ($row->status == 1) ? "Completed" : "Not Completed",
-					'amount' => ($row->receipt == 1) ? Hyvikk::get('currency') . " " . round($row->tax_total, 2) : null,
+					'amount' => ($row->receipt == 1) ? AtlasLogistics::get('currency') . " " . round($row->tax_total, 2) : null,
 				);
 			}
 			$data['success'] = "1";
@@ -616,7 +616,7 @@ class ReportsApiController extends Controller {
 				$expense_values[] = $exp->expense;
 			}
 			$records = array(
-				'currency' => Hyvikk::get("currency"),
+				'currency' => AtlasLogistics::get("currency"),
 				'income' => array(
 					'profit_loss' => ($income_amt - $expense_amt),
 					'income' => $income_amt,
@@ -677,7 +677,7 @@ class ReportsApiController extends Controller {
 				$records[] = array(
 					'day' => $row->day,
 					'date' => date('Y-m-d', strtotime($row->date)),
-					'income' => Hyvikk::get('currency') . " " . $row->Income2,
+					'income' => AtlasLogistics::get('currency') . " " . $row->Income2,
 					'vehicle' => $row->vehicle->make_name . '-' . $row->vehicle->model_name . '-' . $row->vehicle->license_plate,
 				);
 			}
@@ -723,7 +723,7 @@ class ReportsApiController extends Controller {
 					'license_plate' => $row->vehicle->license_plate,
 					'expense_type' => $category,
 					'date' => date('Y-m-d', strtotime($row->date)),
-					'amount' => Hyvikk::get('currency') . " " . $row->amount,
+					'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
 					'note' => $row->comment,
 				);
 			}
@@ -764,7 +764,7 @@ class ReportsApiController extends Controller {
 					'license_plate' => $row->vehicle->license_plate,
 					'income_type' => $row->category->name,
 					'date' => date('Y-m-d', strtotime($row->date)),
-					'amount' => Hyvikk::get('currency') . " " . $row->amount,
+					'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
 					'mileage' => $row->mileage,
 				);
 			}

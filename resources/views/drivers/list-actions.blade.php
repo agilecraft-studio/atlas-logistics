@@ -18,7 +18,7 @@
 
 
 
-      @if(Hyvikk::get('driver_doc_verification') == 1)
+      @if(AtlasLogistics::get('driver_doc_verification') == 1)
 
       @if($row->getMeta('is_verified') != '' && $row->getMeta('is_verified') == 0)
 

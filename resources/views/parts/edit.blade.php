@@ -99,7 +99,7 @@
               {!! Form::label('unit_cost', __('fleet.unit_cost'), ['class' => 'form-label']) !!}
               <div class="input-group date">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">{{Hyvikk::get('currency')}}</span>
+                  <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                 </div>
                 {!! Form::number('unit_cost', $data->unit_cost,['class' => 'form-control','required']) !!}
               </div>

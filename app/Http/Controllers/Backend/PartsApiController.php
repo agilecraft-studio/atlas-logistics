@@ -2,14 +2,14 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Model\PartsModel;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -242,7 +242,7 @@ class PartsApiController extends Controller {
 				'title' => $row->title,
 				'year' => $row->year,
 				'model' => $row->model,
-				'currency' => Hyvikk::get('currency'),
+				'currency' => AtlasLogistics::get('currency'),
 				"udf" => $udf,
 			);
 		}

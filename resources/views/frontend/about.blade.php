@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title')
-    <title>@lang('frontend.about') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.about') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 
 
@@ -62,11 +62,11 @@
 
                <div class="about-section">
 
-                  <h1 class="display-4">@lang('frontend.about') </br>{{ Hyvikk::get('app_name') }}</h1>
+                  <h1 class="display-4">@lang('frontend.about') </br>{{ AtlasLogistics::get('app_name') }}</h1>
 
                   <div class="about-fleet-manager-content1 ps-2">
 
-                     <p>{{ Hyvikk::frontend('about_us') }}</p>
+                     <p>{{ AtlasLogistics::frontend('about_us') }}</p>
 
                   </div>
 
@@ -114,11 +114,11 @@
 
             <div class="about-fleet-manager-content mt-5">
 
-               <h2>{{ Hyvikk::frontend('about_title') }}</h2>
+               <h2>{{ AtlasLogistics::frontend('about_title') }}</h2>
 
                <div class="line"></div>
 
-               <p class="d-flex">{{ Hyvikk::frontend('about_description') }}</p>
+               <p class="d-flex">{{ AtlasLogistics::frontend('about_description') }}</p>
 
             </div>
 
@@ -150,7 +150,7 @@
 
                <div class="count-servey">
 
-                  <h3>{{ Hyvikk::frontend('cities') }} +</h3>
+                  <h3>{{ AtlasLogistics::frontend('cities') }} +</h3>
 
                </div>
 
@@ -176,7 +176,7 @@
 
                <div class="vehicle-count-servey">
 
-                  <h3>{{ Hyvikk::frontend('vehicles') }}+</h3>
+                  <h3>{{ AtlasLogistics::frontend('vehicles') }}+</h3>
 
                </div>
 
@@ -208,7 +208,7 @@
 
                <div class="minds-behind-title">
 
-                  <h1>@lang('frontend.minds_behind') {{ Hyvikk::get('app_name') }}</h1>
+                  <h1>@lang('frontend.minds_behind') {{ AtlasLogistics::get('app_name') }}</h1>
 
                </div>
 
@@ -362,7 +362,7 @@
 
             <div class="responsive-mind-behind-title">
 
-               <h1>@lang('frontend.minds_behind') {{ Hyvikk::get('app_name') }}</h1>
+               <h1>@lang('frontend.minds_behind') {{ AtlasLogistics::get('app_name') }}</h1>
 
             </div>
 

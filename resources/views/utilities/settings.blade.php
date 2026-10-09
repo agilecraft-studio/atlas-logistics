@@ -72,7 +72,7 @@
 
             {!! Form::text('name[app_name]',
 
-            Hyvikk::get('app_name'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('app_name'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -84,7 +84,7 @@
 
             {!! Form::text('name[email]',
 
-            Hyvikk::get('email'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('email'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -96,7 +96,7 @@
 
             {!! Form::text('name[badd1]',
 
-            Hyvikk::get('badd1'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('badd1'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -108,7 +108,7 @@
 
             {!! Form::text('name[badd2]',
 
-            Hyvikk::get('badd2'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('badd2'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -120,7 +120,7 @@
 
             {!! Form::text('name[city]',
 
-            Hyvikk::get('city'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('city'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -132,7 +132,7 @@
 
             {!! Form::text('name[state]',
 
-            Hyvikk::get('state'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('state'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -144,7 +144,7 @@
 
             {!! Form::text('name[country]',
 
-            Hyvikk::get('country'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('country'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -154,7 +154,7 @@
 
             {!! Form::label('dis_format',__('fleet.dis_format'),['class'=>"form-label"]) !!}
 
-            {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], Hyvikk::get("dis_format"),['class'=>"form-control",'required']) !!}
+            {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], AtlasLogistics::get("dis_format"),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -164,7 +164,7 @@
 
             {!! Form::label('fuel_unit',__('fleet.fuel_unit'),['class'=>"form-label"]) !!}
 
-            {!! Form::select('name[fuel_unit]', ['gallon' => 'gallon', 'liter' => 'liter'], Hyvikk::get("fuel_unit"),['class'=>"form-control",'required']) !!}
+            {!! Form::select('name[fuel_unit]', ['gallon' => 'gallon', 'liter' => 'liter'], AtlasLogistics::get("fuel_unit"),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -186,7 +186,7 @@
 
               @else
 
-              @php($language = Hyvikk::get("language"))
+              @php($language = AtlasLogistics::get("language"))
 
               @endif
 
@@ -226,7 +226,7 @@
 
               <div class="input-group mb-3">
 
-                {!! Form::number('name[time_interval]',Hyvikk::get('time_interval'),['class'=>"form-control",'required','min'=>1]) !!}
+                {!! Form::number('name[time_interval]',AtlasLogistics::get('time_interval'),['class'=>"form-control",'required','min'=>1]) !!}
 
                 <div class="input-group-append">
 
@@ -244,7 +244,7 @@
 
             <label for="icon_img"> @lang('fleet.icon_img')</label>
 
-            @if(Hyvikk::get('icon_img')!= null)
+            @if(AtlasLogistics::get('icon_img')!= null)
 
             <button type="button" class="btn btn-success view1 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
 
@@ -266,7 +266,7 @@
 
             <label for="logo_img"> @lang('fleet.logo_img')(172px X 76px)</label>
 
-            @if(Hyvikk::get('logo_img')!= null)
+            @if(AtlasLogistics::get('logo_img')!= null)
 
             <button type="button" class="btn btn-success view2 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
 
@@ -289,7 +289,7 @@
 
             <label for="logo_img"> Website Fotter Logo Image(50px X 68px)</label>
 
-            @if(Hyvikk::get('fotter_logo_img')!= null)
+            @if(AtlasLogistics::get('fotter_logo_img')!= null)
 
             <button type="button" class="btn btn-success view4 btn-xs" data-toggle="modal" data-target="#myModal40" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
 
@@ -313,7 +313,7 @@
 
             {!! Form::label('currency',__('fleet.currency'),['class'=>"form-label"]) !!}
 
-            {!! Form::text('name[currency]',Hyvikk::get('currency'),['class'=>"form-control",'required','id'=>'currency']) !!}
+            {!! Form::text('name[currency]',AtlasLogistics::get('currency'),['class'=>"form-control",'required','id'=>'currency']) !!}
 
             <span class="text-danger curr-symbol-err">Enter valid currency symbol</span>
           </div>
@@ -322,7 +322,7 @@
 
             {!! Form::label('date_format',__('fleet.date_format'),['class'=>"form-label"]) !!}
 
-            {!! Form::select('name[date_format]', ['d-m-Y' => 'dd-mm-yyyy ('.date('d-m-Y').')', 'Y-m-d' => 'yyyy-mm-dd ('.date('Y-m-d').')','m-d-Y'=>'mm-dd-yyyy ('.date('m-d-Y').')'], Hyvikk::get("date_format"),['class'=>"form-control",'required']) !!}
+            {!! Form::select('name[date_format]', ['d-m-Y' => 'dd-mm-yyyy ('.date('d-m-Y').')', 'Y-m-d' => 'yyyy-mm-dd ('.date('Y-m-d').')','m-d-Y'=>'mm-dd-yyyy ('.date('m-d-Y').')'], AtlasLogistics::get("date_format"),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -332,7 +332,7 @@
 
             {!! Form::text('name[tax_no]',
 
-            Hyvikk::get('tax_no'),['class'=>"form-control",'required']) !!}
+            AtlasLogistics::get('tax_no'),['class'=>"form-control",'required']) !!}
 
           </div>
 
@@ -342,7 +342,7 @@
 
             {!! Form::label('vehicle_interval',__('fleet.vehicle_interval'),['class'=>"form-label"]) !!}
 
-            {!! Form::number('name[vehicle_interval]',Hyvikk::get('vehicle_interval'),['class'=>"form-control",'required']) !!}
+            {!! Form::number('name[vehicle_interval]',AtlasLogistics::get('vehicle_interval'),['class'=>"form-control",'required']) !!}
 
             <span id="interval_merr_vehicle" class="text-danger">Maximum vehicle interval can be 1440 minutes.</span>
             <span id="interval_lerr_vehicle" class="text-danger">Vehicle interval cannot be less than 0.</span>
@@ -353,7 +353,7 @@
 
             {!! Form::label('driver_interval',__('fleet.driver_interval'),['class'=>"form-label"]) !!}
 
-            {!! Form::number('name[driver_interval]',Hyvikk::get('driver_interval'),['class'=>"form-control",'required']) !!}
+            {!! Form::number('name[driver_interval]',AtlasLogistics::get('driver_interval'),['class'=>"form-control",'required']) !!}
 
             <span id="interval_merr_driver" class="text-danger">Maximum driver interval can be 1440 minutes.</span>
             <span id="interval_lerr_driver" class="text-danger">Driver interval cannot be less than 0.</span>
@@ -384,7 +384,7 @@
 
           </div>
 
-          @php($udfs = json_decode(Hyvikk::get('tax_charge')))
+          @php($udfs = json_decode(AtlasLogistics::get('tax_charge')))
 
 
 
@@ -418,7 +418,7 @@
 
             {!! Form::textarea('name[invoice_text]',
 
-            Hyvikk::get('invoice_text'),['class'=>"form-control",'size'=>'30x3']) !!}
+            AtlasLogistics::get('invoice_text'),['class'=>"form-control",'size'=>'30x3']) !!}
 
           </div>
 
@@ -432,7 +432,7 @@
 
               <a data-toggle="modal" data-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
-              <textarea name="name[web_footer]" id="web_footer" class="form-control">{{ Hyvikk::get('web_footer') }}</textarea>
+              <textarea name="name[web_footer]" id="web_footer" class="form-control">{{ AtlasLogistics::get('web_footer') }}</textarea>
 
             </div>
 
@@ -452,7 +452,7 @@
 
               <label class="switch">
 
-                <input type="checkbox" name="fuel_enable_driver" value="1" id="fuel_enable_driver" @if(Hyvikk::get('fuel_enable_driver')==1) checked @endif>
+                <input type="checkbox" name="fuel_enable_driver" value="1" id="fuel_enable_driver" @if(AtlasLogistics::get('fuel_enable_driver')==1) checked @endif>
 
                 <span class="slider round"></span>
 
@@ -474,7 +474,7 @@
 
               <label class="switch">
 
-                <input type="checkbox" name="income_enable_driver" value="1" id="income_enable_driver" @if(Hyvikk::get('income_enable_driver')==1) checked @endif>
+                <input type="checkbox" name="income_enable_driver" value="1" id="income_enable_driver" @if(AtlasLogistics::get('income_enable_driver')==1) checked @endif>
 
                 <span class="slider round"></span>
 
@@ -500,7 +500,7 @@
 
               <label class="switch">
 
-                <input type="checkbox" name="expense_enable_driver" value="1" id="expense_enable_driver" @if(Hyvikk::get('expense_enable_driver')==1) checked @endif>
+                <input type="checkbox" name="expense_enable_driver" value="1" id="expense_enable_driver" @if(AtlasLogistics::get('expense_enable_driver')==1) checked @endif>
 
                 <span class="slider round"></span>
 
@@ -517,7 +517,7 @@
 
               <label class="switch">
 
-                <input type="checkbox" name="driver_doc_verification" value="1"  @if(Hyvikk::get('driver_doc_verification')==1) checked @endif>
+                <input type="checkbox" name="driver_doc_verification" value="1"  @if(AtlasLogistics::get('driver_doc_verification')==1) checked @endif>
 
                 <span class="slider round"></span>
 
@@ -536,7 +536,7 @@
             <label for="" class="form-label">@lang('fleet.Vehicle_Type_Wise') </label>
             <br>
             <label class="switch">
-              <input type="checkbox" name="fare_mode" value="type_wise" id="typeWiseToggle" class="fare-mode-checkbox" @if(Hyvikk::get('fare_mode')=="type_wise") checked @endif>
+              <input type="checkbox" name="fare_mode" value="type_wise" id="typeWiseToggle" class="fare-mode-checkbox" @if(AtlasLogistics::get('fare_mode')=="type_wise") checked @endif>
               <span class="slider round"></span>
             </label>
           </div>
@@ -544,7 +544,7 @@
             <label for="" class="form-label">@lang('fleet.Vehicle_Price_Wise')</label>
             <br>
             <label class="switch">
-              <input type="checkbox" name="fare_mode" value="price_wise" id="priceWiseToggle" class="fare-mode-checkbox" @if(Hyvikk::get('fare_mode')=="price_wise") checked @endif>
+              <input type="checkbox" name="fare_mode" value="price_wise" id="priceWiseToggle" class="fare-mode-checkbox" @if(AtlasLogistics::get('fare_mode')=="price_wise") checked @endif>
               <span class="slider round"></span>
             </label>
           </div>
@@ -556,7 +556,7 @@
 
             <label class="switch">
 
-              <input type="checkbox" name="return_booking" value="1"  @if(Hyvikk::get('return_booking')==1) checked @endif>
+              <input type="checkbox" name="return_booking" value="1"  @if(AtlasLogistics::get('return_booking')==1) checked @endif>
 
               <span class="slider round"></span>
 
@@ -894,7 +894,7 @@
 
         <p>
 
-          <a href="https://fleetdocs.hyvikk.space/explore-features/settings/general-settings" target="_blank">@lang('fleet.click_here')</a>
+          <a href="https://fleetdocs.Atlas Logistics.space/explore-features/settings/general-settings" target="_blank">@lang('fleet.click_here')</a>
 
         </p>
 
@@ -1115,7 +1115,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $('.view4').click(function(){
 
-    $('#myModal40 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. Hyvikk::get('fotter_logo_img') ) }}");
+    $('#myModal40 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. AtlasLogistics::get('fotter_logo_img') ) }}");
 
     $('#myModal40 .modal-body .myimg').removeAttr( "height");
 
@@ -1126,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $('.view1').click(function(){
 
-    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}");
+    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}");
 
     $('#myModal3 .modal-body .myimg').removeAttr( "height");
 
@@ -1138,7 +1138,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $('.view2').click(function(){
 
-    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}");
+    $('#myModal3 .modal-body .myimg').attr( "src","{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}");
 
     $('#myModal3 .modal-body .myimg').attr( "height","140px");
 

@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
 use App\Model\Expense;
 use App\Model\FuelModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\IncomeModel;
 use App\Model\ServiceReminderModel;
 use App\Model\User;
@@ -147,7 +147,7 @@ class VehiclesController extends Controller {
 	}
 	public function driver_logs_fetch_data(Request $request) {
 		if ($request->ajax()) {
-			$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 			$user = Auth::user();
 			if ($user->group_id == null || $user->user_type == "S") {
 				$vehicle_ids = VehicleModel::select('id')->get('id')->pluck('id')->toArray();

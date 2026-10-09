@@ -81,7 +81,7 @@
 								@if(Auth::user()->getMeta('language')!= null)
 								@php ($language = Auth::user()->getMeta('language'))
 								@else
-								@php($language = Hyvikk::get("language"))
+								@php($language = AtlasLogistics::get("language"))
 								@endif
 								@foreach($languages as $lang)
 								@if($lang != "vendor")

@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use App\Model\ServiceItemsModel;
 use App\Model\VehicleModel;
 use App\Model\Vendor;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -36,7 +36,7 @@ class ExpenseApiController extends Controller {
 				'expense_type' => $category,
 				'vendor' => ($row->vendor_id) ? $row->vendor->name : null,
 				'date' => $row->date,
-				'amount' => Hyvikk::get('currency') . " " . $row->amount,
+				'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
 				'note' => $row->comment,
 			);
 		}
@@ -44,7 +44,7 @@ class ExpenseApiController extends Controller {
 		$data['message'] = "Data fetched!";
 		$data['data'] = array(
 			"expense" => $details,
-			"total" => Hyvikk::get('currency') . " " . $total_today,
+			"total" => AtlasLogistics::get('currency') . " " . $total_today,
 		);
 		return $data;
 	}
@@ -198,7 +198,7 @@ class ExpenseApiController extends Controller {
 					'expense_type' => $category,
 					'vendor' => ($row->vendor_id) ? $row->vendor->name : null,
 					'date' => $row->date,
-					'amount' => Hyvikk::get('currency') . " " . $row->amount,
+					'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
 					'note' => $row->comment,
 				);
 			}
@@ -206,7 +206,7 @@ class ExpenseApiController extends Controller {
 			$data['message'] = "Data fetched!";
 			$data['data'] = array(
 				"expense" => $details,
-				"total_today" => Hyvikk::get('currency') . " " . $total_today,
+				"total_today" => AtlasLogistics::get('currency') . " " . $total_today,
 				"from_date" => $request->from_date,
 				"to_date" => $request->to_date,
 			);
@@ -238,7 +238,7 @@ class ExpenseApiController extends Controller {
 				'expense_type' => $category,
 				'vendor' => ($row->vendor_id) ? $row->vendor->name : null,
 				'date' => $row->date,
-				'amount' => Hyvikk::get('currency') . " " . $row->amount,
+				'amount' => AtlasLogistics::get('currency') . " " . $row->amount,
 				'note' => $row->comment,
 			);
 		}
@@ -246,7 +246,7 @@ class ExpenseApiController extends Controller {
 		$data['message'] = "Data fetched!";
 		$data['data'] = array(
 			"expense" => $details,
-			'total_today' => Hyvikk::get('currency') . " " . $total,
+			'total_today' => AtlasLogistics::get('currency') . " " . $total,
 		);
 		return $data;
 	}

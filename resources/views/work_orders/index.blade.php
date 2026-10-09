@@ -1,5 +1,5 @@
 @extends("layouts.app")
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
 <li class="breadcrumb-item active">@lang('fleet.work_orders')</li>
@@ -77,9 +77,9 @@
                 {{$row->vendor['name']}}
               </td>
               <td>{{$row->description}}</td>
-              <td> {{Hyvikk::get('currency')}} {{$row->price}}</td>
-              <td> {{Hyvikk::get('currency')}} {{ $row->parts->sum('total') }}</td>
-              <td> {{Hyvikk::get('currency')}} {{ $row->price + $row->parts->sum('total') }}</td>
+              <td> {{AtlasLogistics::get('currency')}} {{$row->price}}</td>
+              <td> {{AtlasLogistics::get('currency')}} {{ $row->parts->sum('total') }}</td>
+              <td> {{AtlasLogistics::get('currency')}} {{ $row->price + $row->parts->sum('total') }}</td>
               <td>{{ ($row->mechanic_id)?$row->mechanic->name:"" }}</td>
               <td>
                 @if($row->status == "Completed")

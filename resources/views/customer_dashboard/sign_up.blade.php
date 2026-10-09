@@ -1,6 +1,6 @@
 @extends('customer_dashboard.layouts.app')
 @section('title')
-    <title>@lang('frontend.sign_up') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.sign_up') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/customer_dashboard/assets/main_css/sign_up.css') }}">
@@ -13,7 +13,7 @@
             <!-- Navbar -->
             <nav id="myNavbar" class="d-flex d-sm-flex d-md-flex d-lg-none d-xl-none login_info navbar navbar-expand-lg  top-0 z-index-3 position-absolute  py-2 start-0 end-0 my-0">
                 <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 space" href="{{url('/')}}">
-                    <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}">
+                    <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}">
                 </a>
                 <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon mt-2">
@@ -56,13 +56,13 @@
                                     <div class="row mt-4">
                                         <div class="col-4">
                                             <a class="navbar-brand  ms-lg-0 ms-3 space" href="{{url('/')}}">
-                                                <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}">
+                                                <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}">
                                             </a>
                                         </div>
                                         <div class="col-8 d-flex align-items-center justify-content-end ">
                                             <div class="top-header-caption">
                                                 <div class="header-caption ">
-                                                    <p class="mb-0">{{Hyvikk::frontend('sign_up_title')}}</p>
+                                                    <p class="mb-0">{{AtlasLogistics::frontend('sign_up_title')}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -72,10 +72,10 @@
 
                             
 
-                            @if(Hyvikk::frontend('sign_up_content'))
+                            @if(AtlasLogistics::frontend('sign_up_content'))
 
 
-                            @foreach(json_decode(Hyvikk::frontend('sign_up_content')) as $s)
+                            @foreach(json_decode(AtlasLogistics::frontend('sign_up_content')) as $s)
 
 
                             <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
@@ -172,7 +172,7 @@
                             </div> --}}
                             <div class="col-12 ">
                                 <div class="features-tagline mt-3 mt-sm-3 mt-md-3 mt-lg-5 mt-xl-5">
-                                    <p>{{Hyvikk::frontend('sign_up_sub_title')}}</p>
+                                    <p>{{AtlasLogistics::frontend('sign_up_sub_title')}}</p>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -188,7 +188,7 @@
                                         
                                     </p> --}}
                                     
-                                    <div class="text-white">{!! Hyvikk::get('web_footer') !!}</div>
+                                    <div class="text-white">{!! AtlasLogistics::get('web_footer') !!}</div>
 
                                 </div>
                             </div>
@@ -300,7 +300,7 @@
                                                         <div class="form-check form-check-input-1 d-flex align-items-center">
                                                             <input class=" form-check-input" type="checkbox"  id="flexCheckDefault" name="agree">
                                                             <label class="form-check-label custom-control-label custom-form-label mb-0" for="flexCheckDefault">
-                                                                @lang('frontend.I_Agree_to_All') <a href="{{Hyvikk::frontend('terms')}}">@lang('frontend.Terms_Conditions')</a> @lang('frontend.and') <a href="{{Hyvikk::frontend('privacy_policy')}}">@lang('frontend.Privacy_Policies')</a> 
+                                                                @lang('frontend.I_Agree_to_All') <a href="{{AtlasLogistics::frontend('terms')}}">@lang('frontend.Terms_Conditions')</a> @lang('frontend.and') <a href="{{AtlasLogistics::frontend('privacy_policy')}}">@lang('frontend.Privacy_Policies')</a> 
                                                                 @lang('frontend.of_Company')
                                                             </label>
                                                         
@@ -340,10 +340,10 @@
                                             Services
                                         </a> --}}
 
-                                        @if(Hyvikk::frontend('footer_link'))
+                                        @if(AtlasLogistics::frontend('footer_link'))
 
 
-                                        @foreach(json_decode(Hyvikk::frontend('footer_link')) as $f)
+                                        @foreach(json_decode(AtlasLogistics::frontend('footer_link')) as $f)
                           
                                             <a href="{{$f->url}}" target="_blank" class="me-0 me-sm-3 me-md-4 me-lg-4 me-xl-5 mb-sm-0 mb-2">{{$f->title}}</a>
                                           

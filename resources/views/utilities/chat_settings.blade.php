@@ -28,28 +28,28 @@
             <div class="form-group">
               {!! Form::label('pusher_app_id',__('fleet.pusher_app_id'),['class'=>"form-label"]) !!}
               {!! Form::text('pusher_app_id',
-              Hyvikk::chat('pusher_app_id'),['class'=>"form-control"]) !!}
+              AtlasLogistics::chat('pusher_app_id'),['class'=>"form-control"]) !!}
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               {!! Form::label('pusher_app_key',__('fleet.pusher_app_key'),['class'=>"form-label"]) !!}
               {!! Form::text('pusher_app_key',
-              Hyvikk::chat('pusher_app_key'),['class'=>"form-control razorpay"]) !!}
+              AtlasLogistics::chat('pusher_app_key'),['class'=>"form-control razorpay"]) !!}
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               {!! Form::label('pusher_app_secret',__('fleet.pusher_app_secret'),['class'=>"form-label"]) !!}
               {!! Form::text('pusher_app_secret',
-              Hyvikk::chat('pusher_app_secret'),['class'=>"form-control"]) !!}
+              AtlasLogistics::chat('pusher_app_secret'),['class'=>"form-control"]) !!}
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               {!! Form::label('pusher_app_cluster',__('fleet.pusher_app_cluster'),['class'=>"form-label"]) !!}
               {!! Form::text('pusher_app_cluster',
-              Hyvikk::chat('pusher_app_cluster'),['class'=>"form-control"]) !!}
+              AtlasLogistics::chat('pusher_app_cluster'),['class'=>"form-control"]) !!}
             </div>
           </div>          
         </div>

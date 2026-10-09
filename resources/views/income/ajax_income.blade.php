@@ -12,7 +12,7 @@
       <th>@lang('fleet.incomeType')</th>
       <th>@lang('fleet.date')</th>
       <th>@lang('fleet.amount')</th>
-      <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+      <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
       <th>@lang('fleet.delete')</th>
     </tr>
   </thead>
@@ -26,8 +26,8 @@
       <td>{{$row->vehicle->model_name}}</td>
       <td>{{$row->vehicle->license_plate}}</td>
       <td>{{$row->category->name}}</td>
-      <td>{{date(Hyvikk::get('date_format'),strtotime($row->date))}}</td>
-      <td>{{Hyvikk::get('currency')}} {{$row->amount}}</td>
+      <td>{{date(AtlasLogistics::get('date_format'),strtotime($row->date))}}</td>
+      <td>{{AtlasLogistics::get('currency')}} {{$row->amount}}</td>
       <td>{{$row->mileage}}</td>
       <td>
         {!! Form::open(['url' => 'admin/income/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
@@ -51,7 +51,7 @@
       <th>@lang('fleet.incomeType')</th>
       <th>@lang('fleet.date')</th>
       <th>@lang('fleet.amount')</th>
-      <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+      <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
       <th>@lang('fleet.delete')</th>
     </tr>
   </tfoot>
@@ -60,7 +60,7 @@
 
 <script type="text/javascript">
   $("#total_today").empty();
-  $("#total_today").html("{{ Hyvikk::get('currency').' '. $total }}");
+  $("#total_today").html("{{ AtlasLogistics::get('currency').' '. $total }}");
   $('#ajax_table tfoot th').each( function () {
     if($(this).index() != 0){
       var title = $(this).text();

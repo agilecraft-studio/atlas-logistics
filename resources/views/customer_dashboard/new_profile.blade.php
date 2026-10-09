@@ -4,7 +4,7 @@
 
 @section('title')
 
-      <title>@lang('frontend.Profile') | {{ Hyvikk::get('app_name') }}</title>
+      <title>@lang('frontend.Profile') | {{ AtlasLogistics::get('app_name') }}</title>
 
   @endsection
 

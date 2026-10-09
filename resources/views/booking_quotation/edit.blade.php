@@ -81,8 +81,8 @@
                                                     $vehicle->types->vehicletype,
                                                 ),
                                             ) }}"
-                                            data-base-mileage="{{ Hyvikk::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_km') }}"
-                                            data-base-fare="{{ Hyvikk::fare(
+                                            data-base-mileage="{{ AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_km') }}"
+                                            data-base-fare="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -92,7 +92,7 @@
                                                     ),
                                                 ) . '_base_fare',
                                             ) }}"
-                                            data-base_km_1="{{ Hyvikk::fare(
+                                            data-base_km_1="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -102,7 +102,7 @@
                                                     ),
                                                 ) . '_base_km',
                                             ) }}"
-                                            data-base_fare_1="{{ Hyvikk::fare(
+                                            data-base_fare_1="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -112,7 +112,7 @@
                                                     ),
                                                 ) . '_base_fare',
                                             ) }}"
-                                            data-wait_time_1="{{ Hyvikk::fare(
+                                            data-wait_time_1="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -122,7 +122,7 @@
                                                     ),
                                                 ) . '_base_time',
                                             ) }}"
-                                            data-std_fare_1="{{ Hyvikk::fare(
+                                            data-std_fare_1="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -132,7 +132,7 @@
                                                     ),
                                                 ) . '_std_fare',
                                             ) }}"
-                                            data-base_km_2="{{ Hyvikk::fare(
+                                            data-base_km_2="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -142,7 +142,7 @@
                                                     ),
                                                 ) . '_weekend_base_km',
                                             ) }}"
-                                            data-base_fare_2="{{ Hyvikk::fare(
+                                            data-base_fare_2="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -152,7 +152,7 @@
                                                     ),
                                                 ) . '_weekend_base_fare',
                                             ) }}"
-                                            data-wait_time_2="{{ Hyvikk::fare(
+                                            data-wait_time_2="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -162,7 +162,7 @@
                                                     ),
                                                 ) . '_weekend_wait_time',
                                             ) }}"
-                                            data-std_fare_2="{{ Hyvikk::fare(
+                                            data-std_fare_2="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -172,7 +172,7 @@
                                                     ),
                                                 ) . '_weekend_std_fare',
                                             ) }}"
-                                            data-base_km_3="{{ Hyvikk::fare(
+                                            data-base_km_3="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -182,7 +182,7 @@
                                                     ),
                                                 ) . '_night_base_km',
                                             ) }}"
-                                            data-base_fare_3="{{ Hyvikk::fare(
+                                            data-base_fare_3="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -192,7 +192,7 @@
                                                     ),
                                                 ) . '_night_base_fare',
                                             ) }}"
-                                            data-wait_time_3="{{ Hyvikk::fare(
+                                            data-wait_time_3="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -202,7 +202,7 @@
                                                     ),
                                                 ) . '_night_wait_time',
                                             ) }}"
-                                            data-std_fare_3="{{ Hyvikk::fare(
+                                            data-std_fare_3="{{ AtlasLogistics::fare(
                                                 strtolower(
                                                     str_replace(
                                                         '
@@ -257,7 +257,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">@lang('fleet.trip_mileage') ({{ Hyvikk::get('dis_format') }})</label>
+                                <label class="form-label">@lang('fleet.trip_mileage') ({{ AtlasLogistics::get('dis_format') }})</label>
                                 {!! Form::number('mileage', $data->mileage, [
                                     'class' => 'form-control
                                               sum',
@@ -286,7 +286,7 @@
                                 <label class="form-label">@lang('fleet.total') @lang('fleet.amount') </label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">{{ Hyvikk::get('currency') }}</span>
+                                        <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
                                     </div>
                                     {!! Form::number('total', $data->total, [
                                         'class' => 'form-control',
@@ -325,7 +325,7 @@
                                 <label class="form-label">@lang('fleet.total') @lang('fleet.tax_charge')</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">{{ Hyvikk::get('currency') }}</span>
+                                        <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
                                     </div>
                                     {!! Form::number('total_tax_charge_rs', $data->total_tax_charge_rs, [
                                         'class' => 'form-control
@@ -343,7 +343,7 @@
                                 <label class="form-label">@lang('fleet.total') @lang('fleet.amount') </label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">{{ Hyvikk::get('currency') }}</span>
+                                        <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
                                     </div>
                                     {!! Form::number('tax_total', $data->tax_total, [
                                         'class' => 'form-control',
@@ -442,7 +442,7 @@
     </script>
     <script src="{{asset('assets/js/booking_quotation/edit.js')}}"></script>
 
-    @if (Hyvikk::api('google_api') == '1')
+    @if (AtlasLogistics::api('google_api') == '1')
         <script>
             function initMap() {
                 $('#pickup_addr').attr("placeholder", "");
@@ -461,7 +461,7 @@
             }
         </script>
         <script
-            src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key') }}&libraries=places&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key') }}&libraries=places&callback=initMap"
             async defer></script>
     @endif
 @endsection

@@ -4,14 +4,14 @@
 
 Fleet Manager v7.0
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 namespace App\Mail;
 
 use App\Model\Bookings;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -34,6 +34,6 @@ class DriverBooked extends Mailable {
 	 * @return $this
 	 */
 	public function build() {
-		return $this->from(Hyvikk::get("email"))->subject('Your Vehicle is Booked. Booking ID: ' . $this->booking->id)->markdown('emails.booked_driver');
+		return $this->from(AtlasLogistics::get("email"))->subject('Your Vehicle is Booked. Booking ID: ' . $this->booking->id)->markdown('emails.booked_driver');
 	}
 }

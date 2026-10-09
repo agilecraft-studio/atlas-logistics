@@ -1,5 +1,5 @@
 @extends("layouts.app")
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
 <li class="breadcrumb-item active">@lang('fleet.serviceReminders')</li>
@@ -69,7 +69,7 @@
                 <br>
                 @lang('fleet.interval'): {{$reminder->services->overdue_time}} {{$reminder->services->overdue_unit}}
                 @if($reminder->services->overdue_meter != null)
-                @lang('fleet.or') {{$reminder->services->overdue_meter}} {{Hyvikk::get('dis_format')}}
+                @lang('fleet.or') {{$reminder->services->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
                 @endif
               </td>
               <td>
@@ -82,7 +82,7 @@
                 @if($reminder->services->overdue_time != null)
                   @php($int = $reminder->services->overdue_time.$interval)
                 @else
-                  @php($int = Hyvikk::get('time_interval')."day")
+                  @php($int = AtlasLogistics::get('time_interval')."day")
                 @endif
                 @if($reminder->last_date != 'N/D')
                  @php($date = date('Y-m-d', strtotime($int, strtotime($reminder->last_date)))) 
@@ -101,9 +101,9 @@
               <td>
                 @if($reminder->services->overdue_meter != null)
                   @if($reminder->last_meter == 0)
-                    {{$reminder->vehicle->int_mileage + $reminder->services->overdue_meter}} {{Hyvikk::get('dis_format')}}
+                    {{$reminder->vehicle->int_mileage + $reminder->services->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
                   @else
-                    {{$reminder->last_meter + $reminder->services->overdue_meter}} {{Hyvikk::get('dis_format')}}
+                    {{$reminder->last_meter + $reminder->services->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
                   @endif
                 @endif
               </td>

@@ -1,7 +1,7 @@
 # Atlas Logistics - System Patterns
 
 ## Base
-Hyvikk Fleet Manager v6.1 on Laravel 10, upgrading to 13.
+Atlas Logistics Fleet Manager v6.1 on Laravel 10, upgrading to 13.
 Source split: framework dir is the Laravel app; top-level assets/uploads/index.php is web-root content.
 Prod dir /var/www/atlas-logistic mirrors framework.
 

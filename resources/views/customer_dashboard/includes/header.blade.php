@@ -124,7 +124,7 @@
 
     <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 space" href="{{url('/')}}">
 
-        <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" width="172px" height="auto">
+        <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" width="172px" height="auto">
 
     </a>
 
@@ -226,7 +226,7 @@
 
                 <div class="social_icon">
 
-                    <a href="{{ Hyvikk::frontend('twitter') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
+                    <a href="{{ AtlasLogistics::frontend('twitter') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
 
 
 
@@ -264,7 +264,7 @@
 
 
 
-                    <a href="{{ Hyvikk::frontend('twitter') }}" class="me-4 me-sm-4 me-md-4 me-lg-0 me-xl-0  d-flex d-sm-flex d-md-flex  d-lg-none d-xl-none">
+                    <a href="{{ AtlasLogistics::frontend('twitter') }}" class="me-4 me-sm-4 me-md-4 me-lg-0 me-xl-0  d-flex d-sm-flex d-md-flex  d-lg-none d-xl-none">
 
                         <svg xmlns="http://www.w3.org/2000/svg" height="22" width="22" viewBox="0 0 512 512">
 
@@ -280,7 +280,7 @@
 
                 <div class="social_icon">
 
-                    <a href="{{ Hyvikk::frontend('facebook') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
+                    <a href="{{ AtlasLogistics::frontend('facebook') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
 
                         <svg id="svg2" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" fill="#fff">
 
@@ -326,13 +326,13 @@
 
                         </svg> </a>
 
-                    <a href="{{ Hyvikk::frontend('facebook') }}" class="me-4 me-sm-4 me-md-4 me-lg-0 me-xl-0"><i class="fab fa-facebook d-flex d-sm-flex d-md-flex  d-lg-none d-xl-none" style="color:#316FF6; font-size:24px"></i> </a>
+                    <a href="{{ AtlasLogistics::frontend('facebook') }}" class="me-4 me-sm-4 me-md-4 me-lg-0 me-xl-0"><i class="fab fa-facebook d-flex d-sm-flex d-md-flex  d-lg-none d-xl-none" style="color:#316FF6; font-size:24px"></i> </a>
 
                 </div>
 
                 <div class="social_icon">
 
-                    <a href="{{ Hyvikk::frontend('linkedin') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
+                    <a href="{{ AtlasLogistics::frontend('linkedin') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
 
                         <svg id="svg3" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" fill="#fff">
 
@@ -380,13 +380,13 @@
 
                     </a>
 
-                    <a href="{{ Hyvikk::frontend('linkedin') }}" class="me-4 me-sm-4 me-md-4 me-lg-0 me-xl-0"><i class="fab fa-linkedin d-flex d-sm-flex d-md-flex d-lg-none d-xl-none" style="color:#0A66C2;font-size:24px"></i> </a>
+                    <a href="{{ AtlasLogistics::frontend('linkedin') }}" class="me-4 me-sm-4 me-md-4 me-lg-0 me-xl-0"><i class="fab fa-linkedin d-flex d-sm-flex d-md-flex d-lg-none d-xl-none" style="color:#0A66C2;font-size:24px"></i> </a>
 
                 </div>
 
                 <div class="social_icon">
 
-                    <a href="{{ Hyvikk::frontend('instagram') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
+                    <a href="{{ AtlasLogistics::frontend('instagram') }}" class="social_icon_link d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
 
                         <svg id="svg4" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" fill="#fff">
 
@@ -434,7 +434,7 @@
 
                     </a>
 
-                    <a href="{{ Hyvikk::frontend('instagram') }}"><i class="fab fa-instagram d-flex d-sm-flex d-md-flex d-lg-none d-xl-none" style="font-size:24px"></i></a>
+                    <a href="{{ AtlasLogistics::frontend('instagram') }}"><i class="fab fa-instagram d-flex d-sm-flex d-md-flex d-lg-none d-xl-none" style="font-size:24px"></i></a>
 
                 </div>
 

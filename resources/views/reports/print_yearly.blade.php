@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{Hyvikk::get('app_name')}}</title>
+  <title>{{AtlasLogistics::get('app_name')}}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -32,7 +32,7 @@
   </style>
 </head>
 <body onload="window.print();">
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
   <div class="wrapper">
   <!-- Main content -->
@@ -42,8 +42,8 @@
         <div class="col-xs-12">
           <h2 class="page-header">
             <span class="logo-lg">
-            <img src="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
-            {{  Hyvikk::get('app_name')  }}
+            <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
+            {{  AtlasLogistics::get('app_name')  }}
             </span>
             <small class="pull-right"> <b>@lang('fleet.date') : </b> {{date($date_format_setting)}}</small>
           </h2>
@@ -66,17 +66,17 @@
               <tr>
                 <th scope="row">@lang('fleet.pl')</th>
 
-                <td><strong>{{ Hyvikk::get("currency")}}{{ $income_amt-$expense_amt}}</strong></td>
+                <td><strong>{{ AtlasLogistics::get("currency")}}{{ $income_amt-$expense_amt}}</strong></td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th scope="row">@lang('fleet.income')</th>
-                <td>{{ Hyvikk::get("currency")}}{{$income_amt}}</td>
+                <td>{{ AtlasLogistics::get("currency")}}{{$income_amt}}</td>
               </tr>
               <tr>
                 <th scope="row">@lang('fleet.expenses')</th>
-                <td>{{ Hyvikk::get("currency")}}{{$expense_amt}}</td>
+                <td>{{ AtlasLogistics::get("currency")}}{{$expense_amt}}</td>
               </tr>
             </tbody>
           </table>
@@ -91,14 +91,14 @@
             <thead>
               <tr>
                 <th scope="row">@lang('fleet.incomeByCategory')</th>
-                <td>{{ Hyvikk::get("currency")}}{{$tot}}</td>
+                <td>{{ AtlasLogistics::get("currency")}}{{$tot}}</td>
               </tr>
             </thead>
             <tbody>
               @foreach($income_by_cat as $exp)
               <tr>
                 <th scope="row">{{$income_cats[$exp->income_cat]}}</th>
-                <td>{{ Hyvikk::get("currency")}}{{$exp->amount}}</td>
+                <td>{{ AtlasLogistics::get("currency")}}{{$exp->amount}}</td>
               </tr>
               @endforeach
             </tbody>
@@ -114,7 +114,7 @@
                 @php($tot = $tot + $exp->expense)
                 @endforeach
                 <th scope="row">@lang('fleet.expensesByCategory')</th>
-                <td><strong>{{ Hyvikk::get("currency")}}{{$tot}}</strong></td>
+                <td><strong>{{ AtlasLogistics::get("currency")}}{{$tot}}</strong></td>
               </tr>
             </thead>
             <tbody>
@@ -127,7 +127,7 @@
                 {{$expense_cats[$exp->expense_type]}}
                 @endif
                 </th>
-                <td>{{ Hyvikk::get("currency")}}{{$exp->expense}}</td>
+                <td>{{ AtlasLogistics::get("currency")}}{{$exp->expense}}</td>
               </tr>
               @endforeach
             </tbody>

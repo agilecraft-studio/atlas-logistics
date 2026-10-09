@@ -5,8 +5,8 @@
 
 Fleet Manager v7.0
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
 */
 
@@ -16,7 +16,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Lang;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 
 class ForgotPassword extends Mailable {
 	use Queueable, SerializesModels;
@@ -40,7 +40,7 @@ class ForgotPassword extends Mailable {
 	 */
 	public function build() {
 
-		return $this->from(Hyvikk::get("email"))->subject(Lang::get('passwords.Reset your Password'). " - " . Hyvikk::get("app_name"))->markdown('emails.forget_password');
+		return $this->from(AtlasLogistics::get("email"))->subject(Lang::get('passwords.Reset your Password'). " - " . AtlasLogistics::get("app_name"))->markdown('emails.forget_password');
 
 	}
 }

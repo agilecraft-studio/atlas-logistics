@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers;
 use App\Helpers\InstalledFileManager;
@@ -14,7 +14,7 @@ use App\Model\CompanyServicesModel;
 use App\Model\EmailContent;
 use App\Model\FareSettings;
 use App\Model\FrontendModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\PaymentSettings;
 use App\Model\Settings;
 use App\Model\TeamModel;
@@ -332,14 +332,14 @@ class UpdateVersion extends Controller {
 		return view('laravel_web_installer.finished');
 	}
 	public function move_logo() {
-		$oldPath = "public/" . Hyvikk::get('icon_img');
-		$newPath = 'assets/images/' . Hyvikk::get('icon_img');
-		if (file_exists("public/" . Hyvikk::get('icon_img'))) {
+		$oldPath = "public/" . AtlasLogistics::get('icon_img');
+		$newPath = 'assets/images/' . AtlasLogistics::get('icon_img');
+		if (file_exists("public/" . AtlasLogistics::get('icon_img'))) {
 			\File::copy($oldPath, $newPath);
 		}
-		$oldPath1 = "public/" . Hyvikk::get('logo_img');
-		$newPath1 = 'assets/images/' . Hyvikk::get('logo_img');
-		if (file_exists("public/" . Hyvikk::get('logo_img'))) {
+		$oldPath1 = "public/" . AtlasLogistics::get('logo_img');
+		$newPath1 = 'assets/images/' . AtlasLogistics::get('logo_img');
+		if (file_exists("public/" . AtlasLogistics::get('logo_img'))) {
 			\File::copy($oldPath1, $newPath1);
 		}
 	}
@@ -507,18 +507,18 @@ class UpdateVersion extends Controller {
 		$vehicle_types = VehicleTypeModel::get();
 		foreach ($vehicle_types as $key) {
 			$all_types[] = $key->vehicletype;
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_fare', 'key_value' => Hyvikk::fare('base_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_km', 'key_value' => Hyvikk::fare('base_km'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_time', 'key_value' => Hyvikk::fare('base_time'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_std_fare', 'key_value' => Hyvikk::fare('std_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_fare', 'key_value' => Hyvikk::fare('weekend_base_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_km', 'key_value' => Hyvikk::fare('weekend_base_km'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_wait_time', 'key_value' => Hyvikk::fare('weekend_wait_time'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_std_fare', 'key_value' => Hyvikk::fare('weekend_std_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_fare', 'key_value' => Hyvikk::fare('night_base_fare'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_km', 'key_value' => Hyvikk::fare('night_base_km'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_wait_time', 'key_value' => Hyvikk::fare('night_wait_time'), 'type_id' => $key->id]);
-			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_std_fare', 'key_value' => Hyvikk::fare('night_std_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_fare', 'key_value' => AtlasLogistics::fare('base_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_km', 'key_value' => AtlasLogistics::fare('base_km'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_base_time', 'key_value' => AtlasLogistics::fare('base_time'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_std_fare', 'key_value' => AtlasLogistics::fare('std_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_fare', 'key_value' => AtlasLogistics::fare('weekend_base_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_base_km', 'key_value' => AtlasLogistics::fare('weekend_base_km'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_wait_time', 'key_value' => AtlasLogistics::fare('weekend_wait_time'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_weekend_std_fare', 'key_value' => AtlasLogistics::fare('weekend_std_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_fare', 'key_value' => AtlasLogistics::fare('night_base_fare'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_base_km', 'key_value' => AtlasLogistics::fare('night_base_km'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_wait_time', 'key_value' => AtlasLogistics::fare('night_wait_time'), 'type_id' => $key->id]);
+			FareSettings::updateOrCreate(['key_name' => strtolower(str_replace(" ", "", $key->vehicletype)) . '_night_std_fare', 'key_value' => AtlasLogistics::fare('night_std_fare'), 'type_id' => $key->id]);
 		}
 		foreach ($get_types as $key) {
 			if (!in_array($key, $all_types)) {

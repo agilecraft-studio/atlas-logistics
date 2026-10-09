@@ -7,7 +7,7 @@
                   <a href="{{ route('frontend.home') }}">
                      <img src="{{ asset('assets/images/footer_logo_back.png') }}">
                      <div class="footer_logo_img" style="position: absolute; ">
-                        <img src="{{ asset('assets/images/'. Hyvikk::get('fotter_logo_img') ) }}">
+                        <img src="{{ asset('assets/images/'. AtlasLogistics::get('fotter_logo_img') ) }}">
                      </div>
                   </a>
                </div>
@@ -34,29 +34,29 @@
                <div class="social-icon">
                   <div class="social-icon-background">
                      <div class="facebook">
-                        <a href="{{ Hyvikk::frontend('facebook') }}"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="{{ AtlasLogistics::frontend('facebook') }}"><i class="fa-brands fa-facebook-f"></i></a>
                      </div>
                   </div>
                   <div class="social-icon-background">
                      <div class="twitter">
-                        <a href="{{ Hyvikk::frontend('twitter') }}"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="{{ AtlasLogistics::frontend('twitter') }}"><i class="fa-brands fa-twitter"></i></a>
                      </div>
                   </div>
                   <div class="social-icon-background">
                      <div class="instagram">
-                        <a href="{{ Hyvikk::frontend('instagram') }}"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="{{ AtlasLogistics::frontend('instagram') }}"><i class="fa-brands fa-instagram"></i></a>
                      </div>
                   </div>
                   <div class="social-icon-background">
                      <div class="instagram">
-                        <a href="{{ Hyvikk::frontend('linkedin') }}"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="{{ AtlasLogistics::frontend('linkedin') }}"><i class="fa-brands fa-linkedin"></i></a>
                      </div>
                   </div>
                </div>
             </div>
             <div class="col-md-12">
                <div class="copyright">
-                  <p>{!! Hyvikk::get('web_footer') !!}</p>
+                  <p>{!! AtlasLogistics::get('web_footer') !!}</p>
 
                </div>
             </div>

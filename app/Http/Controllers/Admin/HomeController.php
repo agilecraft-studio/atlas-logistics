@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ use App\Model\VehicleModel;
 use App\Model\Vendor;
 use Auth;
 use DB;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Support\Facades\Redirect;
 use App\Model\BookingAlert;
 
@@ -45,13 +45,13 @@ class HomeController extends Controller {
 			$interval = substr($r->services->overdue_unit, 0, -3);
 			$int = $r->services->overdue_time . $interval;
 			if ($r->last_meter == 0) {
-				$next_due = $r->vehicle->int_mileage + $r->services->overdue_meter . " " . Hyvikk::get('dis_format');
+				$next_due = $r->vehicle->int_mileage + $r->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 			} else {
-				$next_due = $r->last_meter + $r->services->overdue_meter . " " . Hyvikk::get('dis_format');
+				$next_due = $r->last_meter + $r->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 			}
 			$interval = $r->services->overdue_time . " " . $r->services->overdue_unit;
 			if ($r->services->overdue_meter != null) {
-				$interval .= $r->services->overdue_meter . " " . Hyvikk::get('dis_format');
+				$interval .= $r->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 			}
 			$date = date('Y-m-d', strtotime($int, strtotime(date('Y-m-d'))));
 			$vEvent = new \Eluceo\iCal\Component\Event();
@@ -106,7 +106,7 @@ class HomeController extends Controller {
 			// $index['vehicle'] = VehicleModel::where('driver_id', Auth::user()->id)->first();
 			return view("drivers.profile", $index);
 		} elseif (Auth::user()->user_type == "C") {
-			if (Hyvikk::frontend('enable') == 1) {
+			if (AtlasLogistics::frontend('enable') == 1) {
 				return redirect('/');
 			}
 			$data['total_kms'] = IncomeModel::select(DB::raw('sum(mileage) as total_kms'))->where('user_id', Auth::id())->get();
@@ -242,7 +242,11 @@ class HomeController extends Controller {
 
 
 			$vb=BookingAlert::select('booking_alerts.*')
-			->join('bookings', 'bookings.id', '=', 'booking_alerts.booking_id')
+			->join('bookings', function ($join) {
+				// booking_alerts.booking_id is varchar while bookings.id is integer;
+				// PostgreSQL (unlike MySQL) will not compare the two implicitly.
+				$join->on('bookings.id', '=', DB::raw('booking_alerts.booking_id::integer'));
+			})
 			->join('bookings_meta', 'bookings_meta.booking_id', '=', 'bookings.id')
 			->where('bookings_meta.key', 'ride_status')
 			->where('bookings_meta.value', 'Ongoing')
@@ -252,7 +256,11 @@ class HomeController extends Controller {
 			->get();
 		
 			$da=BookingAlert::select('booking_alerts.*')
-			->join('bookings', 'bookings.id', '=', 'booking_alerts.booking_id')
+			->join('bookings', function ($join) {
+				// booking_alerts.booking_id is varchar while bookings.id is integer;
+				// PostgreSQL (unlike MySQL) will not compare the two implicitly.
+				$join->on('bookings.id', '=', DB::raw('booking_alerts.booking_id::integer'));
+			})
 			->join('bookings_meta', 'bookings_meta.booking_id', '=', 'bookings.id')
 			->where('bookings_meta.key', 'ride_status')
 			->where('bookings_meta.value', 'Ongoing')
@@ -278,7 +286,7 @@ class HomeController extends Controller {
 		foreach ($all_vehicles as $key) {
 			$vehicle_ids[] = $key->id;
 		}
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by month(date)', [$year]);
+		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -297,7 +305,7 @@ class HomeController extends Controller {
 		foreach ($all_vehicles as $key) {
 			$vehicle_ids[] = $key->id;
 		}
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by month(date)', [$year]);
+		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {

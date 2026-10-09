@@ -2,14 +2,14 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UserRequest;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\User;
 use App\Model\VehicleGroupModel;
 use Auth;
@@ -42,7 +42,7 @@ class UsersController extends Controller {
 					$query->where('user_type', 'O')
 						->orWhere('user_type', 'S');
 				});
-			$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 			return DataTables::eloquent($users)
 				->addColumn('check', function ($user) {
 					$tag = '';

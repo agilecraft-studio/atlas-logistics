@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use App\Model\Expense;
 use App\Model\FuelModel;
 use App\Model\VehicleModel;
 use Auth;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -180,10 +180,10 @@ class FuelApiController extends Controller {
 			if ($row->vehicle_data->vehicle_image) {
 				$image = asset('uploads/' . $row->photo);
 			}
-			if (Hyvikk::get('dis_format') == "km") {
-				$consumption_unit = (Hyvikk::get('fuel_unit') == "gallon") ? "KMPG" : "KMPL";
+			if (AtlasLogistics::get('dis_format') == "km") {
+				$consumption_unit = (AtlasLogistics::get('fuel_unit') == "gallon") ? "KMPG" : "KMPL";
 			} else {
-				$consumption_unit = (Hyvikk::get('fuel_unit') == "gallon") ? "MPG" : "MPL";
+				$consumption_unit = (AtlasLogistics::get('fuel_unit') == "gallon") ? "MPG" : "MPL";
 			}
 			$details[] = array(
 				'id' => $row->id,
@@ -191,12 +191,12 @@ class FuelApiController extends Controller {
 				'vehicle' => $row->vehicle_data->year . " " . $row->vehicle_data->make_name . "-" . $row->vehicle_data->model,
 				'vin' => $row->vehicle_data->vin,
 				'date' => $row->date,
-				'qty_unit' => Hyvikk::get('fuel_unit'),
+				'qty_unit' => AtlasLogistics::get('fuel_unit'),
 				'qty' => $row->qty,
-				'currency' => Hyvikk::get('currency'),
+				'currency' => AtlasLogistics::get('currency'),
 				'cost_per_unit' => $row->cost_per_unit,
 				'total_cost' => $row->qty * $row->cost_per_unit,
-				'distance_unit' => Hyvikk::get('dis_format'),
+				'distance_unit' => AtlasLogistics::get('dis_format'),
 				'start_meter' => $row->start_meter,
 				'end_meter' => $row->end_meter,
 				'distance' => ($row->end_meter > 0) ? $row->end_meter - $row->start_meter : 0,

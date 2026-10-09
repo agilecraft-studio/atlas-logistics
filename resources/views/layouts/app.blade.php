@@ -2,7 +2,7 @@
 @if(Auth::user()->getMeta('language')!= null)
 @php ($language = Auth::user()->getMeta('language'))
 @else
-@php($language = Hyvikk::get("language"))
+@php($language = AtlasLogistics::get("language"))
 @endif
 <html>
 
@@ -19,13 +19,13 @@
 
 
 
-  <title>{{ Hyvikk::get('app_name') }}</title>
+  <title>{{ AtlasLogistics::get('app_name') }}</title>
 
   <!-- Tell the browser to be responsive to screen width -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" type="icon_img">
+  <link rel="icon" href="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" type="icon_img">
 
   <!-- Font Awesome -->
 
@@ -339,7 +339,7 @@ input:checked + .slider:before {
 
         <li class="nav-item d-none d-sm-inline-block">
 
-          <a href="https://fleetdocs.hyvikk.space" class="nav-link">@lang('fleet.help')</a>
+          <a href="https://fleetdocs.Atlas Logistics.space" class="nav-link">@lang('fleet.help')</a>
 
         </li>
 
@@ -639,11 +639,11 @@ input:checked + .slider:before {
 
       <a href="{{ url('admin/')}}" class="brand-link">
 
-        <img src="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" alt="Fleet Logo" class="brand-image"
+        <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" alt="Fleet Logo" class="brand-image"
 
           style="opacity: .8">
 
-        <span class="brand-text font-weight-light">{{ Hyvikk::get('app_name') }}</span>
+        <span class="brand-text font-weight-light">{{ AtlasLogistics::get('app_name') }}</span>
 
       </a>
 
@@ -1017,9 +1017,9 @@ input:checked + .slider:before {
 
               </li>
 
-              @if (!empty(Hyvikk::chat('pusher_app_id')) && !empty(Hyvikk::chat ('pusher_app_key')) &&
+              @if (!empty(AtlasLogistics::chat('pusher_app_id')) && !empty(AtlasLogistics::chat ('pusher_app_key')) &&
 
-              !empty(Hyvikk::chat('pusher_app_secret')) && !empty(Hyvikk::chat('pusher_app_cluster')))
+              !empty(AtlasLogistics::chat('pusher_app_secret')) && !empty(AtlasLogistics::chat('pusher_app_cluster')))
 
 
 
@@ -1185,7 +1185,7 @@ input:checked + .slider:before {
 
 
 
-              @if(Hyvikk::get('fuel_enable_driver') == 1)
+              @if(AtlasLogistics::get('fuel_enable_driver') == 1)
 
               @if(Request::is('admin/fuel*'))
 
@@ -1263,7 +1263,7 @@ input:checked + .slider:before {
 
 
 
-              @if(Hyvikk::get('income_enable_driver') == 1 || Hyvikk::get('expense_enable_driver') == 1)
+              @if(AtlasLogistics::get('income_enable_driver') == 1 || AtlasLogistics::get('expense_enable_driver') == 1)
 
               @if((Request::is('admin/income')) || (Request::is('admin/expense')) || (Request::is('admin/transaction'))
 
@@ -1303,7 +1303,7 @@ input:checked + .slider:before {
 
                 <ul class="nav nav-treeview">
 
-                  @if(Hyvikk::get('income_enable_driver') == 1)
+                  @if(AtlasLogistics::get('income_enable_driver') == 1)
 
                   <li class="nav-item">
 
@@ -1327,7 +1327,7 @@ input:checked + .slider:before {
 
                   @endif
 
-                  @if(Hyvikk::get('expense_enable_driver') == 1)
+                  @if(AtlasLogistics::get('expense_enable_driver') == 1)
 
                   <li class="nav-item">
 
@@ -1495,9 +1495,9 @@ input:checked + .slider:before {
 
                   @endcan
 
-                  @if (!empty(Hyvikk::chat('pusher_app_id')) && !empty(Hyvikk::chat ('pusher_app_key')) &&
+                  @if (!empty(AtlasLogistics::chat('pusher_app_id')) && !empty(AtlasLogistics::chat ('pusher_app_key')) &&
 
-                  !empty(Hyvikk::chat('pusher_app_secret')) && !empty(Hyvikk::chat('pusher_app_cluster')))
+                  !empty(AtlasLogistics::chat('pusher_app_secret')) && !empty(AtlasLogistics::chat('pusher_app_cluster')))
 
 
 
@@ -1679,7 +1679,7 @@ input:checked + .slider:before {
 
                   @if(Auth::user()->user_type=='S')
 
-                  @if(Hyvikk::get('traccar_enable') == 1 ? true : false)
+                  @if(AtlasLogistics::get('traccar_enable') == 1 ? true : false)
 
                   <li class="nav-item">
 
@@ -3333,7 +3333,7 @@ input:checked + .slider:before {
               @endcan
 
 
-              @if(Hyvikk::api('api_key') != null && Hyvikk::api('db_url') != null)
+              @if(AtlasLogistics::api('api_key') != null && AtlasLogistics::api('db_url') != null)
                 @can('Drivers map')
                   <li class="nav-item">
                     <a href="{{ url('admin/driver-maps')}}"
@@ -3360,7 +3360,7 @@ input:checked + .slider:before {
 
 
 
-              @if(Hyvikk::api('api') && Hyvikk::api('driver_review') == 1) <li class="nav-item">
+              @if(AtlasLogistics::api('api') && AtlasLogistics::api('driver_review') == 1) <li class="nav-item">
 
                 <a href="{{ url('admin/reviews')}}" class="nav-link @if(Request::is('admin/reviews')) active @endif">
 
@@ -3518,7 +3518,7 @@ input:checked + .slider:before {
 
     <footer class="main-footer">
 
-      {!! Hyvikk::get('web_footer') !!}
+      {!! AtlasLogistics::get('web_footer') !!}
 
       <div class="float-right d-none d-sm-inline-block">
 
@@ -4060,7 +4060,7 @@ input:checked + .slider:before {
 
   <script>var current_route = "{{Route::current()->getName() ?? '' }}"; </script>
 
-  {{-- <script>var google_api = "{{ Hyvikk::api('google_api') }}"; </script>  --}}
+  {{-- <script>var google_api = "{{ AtlasLogistics::api('google_api') }}"; </script>  --}}
 
   <script src="{{ asset('assets/js/pnotify.custom.min.js')}}"></script>
 

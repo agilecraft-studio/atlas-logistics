@@ -93,7 +93,7 @@ input[type="checkbox"]{
         <div class="row">
           <div class="col-md-6 col-sm-12">
             <h4>  @lang('menu.email_notification')<span id="change" class="text-muted">
-              @if(Hyvikk::email_msg('email')==1)
+              @if(AtlasLogistics::email_msg('email')==1)
                 (@lang('fleet.enable'))
               @else
                 (@lang('fleet.disable'))
@@ -104,7 +104,7 @@ input[type="checkbox"]{
           </div>
           <div class="col-md-3 col-sm-12">
             <label class="switch">
-              <input type="checkbox" name="email" value="1" id="email" @if(Hyvikk::email_msg('email')==1) checked @endif>
+              <input type="checkbox" name="email" value="1" id="email" @if(AtlasLogistics::email_msg('email')==1) checked @endif>
               <span class="slider round"></span>
             </label>
           </div>

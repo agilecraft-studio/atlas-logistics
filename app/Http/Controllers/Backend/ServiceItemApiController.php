@@ -2,14 +2,14 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Model\ServiceItemsModel;
 use App\Model\ServiceReminderModel;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -69,7 +69,7 @@ class ServiceItemApiController extends Controller {
 			if ($request->overdue_time != null) {
 				$overdue_time = $request->overdue_time;
 			} else {
-				$overdue_time = Hyvikk::get('time_interval');
+				$overdue_time = AtlasLogistics::get('time_interval');
 			}
 			ServiceItemsModel::where('id', $request->id)->update([
 				'description' => $request->description,
@@ -108,7 +108,7 @@ class ServiceItemApiController extends Controller {
 			if ($request->overdue_time != null) {
 				$overdue_time = $request->overdue_time;
 			} else {
-				$overdue_time = Hyvikk::get('time_interval');
+				$overdue_time = AtlasLogistics::get('time_interval');
 			}
 			ServiceItemsModel::create([
 				'description' => $request->description,
@@ -135,7 +135,7 @@ class ServiceItemApiController extends Controller {
 		foreach ($records as $row) {
 			$service_interval = $row->overdue_time . " " . $row->overdue_unit;
 			if ($row->overdue_meter != null) {
-				$service_interval .= " or " . $row->overdue_meter . " " . Hyvikk::get('dis_format');
+				$service_interval .= " or " . $row->overdue_meter . " " . AtlasLogistics::get('dis_format');
 			}
 			$create_reminder = null;
 			if ($row->duesoon_time != null) {

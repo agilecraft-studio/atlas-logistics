@@ -55,7 +55,7 @@
               <td>
                 {{$data->getMeta('first_name')}} {{$data->getMeta('last_name')}}
               </td>
-              <td> @lang('fleet.driver_licence') {{ date(Hyvikk::get('date_format'),strtotime($notification->data['msg'])) }}</td>
+              <td> @lang('fleet.driver_licence') {{ date(AtlasLogistics::get('date_format'),strtotime($notification->data['msg'])) }}</td>
               <td>
               @if(strtotime($notification->data['msg'])>strtotime("now"))
                 {{$diff_in_days}}

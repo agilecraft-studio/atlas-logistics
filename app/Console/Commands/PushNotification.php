@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\ServiceReminderModel;
 use App\Model\User;
 use App\Model\VehicleModel;
@@ -22,7 +22,7 @@ class PushNotification extends Command {
 	}
 
 	private function push_notification() {
-		$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 
 		$auth = array(
 			'VAPID' => array(
@@ -80,7 +80,7 @@ class PushNotification extends Command {
 				$array = array(
 					'title' => $title ?? "",
 					'body' => $body ?? "",
-					'img' => url('assets/images/' . Hyvikk::get('icon_img')),
+					'img' => url('assets/images/' . AtlasLogistics::get('icon_img')),
 					'url' => $url ?? url('admin'),
 				);
 				$object = json_encode($array);

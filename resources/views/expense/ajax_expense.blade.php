@@ -38,8 +38,8 @@
           {{$row->vendor->name}}
         @endif
       </td>
-      <td>{{date(Hyvikk::get('date_format'),strtotime($row->date))}}</td>
-      <td>{{Hyvikk::get('currency')}} {{$row->amount}}</td>
+      <td>{{date(AtlasLogistics::get('date_format'),strtotime($row->date))}}</td>
+      <td>{{AtlasLogistics::get('currency')}} {{$row->amount}}</td>
       <td>{{$row->comment}}</td>
       <td>
         {!! Form::open(['url' => 'admin/expense/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal del_form','id'=>'form_'.$row->id]) !!}
@@ -73,7 +73,7 @@
 
 <script type="text/javascript">
   $("#total_today").empty();
-  $("#total_today").html("{{Hyvikk::get('currency').' '. $total }}");
+  $("#total_today").html("{{AtlasLogistics::get('currency').' '. $total }}");
   $('#ajax_table tfoot th').each( function () {
     if($(this).index() != 0){
       var title = $(this).text();

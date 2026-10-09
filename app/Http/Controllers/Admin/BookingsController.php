@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
@@ -16,7 +16,7 @@ use App\Model\Address;
 use App\Model\BookingIncome;
 use App\Model\BookingPaymentsModel;
 use App\Model\Bookings;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
 use App\Model\ReasonsModel;
@@ -54,14 +54,14 @@ class BookingsController extends Controller {
 	}
 	public function transactions_fetch_data(Request $request) {
 		if ($request->ajax()) {
-			$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 			$payments = BookingPaymentsModel::select('booking_payments.*')->with('booking.customer')->orderBy('id', 'desc');
 			return DataTables::eloquent($payments)
 				->addColumn('customer', function ($row) {
 					return ($row->booking->customer->name) ?? "";
 				})
 				->editColumn('amount', function ($row) {
-					return ($row->amount) ? Hyvikk::get('currency') . " " . $row->amount : "";
+					return ($row->amount) ? AtlasLogistics::get('currency') . " " . $row->amount : "";
 				})
 				->editColumn('created_at', function ($row) use ($date_format_setting) {
 					$created_at = '';
@@ -91,7 +91,7 @@ class BookingsController extends Controller {
 	}
 	public function fetch_data(Request $request) {
 		if ($request->ajax()) {
-			$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 			if (Auth::user()->user_type == "C") {
 				$bookings = Bookings::where('customer_id', Auth::id())->latest();
 			} elseif (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
@@ -189,7 +189,7 @@ class BookingsController extends Controller {
 					}
 				})
 				->editColumn('tax_total', function ($row) {
-					return ($row->tax_total) ? Hyvikk::get('currency') . " " . $row->tax_total : "";
+					return ($row->tax_total) ? AtlasLogistics::get('currency') . " " . $row->tax_total : "";
 				})
 				->addColumn('vehicle', function ($row) {
 					$vehicle_type = VehicleTypeModel::find($row->getMeta('vehicle_typeid'));
@@ -306,7 +306,7 @@ class BookingsController extends Controller {
 		// $xx->status = 1;
 		$xx->receipt = 1;
 		$xx->save();
-		if (Hyvikk::email_msg('email') == 1) {
+		if (AtlasLogistics::email_msg('email') == 1) {
 			Mail::to($booking->customer->email)->send(new CustomerInvoice($booking));
 		}
 		return redirect()->route("bookings.index");
@@ -327,7 +327,7 @@ class BookingsController extends Controller {
 
         $to_date = $request->get("to_date");
 
-		$driverInterval = Hyvikk::get('driver_interval').' MINUTE';
+		$driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
 
         $req_type = $request->get("req");
 
@@ -707,7 +707,7 @@ public function get_vehicle(Request $request) {
 
     $req_type = $request->get("req");
 
-    $vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE';
+    $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
 
     if ($req_type == "new") {
 
@@ -804,7 +804,7 @@ public function get_vehicle(Request $request) {
             // array_push($new, array("id" => $ro->id, "text" => $text));
 
             
-            if(Hyvikk::get('fare_mode') == "price_wise")
+            if(AtlasLogistics::get('fare_mode') == "price_wise")
             {
             
                 if($vhc && $vhc->getMeta('price') != 0 )
@@ -815,7 +815,7 @@ public function get_vehicle(Request $request) {
                 }
 
             }
-           else if(Hyvikk::get('fare_mode') == "type_wise")
+           else if(AtlasLogistics::get('fare_mode') == "type_wise")
            {
         
 
@@ -1047,7 +1047,7 @@ public function get_vehicle(Request $request) {
 
         foreach ($d as $ro) {
             $vhc = VehicleModel::find($ro->id);
-            if(Hyvikk::get('fare_mode') == "price_wise")
+            if(AtlasLogistics::get('fare_mode') == "price_wise")
             {
                 if($vhc && $vhc->getMeta('price') != 0 )
                 {
@@ -1065,7 +1065,7 @@ public function get_vehicle(Request $request) {
                 }
 
             }
-           else if(Hyvikk::get('fare_mode') == "type_wise")
+           else if(AtlasLogistics::get('fare_mode') == "type_wise")
            {
                 $text = ($vhc->make_name??'-') . "-" . ($vhc->model_name??'-') . "-" . ($vhc->license_plate??'-');
                 if ($ro->id == $current->vehicle_id)
@@ -1124,7 +1124,7 @@ public function assign_driver($id)
 		$to_date = isset($ba->dropoff) ? $ba->dropoff : $ba->pickup;
 
 
-		$driverInterval = Hyvikk::get('driver_interval').' MINUTE';
+		$driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
 		
 
 		$current = Bookings::find($data->id);
@@ -1198,7 +1198,7 @@ public function assign_driver($id)
 
 
 
-		$driverInterval = Hyvikk::get('driver_interval').' MINUTE';
+		$driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
 
 		$current = Bookings::find($data->id);
 
@@ -1484,7 +1484,7 @@ public function assign_driver($id)
 
 	// 	$req_type = $request->get("req");
 
-	// 	$vehicleInterval = Hyvikk::get('vehicle_interval').' MINUTE';
+	// 	$vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
 
 	// 	if ($req_type == "new") {
 
@@ -1897,14 +1897,14 @@ public function assign_driver($id)
 
 			$vhc = VehicleModel::find($v->id);
 
-			if(Hyvikk::get('fare_mode') == "price_wise")
+			if(AtlasLogistics::get('fare_mode') == "price_wise")
 			{
 				if($vhc && $vhc->getMeta('price') != 0 )
 				{
 					$v_ids[] = $vhc->id;
 				}
 			}
-			else if(Hyvikk::get('fare_mode') == "type_wise")
+			else if(AtlasLogistics::get('fare_mode') == "type_wise")
 			{
 				$v_ids[] = $vhc->id;
 			}
@@ -2066,7 +2066,7 @@ public function assign_driver($id)
 				$booking->journey_time = date('H:i:s', strtotime($booking->pickup));
 
 
-				$key = (Hyvikk::api('api_key') ?? '-');
+				$key = (AtlasLogistics::api('api_key') ?? '-');
         
 				$pickupAddress = urlencode($request->get('pickup_addr'));
 				$dropoffAddress = urlencode($request->get('dest_addr'));
@@ -2135,7 +2135,7 @@ public function assign_driver($id)
 
 					$bookings->parent_booking_id=$booking->id;
 
-					$key2 = (Hyvikk::api('api_key') ?? '-');
+					$key2 = (AtlasLogistics::api('api_key') ?? '-');
 		
 					$pickupAddress2 = urlencode($request->dest_addr);
 					$dropoffAddress2 = urlencode($request->pickup_addr);
@@ -2184,7 +2184,7 @@ public function assign_driver($id)
 				$this->sms_notification($booking->id);
 				// browser notification
 				$this->push_notification($booking->id);
-				if (Hyvikk::email_msg('email') == 1) {
+				if (AtlasLogistics::email_msg('email') == 1) {
 					Mail::to($mail->customer->email)->send(new VehicleBooked($booking));
 					Mail::to($mail->driver->email)->send(new DriverBooked($booking));
 				}
@@ -2197,9 +2197,9 @@ public function assign_driver($id)
 
 	public function sms_notification($booking_id) {
 		$booking = Bookings::find($booking_id);
-		$id = Hyvikk::twilio('sid');
-		$token = Hyvikk::twilio('token');
-		$from = Hyvikk::twilio('from');
+		$id = AtlasLogistics::twilio('sid');
+		$token = AtlasLogistics::twilio('token');
+		$from = AtlasLogistics::twilio('from');
 		$to = $booking->customer->mobno; // twilio trial verified number
 		$driver_no = $booking->driver->phone_code . $booking->driver->phone;
 		$customer_name = $booking->customer->name;
@@ -2208,13 +2208,13 @@ public function assign_driver($id)
 		$driver_contact = $booking->driver->phone;
 		$pickup_address = $booking->pickup_addr;
 		$destination_address = $booking->dest_addr;
-		$pickup_datetime = date(Hyvikk::get('date_format') . " H:i", strtotime($booking->pickup));
-		$dropoff_datetime = date(Hyvikk::get('date_format') . " H:i", strtotime($booking->dropoff));
+		$pickup_datetime = date(AtlasLogistics::get('date_format') . " H:i", strtotime($booking->pickup));
+		$dropoff_datetime = date(AtlasLogistics::get('date_format') . " H:i", strtotime($booking->dropoff));
 		$passengers = $booking->travellers;
 		$search = ['$customer_name', '$customer_contact', '$pickup_address', '$pickup_datetime', '$passengers', '$destination_address', '$dropoff_datetime', '$driver_name', '$driver_contact'];
 		$replace = [$customer_name, $customer_contact, $pickup_address, $pickup_datetime, $passengers, $destination_address, $dropoff_datetime, $driver_name, $driver_contact];
 		// send sms to customer
-		$body = str_replace($search, $replace, Hyvikk::twilio("customer_message"));
+		$body = str_replace($search, $replace, AtlasLogistics::twilio("customer_message"));
 		$url = "https://api.twilio.com/2010-04-01/Accounts/$id/SMS/Messages";
 		// $new_body = str_split($body, 120);
 		$new_body = explode("\n", wordwrap($body, 120));
@@ -2236,7 +2236,7 @@ public function assign_driver($id)
 			curl_close($x);
 		}
 		// send sms to drivers
-		$driver_body = str_replace($search, $replace, Hyvikk::twilio("driver_message"));
+		$driver_body = str_replace($search, $replace, AtlasLogistics::twilio("driver_message"));
 		$msg_body = explode("\n", wordwrap($driver_body, 120));
 		foreach ($msg_body as $row) {
 			$data = array(
@@ -2277,12 +2277,12 @@ public function assign_driver($id)
 			]);
 			$user = User::find($fetch->user_id);
 			$title = __('fleet.new_booking');
-			$body = __('fleet.customer') . ": " . $booking->customer->name . ", " . __('fleet.pickup') . ": " . date(Hyvikk::get('date_format') . ' g:i A', strtotime($booking->pickup)) . ", " . __('fleet.pickup_addr') . ": " . $booking->pickup_addr . ", " . __('fleet.dropoff_addr') . ": " . $booking->dest_addr;
+			$body = __('fleet.customer') . ": " . $booking->customer->name . ", " . __('fleet.pickup') . ": " . date(AtlasLogistics::get('date_format') . ' g:i A', strtotime($booking->pickup)) . ", " . __('fleet.pickup_addr') . ": " . $booking->pickup_addr . ", " . __('fleet.dropoff_addr') . ": " . $booking->dest_addr;
 			$url = url('admin/bookings');
 			$array = array(
 				'title' => $title ?? "",
 				'body' => $body ?? "",
-				'img' => url('assets/images/' . Hyvikk::get('icon_img')),
+				'img' => url('assets/images/' . AtlasLogistics::get('icon_img')),
 				'url' => $url ?? url('admin/'),
 			);
 			$object = json_encode($array);
@@ -2321,7 +2321,7 @@ public function assign_driver($id)
 		$booking->journey_time = date('H:i:s', strtotime($request->get("pickup")));
 		$booking->udf = serialize($request->get('udf'));
 
-		$key = (Hyvikk::api('api_key') ?? '-');
+		$key = (AtlasLogistics::api('api_key') ?? '-');
         
 		$pickupAddress = urlencode($request->get('pickup_addr'));
 		$dropoffAddress = urlencode($request->get('dest_addr'));
@@ -2393,7 +2393,7 @@ public function assign_driver($id)
 			//$booking->udf = serialize($request->get('udf'));
 	
 			
-			$key1 = (Hyvikk::api('api_key') ?? '-');
+			$key1 = (AtlasLogistics::api('api_key') ?? '-');
 			
 			$pickupAddress1 = urlencode($request->get('return_pickup_addr'));
 			$dropoffAddress1 = urlencode($request->get('return_dest_addr'));
@@ -2500,7 +2500,7 @@ public function assign_driver($id)
 		$booking->save();
 		// if booking->status != 1 then delete income record
 		IncomeModel::where('income_id', $request->cancel_id)->where('income_cat', 1)->delete();
-		if (Hyvikk::email_msg('email') == 1) {
+		if (AtlasLogistics::email_msg('email') == 1) {
 			Mail::to($booking->customer->email)->send(new BookingCancelled($booking, $booking->customer->name));
 			Mail::to($booking->driver->email)->send(new BookingCancelled($booking, $booking->driver->name));
 		}

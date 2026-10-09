@@ -101,13 +101,13 @@ input:checked + .slider:before {
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('sid',__('fleet.sid'), ['class' => 'form-label']) !!}
-              {!! Form::text('sid', Hyvikk::twilio('sid') ,['class' => 'form-control','required']) !!}
+              {!! Form::text('sid', AtlasLogistics::twilio('sid') ,['class' => 'form-control','required']) !!}
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               {!! Form::label('token',__('fleet.token'), ['class' => 'form-label']) !!}
-              {!! Form::text('token', Hyvikk::twilio('token') ,['class' => 'form-control','required']) !!}
+              {!! Form::text('token', AtlasLogistics::twilio('token') ,['class' => 'form-control','required']) !!}
             </div>
           </div>
           <div class="col-md-4">
@@ -117,7 +117,7 @@ input:checked + .slider:before {
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-phone"></i></span>
                 </div>
-                {!! Form::text('from', Hyvikk::twilio('from') ,['class' => 'form-control','required']) !!}
+                {!! Form::text('from', AtlasLogistics::twilio('from') ,['class' => 'form-control','required']) !!}
               </div>
             </div>
           </div>
@@ -125,14 +125,14 @@ input:checked + .slider:before {
           <div class="col-md-6">
             <div class="form-group">
               {!! Form::label('customer_message',__('fleet.customer_message'), ['class' => 'form-label']) !!}
-              {!! Form::textarea('customer_message', Hyvikk::twilio('customer_message') ,['class' => 'form-control','required','size'=>'30x3']) !!}
+              {!! Form::textarea('customer_message', AtlasLogistics::twilio('customer_message') ,['class' => 'form-control','required','size'=>'30x3']) !!}
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-group">
               {!! Form::label('driver_message',__('fleet.driver_message'), ['class' => 'form-label']) !!}
-              {!! Form::textarea('driver_message', Hyvikk::twilio('driver_message') ,['class' => 'form-control','required','size'=>'30x3']) !!}
+              {!! Form::textarea('driver_message', AtlasLogistics::twilio('driver_message') ,['class' => 'form-control','required','size'=>'30x3']) !!}
             </div>
           </div>
         </div>

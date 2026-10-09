@@ -1,7 +1,7 @@
 @extends('customer_dashboard.layouts.app')
 
 @section('title')
-    <title>@lang('frontend.Create_Booking') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.Create_Booking') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/customer_dashboard/assets/main_css/create_booking.css') }}">
@@ -180,7 +180,7 @@
                                 </div>
 
 
-                                @if(Hyvikk::get('return_booking') == 1)
+                                @if(AtlasLogistics::get('return_booking') == 1)
 
                                 <div class="col-lg-12 mt-3 text-center">
                                     <button type="button" class="btn active-btn" id="oneWayBtn">
@@ -1202,10 +1202,10 @@ $(document).ready(function () {
             });
         </script>
         <script
-            src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key')  }}&libraries=places&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key')  }}&libraries=places&callback=initMap"
             async defer></script>
 
-        @if (Hyvikk::api('google_api') == '1')
+        @if (AtlasLogistics::api('google_api') == '1')
             <script>
                 function initMap() {
                     $('#pickup_address').attr("placeholder", "");

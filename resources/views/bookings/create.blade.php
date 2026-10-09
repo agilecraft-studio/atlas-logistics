@@ -81,7 +81,7 @@
 
                     <input type="hidden" name="booking_type" value="one_way" class="booking_type">
 
-                    @if(Hyvikk::get('return_booking') == 1)
+                    @if(AtlasLogistics::get('return_booking') == 1)
                     <div class="col-lg-12 mt-3">
                         <button type="button" class="btn btn-success" id="oneWayBtn">@lang('fleet.One_Way')</button>
                         <button type="button" class="btn btn-secondary" id="returnWayBtn">@lang('fleet.Return_Way')</button>
@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function() {
       var fleet_email_already_taken="@lang('fleet.email_already_taken')";
     </script>
     <script src="{{asset('assets/js/bookings/create.js?2343453')}}"></script>   
-     @if (Hyvikk::api('google_api') == '1')
+     @if (AtlasLogistics::api('google_api') == '1')
         <script>
             function initMap() {
                 $('#pickup_addr').attr("placeholder", "");
@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         </script>
         <script
-            src="https://maps.googleapis.com/maps/api/js?key={{ Hyvikk::api('api_key') }}&libraries=places&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::api('api_key') }}&libraries=places&callback=initMap"
             async defer></script>
     @endif
 

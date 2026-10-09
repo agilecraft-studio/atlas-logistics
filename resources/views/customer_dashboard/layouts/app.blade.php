@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
 
     @yield('title')
-    <link rel="icon" href="{{ asset('assets/images/' . Hyvikk::get('icon_img')) }}" type="icon_img">
+    <link rel="icon" href="{{ asset('assets/images/' . AtlasLogistics::get('icon_img')) }}" type="icon_img">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 

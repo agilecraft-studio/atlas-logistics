@@ -55,7 +55,7 @@
                 {!! Form::open(['url' => 'admin/set-content/insurance','method'=>'post']) !!}
                 <div class="form-group">
                   {!! Form::label('insurance', __('fleet.ins_content'), ['class' => 'form-label']) !!}
-                  <textarea name="insurance" id="ins">{{Hyvikk::email_msg('insurance')}}</textarea>
+                  <textarea name="insurance" id="ins">{{AtlasLogistics::email_msg('insurance')}}</textarea>
                 </div>
 
                 <div class="col-md-2">
@@ -70,7 +70,7 @@
                 {!! Form::open(['url' => 'admin/set-content/vehicle-licence','method'=>'post']) !!}
                 <div class="form-group">
                   {!! Form::label('vehicle_licence', __('fleet.vehicle_lic'), ['class' => 'form-label']) !!}
-                  <textarea name="vehicle_licence" id="vl">{{Hyvikk::email_msg('vehicle_licence')}}</textarea>
+                  <textarea name="vehicle_licence" id="vl">{{AtlasLogistics::email_msg('vehicle_licence')}}</textarea>
                 </div>
 
                 <div class="col-md-2">
@@ -85,7 +85,7 @@
                 {!! Form::open(['url' => 'admin/set-content/driver-licence','method'=>'post']) !!}
                 <div class="form-group">
                   {!! Form::label('driving_licence', __('fleet.driver_lic'), ['class' => 'form-label']) !!}
-                  <textarea name="driving_licence" id="dl">{{Hyvikk::email_msg('driving_licence')}}</textarea>
+                  <textarea name="driving_licence" id="dl">{{AtlasLogistics::email_msg('driving_licence')}}</textarea>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
@@ -99,7 +99,7 @@
                 {!! Form::open(['url' => 'admin/set-content/registration','method'=>'post']) !!}
                 <div class="form-group">
                   {!! Form::label('registration', __('fleet.reg_content'), ['class' => 'form-label']) !!}
-                  <textarea name="registration" id="reg">{{Hyvikk::email_msg('registration')}}</textarea>
+                  <textarea name="registration" id="reg">{{AtlasLogistics::email_msg('registration')}}</textarea>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
@@ -113,7 +113,7 @@
                 {!! Form::open(['url' => 'admin/set-content/reminder','method'=>'post']) !!}
                 <div class="form-group">
                   {!! Form::label('service_reminder', __('fleet.service_reminder_content'), ['class' => 'form-label']) !!}
-                  <textarea name="service_reminder" id="sr">{{Hyvikk::email_msg('service_reminder')}}</textarea>
+                  <textarea name="service_reminder" id="sr">{{AtlasLogistics::email_msg('service_reminder')}}</textarea>
                 </div>
                 {!! Form::hidden('sr','1') !!}
 

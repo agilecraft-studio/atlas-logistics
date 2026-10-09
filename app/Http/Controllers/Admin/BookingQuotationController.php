@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ use App\Model\Address;
 use App\Model\BookingIncome;
 use App\Model\BookingQuotationModel;
 use App\Model\Bookings;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
 use App\Model\User;
@@ -52,7 +52,7 @@ class BookingQuotationController extends Controller {
 	}
 	public function fetch_data(Request $request) {
 		if ($request->ajax()) {
-			$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 			if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
 				$vehicle_ids = VehicleModel::pluck('id')->toArray();
 			} else {
@@ -118,7 +118,7 @@ class BookingQuotationController extends Controller {
 					}
 				})
 				->editColumn('tax_total', function ($row) {
-					return ($row->tax_total) ? Hyvikk::get('currency') . " " . $row->tax_total : "";
+					return ($row->tax_total) ? AtlasLogistics::get('currency') . " " . $row->tax_total : "";
 				})
 				->addColumn('vehicle', function ($user) {
 					return ($user->vehicle_id != null) ? $user->vehicle->make_name . '-' . $user->vehicle->model_name . '-' . $user->vehicle->license_plate : '';
@@ -236,7 +236,7 @@ class BookingQuotationController extends Controller {
 	}
 	public function approve($id) {
 		$group_id = Auth::user()->group_id;
-		$vehicleInterval = Hyvikk::get('vehicle_interval') . ' MINUTE';
+		$vehicleInterval = AtlasLogistics::get('vehicle_interval') . ' MINUTE';
 		$data['customers'] = User::where('user_type', 'C')->get();
 		$data['drivers'] = User::whereUser_type("D")->get();
 		$data['addresses'] = Address::where('customer_id', Auth::user()->id)->get();
@@ -279,11 +279,11 @@ class BookingQuotationController extends Controller {
 			if (!$vhc) continue; 
 		
 		
-			if (Hyvikk::get('fare_mode') == "price_wise") {
+			if (AtlasLogistics::get('fare_mode') == "price_wise") {
 				if ($vhc->getMeta('price') != 0) {
 					$new[] = (object)$vhc;
 				}
-			} elseif (Hyvikk::get('fare_mode') == "type_wise") {
+			} elseif (AtlasLogistics::get('fare_mode') == "type_wise") {
 				$new[] = (object)$vhc;
 			}
 		}
@@ -339,7 +339,7 @@ class BookingQuotationController extends Controller {
 			])->id;
 			BookingIncome::create(['booking_id' => $booking->id, "income_id" => $inc_id]);
 			$this->booking_notification($booking->id);
-			if (Hyvikk::email_msg('email') == 1) {
+			if (AtlasLogistics::email_msg('email') == 1) {
 				Mail::to($booking->customer->email)->send(new VehicleBooked($booking));
 				Mail::to($booking->driver->email)->send(new DriverBooked($booking));
 			}

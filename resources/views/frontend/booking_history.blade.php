@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title')
-    <title>@lang('frontend.booking_history') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.booking_history') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 
 @section('content')

@@ -8,7 +8,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ Hyvikk::get('app_name') }}</title>
+<title>{{ AtlasLogistics::get('app_name') }}</title>
 
 <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png">
 

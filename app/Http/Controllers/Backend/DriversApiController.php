@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -24,7 +24,7 @@ use App\Rules\UniqueLicenceNumber;
 use Auth;
 use DB;
 use Exception;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -171,7 +171,7 @@ class DriversApiController extends Controller {
 				$expense_values[] = $exp->expense;
 			}
 			$records = array(
-				'currency' => Hyvikk::get("currency"),
+				'currency' => AtlasLogistics::get("currency"),
 				'income' => array(
 					'profit_loss' => ($income_amt - $expense_amt),
 					'income' => $income_amt,
@@ -269,7 +269,7 @@ class DriversApiController extends Controller {
 				$expense_by_category[] = array('name' => $typename, 'value' => $exp->expense);
 			}
 			$records = array(
-				'currency' => Hyvikk::get("currency"),
+				'currency' => AtlasLogistics::get("currency"),
 				'income' => array(
 					'profit_loss' => ($income_amt - $expense_amt),
 					'income' => $income_amt,
@@ -306,7 +306,7 @@ class DriversApiController extends Controller {
 			}
 		}
 		$in = join(",", $v_id);
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by month(date)', [date("Y")]);
+		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by monthname(date), month(date)', [date("Y")]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -332,7 +332,7 @@ class DriversApiController extends Controller {
 			}
 		}
 		$in = join(",", $v_id);
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by month(date)', [date("Y")]);
+		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by monthname(date), month(date)', [date("Y")]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -375,7 +375,7 @@ class DriversApiController extends Controller {
 	}
 	public function my_bookings() {
 		$details = array();
-		$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 		$bookings = Bookings::orderBy('id', 'desc')->whereDriver_id(Auth::id())->get();
 		foreach ($bookings as $row) {
 			$details[] = array(
@@ -396,7 +396,7 @@ class DriversApiController extends Controller {
 	public function profile() {
 		$completed = array();
 		$upcoming = array();
-		$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 		$middlename = (Auth::user()->middle_name) ? Auth::user()->middle_name . " " : "";
 		$bookings = Bookings::orderBy('id', 'desc')->where('driver_id', Auth::id())->get();
 		foreach ($bookings as $row) {
@@ -437,8 +437,8 @@ class DriversApiController extends Controller {
 			$language = $user->language;
 			// $language = explode('-', $user->language);
 		} else {
-			$language = Hyvikk::get("language");
-			// $language = explode('-', Hyvikk::get("language"));
+			$language = AtlasLogistics::get("language");
+			// $language = explode('-', AtlasLogistics::get("language"));
 		}
 		$details = array(
 			'driver_info' => array(

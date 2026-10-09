@@ -9,7 +9,7 @@ use App\Model\ServiceReminderModel;
 use App\Model\User;
 use App\Model\VehicleModel;
 use DB;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -20,14 +20,14 @@ class EmailNotification extends Command {
 	protected $description = 'Send email notification';
 
 	public function handle() {
-		if (Hyvikk::email_msg('email') == 1 && (Hyvikk::email_msg('users') != null)) {
+		if (AtlasLogistics::email_msg('email') == 1 && (AtlasLogistics::email_msg('users') != null)) {
 			$this->email_send();
 		}
 	}
 	public function email_send() {
-		$u = Hyvikk::email_msg('users');
+		$u = AtlasLogistics::email_msg('users');
 		$users = User::whereIn('id', unserialize($u))->get();
-		$chk = unserialize(Hyvikk::email_msg('options'));
+		$chk = unserialize(AtlasLogistics::email_msg('options'));
 		$d = VehicleModel::get();
 		if (in_array(1, $chk)) {
 			foreach ($d as $data) {

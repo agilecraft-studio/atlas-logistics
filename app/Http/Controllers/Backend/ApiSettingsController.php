@@ -2,15 +2,15 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Model\ApiSettings;
 use Edujugon\PushNotification\PushNotification;
 use Exception;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 use Validator;
@@ -208,24 +208,24 @@ class ApiSettingsController extends Controller {
 		$data['message'] = "Data Received.";
 		$data['data'] = array(
 			'general_settings' => array(
-				'api' => (Hyvikk::api('api') == 1) ? 1 : 0,
-				'google_api' => (Hyvikk::api('google_api') == 1) ? 1 : 0,
-				'anyone_register' => (Hyvikk::api('anyone_register') == 1) ? 1 : 0,
-				'driver_review' => (Hyvikk::api('driver_review') == 1) ? 1 : 0,
-				'region_availability' => Hyvikk::api('region_availability'),
-				'booking_days' => Hyvikk::api('booking'),
-				'cancel_days' => Hyvikk::api('cancel'),
-				'max_trip_days' => Hyvikk::api('max_trip'),
+				'api' => (AtlasLogistics::api('api') == 1) ? 1 : 0,
+				'google_api' => (AtlasLogistics::api('google_api') == 1) ? 1 : 0,
+				'anyone_register' => (AtlasLogistics::api('anyone_register') == 1) ? 1 : 0,
+				'driver_review' => (AtlasLogistics::api('driver_review') == 1) ? 1 : 0,
+				'region_availability' => AtlasLogistics::api('region_availability'),
+				'booking_days' => AtlasLogistics::api('booking'),
+				'cancel_days' => AtlasLogistics::api('cancel'),
+				'max_trip_days' => AtlasLogistics::api('max_trip'),
 			),
 			'firebase_settings' => array(
-				'db_url' => Hyvikk::api('db_url'),
-				'db_secret' => Hyvikk::api('db_secret'),
+				'db_url' => AtlasLogistics::api('db_url'),
+				'db_secret' => AtlasLogistics::api('db_secret'),
 			),
 			'app_notification' => array(
-				'server_key' => Hyvikk::api('server_key'),
+				'server_key' => AtlasLogistics::api('server_key'),
 			),
 			'driver_maps' => array(
-				'api_key' => Hyvikk::api('api_key'),
+				'api_key' => AtlasLogistics::api('api_key'),
 			),
 		);
 		return $data;

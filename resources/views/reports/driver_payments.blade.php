@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@php $currency = Hyvikk::get('currency') @endphp
-@php $date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y'; @endphp
+@php $currency = AtlasLogistics::get('currency') @endphp
+@php $date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y'; @endphp
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
 <li class="breadcrumb-item active">@lang('fleet.paymentReport')</li>

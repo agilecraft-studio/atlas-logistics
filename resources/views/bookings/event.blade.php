@@ -19,12 +19,12 @@
 	</tr>
 	<tr>
 		<th>@lang('fleet.pickup')</th>
-		<td>{{date(Hyvikk::get('date_format').' g:i A',strtotime($booking->pickup))}}</td>
+		<td>{{date(AtlasLogistics::get('date_format').' g:i A',strtotime($booking->pickup))}}</td>
 	</tr>
 	<tr>
 		<th>@lang('fleet.dropoff')</th>
 		<td>@if(isset($booking->dropoff))
-			{{ date(Hyvikk::get('date_format').' g:i A', strtotime($booking->dropoff)) }}
+			{{ date(AtlasLogistics::get('date_format').' g:i A', strtotime($booking->dropoff)) }}
 		@else
 			N/A
 		@endif

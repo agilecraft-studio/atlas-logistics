@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ Hyvikk::get('app_name') }}</title>
+  <title>{{ AtlasLogistics::get('app_name') }}</title>
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -27,7 +27,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <center> <img src="{{ asset('assets/images/'. Hyvikk::get('logo_img') ) }}" style="max-height: 100px;max-width:350px;" /> </center>
+    <center> <img src="{{ asset('assets/images/'. AtlasLogistics::get('logo_img') ) }}" style="max-height: 100px;max-width:350px;" /> </center>
   </div>
   <!-- /.login-logo -->
   <div class="card">

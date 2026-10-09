@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
@@ -100,7 +100,7 @@
               </td>
               <td>
                 @if($row->receipt == 1)
-                {{Hyvikk::get('currency')}} {{($row->tax_total) ? $row->tax_total : $row->total}}
+                {{AtlasLogistics::get('currency')}} {{($row->tax_total) ? $row->tax_total : $row->total}}
                 @endif
               </td>
             </tr>

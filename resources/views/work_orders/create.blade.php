@@ -68,7 +68,7 @@
               {!! Form::label('price',__('fleet.work_order_price'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">{{Hyvikk::get('currency')}}</span>
+                  <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                 </div>
                 {!! Form::text('price',null,['class'=>'form-control','id'=>'work_order_price','required']) !!}
               </div>
@@ -89,10 +89,10 @@
               </select>
             </div>
             <div class="form-group">
-              {!! Form::label('meter',Hyvikk::get('dis_format')." ".__('fleet.reading'), ['class' => 'form-label']) !!}
+              {!! Form::label('meter',AtlasLogistics::get('dis_format')." ".__('fleet.reading'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text">{{Hyvikk::get('dis_format')}}</span>
+                  <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span>
                 </div>
                 {!! Form::number('meter',null,['class'=>'form-control']) !!}
               </div>

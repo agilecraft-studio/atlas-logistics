@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -19,7 +19,7 @@ use App\Model\VehicleModel;
 use App\Model\VehicleReviewModel;
 use Auth;
 use Exception;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -512,7 +512,7 @@ class VehiclesApiController extends Controller {
 					$purchase_info[] = array(
 						'key' => $key,
 						'expense' => $val['exp_name'],
-						'amount' => Hyvikk::get('currency') . " " . $val['exp_amount'],
+						'amount' => AtlasLogistics::get('currency') . " " . $val['exp_amount'],
 					);
 				}
 				// array_push($purchase_info, ['total' => $total]);
@@ -572,7 +572,7 @@ class VehiclesApiController extends Controller {
 					"Vehicle type" => ($row->type_id) ? $row->types->displayname : "",
 					"Vehicle year" => $row->year,
 					"Average(Miles per galon)" => $row->average,
-					"Initial mileage (" . Hyvikk::get('dis_format') . ")" => $row->int_mileage,
+					"Initial mileage (" . AtlasLogistics::get('dis_format') . ")" => $row->int_mileage,
 					"Vehicle engine type" => $row->engine_type,
 					"Vehicle horse power" => $row->horse_power,
 					"Color" => $row->color,

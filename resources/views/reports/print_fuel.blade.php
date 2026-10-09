@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{Hyvikk::get('app_name')}}</title>
+  <title>{{AtlasLogistics::get('app_name')}}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -32,7 +32,7 @@
   </style>
 </head>
 <body onload="window.print();">
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
   <div class="wrapper">
   <!-- Main content -->
@@ -42,8 +42,8 @@
         <div class="col-xs-12">
           <h2 class="page-header">
           <span class="logo-lg">
-          <img src="{{ asset('assets/images/'. Hyvikk::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
-          {{  Hyvikk::get('app_name')  }}
+          <img src="{{ asset('assets/images/'. AtlasLogistics::get('icon_img') ) }}" class="navbar-brand" style="margin-top: -15px">
+          {{  AtlasLogistics::get('app_name')  }}
           </span>
 
             <small class="pull-right"> <b>@lang('fleet.date') : </b> {{date($date_format_setting)}}</small>
@@ -76,21 +76,21 @@
               <td>{{date($date_format_setting,strtotime($f->date))}}</td>
               <td>{{$f->vehicle_data->make_name}}-{{$f->vehicle_data->model_name}}-{{$f->vehicle_data->license_plate}}</td>
               <td>
-                <b> @lang('fleet.start'): </b>{{$f->start_meter}} {{Hyvikk::get('dis_format')}}
+                <b> @lang('fleet.start'): </b>{{$f->start_meter}} {{AtlasLogistics::get('dis_format')}}
                 <br>
-                <b> @lang('fleet.end'):</b>{{$f->end_meter}} {{Hyvikk::get('dis_format')}}
+                <b> @lang('fleet.end'):</b>{{$f->end_meter}} {{AtlasLogistics::get('dis_format')}}
               </td>
               <td>
 								{{ $f->qty }}
 							</td>
               <td>{{$f->consumption}}
-                @if(Hyvikk::get('dis_format') == "km")
-                 @if(Hyvikk::get('fuel_unit') == "gallon")KMPG @else KMPL @endif
+                @if(AtlasLogistics::get('dis_format') == "km")
+                 @if(AtlasLogistics::get('fuel_unit') == "gallon")KMPG @else KMPL @endif
                 @else
-                 @if(Hyvikk::get('fuel_unit') == "gallon")MPG @else MPL @endif
+                 @if(AtlasLogistics::get('fuel_unit') == "gallon")MPG @else MPL @endif
                 @endif
               </td>
-              <td>{{Hyvikk::get('currency')}} {{$f->qty * $f->cost_per_unit}}</td>
+              <td>{{AtlasLogistics::get('currency')}} {{$f->qty * $f->cost_per_unit}}</td>
             </tr>
             @endforeach
 

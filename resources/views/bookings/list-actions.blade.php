@@ -116,9 +116,9 @@
       data-customer-id="{{$row->customer_id}}" 
       data-vehicle-id= "{{$row->vehicle_id}}" 
       data-vehicle-type="{{strtolower(str_replace(' ','',$row->vehicle->types->vehicletype))}}" 
-      data-base-mileage="{{($row->total_kms)?$row->total_kms:Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_km')}}" 
+      data-base-mileage="{{($row->total_kms)?$row->total_kms:AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_km')}}" 
 
-      @if(Hyvikk::get('fare_mode')=="type_wise")
+      @if(AtlasLogistics::get('fare_mode')=="type_wise")
 
     
       @php
@@ -131,9 +131,9 @@
 
             $type = strtolower(str_replace(" ", "", $v_type->vehicletype));
 
-            $base_fare = Hyvikk::fare($type . '_base_fare');
-            $km_base = Hyvikk::fare($type . '_base_km');
-            $std_fare = Hyvikk::fare($type . '_std_fare');
+            $base_fare = AtlasLogistics::fare($type . '_base_fare');
+            $km_base = AtlasLogistics::fare($type . '_base_km');
+            $std_fare = AtlasLogistics::fare($type . '_std_fare');
 
             if ($row->total_kms <= $km_base) {
                 $total_fare = $base_fare;
@@ -147,29 +147,29 @@
 
 
 
-      data-base-fare="{{($total_fare) ? $total_fare : Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_fare')}}"
+      data-base-fare="{{($total_fare) ? $total_fare : AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_fare')}}"
 
-      @elseif(Hyvikk::get('fare_mode')=="price_wise")
+      @elseif(AtlasLogistics::get('fare_mode')=="price_wise")
         
           data-base-fare="{{$row->vehicle->price}}"
 
       @endif
       
 
-    data-base_km_1="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_km')}}"
-    data-base_fare_1="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_fare')}}"
-    data-wait_time_1="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_time')}}"
-    data-std_fare_1="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_std_fare')}}"
+    data-base_km_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_km')}}"
+    data-base_fare_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_fare')}}"
+    data-wait_time_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_time')}}"
+    data-std_fare_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_std_fare')}}"
 
-    data-base_km_2="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_base_km')}}"
-    data-base_fare_2="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_base_fare')}}"
-    data-wait_time_2="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_wait_time')}}"
-    data-std_fare_2="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_std_fare')}}"
+    data-base_km_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_base_km')}}"
+    data-base_fare_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_base_fare')}}"
+    data-wait_time_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_wait_time')}}"
+    data-std_fare_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_std_fare')}}"
 
-    data-base_km_3="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_base_km')}}"
-    data-base_fare_3="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_base_fare')}}"
-    data-wait_time_3="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_wait_time')}}"
-    data-std_fare_3="{{Hyvikk::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_std_fare')}}"
+    data-base_km_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_base_km')}}"
+    data-base_fare_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_base_fare')}}"
+    data-wait_time_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_wait_time')}}"
+    data-std_fare_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_std_fare')}}"
     ><span aria-hidden="true" class="fa fa-file" style="color: #5cb85c;">
 
     </span> @lang('fleet.invoice')

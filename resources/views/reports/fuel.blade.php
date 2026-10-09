@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
@@ -89,21 +89,21 @@
 							<td>{{date($date_format_setting,strtotime($f->date))}}</td>
 							<td>{{$f->vehicle_data->make_name}}-{{$f->vehicle_data->model_name}}-{{$f->vehicle_data->license_plate}}</td>
 							<td>
-							<b> @lang('fleet.start'): </b>{{$f->start_meter}} {{Hyvikk::get('dis_format')}}
+							<b> @lang('fleet.start'): </b>{{$f->start_meter}} {{AtlasLogistics::get('dis_format')}}
 							<br>
-							<b> @lang('fleet.end'):</b>{{$f->end_meter}} {{Hyvikk::get('dis_format')}}
+							<b> @lang('fleet.end'):</b>{{$f->end_meter}} {{AtlasLogistics::get('dis_format')}}
 							</td>
 							<td>
-								{{ $f->qty }} {{Hyvikk::get('fuel_unit')}}
+								{{ $f->qty }} {{AtlasLogistics::get('fuel_unit')}}
 							</td>
 							<td>{{$f->consumption}}
-								@if(Hyvikk::get('dis_format') == "km")
-				                 @if(Hyvikk::get('fuel_unit') == "gallon")KMPG @else KMPL @endif
+								@if(AtlasLogistics::get('dis_format') == "km")
+				                 @if(AtlasLogistics::get('fuel_unit') == "gallon")KMPG @else KMPL @endif
 				                @else
-				                 @if(Hyvikk::get('fuel_unit') == "gallon")MPG @else MPL @endif
+				                 @if(AtlasLogistics::get('fuel_unit') == "gallon")MPG @else MPL @endif
 				                @endif
 							</td>
-							<td>{{Hyvikk::get('currency')}} {{$f->qty * $f->cost_per_unit}}</td>
+							<td>{{AtlasLogistics::get('currency')}} {{$f->qty * $f->cost_per_unit}}</td>
 						</tr>
 					@endforeach
 					</tbody>

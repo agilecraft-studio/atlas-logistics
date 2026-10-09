@@ -40,17 +40,17 @@
 
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
-											{!! Form::number('name['.$type.'_base_fare]',Hyvikk::fare($type.'_base_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
+											{!! Form::number('name['.$type.'_base_fare]',AtlasLogistics::fare($type.'_base_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
 									<div class="form-group col-md-3">
-										{!! Form::label($type.'_base_km',__('fleet.general_base_km'). " ".Hyvikk::get('dis_format'),['class'=>"form-label"]) !!}
+										{!! Form::label($type.'_base_km',__('fleet.general_base_km'). " ".AtlasLogistics::get('dis_format'),['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('dis_format')}}</span></div>
-											{!! Form::number('name['.$type.'_base_km]',Hyvikk::fare($type.'_base_km'),['class'=>"form-control",'required']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span></div>
+											{!! Form::number('name['.$type.'_base_km]',AtlasLogistics::fare($type.'_base_km'),['class'=>"form-control",'required']) !!}
 										</div>
 									</div>
 
@@ -58,18 +58,18 @@
 										{!! Form::label($type.'_base_time',__('fleet.general_wait_time'),['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
 
-											{!! Form::number('name['.$type.'_base_time]',Hyvikk::fare($type.'_base_time'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											{!! Form::number('name['.$type.'_base_time]',AtlasLogistics::fare($type.'_base_time'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
 									<div class="form-group col-md-3">
-										{!! Form::label($type.'_std_fare',__('fleet.std_fare')." ".Hyvikk::get('dis_format') ,['class'=>"form-label"]) !!}
+										{!! Form::label($type.'_std_fare',__('fleet.std_fare')." ".AtlasLogistics::get('dis_format') ,['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
-											{!! Form::number('name['.$type.'_std_fare]',Hyvikk::fare($type.'_std_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
+											{!! Form::number('name['.$type.'_std_fare]',AtlasLogistics::fare($type.'_std_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
@@ -78,18 +78,18 @@
 
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
-											{!! Form::number('name['.$type.'_weekend_base_fare]',Hyvikk::fare($type.'_weekend_base_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
+											{!! Form::number('name['.$type.'_weekend_base_fare]',AtlasLogistics::fare($type.'_weekend_base_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
 									<div class="form-group col-md-3">
-										{!! Form::label($type.'_weekend_base_km',__('fleet.weekend_base_km')." ".Hyvikk::get('dis_format'),['class'=>"form-label"]) !!}
+										{!! Form::label($type.'_weekend_base_km',__('fleet.weekend_base_km')." ".AtlasLogistics::get('dis_format'),['class'=>"form-label"]) !!}
 
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('dis_format')}}</span></div>
-											{!! Form::number('name['.$type.'_weekend_base_km]',Hyvikk::fare($type.'_weekend_base_km'),['class'=>"form-control",'required']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span></div>
+											{!! Form::number('name['.$type.'_weekend_base_km]',AtlasLogistics::fare($type.'_weekend_base_km'),['class'=>"form-control",'required']) !!}
 										</div>
 									</div>
 
@@ -97,18 +97,18 @@
 										{!! Form::label($type.'_weekend_wait_time',__('fleet.weekend_wait_time'),['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
 
-											{!! Form::number('name['.$type.'_weekend_wait_time]',Hyvikk::fare($type.'_weekend_wait_time'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											{!! Form::number('name['.$type.'_weekend_wait_time]',AtlasLogistics::fare($type.'_weekend_wait_time'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
 									<div class="form-group col-md-3">
-										{!! Form::label($type.'_weekend_std_fare',__('fleet.weekend_std_fare')." ".Hyvikk::get('dis_format'),['class'=>"form-label"]) !!}
+										{!! Form::label($type.'_weekend_std_fare',__('fleet.weekend_std_fare')." ".AtlasLogistics::get('dis_format'),['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
-											{!! Form::number('name['.$type.'_weekend_std_fare]',Hyvikk::fare($type.'_weekend_std_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
+											{!! Form::number('name['.$type.'_weekend_std_fare]',AtlasLogistics::fare($type.'_weekend_std_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
@@ -116,18 +116,18 @@
 										{!! Form::label($type.'_night_base_fare',__('fleet.night_base_fare'),['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
-											{!! Form::number('name['.$type.'_night_base_fare]',Hyvikk::fare($type.'_night_base_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
+											{!! Form::number('name['.$type.'_night_base_fare]',AtlasLogistics::fare($type.'_night_base_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
 									<div class="form-group col-md-3">
-										{!! Form::label($type.'_night_base_km',__('fleet.night_base_km')." ".Hyvikk::get('dis_format'),['class'=>"form-label"]) !!}
+										{!! Form::label($type.'_night_base_km',__('fleet.night_base_km')." ".AtlasLogistics::get('dis_format'),['class'=>"form-label"]) !!}
 
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('dis_format')}}</span></div>
-											{!! Form::number('name['.$type.'_night_base_km]',Hyvikk::fare($type.'_night_base_km'),['class'=>"form-control",'required']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span></div>
+											{!! Form::number('name['.$type.'_night_base_km]',AtlasLogistics::fare($type.'_night_base_km'),['class'=>"form-control",'required']) !!}
 										</div>
 									</div>
 
@@ -135,19 +135,19 @@
 										{!! Form::label($type.'_night_wait_time',__('fleet.night_wait_time'),['class'=>"form-label"]) !!}
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
 
-											{!! Form::number('name['.$type.'_night_wait_time]',Hyvikk::fare($type.'_night_wait_time'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											{!! Form::number('name['.$type.'_night_wait_time]',AtlasLogistics::fare($type.'_night_wait_time'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 
 									<div class="form-group col-md-3">
-										{!! Form::label($type.'_night_std_fare',__('fleet.night_std_fare')." ".Hyvikk::get('dis_format'),['class'=>"form-label"]) !!}
+										{!! Form::label($type.'_night_std_fare',__('fleet.night_std_fare')." ".AtlasLogistics::get('dis_format'),['class'=>"form-label"]) !!}
 
 										<div class="input-group mb-3">
 											<div class="input-group-prepend">
-											<span class="input-group-text">{{Hyvikk::get('currency')}}</span></div>
-											{!! Form::number('name['.$type.'_night_std_fare]',Hyvikk::fare($type.'_night_std_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
+											<span class="input-group-text">{{AtlasLogistics::get('currency')}}</span></div>
+											{!! Form::number('name['.$type.'_night_std_fare]',AtlasLogistics::fare($type.'_night_std_fare'),['class'=>"form-control",'required','min'=>0,'step'=>'0.01']) !!}
 										</div>
 									</div>
 								</div>

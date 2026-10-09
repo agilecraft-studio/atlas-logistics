@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/theme.css?v=2.3.1') }}" />
     <link rel="stylesheet" href="{{ asset('assets/frontend/content/nyks/css/nyks.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha512-iQQV+nXtBlmS3XiDrtmL+9/Z+ibux+YuowJjI4rcpO7NYgTzfTOiFNm09kWtfZzEB9fQ6TwOVc8lFVWooFuD/w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>{{ Hyvikk::get('app_name') }}</title>
+    <title>{{ AtlasLogistics::get('app_name') }}</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52376036-7"></script>
   </head>
   <body>

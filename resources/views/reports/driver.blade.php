@@ -60,7 +60,7 @@
               @foreach($drivers_by_month as $key=>$val)
                 <tr>
                   <th scope="row">{{$key}}</th>
-                  <td>{{ Hyvikk::get("currency")}} {{$val}}</td>
+                  <td>{{ AtlasLogistics::get("currency")}} {{$val}}</td>
                 </tr>
               @endforeach
               </tbody>

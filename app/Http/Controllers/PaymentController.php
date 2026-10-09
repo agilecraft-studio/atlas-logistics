@@ -5,8 +5,8 @@
 
 Fleet Manager v7.0
 
-Copyright (C) 2017-2023 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2023 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 
  */
 namespace App\Http\Controllers;
@@ -14,9 +14,8 @@ namespace App\Http\Controllers;
 use App\Model\BookingPaymentsModel;
 use App\Model\Bookings;
 use App\Model\User;
-use App\Model\Hyvikk as ModelHyvikk;
+use App\Model\AtlasLogistics;
 use Exception;
-use Hyvikk;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Model\IncomeModel;
@@ -44,7 +43,7 @@ class PaymentController extends Controller {
 	public function paystack($booking_id) {
 		try {
 			# in test mode only ZAR currency will support.
-			$is_in_testing = strpos(Hyvikk::payment('paystack_secret'), 'test') !== false ? 1 : 0;
+			$is_in_testing = strpos(AtlasLogistics::payment('paystack_secret'), 'test') !== false ? 1 : 0;
 
 			$booking = Bookings::find($booking_id);
 			$booking->load('customer');
@@ -52,7 +51,7 @@ class PaymentController extends Controller {
 			$fields = [
 				'email' => ($booking->customer->email) ?? "customer1@gmail.com",
 				'amount' => $booking->tax_total * 100,
-				'currency' => $is_in_testing ? 'ZAR' : Hyvikk::payment('currency_code'),
+				'currency' => $is_in_testing ? 'ZAR' : AtlasLogistics::payment('currency_code'),
 				'callback_url' => url('paystack-success'),
 				'metadata' => [
 					'booking_id' => $booking->id,
@@ -67,7 +66,7 @@ class PaymentController extends Controller {
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-				"Authorization: Bearer " . Hyvikk::payment('paystack_secret'),
+				"Authorization: Bearer " . AtlasLogistics::payment('paystack_secret'),
 				"Cache-Control: no-cache",
 			));
 
@@ -112,7 +111,7 @@ class PaymentController extends Controller {
 				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 				CURLOPT_CUSTOMREQUEST => "GET",
 				CURLOPT_HTTPHEADER => array(
-					"Authorization: Bearer " . ModelHyvikk::payment('paystack_secret'),
+					"Authorization: Bearer " . ModelAtlasLogistics::payment('paystack_secret'),
 					"Cache-Control: no-cache",
 				),
 			));
@@ -179,7 +178,7 @@ class PaymentController extends Controller {
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "GET",
 			CURLOPT_HTTPHEADER => array(
-				"Authorization: Bearer " . Hyvikk::payment('paystack_secret'),
+				"Authorization: Bearer " . AtlasLogistics::payment('paystack_secret'),
 				"Cache-Control: no-cache",
 			),
 		));
@@ -216,9 +215,9 @@ class PaymentController extends Controller {
 	// public function stripe($booking_id) {
 	// try {
 	// 		$booking = Bookings::find($booking_id);
-	// 		\Stripe\Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+	// 		\Stripe\Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 	// 		$methods = ['card'];
-	// 		if (Hyvikk::payment('currency_code') == "EUR") {
+	// 		if (AtlasLogistics::payment('currency_code') == "EUR") {
 	// 			$methods = ['card', 'ideal'];
 	// 		}
 	// 		$session = \Stripe\Checkout\Session::create([
@@ -226,7 +225,7 @@ class PaymentController extends Controller {
 	// 			'line_items' => [[
 	// 				'name' => 'Booking',
 	// 				'amount' => $booking->tax_total * 100,
-	// 				'currency' => strtolower(Hyvikk::payment('currency_code')),
+	// 				'currency' => strtolower(AtlasLogistics::payment('currency_code')),
 	// 				'quantity' => 1,
 	// 			]],
 	// 			'payment_intent_data' => [
@@ -279,9 +278,9 @@ class PaymentController extends Controller {
 	// public function stripe($booking_id) {
 	// 	try {
 	// 			$booking = Bookings::find($booking_id);
-	// 			\Stripe\Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+	// 			\Stripe\Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 	// 			$methods = ['card'];
-	// 			if (Hyvikk::payment('currency_code') == "EUR") {
+	// 			if (AtlasLogistics::payment('currency_code') == "EUR") {
 	// 				$methods = ['card', 'ideal'];
 	// 			}
 	// 			$user = User::find($booking->customer_id);
@@ -323,7 +322,7 @@ class PaymentController extends Controller {
 	// 				'payment_method_types' => $methods,
 	// 				'line_items' => [[
 	// 					'price_data' => [
-	// 						'currency' => strtolower(Hyvikk::payment('currency_code')),
+	// 						'currency' => strtolower(AtlasLogistics::payment('currency_code')),
 	// 						'unit_amount' => $booking->tax_total * 100,
 	// 						'product_data' => [
 	// 							'name' => 'Booking',
@@ -384,10 +383,10 @@ class PaymentController extends Controller {
 	public function stripe($booking_id) {
 		try {
 			$booking = Bookings::find($booking_id);
-			\Stripe\Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+			\Stripe\Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 			$methods = ['card'];
 			
-			if (Hyvikk::payment('currency_code') == "EUR") {
+			if (AtlasLogistics::payment('currency_code') == "EUR") {
 				$methods = ['card', 'ideal'];
 			}
 			
@@ -424,7 +423,7 @@ class PaymentController extends Controller {
 				'payment_method_types' => $methods,
 				'line_items' => [[
 					'price_data' => [
-						'currency' => strtolower(Hyvikk::payment('currency_code')),
+						'currency' => strtolower(AtlasLogistics::payment('currency_code')),
 						'unit_amount' => $booking->tax_total * 100,
 						'product_data' => [
 							'name' => 'Booking',
@@ -486,7 +485,7 @@ class PaymentController extends Controller {
 		public function stripe_success() {
 		
 			$booking_id = $_GET['booking_id'];
-			\Stripe\Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+			\Stripe\Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 			$payment_data = \Stripe\Checkout\Session::retrieve(
 				$_GET['session_id']
 			);
@@ -586,7 +585,7 @@ class PaymentController extends Controller {
 			$xx->receipt = 1;
 			$xx->save();
 	
-			if (Hyvikk::email_msg('email') == 1) {
+			if (AtlasLogistics::email_msg('email') == 1) {
 				Mail::to($booking->customer->email)->send(new CustomerInvoice($booking));
 			}
 
@@ -602,7 +601,7 @@ class PaymentController extends Controller {
 
 	// 	$booking_id = $_GET['booking_id'];
 
-	// 	\Stripe\Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+	// 	\Stripe\Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 	// 	$payment_data = \Stripe\Checkout\Session::retrieve(
 	// 		$_GET['session_id']
 	// 	);
@@ -653,7 +652,7 @@ class PaymentController extends Controller {
 		$session_id = $_GET['session_id'];
 	
 		// Set Stripe API Key
-		Stripe::setApiKey(Hyvikk::payment('stripe_secret_key'));
+		Stripe::setApiKey(AtlasLogistics::payment('stripe_secret_key'));
 	
 		// Retrieve Checkout Session
 		try {
@@ -720,8 +719,8 @@ class PaymentController extends Controller {
 		try {
 			$booking = Bookings::find($booking_id);
 			$receipt_no = time() . "_" . date('Y_m_d') . "_" . $booking_id;
-			$api = new Api(Hyvikk::payment('razorpay_key'), Hyvikk::payment('razorpay_secret'));
-			$order = $api->order->create(array('receipt' => $receipt_no, 'amount' => $booking->tax_total * 100, 'currency' => Hyvikk::payment('currency_code'), 'payment_capture' => 1));
+			$api = new Api(AtlasLogistics::payment('razorpay_key'), AtlasLogistics::payment('razorpay_secret'));
+			$order = $api->order->create(array('receipt' => $receipt_no, 'amount' => $booking->tax_total * 100, 'currency' => AtlasLogistics::payment('currency_code'), 'payment_capture' => 1));
 			// dd($order);
 			$data['order_id'] = $order['id'];
 			$data['amount'] = $booking->tax_total * 100;
@@ -738,7 +737,7 @@ class PaymentController extends Controller {
 			$error_msg = $request->error['description'];
 			return view('payments.payment_failed', compact('error_msg'));
 		} else {
-			$api = new Api(Hyvikk::payment('razorpay_key'), Hyvikk::payment('razorpay_secret'));
+			$api = new Api(AtlasLogistics::payment('razorpay_key'), AtlasLogistics::payment('razorpay_secret'));
 			$payment = $api->payment->fetch($request->razorpay_payment_id);
 			// dd($payment);
 			// $order = $api->order->fetch($request->razorpay_order_id);

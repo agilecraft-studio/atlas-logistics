@@ -1,6 +1,6 @@
 @extends('customer_dashboard.layouts.app')
 @section('title')
-    <title>@lang('frontend.My_Bookings') | {{ Hyvikk::get('app_name') }}</title>
+    <title>@lang('frontend.My_Bookings') | {{ AtlasLogistics::get('app_name') }}</title>
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/customer_dashboard/assets/main_css/booking.css') }}">

@@ -7,8 +7,8 @@ Dear {{$user}},
     @php ($from = \Carbon\Carbon::createFromFormat('Y-m-d', $reg_date))
     @php ($diff_in_days = $to->diffInDays($from))
 
-{!! Hyvikk::email_msg('registration') !!}
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+{!! AtlasLogistics::email_msg('registration') !!}
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 	Vehicle: {{$vehicle}}
 	Registration Expiry date: {{date($date_format_setting,strtotime($reg_date))}}

@@ -17,7 +17,7 @@
 					$i+=$row['exp_amount'];
 					@endphp
 					<td>{{$row['exp_name']}}</td>
-					<td>{{Hyvikk::get('currency')." ". $row['exp_amount']}}</td>
+					<td>{{AtlasLogistics::get('currency')." ". $row['exp_amount']}}</td>
 					<td>
 					{!! Form::open(['route' =>['acquisition.destroy',$vehicle->id],'method'=>'DELETE','class'=>'form-horizontal']) !!}
 					{!! Form::hidden("vid",$vehicle->id) !!}
@@ -31,7 +31,7 @@
 				@endforeach
 				<tr>
 					<td><strong>@lang('fleet.total')</strong></td>
-					<td><strong>{{Hyvikk::get('currency')." ". $i}}</strong></td>
+					<td><strong>{{AtlasLogistics::get('currency')." ". $i}}</strong></td>
 					<td></td>
 				</tr>
 			</tbody>

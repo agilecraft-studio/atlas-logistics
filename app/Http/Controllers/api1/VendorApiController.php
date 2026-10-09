@@ -25,7 +25,7 @@ use App\Rules\UniqueMobile;
 use Illuminate\Support\Facades\Auth as Login;
 use Auth;
 use DB;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
@@ -224,7 +224,7 @@ class VendorApiController extends Controller
         foreach ($all_vehicles as $key) {
             $vehicle_ids[] = $key->id;
         }
-        $incomes = DB::select('select day(date) as mnth,sum(amount) as tot from income where year(date)=? and month(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by date(date)', [$year, $month]);
+        $incomes = DB::select('select day(date) as mnth,sum(amount) as tot from income where year(date)=? and month(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by day(date), date(date)', [$year, $month]);
         $end = date('t', strtotime($year . "-" . $month));
         $dates = array();
         for ($i = 1; $i <= $end; $i++) {
@@ -254,7 +254,7 @@ class VendorApiController extends Controller
         foreach ($all_vehicles as $key) {
             $vehicle_ids[] = $key->id;
         }
-        $incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by month(date)', [$year]);
+        $incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
         $months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
         $income2 = array();
         foreach ($incomes as $income) {
@@ -1402,8 +1402,8 @@ class VendorApiController extends Controller
             $data['data'] = null;
         } else {
             $tax = 0;
-            if (Hyvikk::get('tax_charge') != "null") {
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            if (AtlasLogistics::get('tax_charge') != "null") {
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                 foreach ($taxes as $key => $val) {
                     $tax = $tax + $val;
                 }
@@ -1487,8 +1487,8 @@ class VendorApiController extends Controller
             $data['data'] = null;
         } else {
             $tax = 0;
-            if (Hyvikk::get('tax_charge') != "null") {
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            if (AtlasLogistics::get('tax_charge') != "null") {
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                 foreach ($taxes as $key => $val) {
                     $tax = $tax + $val;
                 }
@@ -2338,7 +2338,7 @@ class VendorApiController extends Controller
            // $vendors=Vendor::where('user_id',$request->user_id)->get();
            $vendors = Vendor::get();
             //orderBy('id',$request->order[0]['dir']);
-            //$date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y';
+            //$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
             $records = array();
             if(count($vendors)>0)
             {
@@ -2433,8 +2433,8 @@ class VendorApiController extends Controller
             $data['data'] = "";
         } else {
             $tax = 0;
-            if (Hyvikk::get('tax_charge') != "null") {
-                $taxes = json_decode(Hyvikk::get('tax_charge'), true);
+            if (AtlasLogistics::get('tax_charge') != "null") {
+                $taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
                 foreach ($taxes as $key => $val) {
                     $tax = $tax + $val;
                 }
@@ -2494,8 +2494,8 @@ class VendorApiController extends Controller
             }
             $driver_booking_amount = $driver_amount;
             $records=array();
-            $currency = Hyvikk::get('currency') ;
-            $date_format_setting = (Hyvikk::get('date_format')) ? Hyvikk::get('date_format') : 'd-m-Y'; 
+            $currency = AtlasLogistics::get('currency') ;
+            $date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y'; 
             //dd($driver_payments);
             if(count($driver_payments)>0)
             {
@@ -2574,9 +2574,9 @@ class VendorApiController extends Controller
             $data['data'] = null;
         } 
         else {
-            $currency = Hyvikk::get('currency') ;
-            $distance_format = Hyvikk::get("dis_format");
-            $fuel_qty_unit=Hyvikk::get("fuel_unit");
+            $currency = AtlasLogistics::get('currency') ;
+            $distance_format = AtlasLogistics::get("dis_format");
+            $fuel_qty_unit=AtlasLogistics::get("fuel_unit");
             $records=array();
             $records[]= [
                 'currency'=>$currency,

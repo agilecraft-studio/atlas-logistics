@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Model\Expense;
 use App\Model\FuelModel;
-use App\Model\Hyvikk;
+use App\Model\AtlasLogistics;
 use App\Model\VehicleModel;
 use App\Model\Vendor;
 use Auth;
@@ -49,7 +49,7 @@ class FuelApiController extends Controller {
 				$FuelList = $FuelList->where('updated_at', ">", $time);
 			}
 			$Fuel_List = $FuelList->orderBy('id', 'DESC')->withTrashed()->get();
-			$currency = Hyvikk::get('currency');
+			$currency = AtlasLogistics::get('currency');
 
 			if (count($Fuel_List) > 0) {
 				foreach ($Fuel_List as $row) {
@@ -121,7 +121,7 @@ class FuelApiController extends Controller {
 				$FuelList = $FuelList->where('updated_at', ">", $time);
 			}
 			$Fuel_List = $FuelList->orderBy('id', 'DESC')->withTrashed()->get();
-			$currency = Hyvikk::get('currency');
+			$currency = AtlasLogistics::get('currency');
 			dd($Fuel_List);
 			if (count($Fuel_List) > 0) {
 				foreach ($Fuel_List as $row) {
@@ -243,7 +243,7 @@ class FuelApiController extends Controller {
 			$records = array();
 			$FuelList = FuelModel::orderBy('id', 'desc')->first();
 			//dd($FuelList);
-			$currency = Hyvikk::get('currency');
+			$currency = AtlasLogistics::get('currency');
 			$total = $FuelList->qty * $FuelList->cost_per_unit;
 			$cost = $currency . ' ' . $total ?? '0';
 			$records[] = array(
@@ -392,7 +392,7 @@ class FuelApiController extends Controller {
 				$exp->save();
 			}
 			VehicleModel::where('id', $request->vehicle_id)->update(['mileage' => $request->start_meter]);
-			$currency = Hyvikk::get('currency');
+			$currency = AtlasLogistics::get('currency');
 			$total = $fuel->qty * $fuel->cost_per_unit;
 			$cost = $currency . ' ' . $total ?? '0';
 			$records[] = array(

@@ -71,7 +71,7 @@
                 {{$data->make_name}} -
                 {{$data->model_name}} - {{ $data->license_plate }}
               </td>
-              <td>{{ $msg }} {{ date(Hyvikk::get('date_format'),strtotime($notification->data['msg'])) }}
+              <td>{{ $msg }} {{ date(AtlasLogistics::get('date_format'),strtotime($notification->data['msg'])) }}
               </td>
               <td>
               @if(strtotime($notification->data['msg'])>strtotime("now"))

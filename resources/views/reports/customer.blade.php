@@ -79,7 +79,7 @@
             <tr>
             @php($i++)
               <th scope="row"> {{$i}}. &nbsp; {{$key}}</th>
-              <td>{{ Hyvikk::get("currency")}} {{$val}}</td>
+              <td>{{ AtlasLogistics::get("currency")}} {{$val}}</td>
             </tr>
             @endif
             @endforeach

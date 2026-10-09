@@ -2,8 +2,8 @@
 /*
 @copyright
 Fleet Manager v7.0
-Copyright (C) 2017-2025 Hyvikk Solutions <https://hyvikk.com/> All rights reserved.
-Design and developed by Hyvikk Solutions <https://hyvikk.com/>
+Copyright (C) 2017-2025 Atlas Logistics <https://app.atlaslogistics.co.mw> All rights reserved.
+Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use App\Model\Bookings;
 use App\Model\VehicleModel;
 use Auth;
 use Carbon\Carbon;
-use Hyvikk;
+use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -39,10 +39,10 @@ class BookingQuotationsApiController extends Controller {
 		$details = array();
 		$row = BookingQuotationModel::find($id);
 		$details = array(
-			'app_name' => Hyvikk::get('app_name'),
-			'icon' => asset('assets/images/' . Hyvikk::get('icon_img')),
+			'app_name' => AtlasLogistics::get('app_name'),
+			'icon' => asset('assets/images/' . AtlasLogistics::get('icon_img')),
 			'date' => date('Y-m-d'),
-			'from_address' => Hyvikk::get('badd1') . ", " . Hyvikk::get('badd2') . ", " . Hyvikk::get('city') . ", " . Hyvikk::get('state') . ", " . Hyvikk::get('country'),
+			'from_address' => AtlasLogistics::get('badd1') . ", " . AtlasLogistics::get('badd2') . ", " . AtlasLogistics::get('city') . ", " . AtlasLogistics::get('state') . ", " . AtlasLogistics::get('country'),
 			'to_address' => $row->customer->address,
 			'id' => $row->id,
 			'customer_name' => $row->customer->name,
@@ -52,13 +52,13 @@ class BookingQuotationsApiController extends Controller {
 			'dropoff_datetime' => $row->dropoff,
 			'vehicle' => ($row->vehicle_id) ? $row->vehicle->make_name . " - " . $row->vehicle->model_name . " - " . $row->vehicle->license_plate : "",
 			'driver' => ($row->driver_id) ? $row->driver->name : "",
-			'mileage' => $row->mileage . " " . Hyvikk::get('dis_format'),
+			'mileage' => $row->mileage . " " . AtlasLogistics::get('dis_format'),
 			'waiting_time' => $row->waiting_time,
-			'amount' => Hyvikk::get('currency') . " " . $row->total,
+			'amount' => AtlasLogistics::get('currency') . " " . $row->total,
 			'tax_percent' => (($row->total_tax_percent) ? $row->total_tax_percent : 0) . "%",
-			'tax_charges' => Hyvikk::get('currency') . " " . ($row->total_tax_charge_rs) ? $row->total_tax_charge_rs : 0,
-			'total_amount' => Hyvikk::get('currency') . " " . ($row->tax_total) ? $row->tax_total : $row->total,
-			'invoice_text' => Hyvikk::get('invoice_text'),
+			'tax_charges' => AtlasLogistics::get('currency') . " " . ($row->total_tax_charge_rs) ? $row->total_tax_charge_rs : 0,
+			'total_amount' => AtlasLogistics::get('currency') . " " . ($row->tax_total) ? $row->tax_total : $row->total,
+			'invoice_text' => AtlasLogistics::get('invoice_text'),
 		);
 		$data['success'] = "1";
 		$data['message'] = "Data fetched!";
@@ -178,7 +178,7 @@ class BookingQuotationsApiController extends Controller {
 				Address::updateOrCreate(['customer_id' => $request->customer_id, 'address' => $request->pickup_addr]);
 				Address::updateOrCreate(['customer_id' => $request->customer_id, 'address' => $request->dest_addr]);
 				$this->booking_notification($booking->id);
-				if (Hyvikk::email_msg('email') == 1) {
+				if (AtlasLogistics::email_msg('email') == 1) {
 					Mail::to($booking->customer->email)->send(new VehicleBooked($booking));
 					Mail::to($booking->driver->email)->send(new DriverBooked($booking));
 				}
@@ -345,7 +345,7 @@ class BookingQuotationsApiController extends Controller {
 				'tax_total' => $row->tax_total,
 				'total_tax_percent' => $row->total_tax_percent,
 				'total_tax_charge_rs' => $row->total_tax_charge_rs,
-				'currency' => Hyvikk::get('currency'),
+				'currency' => AtlasLogistics::get('currency'),
 				'customer' => $row->customer->name,
 				'vehicle' => $row->vehicle->make_name . " - " . $row->vehicle->model_name . " - " . $row->vehicle->license_plate,
 				'driver' => $row->driver->name,

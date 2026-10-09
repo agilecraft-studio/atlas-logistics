@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
-@php($currency=Hyvikk::get('currency'))
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
+@php($currency=AtlasLogistics::get('currency'))
 @section('extra_css')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
@@ -65,7 +65,7 @@
               <div class="col-md-12">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                  <span class="input-group-text">{{Hyvikk::get('dis_format')}}</span></div>
+                  <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span></div>
                   <input required="required" name="mileage" type="number" id="mileage" class="form-control" min="0">
                 </div>
               </div>
@@ -99,8 +99,8 @@
           </div>
           <div class="col-md-3" style="margin-top: 5px;">
             @php($tax_percent=0)
-            @if(Hyvikk::get('tax_charge') != "null")
-              @php($taxes = json_decode(Hyvikk::get('tax_charge'), true))
+            @if(AtlasLogistics::get('tax_charge') != "null")
+              @php($taxes = json_decode(AtlasLogistics::get('tax_charge'), true))
               @foreach($taxes as $key => $val)
               @php($tax_percent += $val )
               @endforeach

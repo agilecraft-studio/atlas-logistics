@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@php($date_format_setting=(Hyvikk::get('date_format'))?Hyvikk::get('date_format'):'d-m-Y')
+@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@php($currency=Hyvikk::get('currency'))
+@php($currency=AtlasLogistics::get('currency'))
 
 @section('extra_css')
 
@@ -52,9 +52,9 @@
 
 @php($tax_percent=0)
 
-            @if(Hyvikk::get('tax_charge') != "null")
+            @if(AtlasLogistics::get('tax_charge') != "null")
 
-              @php($taxes = json_decode(Hyvikk::get('tax_charge'), true))
+              @php($taxes = json_decode(AtlasLogistics::get('tax_charge'), true))
 
               @foreach($taxes as $key => $val)
 
@@ -150,7 +150,7 @@
 
                   <div class="input-group-prepend">
 
-                  <span class="input-group-text">{{Hyvikk::get('dis_format')}}</span></div>
+                  <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span></div>
 
                   <input required="required" name="mileage" type="number" id="mileage" class="form-control" min="0">
 
@@ -218,9 +218,9 @@
 
             @php($tax_percent=0)
 
-            @if(Hyvikk::get('tax_charge') != "null")
+            @if(AtlasLogistics::get('tax_charge') != "null")
 
-              @php($taxes = json_decode(Hyvikk::get('tax_charge'), true))
+              @php($taxes = json_decode(AtlasLogistics::get('tax_charge'), true))
 
               @foreach($taxes as $key => $val)
 
@@ -430,7 +430,7 @@
 
               <th>@lang('fleet.amount')</th>
 
-              <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+              <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
 
               <th>@lang('fleet.delete')</th>
 
@@ -532,7 +532,7 @@
 
               <th>@lang('fleet.amount')</th>
 
-              <th>@lang('fleet.mileage') ({{Hyvikk::get('dis_format')}})</th>
+              <th>@lang('fleet.mileage') ({{AtlasLogistics::get('dis_format')}})</th>
 
               <th>@lang('fleet.delete')</th>
 
