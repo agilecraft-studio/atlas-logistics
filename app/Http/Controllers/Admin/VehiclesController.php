@@ -72,15 +72,10 @@ class VehiclesController extends Controller {
 		if ($request->ajax()) {
 			$user = Auth::user();
 			if ($user->group_id == null || $user->user_type == "S") {
-				$vehicles = VehicleModel::select('vehicles.*', 'users.name as name');
+				$vehicles = VehicleModel::select('vehicles.*');
 			} else {
 				$vehicles = VehicleModel::select('vehicles.*')->where('vehicles.group_id', $user->group_id);
 			}
-			$vehicles = $vehicles
-				->leftJoin('driver_vehicle', 'driver_vehicle.vehicle_id', '=', 'vehicles.id')
-				->leftJoin('users', 'users.id', '=', 'driver_vehicle.driver_id')
-				->leftJoin('users_meta', 'users_meta.id', '=', 'users.id')
-				->groupBy('vehicles.id');
 			$vehicles->with(['group', 'types', 'drivers']);
 			return DataTables::eloquent($vehicles)
 				->addColumn('check', function ($vehicle) {
@@ -122,7 +117,7 @@ class VehiclesController extends Controller {
 					return ($vehicle->in_service) ? "YES" : "NO";
 				})
 				->filterColumn('in_service', function ($query, $keyword) {
-					$query->whereRaw("IF(in_service = 1, 'YES', 'NO') like ?", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN in_service = 1 THEN 'YES' ELSE 'NO' END like ?", ["%{$keyword}%"]);
 				})
 				->addColumn('assigned_driver', function ($vehicle) {
 					$driverId = $vehicle->getMeta('assign_driver_id');

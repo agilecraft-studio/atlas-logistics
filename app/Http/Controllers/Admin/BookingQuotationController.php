@@ -137,7 +137,7 @@ class BookingQuotationController extends Controller {
 					return view('booking_quotation.list-actions', ['row' => $user]);
 				})
 				->filterColumn('payment', function ($query, $keyword) {
-					$query->whereRaw("IF(payment = 1 , '" . __('fleet.paid1') . "', '" . __('fleet.pending') . "') like ? ", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN payment = 1 THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END like ? ", ["%{$keyword}%"]);
 				})
 				->filterColumn('pickup', function ($query, $keyword) {
 					$query->whereRaw("DATE_FORMAT(pickup,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);

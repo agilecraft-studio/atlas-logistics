@@ -106,7 +106,9 @@ class BookingsController extends Controller {
 					$join->on('bookings_meta.booking_id', '=', 'bookings.id')
 						->where('bookings_meta.key', '=', 'vehicle_typeid');
 				})
-				->leftJoin('vehicle_types', 'bookings_meta.value', '=', 'vehicle_types.id')
+				->leftJoin('vehicle_types', function ($join) {
+					$join->on('vehicle_types.id', '=', DB::raw("CASE WHEN bookings_meta.value ~ '^[0-9]+$' THEN bookings_meta.value::integer END"));
+				})
 				->with(['customer', 'metas']);
 			return DataTables::eloquent($bookings)
 				->addColumn('check', function ($user) {
@@ -218,7 +220,7 @@ class BookingsController extends Controller {
 					return view('bookings.list-actions', ['row' => $user]);
 				})
 				->filterColumn('payment', function ($query, $keyword) {
-					$query->whereRaw("IF(payment = 1 , '" . __('fleet.paid1') . "', '" . __('fleet.pending') . "') like ? ", ["%{$keyword}%"]);
+					$query->whereRaw("CASE WHEN payment = 1 THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END like ? ", ["%{$keyword}%"]);
 				})
 				->filterColumn('pickup', function ($query, $keyword) {
 					$query->whereRaw("DATE_FORMAT(pickup,'%d-%m-%Y %h:%i %p') LIKE ?", ["%$keyword%"]);
