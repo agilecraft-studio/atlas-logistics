@@ -108,7 +108,7 @@
         <div class="col-12">
             <div class="border-bottom pb-3 my-4">
                 <p class="mb-0" style="color:#130F40;font-size:18px;">
-                    {{ AtlasLogistics::frontend('landing_description') }}
+                    {{ AtlasLogistics::frontend('landing_description') ?? '' }}
                 </p>
             </div>
         </div>

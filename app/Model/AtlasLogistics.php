@@ -55,7 +55,11 @@ class AtlasLogistics {
 
 	public static function frontend($key) {
 		$settings = array_pluck(FrontendModel::all()->toArray(), 'key_value', 'key_name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		if (is_array($key)) {
+			return array_only($settings, $key);
+		}
+
+		return $settings[$key] ?? null;
 	}
 
 	public static function payment($key) {
