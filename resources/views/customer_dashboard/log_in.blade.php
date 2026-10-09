@@ -41,6 +41,7 @@
                                 <p class="font-weight-bolder login_title">@lang('frontend.Welcome')</p>
 
                                 <p class="mb-0 login-content">@lang('frontend.Access_Customer')</p>
+<p class="mb-0 login-content" style="color:#6c757d;">@lang('frontend.login_tagline')</p>
 
                             </div>
 

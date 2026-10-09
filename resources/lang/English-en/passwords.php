@@ -8,7 +8,7 @@ return [
 	'token' => 'This password reset token is invalid.',
 	'user' => "We can't find a user with that e-mail address.",
 
-	'login_desc' => 'Sign in to start your session',
+	'login_desc' => 'Sign in to your Atlas Logistics account',
 	'email' => 'Email',
 	'password' => 'Password',
 	'remember' => 'Remember Me',

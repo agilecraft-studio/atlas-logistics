@@ -15,8 +15,8 @@ use App\Model\ServiceReminderModel;
 use App\Model\User;
 use App\Model\VehicleModel;
 use App\Model\Vendor;
-use Auth;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Model\AtlasLogistics;
 use Illuminate\Support\Facades\Redirect;
 use App\Model\BookingAlert;
@@ -25,13 +25,13 @@ use App\Model\BookingAlert;
 class HomeController extends Controller {
 	public function export_calendar() {
 		$bookings = Bookings::where('pickup', '!=', null)->where('dropoff', '!=', null)->get();
-		$vCalendar = new \Eluceo\iCal\Component\Calendar("Fleet manager");
+		// $vCalendar = new \Eluceo\iCal\Component\Calendar("Fleet manager"); // Eluceo iCal not installed
 		foreach ($bookings as $booking) {
 			$vehicle = null;
 			if ($booking->vehicle_id != null) {
 				$vehicle = $booking->vehicle->make_name . " -" . $booking->vehicle->model_name . "-" . $booking->vehicle->license_plate;
 			}
-			$vEvent = new \Eluceo\iCal\Component\Event();
+			// $vEvent = new \Eluceo\iCal\Component\Event(); // Eluceo iCal not installed
 			$vEvent
 				->setDtStart(new \DateTime($booking->pickup))
 				->setDtEnd(new \DateTime($booking->dropoff))
@@ -54,7 +54,7 @@ class HomeController extends Controller {
 				$interval .= $r->services->overdue_meter . " " . AtlasLogistics::get('dis_format');
 			}
 			$date = date('Y-m-d', strtotime($int, strtotime(date('Y-m-d'))));
-			$vEvent = new \Eluceo\iCal\Component\Event();
+			// $vEvent = new \Eluceo\iCal\Component\Event(); // Eluceo iCal not installed
 			$vEvent
 				->setDtStart(new \DateTime($date))
 				->setDtEnd(new \DateTime($date))
@@ -70,7 +70,7 @@ class HomeController extends Controller {
 	}
 	public function cal() {
 		$vCalendar = new \Eluceo\iCal\Component\Calendar('www.example.com');
-		$vEvent = new \Eluceo\iCal\Component\Event();
+		// $vEvent = new \Eluceo\iCal\Component\Event(); // Eluceo iCal not installed
 		$vEvent
 			->setDtStart(new \DateTime('2020-02-05'))
 			->setDtEnd(new \DateTime('2020-02-05'))
@@ -314,39 +314,39 @@ class HomeController extends Controller {
 		$yr = array_merge($months, $income2);
 		return implode(",", $yr);
 	}
-	public function test() {
-		$start = '2019-09-05';
-		$end = '2019-09-30';
-		$exp = DB::select('select date,sum(amount) as tot from expense where  deleted_at is null and date between "' . $start . '" and "' . $end . '" group by date');
-		$inc = DB::select('select date,sum(amount) as tot from income where  deleted_at is null and date between "' . $start . '" and "' . $end . '" group by date');
-		$date1 = IncomeModel::whereBetween('date', [$start, $end])->pluck('date')->toArray();
-		$date2 = Expense::whereBetween('date', [$start, $end])->pluck('date')->toArray();
-		$all_dates = array_unique(array_merge($date1, $date2));
-		$dates = array_count_values($all_dates);
-		ksort($dates);
-		$dates = array_slice($dates, -12, 12);
-		$index['dates'] = $dates;
-		$temp = array();
-		foreach ($all_dates as $key) {
-			$temp[$key] = 0;
-		}
-		$income2 = array();
-		foreach ($inc as $income) {
-			$income2[$income->date] = $income->tot;
-		}
-		$inc_data = array_merge($temp, $income2);
-		ksort($inc_data);
-		$index['incomes'] = implode(",", array_slice($inc_data, -12, 12));
-		$expense2 = array();
-		foreach ($exp as $e) {
-			$expense2[$e->date] = $e->tot;
-		}
-		$expenses = array_merge($temp, $expense2);
-		ksort($expenses);
-		$index['expenses1'] = implode(",", array_slice($expenses, -12, 12));
-		dd($expenses, $inc_data, $dates);
-		return view('chart', $index);
-	}
+// 	public function test() {
+//		$start = '2019-09-05';
+//		$end = '2019-09-30';
+//		$exp = DB::select('select date,sum(amount) as tot from expense where  deleted_at is null and date between "' . $start . '" and "' . $end . '" group by date');
+//		$inc = DB::select('select date,sum(amount) as tot from income where  deleted_at is null and date between "' . $start . '" and "' . $end . '" group by date');
+//		$date1 = IncomeModel::whereBetween('date', [$start, $end])->pluck('date')->toArray();
+//		$date2 = Expense::whereBetween('date', [$start, $end])->pluck('date')->toArray();
+//		$all_dates = array_unique(array_merge($date1, $date2));
+//		$dates = array_count_values($all_dates);
+//		ksort($dates);
+//		$dates = array_slice($dates, -12, 12);
+//		$index['dates'] = $dates;
+//		$temp = array();
+//		foreach ($all_dates as $key) {
+//			$temp[$key] = 0;
+//		}
+//		$income2 = array();
+//		foreach ($inc as $income) {
+//			$income2[$income->date] = $income->tot;
+//		}
+//		$inc_data = array_merge($temp, $income2);
+//		ksort($inc_data);
+//		$index['incomes'] = implode(",", array_slice($inc_data, -12, 12));
+//		$expense2 = array();
+//		foreach ($exp as $e) {
+//			$expense2[$e->date] = $e->tot;
+//		}
+//		$expenses = array_merge($temp, $expense2);
+//		ksort($expenses);
+//		$index['expenses1'] = implode(",", array_slice($expenses, -12, 12));
+//		dd($expenses, $inc_data, $dates);
+//		return view('chart', $index);
+//	}
 	public function logout() {
 		Auth::logout();
 		return redirect('admin/');

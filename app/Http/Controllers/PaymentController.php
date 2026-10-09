@@ -17,11 +17,14 @@ use App\Model\User;
 use App\Model\AtlasLogistics;
 use Exception;
 use Illuminate\Http\Request;
-use Razorpay\Api\Api;
+// Razorpay package not installed
 use App\Model\IncomeModel;
 use App\Model\BookingIncome;
 
 use Stripe\Stripe;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CustomerInvoice;
+
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;

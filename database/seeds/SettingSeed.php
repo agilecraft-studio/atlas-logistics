@@ -30,7 +30,7 @@ class SettingSeed extends Seeder
     {
         DB::table('settings')->truncate();
 
-        Settings::create(['label' => 'Website Name', 'name' => 'app_name', 'value' => 'Fleet Manager']);
+        Settings::create(['label' => 'Website Name', 'name' => 'app_name', 'value' => 'Atlas Logistics']);
 
         Settings::create(['label' => 'Business Address 1', 'name' => 'badd1', 'value' => 'Company Address 1']);
         Settings::create(['label' => 'Business Address 2', 'name' => 'badd2', 'value' => 'Company Address 2']);
@@ -130,7 +130,10 @@ class SettingSeed extends Seeder
         FrontendModel::create(['key_name' => 'enable', 'key_value' => 1]);
         FrontendModel::create(['key_name' => 'language', 'key_value' => 'English-en']);
         FrontendModel::create(['key_name' => 'admin_approval', 'key_value' => 1]);
-        FrontendModel::updateOrCreate(['key_name' => 'booking_time', 'key_value' => 1]);        
+        FrontendModel::updateOrCreate(['key_name' => 'booking_time', 'key_value' => 1]);
+    FrontendModel::create(['key_name' => 'landing_description', 'key_value' => 'Cross-border freight and grain logistics across Malawi and Southern Africa — dispatch, fleet, drivers, loads and documents in one place.']);
+    FrontendModel::create(['key_name' => 'landing_book_now', 'key_value' => 'Book a shipment']);
+    FrontendModel::create(['key_name' => 'sign_up_sub_title', 'key_value' => 'Fleet, freight & cross-border logistics across Malawi and Southern Africa']);        
     }
 
     private function payment_settings()

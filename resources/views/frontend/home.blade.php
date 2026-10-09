@@ -53,7 +53,7 @@
                             <div class="main-slider-content">
                                 <h1>@lang('frontend.reliable_way')</h1>
                                 <h4><a href="#">{{ AtlasLogistics::frontend('contact_phone') }}</a></h4>
-                                <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.book_now')</a>
+                                <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.landing_book_now')</a>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 order-md-last order-sm-first">
@@ -71,7 +71,7 @@
                             <div class="main-slider-content">
                                 <h1>@lang('frontend.reliable_way')</h1>
                                 <h4><a href="#">{{ AtlasLogistics::frontend('contact_phone') }}</a></h4>
-                                <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.book_now')</a>
+                                <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.landing_book_now')</a>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-sm-12 order-md-last order-sm-first pe-0">
@@ -89,7 +89,7 @@
                             <div class="main-slider-content">
                                 <h1>@lang('frontend.reliable_way')</h1>
                                 <h4><a href="#">{{ AtlasLogistics::frontend('contact_phone') }}</a></h4>
-                                <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.book_now')</a>
+                                <a href="#book_Sec" class="btn book-now-main-slider"> @lang('frontend.landing_book_now')</a>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-sm-12 order-md-last order-sm-first">
@@ -103,6 +103,17 @@
         </div>
     </div>
 </section>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="border-bottom pb-3 my-4">
+                <p class="mb-0" style="color:#130F40;font-size:18px;">
+                    {{ AtlasLogistics::frontend('landing_description') }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{-- ------------ Booking section  -------------- --}}
 <section class="book-a-cab-detail" id="book_Sec">
