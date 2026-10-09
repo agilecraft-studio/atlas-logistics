@@ -12,12 +12,12 @@
                 <div class="res-collapse d-flex d-sm-flex d-md-flex d-lg-none d-xl-none ">
                     @if (!Auth::guest() && (Auth::user()->user_type == 'C' || Auth::user()->user_type == 'D'))
                         <div class="login-btn-res d-none">
-                            <a href="{{url('/login')}}" style="text-decoration:none;border-radious:2px;"> <button type="button" class="btn " data-bs-toggle="modal"
+                            <a href="{{url('/admin/login')}}" style="text-decoration:none;border-radious:2px;"> <button type="button" class="btn " data-bs-toggle="modal"
                                 >@lang('frontend.login')</button></a>
                         </div>
                     @else
                         <div class="login-btn-res">
-                            <a href="{{url('/login')}}" style="text-decoration:none;border-radious:2px;"><button type="button" class="btn " data-bs-toggle="modal"
+                            <a href="{{url('/admin/login')}}" style="text-decoration:none;border-radious:2px;"><button type="button" class="btn " data-bs-toggle="modal"
                                >@lang('frontend.login')</button></a>
                         </div>
                     @endif
@@ -528,7 +528,7 @@
                 @endif
                 <div class="signin-signup-btn d-md-none d-lg-flex">
                 
-                        <a href="{{url('/login')}}" style="text-decoration:none;border-radious:2px;"><button type="button" class="btn login d-none d-sm-none d-md-none d-lg-flex">@lang('frontend.login')</button></a>
+                        <a href="{{url('/admin/login')}}" style="text-decoration:none;border-radious:2px;"><button type="button" class="btn login d-none d-sm-none d-md-none d-lg-flex">@lang('frontend.login')</button></a>
 
                         <a href="{{url('/sign_up')}}" style="text-decoration:none;border-radious:2px;"><button type="button" class="btn sign-up d-md-none d-lg-flex">@lang('frontend.sign_up')</button></a>
 
