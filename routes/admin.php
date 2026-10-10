@@ -6,19 +6,7 @@ Route::namespace ('Admin')->group(function () {
     // Public test-login disconnected (auto-login as user 1; controller remains on disk).
     // Route::get('test-login', 'Testcontroller@login');
 
-    Route::get('/migrate', function () {
-        \Artisan::call('migrate');
-    });
-
     Route::post("logout", 'HomeController@logout')->name('logout');
-
-    Route::get("/clear_cache", function () {
-        Artisan::call('optimize:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('view:clear');
-        Artisan::call('route:clear');
-        Artisan::call('config:clear');
-    });
 
     
 
@@ -273,6 +261,9 @@ Route::namespace ('Admin')->group(function () {
 
         Route::get('payment-settings', 'SettingsController@payment_settings');
         Route::post('payment-settings', 'SettingsController@payment_settings_post');
+        // Atlas Logistics cross-border modules (trips, compliance, fleet register, master data)
+        require base_path('routes/logistics.php');
+
     });
 
     Route::group(['middleware' => ['lang_check', 'auth']], function () {

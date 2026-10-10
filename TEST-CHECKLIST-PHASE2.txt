@@ -1,0 +1,11 @@
+PHASE 2 TEST CHECKLIST
+1. php artisan migrate completes with no error. If it fails, copy the full message to me.
+2. Sidebar shows Logistics > Compliance Dashboard, Fleet Register, Master Data.
+3. Master Data: countries list shows 12 countries; add an exchange rate (e.g. USD -> MWK) and see it listed.
+4. Fleet Register > Drivers: open a driver > Compliance profile > save licence + passport dates.
+5. Fleet Register > Trailers: add a trailer; edit it; delete it.
+6. Documents: add an Insurance Certificate to a truck with an expiry date 10 days from today; upload a PDF.
+7. Tyres & Parts: add a tyre with serial number and position to a truck.
+8. Fleet Register > Trucks: the truck shows 1 doc and 1 tyre; open Logistics details and save.
+9. Compliance Dashboard: the insurance appears under "Due in 30 days"; an expired date shows red.
+10. Check a non-admin user does NOT see the Logistics menu (permissions work).

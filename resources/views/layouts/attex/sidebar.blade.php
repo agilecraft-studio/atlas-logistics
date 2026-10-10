@@ -32,6 +32,7 @@
                     <i class="ri-dashboard-line"></i><span> @lang('menu.Dashboard') </span>
                 </a>
             </li>
+            @include('layouts.attex.menu-logistics')
             @include('layouts.attex.menu-bookings')
             @include('layouts.attex.menu-fleet')
             @include('layouts.attex.menu-ops')
