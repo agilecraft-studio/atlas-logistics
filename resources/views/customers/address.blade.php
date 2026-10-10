@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
 .height{
@@ -6,10 +6,10 @@
 }
 </style>
 @endsection
-@section('heading')
-<h1> @lang('fleet.yourAddress')
+@section('page_title')
+<span> @lang('fleet.yourAddress')
   <small class="text-muted">{{Auth::user()->name}}</small>
-</h1>
+</span>
 @endsection
 @section("breadcrumb")
 
@@ -20,7 +20,7 @@
 <div class="row">
   @foreach($bookings as $booking)
     <div class="col-md-4">
-      <div class="card card-info card-outline">
+      <div class="card">
         <div class="card-body height">
           {!! nl2br(e($booking->address)) !!}
         </div>

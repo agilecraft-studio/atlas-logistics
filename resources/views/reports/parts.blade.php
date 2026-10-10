@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li><a href="#">@lang('menu.reports')</a></li>
 <li class="active">@lang('menu.partsReport')</li>

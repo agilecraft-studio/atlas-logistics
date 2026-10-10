@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item">@lang('menu.settings')</li>
 <li class="breadcrumb-item active">@lang('fleet.twilio_settings')</li>
@@ -78,7 +78,7 @@ input:checked + .slider:before {
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.twilio_settings')
         </h3>

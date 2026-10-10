@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
 	table#acrylic {

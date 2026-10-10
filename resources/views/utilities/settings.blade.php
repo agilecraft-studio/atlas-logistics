@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 
 @section("breadcrumb")
 
@@ -30,7 +30,7 @@
 
   <div class="col-md-12">
 
-    <div class="card card-success">
+    <div class="card">
 
       <div class="card-header">
 
@@ -202,7 +202,7 @@
 
             @if(AtlasLogistics::get('icon_img')!= null)
 
-            <button type="button" class="btn btn-success view1 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
+            <button type="button" class="btn btn-success view1 btn-xs" data-bs-toggle="modal" data-bs-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
 
             @lang('fleet.view')
 
@@ -224,7 +224,7 @@
 
             @if(AtlasLogistics::get('logo_img')!= null)
 
-            <button type="button" class="btn btn-success view2 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
+            <button type="button" class="btn btn-success view2 btn-xs" data-bs-toggle="modal" data-bs-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
 
             @lang('fleet.view')
 
@@ -247,7 +247,7 @@
 
             @if(AtlasLogistics::get('fotter_logo_img')!= null)
 
-            <button type="button" class="btn btn-success view4 btn-xs" data-toggle="modal" data-target="#myModal40" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
+            <button type="button" class="btn btn-success view4 btn-xs" data-bs-toggle="modal" data-bs-target="#myModal40" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
 
             @lang('fleet.view')
 
@@ -370,7 +370,7 @@
 
             {!! Form::label('invoice_text',__('fleet.invoice_text'),['class'=>"form-label"]) !!}
 
-            <a data-toggle="modal" data-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
             {!! Form::textarea('name[invoice_text]',
 
@@ -386,7 +386,7 @@
 
               {!! Form::label('web_footer',__('fleet.web_footer'), ['class' => 'form-label']) !!}
 
-              <a data-toggle="modal" data-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <textarea name="name[web_footer]" id="web_footer" class="form-control">{{ AtlasLogistics::get('web_footer') }}</textarea>
 
@@ -402,7 +402,7 @@
 
               {!! Form::label('fuel_enable_driver',__('fleet.fuel_enable_driver'), ['class' => 'form-label']) !!}
 
-              <a data-toggle="modal" data-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <br>
 
@@ -424,7 +424,7 @@
 
               {!! Form::label('income_enable_driver',__('fleet.income_enable_driver'), ['class' => 'form-label']) !!}
 
-              <a data-toggle="modal" data-target="#myModal7"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal7"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <br>
 
@@ -450,7 +450,7 @@
 
               {!! Form::label('expense_enable_driver',__('fleet.expense_enable_driver'), ['class' => 'form-label']) !!}
 
-              <a data-toggle="modal" data-target="#myModal8"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <br>
 
@@ -549,7 +549,7 @@
 
             <div class="form-group">
 
-              <button type="button" data-toggle="modal" data-target="#myModal"  class="form-control btn btn-danger">@lang('fleet.clear_database')</button>  
+              <button type="button" data-bs-toggle="modal" data-bs-target="#myModal"  class="form-control btn btn-danger">@lang('fleet.clear_database')</button>  
 
             </div>
 
@@ -583,7 +583,7 @@
 
         <h4 class="modal-title">@lang('fleet.delete')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -603,7 +603,7 @@
 
         {!! Form::close() !!}
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -631,7 +631,7 @@
 
         <h4 class="modal-title">@lang('fleet.fuel_enable_driver')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -643,7 +643,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -668,7 +668,7 @@
 
         <div class="modal-header">
 
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
           <h4 class="modal-title"></h4>
 
@@ -685,7 +685,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
 
           @lang('fleet.close')
 
@@ -716,7 +716,7 @@
 
         <div class="modal-header">
 
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
           <h4 class="modal-title"></h4>
 
@@ -730,7 +730,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
 
           @lang('fleet.close')
 
@@ -762,7 +762,7 @@
 
         <h4 class="modal-title">@lang('fleet.web_footer')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -774,7 +774,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -802,7 +802,7 @@
 
         <h4 class="modal-title">@lang('fleet.invoice_text')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -814,7 +814,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -840,7 +840,7 @@
 
         <h4 class="modal-title">@lang('fleet.add_your_lang')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -858,7 +858,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -882,7 +882,7 @@
 
         <h4 class="modal-title">@lang('fleet.income_enable_driver')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -894,7 +894,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -918,7 +918,7 @@
 
         <h4 class="modal-title">@lang('fleet.expense_enable_driver')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -930,7 +930,7 @@
 
       <div class="modal-footer">
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 

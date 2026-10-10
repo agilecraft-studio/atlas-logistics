@@ -64,3 +64,17 @@ The full ~133-file migration is the next step. Recommend a per-module batch
 convention (index/detail/create/edit) with a render-assert run after each
 batch, approving progression module by module.
 - Do not turn this app into a taxi/passenger-booking system; keep the Attex shell, controlled statuses/commodities, and configurable reference data.
+
+### Batch conversion update (tooling + shell fixes)
+- `tools/convert_views.py` automates the conversion pattern above (idempotent, preserves CRLF).
+  Run: `python3 tools/convert_views.py resources/views/<module>` (`--dry-run` to preview).
+- Converted in bulk (priority order): vehicles, drivers, service_reminder, vehicle_breakdown, work_orders,
+  parts, parts_category, service_items, vendors, mechanics, fuel, expense, income, users, roles, utilities,
+  notifications, driver_alert, vehicle_types, vehicle_groups, customers, reports.
+- Deliberately NOT converted: bookings, booking_quotation (to be replaced by the Trips module).
+- Attex shell gained `layouts/attex/legacy-init.blade.php` (CSRF ajaxSetup, auto-init of #data_table /
+  #data_table1 / #data_table11, route/label JS vars, jQuery Validate) and `legacy-css.blade.php`
+  (Font Awesome, DataTables BS4 css, select2, pnotify, fullcalendar css).
+- Fixed: DataTables core must load BEFORE `plugins-dataTables.bootstrap4.min.js`; added `cdn-vfs_fonts.js`
+  (PDF export fonts).
+- Static changes only: no PHP/browser run was possible. Smoke-test each module in a browser.

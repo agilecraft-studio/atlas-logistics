@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
   .custom{
@@ -17,7 +17,7 @@
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.vehicle_inspection') : {{$review->vehicle->make_name}} - {{$review->vehicle->model_name}} - {{$review->vehicle->types['displayname']}}&nbsp; <a href="{{url('admin/print-vehicle-inspection/'.$review->id)}}" class="btn btn-danger"><i class="fa fa-print"></i>&nbsp; @lang('fleet.print')</a></h3>
       </div>

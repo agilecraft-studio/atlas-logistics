@@ -1,0 +1,11 @@
+TEST CHECKLIST (do these in a browser after applying)
+1. Log in. Sidebar renders (Attex), no 500 error.
+2. Vehicles: list loads, search works, Add Vehicle form opens, tabs switch, info (i) modals open and close.
+3. Drivers: list, Add Driver, Edit, profile page.
+4. Any page with a plain table (parts, vendors, fuel, expense, income): table has search + paging + export buttons.
+5. Delete a test record (bulk-delete modal or single delete) - confirms CSRF/AJAX works (no 419).
+6. A page with a date picker and a Select2 dropdown (Add Expense / Add Service Reminder).
+7. Export a table to PDF and Excel (checks pdf fonts).
+8. Icons visible (Font Awesome) on buttons.
+9. Reports pages open and print.
+Send me the first page that misbehaves and its browser console error (F12 > Console).

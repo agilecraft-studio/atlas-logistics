@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="{{ route('vehicles.index')}}">@lang('fleet.vehicles')</a></li>
@@ -7,7 +7,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.driver_logs')</h3>
       </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 
 @section('breadcrumb')
     <li class="breadcrumb-item active">@lang('fleet.vehicle_track')</li>

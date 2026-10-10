@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item">@lang('menu.settings')</li>
 <li class="breadcrumb-item active">@lang('menu.general_settings')</li>
@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('menu.general_settings')
         </h3>
@@ -110,7 +110,7 @@
           <div class="form-group col-md-4">
             <label for="icon_img"> @lang('fleet.icon_img')</label>
             @if(AtlasLogistics::get('icon_img')!= null)
-            <button type="button" class="btn btn-success view1 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
+            <button type="button" class="btn btn-success view1 btn-xs" data-bs-toggle="modal" data-bs-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
             @lang('fleet.view')
             </button>
             @endif
@@ -121,7 +121,7 @@
           <div class="form-group col-md-4">
             <label for="logo_img"> @lang('fleet.logo_img')</label>
             @if(AtlasLogistics::get('logo_img')!= null)
-            <button type="button" class="btn btn-success view2 btn-xs" data-toggle="modal" data-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
+            <button type="button" class="btn btn-success view2 btn-xs" data-bs-toggle="modal" data-bs-target="#myModal3" id="view" title="@lang('fleet.image')" style="margin-bottom: 5px">
             @lang('fleet.view')
             </button>
             @endif
@@ -157,14 +157,14 @@
       <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
           <img src="" class="myimg">
         </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
           @lang('fleet.close')
         </button>
       </div>

@@ -1,3 +1,4 @@
+@include('layouts.attex.legacy-css')
 @vite(['resources/scss/app.scss', 'resources/scss/icons.scss'])
 @yield('css')
 {{-- BC shim: old views use extra_css / styles --}}

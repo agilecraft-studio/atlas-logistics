@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
   .nav-link {
@@ -22,7 +22,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
           @lang('menu.email_content')
@@ -31,11 +31,11 @@
       <div class="card-body">
         <div>
           <ul class="nav nav-pills custom">
-            <li class="nav-item"><a href="#insurance" data-toggle="tab" class="nav-link active"> @lang('fleet.i_notify') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#vehicle-licence" data-toggle="tab" class="nav-link"> @lang('fleet.v_lic') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#driver-licence" data-toggle="tab" class="nav-link"> @lang('fleet.d_lic') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#registration" data-toggle="tab" class="nav-link"> @lang('fleet.v_reg') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#reminder" data-toggle="tab" class="nav-link"> @lang('fleet.serviceReminders') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#insurance" data-bs-toggle="tab" class="nav-link active"> @lang('fleet.i_notify') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#vehicle-licence" data-bs-toggle="tab" class="nav-link"> @lang('fleet.v_lic') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#driver-licence" data-bs-toggle="tab" class="nav-link"> @lang('fleet.d_lic') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#registration" data-bs-toggle="tab" class="nav-link"> @lang('fleet.v_reg') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#reminder" data-bs-toggle="tab" class="nav-link"> @lang('fleet.serviceReminders') <i class="fa"></i></a></li>
           </ul>
         </div>
 

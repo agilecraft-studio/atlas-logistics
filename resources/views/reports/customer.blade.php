@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
 <li class="breadcrumb-item active">@lang('fleet.customerReport')</li>
@@ -16,7 +16,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.customerReport')
         </h3>
@@ -47,7 +47,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <div class="card card-info box1">
+    <div class="card box1">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.monthlyReport')
         </h3>
@@ -58,7 +58,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="card card-info box1">
+    <div class="card box1">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.topCustomers')
         </h3>
@@ -92,7 +92,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.yearlyReport')
         </h3>
@@ -112,7 +112,7 @@
 
 @endsection
 
-@section('script2')
+@section('scripts')
 <script type="text/javascript">
 var config = {
     type: 'line',

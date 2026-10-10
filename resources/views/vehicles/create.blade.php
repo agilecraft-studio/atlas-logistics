@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
   .nav-tabs-custom>.nav-tabs>li.active {
@@ -78,14 +78,14 @@
       </ul>
     </div>
     @endif
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.addVehicle')</h3>
       </div>
       <div class="card-body">
         <div class="nav-tabs-custom">
           <ul class="nav nav-pills custom">
-            <li class="nav-item"><a class="nav-link active" href="#info-tab" data-toggle="tab">
+            <li class="nav-item"><a class="nav-link active" href="#info-tab" data-bs-toggle="tab">
                 @lang('fleet.general_info') <i class="fa"></i></a></li>
           </ul>
         </div>
@@ -98,7 +98,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('make_name', __('fleet.SelectVehicleMake'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-toggle="modal" data-target="#myModal"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="make_name" class="form-control" required id="make_name">
                       <option></option>
@@ -182,7 +182,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('color_name', __('fleet.SelectVehicleColor'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-toggle="modal" data-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="color_name" class="form-control" required id="color_name">
                       <option></option>
@@ -259,7 +259,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('model_name', __('fleet.SelectVehicleModel'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-toggle="modal" data-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="model_name" class="form-control" required id="model_name">
                       <option></option>
@@ -366,13 +366,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.add_new_cat')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -383,13 +383,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.add_new_cat')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -400,13 +400,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.add_new_cat')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

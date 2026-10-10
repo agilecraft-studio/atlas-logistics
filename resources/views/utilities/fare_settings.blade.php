@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item">@lang('menu.settings')</li>
 <li class="breadcrumb-item active">@lang('menu.fare_settings')</li>
@@ -13,7 +13,7 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-		<div class="card card-success">
+		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">@lang('menu.fare_settings')
 				</h3>
@@ -22,7 +22,7 @@
 				<div>
 					<ul class="nav nav-pills custom">
 					@foreach($types as $type)
-						<li class="nav-item"><a href="#{{strtolower(str_replace(' ','',$type))}}" data-toggle="tab" class="nav-link text-uppercase @if(reset($types) == $type) active @endif "> {{$type}} <i class="fa"></i></a></li>
+						<li class="nav-item"><a href="#{{strtolower(str_replace(' ','',$type))}}" data-bs-toggle="tab" class="nav-link text-uppercase @if(reset($types) == $type) active @endif "> {{$type}} <i class="fa"></i></a></li>
 					@endforeach
 					</ul>
 				</div>

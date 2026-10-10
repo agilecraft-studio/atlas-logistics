@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="{{url('admin/driver-maps')}}">@lang('fleet.maps')</a></li>
 <li class="breadcrumb-item active">@lang('fleet.driver_tracking')</li>
@@ -7,7 +7,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
         @lang('fleet.driver_tracking') : <small> {{$driver["name"]}} </small>

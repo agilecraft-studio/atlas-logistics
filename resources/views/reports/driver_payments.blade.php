@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @php $currency = AtlasLogistics::get('currency') @endphp
 @php $date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y'; @endphp
 @section("breadcrumb")
@@ -8,7 +8,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.add') @lang('fleet.driverPayment')
         </h3>
@@ -43,7 +43,7 @@
         {!! Form::close() !!}
       </div>
     </div>
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.paymentReport')
         </h3>

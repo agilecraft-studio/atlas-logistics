@@ -9,6 +9,7 @@
     };
 </script>
 @include('layouts.attex.legacy-scripts')
+@include('layouts.attex.legacy-init')
 @yield('script')
 {{-- BC shim: old views use script section name "script" already; also support "scripts" --}}
 @yield('scripts')

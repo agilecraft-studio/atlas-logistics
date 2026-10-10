@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
 <li class="breadcrumb-item active">@lang('fleet.monthlyReport')</li>
@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.monthlyReport')
         </h3>
@@ -46,7 +46,7 @@
 @if(isset($result))
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
           @lang('fleet.report')
@@ -55,7 +55,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-4">
-            <div class="card card-warning">
+            <div class="card">
               <div class="card-header">
                 <h4 class="card-title">@lang('fleet.chart') - @lang('fleet.income')</h4>
               </div>
@@ -89,7 +89,7 @@
           </div>
 
           <div class="col-md-4">
-            <div class="card card-warning">
+            <div class="card">
               <div class="card-header">
                 <h4 class="card-title">@lang('fleet.chart') - @lang('fleet.incomeByCategory')</h4>
               </div>
@@ -122,7 +122,7 @@
           </div>
 
           <div class="col-md-4">
-            <div class="card card-warning">
+            <div class="card">
               <div class="card-header">
                 <h4 class="card-title">@lang('fleet.chart') - @lang('fleet.expensesByCategory')</h4>
               </div>
@@ -169,7 +169,7 @@
 
 @endsection
 
-@section("script2")
+@section('scripts')
 <script>
 window.chartColors = {
   red: 'rgb(255, 99, 132)',

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="{{ route('mechanic.index')}}"> @lang('fleet.mechanics') </a></li>
 <li class="breadcrumb-item active">@lang('fleet.add_mechanic')</li>
@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.create_mechanic')</h3>
       </div>
@@ -68,7 +68,7 @@
       {{--
       <hr>
       <div class="row">
-        <div class="form-group col-md-6 ml-3">
+        <div class="form-group col-md-6 ms-3">
           {!! Form::label('udf1',__('fleet.add_udf'), ['class' => 'col-xs-5 control-label']) !!}
           <div class="row">
             <div class="col-md-8">

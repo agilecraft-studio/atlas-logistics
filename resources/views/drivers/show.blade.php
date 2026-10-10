@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 @section('extra_css')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
@@ -17,11 +17,11 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-      <div class="card card-info">
+      <div class="card">
         <div class="card-header with-border">
           <h3 class="card-title w-100 d-flex justify-content-between align-items-center"> <span>@lang('fleet.driver') @lang('fleet.details')</span>
-            <div class=" float-right">
-                <a href="{{ route('drivers.edit',$driver->id) }}" class="float-right btn btn-sm btn-warning" title="@lang('fleet.edit_driver')"><i class="fa fa-edit"></i></a>
+            <div class=" float-end">
+                <a href="{{ route('drivers.edit',$driver->id) }}" class="float-end btn btn-sm btn-warning" title="@lang('fleet.edit_driver')"><i class="fa fa-edit"></i></a>
             </div>
           </h3>
         </div>
@@ -43,7 +43,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header with-border">
         <h3 class="card-title"> @lang('fleet.driver') @lang('fleet.bookings') &nbsp;          
         </h3>
@@ -76,8 +76,8 @@
             <tfoot>
               <tr>
                 <th>
-                  @can('Bookings delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
-                    data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
+                  @can('Bookings delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                    data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
                       class="fa fa-trash"></i></button>@endcan
                 </th>
                 <th>@lang('fleet.customer')</th>

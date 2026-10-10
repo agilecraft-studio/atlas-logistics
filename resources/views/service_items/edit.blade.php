@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
   /* The switch - the box around the slider */
@@ -73,7 +73,7 @@
     {!! Form::open(['route' => ['service-item.update',$service->id],'method'=>'Patch']) !!}
     {!! Form::hidden('user_id',Auth::user()->id)!!}
     {!! Form::hidden('id',$service->id)!!}
-    <div class="card card-warning">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
           @lang('fleet.edit_service_item')

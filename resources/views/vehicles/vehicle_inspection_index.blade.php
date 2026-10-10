@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item active">@lang('fleet.vehicle_inspection')</li>
 @endsection
@@ -13,7 +13,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
         @lang('fleet.vehicle_inspection')
@@ -40,9 +40,9 @@
               <td>{{$r->reg_no}}</td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
                     <span class="fa fa-gear"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
+                    <span class="visually-hidden">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu custom" role="menu">
                     <a class="dropdown-item" href="{{url('admin/view-vehicle-inspection/'.$r->id)}}">

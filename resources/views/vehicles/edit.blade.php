@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
   /* The switch - the box around the slider */
@@ -88,20 +88,20 @@
       </ul>
     </div>
     @endif
-    <div class="card card-warning">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.edit_vehicle')</h3>
       </div>
       <div class="card-body">
         <div class="nav-tabs-custom">
           <ul class="nav nav-pills custom">
-            <li class="nav-item"><a class="nav-link active" href="#info-tab" data-toggle="tab">
+            <li class="nav-item"><a class="nav-link active" href="#info-tab" data-bs-toggle="tab">
                 @lang('fleet.general_info') <i class="fa"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="#insurance" data-toggle="tab"> @lang('fleet.insurance') <i
+            <li class="nav-item"><a class="nav-link" href="#insurance" data-bs-toggle="tab"> @lang('fleet.insurance') <i
                   class="fa"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="#acq-tab" data-toggle="tab"> @lang('fleet.purchase_info') <i
+            <li class="nav-item"><a class="nav-link" href="#acq-tab" data-bs-toggle="tab"> @lang('fleet.purchase_info') <i
                   class="fa"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="#driver" data-toggle="tab"> @lang('fleet.assign_driver') <i
+            <li class="nav-item"><a class="nav-link" href="#driver" data-bs-toggle="tab"> @lang('fleet.assign_driver') <i
                   class="fa"></i></a></li>
           </ul>
         </div>
@@ -116,7 +116,7 @@
                 <div class="form-group">
                   {{-- @dd($makes) --}}
                   {!! Form::label('make_name', __('fleet.SelectVehicleMake'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-toggle="modal" data-target="#myModal"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="make_name" class="form-control" required id="make_name">
                       <option></option>
@@ -213,7 +213,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('color_name', __('fleet.SelectVehicleColor'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-toggle="modal" data-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="color_name" class="form-control" required id="color_name">
                       <option></option>
@@ -293,7 +293,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('model_name', __('fleet.SelectVehicleModel'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-toggle="modal" data-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="model_name" class="form-control" required id="model_name">
                       @foreach($models as $model)
@@ -429,7 +429,7 @@
           <div class="tab-pane " id="acq-tab">
             <div class="row card-body">
               <div class="col-md-12">
-                <div class="card card-success">
+                <div class="card">
                   <div class="card-header">
                     <h3 class="card-title">@lang('fleet.acquisition') @lang('fleet.add')</h3>
                   </div>
@@ -461,7 +461,7 @@
             </div>
             <div class="row card-body">
               <div class="col-md-12">
-                <div class="card card-info">
+                <div class="card">
                   <div class="card-header">
                     <h3 class="card-title">@lang('fleet.acquisition') :<strong>@if($vehicle->make_name){{
                         $vehicle->make_name }}@endif @if($vehicle->model_name){{ $vehicle->model_name }}@endif
@@ -555,13 +555,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.add_new_cat')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -572,13 +572,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.add_new_cat')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -589,13 +589,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.add_new_cat')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

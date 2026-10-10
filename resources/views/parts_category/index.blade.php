@@ -1,4 +1,4 @@
-@extends("layouts.app")
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item active">@lang('fleet.partsCategory')</li>
 @endsection
@@ -13,7 +13,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
         @lang('fleet.parts_category')
@@ -45,9 +45,9 @@
               </td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                  <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
                     <span class="fa fa-gear"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
+                    <span class="visually-hidden">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu custom" role="menu">
                     @can('PartsCategory edit')<a class="dropdown-item" href="{{ url("admin/parts-category/".$row->id."/edit") }}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
@@ -66,7 +66,7 @@
             <tr>
               <th>
                 @if($records->count() > 0)
-                @can('PartsCategory delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal" data-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('PartsCategory delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
                 @endif
               </th>
               <th>@lang('fleet.category_name')</th>
@@ -86,7 +86,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/delete-parts-category','method'=>'POST','id'=>'form_delete']) !!}
@@ -95,7 +95,7 @@
       </div>
       <div class="modal-footer">
         <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -110,14 +110,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
         <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

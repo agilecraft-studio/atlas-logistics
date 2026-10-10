@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
@@ -18,7 +18,7 @@
 
   <div class="col-md-12">
 
-    <div class="card card-info">
+    <div class="card">
 
       <div class="card-header">
 
@@ -122,7 +122,7 @@
 
   <div class="col-md-12">
 
-    <div class="card card-info">
+    <div class="card">
 
       <div class="card-header">
 

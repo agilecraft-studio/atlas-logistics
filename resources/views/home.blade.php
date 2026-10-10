@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @php
 $dk=array_keys($dates);
 @endphp
@@ -138,7 +138,7 @@ $dk=array_keys($dates);
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card">
               <div class="card-header">
                 <h5> @lang('fleet.income') - @lang('fleet.expense') </h5>
               </div>
@@ -148,7 +148,7 @@ $dk=array_keys($dates);
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card">
               <div class="card-header">
                 <h5> @lang('fleet.vehicle') @lang('fleet.expenses') </h5>
               </div>
@@ -211,7 +211,7 @@ $dk=array_keys($dates);
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card">
               <div class="card-header">
                 <h5> @lang('fleet.vehicle_breakdown')</h5>
               </div>
@@ -237,7 +237,7 @@ $dk=array_keys($dates);
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card">
               <div class="card-header">
                 <h5> @lang('fleet.driver_alert') </h5>
               </div>
@@ -271,7 +271,7 @@ $dk=array_keys($dates);
 @endif
 
 @endsection
-@section("script2")
+@section('scripts')
 <script>
   window.chartColors = {
   red: 'rgb(255, 99, 132)',

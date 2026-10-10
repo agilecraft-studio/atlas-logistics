@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section('extra_css')
@@ -19,7 +19,7 @@
 <div class="row">
   <div class="col-md-3">
   <!-- Profile Image -->
-    <div class="card card-info card-outline">
+    <div class="card">
       <div class="card-body box-profile">
         <div class="text-center">
           @if($data->getMeta('driver_image') != null)
@@ -45,7 +45,7 @@
       </div>
     </div>
     <!-- About Me Box -->
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
       <h3 class="card-title">@lang('fleet.about_me')</h3>
       </div>
@@ -99,8 +99,8 @@
     <div class="card">
       <div class="card-header p-2">
         <ul class="nav nav-pills">
-          <li class="nav-item"><a class="nav-link custom_color active" href="#activity" data-toggle="tab">@lang('fleet.activity')</a></li>
-          <li class="nav-item"><a class="nav-link custom_color" href="#upcoming" data-toggle="tab">@lang('fleet.upcoming')</a></li>
+          <li class="nav-item"><a class="nav-link custom_color active" href="#activity" data-bs-toggle="tab">@lang('fleet.activity')</a></li>
+          <li class="nav-item"><a class="nav-link custom_color" href="#upcoming" data-bs-toggle="tab">@lang('fleet.upcoming')</a></li>
         </ul>
       </div>
       <div class="card-body">

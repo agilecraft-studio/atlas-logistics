@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
@@ -19,7 +19,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-warning">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.edit_driver')</h3>
       </div>

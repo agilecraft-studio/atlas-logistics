@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 
 @section("breadcrumb")
 
@@ -30,7 +30,7 @@
 
   <div class="col-md-12">
 
-    <div class="card card-info">
+    <div class="card">
 
       <div class="card-header">
 
@@ -160,11 +160,11 @@
 
               <div class="btn-group">
 
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
 
                   <span class="fa fa-gear"></span>
 
-                  <span class="sr-only">Toggle Dropdown</span>
+                  <span class="visually-hidden">Toggle Dropdown</span>
 
                 </button>
 
@@ -202,7 +202,7 @@
 
                 @if($data->count() > 0)
 
-                @can('Parts delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal" data-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('Parts delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
 
                 @endif
 
@@ -262,7 +262,7 @@
 
         <h4 class="modal-title"><span id="part_title"></span> : @lang('fleet.addStock')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -286,7 +286,7 @@
 
         <button class="btn btn-info" type="submit" data-submit="">@lang('fleet.addStock')</button>
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -316,7 +316,7 @@
 
         <h4 class="modal-title">@lang('fleet.delete')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -334,7 +334,7 @@
 
         <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -364,7 +364,7 @@
 
         <h4 class="modal-title">@lang('fleet.delete')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -378,7 +378,7 @@
 
         <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 

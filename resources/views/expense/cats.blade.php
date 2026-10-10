@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section("breadcrumb")
@@ -17,11 +17,11 @@
       </ul>
     </div>
     @endif
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.expenseCategories') &nbsp;
           <a href="{{ route('expensecategories.create')}}" class="btn btn-success" title="@lang('fleet.addNew')"><i class="fa fa-plus"></i></a>
-          <button data-toggle="modal" data-target="#import" class="btn btn-warning">@lang('fleet.import')</button>
+          <button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>
         </h3>
       </div>
 
@@ -43,9 +43,9 @@
               <td>{{date($date_format_setting,strtotime($row->created_at))}}</td>
               <td>
               <div class="btn-group">
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
                   <span class="fa fa-gear"></span>
-                  <span class="sr-only">Toggle Dropdown</span>
+                  <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu custom" role="menu">
                  <a class="dropdown-item" href="{{url("admin/expensecategories/".$row->id."/edit") }}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>
@@ -83,7 +83,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.importExpense')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/import-expense','method'=>'POST','files'=>true]) !!}
@@ -103,7 +103,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-warning" type="submit">@lang('fleet.import')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -118,14 +118,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
         <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

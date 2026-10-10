@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="{{ route('service-reminder.index')}}">@lang('fleet.serviceReminders')</a></li>
 <li class="breadcrumb-item active">@lang('fleet.add_service_reminder')</li>
@@ -9,7 +9,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.serviceReminders')</h3>
       </div>

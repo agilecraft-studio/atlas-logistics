@@ -1,4 +1,4 @@
-    @extends('layouts.app')
+    @extends('layouts.attex')
 
 @section('extra_css')
 
@@ -20,7 +20,7 @@
 
         <div class="col-md-12">
 
-            <div class="card card-warning">
+            <div class="card">
 
                 <div class="card-header">
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('breadcrumb')
     <li class="breadcrumb-item">@lang('menu.settings')</li>
     <li class="breadcrumb-item active">@lang('menu.traccar_settings')</li>
@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card card-success">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">@lang('fleet.traccar_settings')
                     </h3>
@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12 mb-2">
                             <h5>  @lang('fleet.traccar_enable')
-                                <a data-toggle="modal" data-target="#myModal9"><i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
+                                <a data-bs-toggle="modal" data-bs-target="#myModal9"><i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
                             </h5>
                         </div>
                         <div class="col-md-6 col-sm-12 mb-2">
@@ -32,7 +32,7 @@
                         {{-- <div class="col-md-12 text-center">
                             <div class="form-group">
                                 {!! Form::label('traccar_enable', __('fleet.traccar_enable'), ['class' => 'form-label']) !!}
-                                <a data-toggle="modal" data-target="#myModal9"><i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
+                                <a data-bs-toggle="modal" data-bs-target="#myModal9"><i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
                                 <br>
                                 <label class="switch">
                                     <input type="checkbox" name="traccar_enable" value="1" id="traccar_enable"
@@ -95,14 +95,14 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">@lang('fleet.traccar_enable')</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
                                     <p>@lang('fleet.traccar_enable_info')</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                        data-dismiss="modal">@lang('fleet.close')</button>
+                                    <button type="button" class="btn btn-light"
+                                        data-bs-dismiss="modal">@lang('fleet.close')</button>
                                 </div>
                             </div>
                         </div>

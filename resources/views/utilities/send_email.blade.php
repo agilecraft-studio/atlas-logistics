@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item">@lang('menu.settings')</li>
 <li class="breadcrumb-item active">@lang('menu.email_notification')</li>
@@ -82,7 +82,7 @@ input[type="checkbox"]{
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('menu.email_notification')
         </h3>
@@ -99,7 +99,7 @@ input[type="checkbox"]{
                 (@lang('fleet.disable'))
               @endif
             </span>
-            <a data-toggle="modal" data-target="#myModal1"><i class="fa fa-info-circle fa-lg ml-1" aria-hidden="true"  style="color: #8639dd"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#myModal1"><i class="fa fa-info-circle fa-lg ms-1" aria-hidden="true"  style="color: #8639dd"></i></a>
           </h4>
           </div>
           <div class="col-md-3 col-sm-12">
@@ -169,13 +169,13 @@ input[type="checkbox"]{
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('menu.email_notification')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.email_notification_info')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

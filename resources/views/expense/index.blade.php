@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
@@ -36,7 +36,7 @@
 
   <div class="col-md-12">
 
-    <div class="card card-success">
+    <div class="card">
 
       <div class="card-header">
 
@@ -194,7 +194,7 @@
 
   <div class="col-md-12">
 
-    <div class="card card-success">
+    <div class="card">
 
       <div class="card-header">
 
@@ -218,7 +218,7 @@
 
               
 
-              <div class="input-group date ml-3 mr-3">
+              <div class="input-group date ms-3 me-3">
 
                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
 
@@ -232,7 +232,7 @@
 
               {!! Form::label('date2',__('fleet.To')) !!}
 
-              <div class="input-group date ml-3">
+              <div class="input-group date ms-3">
 
                 <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
 
@@ -384,7 +384,7 @@
 
                 @if($today->count() > 0)
 
-                @can('Transactions delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal" data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="fa fa-trash"></i></button>@endcan
+                @can('Transactions delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="fa fa-trash"></i></button>@endcan
 
                 @endif
 
@@ -438,7 +438,7 @@
 
         <h4 class="modal-title">@lang('fleet.delete')</h4>
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
       </div>
 
@@ -456,7 +456,7 @@
 
         <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -484,7 +484,7 @@
 
       <div class="modal-header">
 
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
 
         <h4 class="modal-title">@lang('fleet.delete')</h4>
 
@@ -500,7 +500,7 @@
 
         <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 

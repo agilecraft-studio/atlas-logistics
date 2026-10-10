@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 @endsection
@@ -10,7 +10,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
         @lang('fleet.vendorReport') &nbsp; <a href="{{url('admin/print-vendor-report')}}" class="btn btn-danger"><i class="fa fa-print"></i> @lang('fleet.print')</a>
@@ -25,15 +25,15 @@
 
             <div class="form-group">
               {!! Form::label('date1',__('fleet.From')) !!}
-              <div class="input-group ml-2">
+              <div class="input-group ms-2">
                 <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
                 {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=>__('fleet.start_date'),'required']) !!}
               </div>
             </div>
-            <div class="form-group ml-2" style="margin-right: 5px">
+            <div class="form-group ms-2" style="margin-right: 5px">
               {!! Form::label('date2',__('fleet.To')) !!}
-              <div class="input-group ml-2">
+              <div class="input-group ms-2">
                 <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
                 {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
@@ -50,7 +50,7 @@
         <div class="row" style="margin-top: 25px;">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            <div class="card card-warning">
+            <div class="card">
               <div class="card-body">
                 <canvas id="canvas1" width="400" height="300"></canvas>
                 <div class="table-responsive">
@@ -83,7 +83,7 @@
 </div>
 @endsection
 
-@section("script2")
+@section('scripts')
 <script>
 window.chartColors = {
   red: 'rgb(255, 99, 132)',

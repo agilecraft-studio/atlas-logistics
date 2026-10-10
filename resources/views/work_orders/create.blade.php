@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 @endsection
@@ -9,7 +9,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
           @lang('fleet.create_workorder')
@@ -136,10 +136,10 @@
             </div>
             <div class="row col-md-3">
               <div class="form-group" style="margin-top: 30px;">
-                <button class="btn btn-danger ml-2 removePart" type="button">Remove</button>
+                <button class="btn btn-danger ms-2 removePart" type="button">Remove</button>
               </div>
               <div class="form-group" style="margin-top: 30px;">
-                <button class="btn btn-warning ml-2 addPart" type="button">New Part</button>
+                <button class="btn btn-warning ms-2 addPart" type="button">New Part</button>
               </div>
             </div>
           </div>

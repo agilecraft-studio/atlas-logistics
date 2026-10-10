@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
 <li class="breadcrumb-item active">@lang('fleet.driverReport')</li>
@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.driverReport')
         </h3>
@@ -37,7 +37,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.monthlyReport')
         </h3>
@@ -74,7 +74,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.yearlyReport')
         </h3>
@@ -93,7 +93,7 @@
 </div>
 @endsection
 
-@section('script2')
+@section('scripts')
 <script src="{{ asset('assets/js/cdn/Chart.bundle.min.js')}}"></script>
 
 <script type="text/javascript">

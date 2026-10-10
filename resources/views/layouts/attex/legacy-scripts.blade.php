@@ -124,10 +124,11 @@
 })(jQuery);
 </script>
 
-<script src="{{ asset('assets/js/plugins-dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/js/cdn-jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins-dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/js/cdn-dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('assets/js/cdn-pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-vfs_fonts.js') }}"></script>
 <script src="{{ asset('assets/js/cdn-jszip.min.js') }}"></script>
 <script src="{{ asset('assets/js/cdn-buttons.html5.min.js') }}"></script>
 <script src="{{ asset('assets/js/cdn-buttons.print.min.js') }}"></script>

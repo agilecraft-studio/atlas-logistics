@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item">@lang('menu.settings')</li>
 <li class="breadcrumb-item active">@lang('fleet.payment_settings')</li>
@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.payment_settings')
         </h3>
@@ -31,12 +31,12 @@
             <div class="form-group">
               {!! Form::label('payment_method', __('fleet.payment_method') , ['class' => 'form-label']) !!}<br>
               <input type="checkbox" name="method[]" class="method" value="cash" id="cash" @if(in_array("cash", $methods)) checked @endif> 
-              <label for="cash" class="font-weight-normal">@lang('fleet.cash')</label>&nbsp; &nbsp;
+              <label for="cash" class="fw-normal">@lang('fleet.cash')</label>&nbsp; &nbsp;
               <input type="checkbox" name="method[]" class="method" value="stripe" id="stripe" @if(in_array("stripe", $methods)) checked @endif> 
-              <label for="stripe" class="font-weight-normal">@lang('fleet.stripe')</label> &nbsp; &nbsp;
-              <input type="checkbox" name="method[]" class="method" value="razorpay" id="razorpay" @if(in_array("razorpay", $methods)) checked @endif>               <label for="razorpay" class="font-weight-normal">@lang('fleet.razorpay') &nbsp; &nbsp; </label>
+              <label for="stripe" class="fw-normal">@lang('fleet.stripe')</label> &nbsp; &nbsp;
+              <input type="checkbox" name="method[]" class="method" value="razorpay" id="razorpay" @if(in_array("razorpay", $methods)) checked @endif>               <label for="razorpay" class="fw-normal">@lang('fleet.razorpay') &nbsp; &nbsp; </label>
               <input type="checkbox" name="method[]" class="method" value="paystack" id="paystack" @if(in_array("paystack", $methods)) checked @endif> 
-              <label for="paystack" class="font-weight-normal">@lang('fleet.paystack')</label>
+              <label for="paystack" class="fw-normal">@lang('fleet.paystack')</label>
             </div>
           </div>
           <div class="col-md-6">

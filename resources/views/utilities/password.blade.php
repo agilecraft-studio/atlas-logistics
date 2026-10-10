@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item active">@lang('fleet.change_password')</li>
 @endsection
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-		<div class="card card-warning">
+		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">@lang('fleet.change_password') : <strong>{{ Auth::user()->name}}</strong> </h3>
 			</div>

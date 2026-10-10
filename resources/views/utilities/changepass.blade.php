@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section("breadcrumb")
 <li class="breadcrumb-item active">@lang('fleet.change_details')</li>
 @endsection
@@ -21,7 +21,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<div class="card card-warning">
+		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">@lang('fleet.change_details') : <strong>{{ $user_data->name}}</strong></h3>
 			</div>
@@ -79,7 +79,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 						  {!! Form::label('dark_mode',__('fleet.dark_mode'), ['class' => 'form-label']) !!}
-						  {{-- <a data-toggle="modal" data-target="#myModal8"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> --}}
+						  {{-- <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> --}}
 						  <br>
 						  <label class="switch">
 							<input type="checkbox" name="theme" value="dark-mode" id="expense_enable_driver" @if($user_data->theme=='dark-mode') checked @endif>
@@ -93,7 +93,7 @@
 							<input type="submit"  class="form-control btn btn-warning"  value="@lang('fleet.change_details')" />
 						</div>
 						@if(session()->has('message'))
-							<div class="pt-1 ml-2 col-md-10">
+							<div class="pt-1 ms-2 col-md-10">
 								<b class="update_message text-success mb-0" style="font-size: 20px !important;">{{  session()->get('message') }}</b>
 							</div>
 						@endif 
@@ -108,7 +108,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="card card-warning">
+		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">@lang('fleet.change_password') : <strong>{{ Auth::user()->name}}</strong> </h3>
 			</div>

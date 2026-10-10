@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
 <style type="text/css">
 
@@ -75,7 +75,7 @@ input:checked + .slider:before {
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-success">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('menu.api_settings')
         </h3>
@@ -93,10 +93,10 @@ input:checked + .slider:before {
 
         <div>
           <ul class="nav nav-pills custom">
-            <li class="nav-item"><a href="#general" data-toggle="tab" class="nav-link active"> @lang('menu.general_settings') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#firebase" data-toggle="tab" class="nav-link"> @lang('fleet.firebase_settings') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#serverkey" data-toggle="tab" class="nav-link"> @lang('fleet.app_notification') <i class="fa"></i></a></li>
-            <li class="nav-item"><a href="#maps" data-toggle="tab" class="nav-link"> @lang('fleet.maps') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#general" data-bs-toggle="tab" class="nav-link active"> @lang('menu.general_settings') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#firebase" data-bs-toggle="tab" class="nav-link"> @lang('fleet.firebase_settings') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#serverkey" data-bs-toggle="tab" class="nav-link"> @lang('fleet.app_notification') <i class="fa"></i></a></li>
+            <li class="nav-item"><a href="#maps" data-bs-toggle="tab" class="nav-link"> @lang('fleet.maps') <i class="fa"></i></a></li>
           </ul>
         </div>
       <div class="row">
@@ -119,7 +119,7 @@ input:checked + .slider:before {
                 @if(AtlasLogistics::api('api') == "1")
                 <div class="form-group col-md-3">
                   <h6>{!! Form::label('google_api',__('fleet.google_places_api'),['class'=>"form-label"]) !!} 
-                    <a data-toggle="modal" data-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
+                    <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
                     <strong class="text-muted">(<a href="https://docs.listingprowp.com/knowledgebase/how-to-get-map-working-with-google-api-key/" target="blank">@lang('fleet.api_guide')</a>)</strong>
                   </h6>
                   <label class="switch">
@@ -138,7 +138,7 @@ input:checked + .slider:before {
 
                 <div class="form-group col-md-3">
                   <h6>{!! Form::label('driver_review',__('fleet.driver_review'),['class'=>"form-label"]) !!}
-                    <a data-toggle="modal" data-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                    <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   </h6>
                   <label class="switch">
                   <input type="checkbox" name="name[driver_review]" value="1" @if(AtlasLogistics::api('driver_review') == "1") checked @endif>
@@ -195,7 +195,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-md-12">
                   {!! Form::label('db_url',__('fleet.db_url'),['class'=>"form-label"]) !!}
-                  <a data-toggle="modal" data-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('db_url',
                   AtlasLogistics::api('db_url'),['class'=>"form-control",'required','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
                 </div>
@@ -232,7 +232,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-md-12">
                   {!! Form::label('server_key',__('fleet.legacy_key'),['class'=>"form-label"]) !!}
-                  <a data-toggle="modal" data-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('server_key',
                   AtlasLogistics::api('server_key'),['class'=>"form-control",'required']) !!}
                 </div>
@@ -247,7 +247,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-md-12">
                   {!! Form::label('api_key',__('fleet.google_maps'),['class'=>"form-label"]) !!}
-                  <a data-toggle="modal" data-target="#myModal6"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal6"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('api_key',
                   AtlasLogistics::api('api_key'),['class'=>"form-control",'required']) !!}
                 </div>
@@ -287,13 +287,13 @@ input:checked + .slider:before {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.api')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.api_info')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -307,14 +307,14 @@ input:checked + .slider:before {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.google_places_api')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.google_places_api_info1')</p>
         <p>@lang('fleet.google_places_api_info2')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -328,13 +328,13 @@ input:checked + .slider:before {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.driver_review')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.driver_review_info')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -348,13 +348,13 @@ input:checked + .slider:before {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.legacy_key')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.legacy_key_info')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -366,13 +366,13 @@ input:checked + .slider:before {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.db_url')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.db_url_info')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -384,13 +384,13 @@ input:checked + .slider:before {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.google_maps')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.google_maps_info')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
