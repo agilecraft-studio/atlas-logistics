@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @section('extra_css')
     <style type="text/css">
         .modal {
@@ -35,13 +35,13 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card card-info">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">@lang('fleet.manageVehicles') &nbsp; @can('Vehicles add')
                             <a href="{{ route('vehicles.create') }}" class="btn btn-success" title="@lang('fleet.addNew')"><i
                                     class="fa fa-plus"></i></a>
                         @endcan
-                        {{-- @can('Vehicles import')<button data-toggle="modal" data-target="#import" class="btn btn-warning">@lang('fleet.import')</button>@endcan --}}
+                        {{-- @can('Vehicles import')<button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>@endcan --}}
                     </h3>
                 </div>
 
@@ -72,8 +72,8 @@
                                 <th>
 
                                     @can('Vehicles delete')
-                                        <button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
-                                            data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
+                                        <button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                                            data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
                                                 class="fa fa-trash"></i></button>
                                     @endcan
                                 </th>

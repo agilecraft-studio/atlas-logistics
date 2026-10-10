@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.attex')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 @section('extra_css')
 <style type="text/css">
@@ -57,12 +57,12 @@
 
     
 
-    <div class="card card-info">
+    <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('menu.drivers') &nbsp;
           @can('Drivers add') <a href="{{ route('drivers.create') }}" class="btn btn-success"
             title="@lang('fleet.addDriver')"> <i class="fa fa-plus"></i> </a> @endcan
-          @can('Drivers import') &nbsp;&nbsp;<button data-toggle="modal" data-target="#import"
+          @can('Drivers import') &nbsp;&nbsp;<button data-bs-toggle="modal" data-bs-target="#import"
             class="btn btn-warning">@lang('fleet.import')</button>@endcan
         </h3>
       </div>
@@ -91,8 +91,8 @@
           <tfoot>
             <tr>
               <th>
-                @can('Drivers delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
-                  title="@lang('fleet.delete')" data-target="#bulkModal" disabled>
+                @can('Drivers delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                  title="@lang('fleet.delete')" data-bs-target="#bulkModal" disabled>
                   <i class="fa fa-trash"></i></button>@endcan
               </th>
               <th>#</th>
@@ -113,13 +113,13 @@
 </div>
 
 <!-- Modal -->
-<div id="import" class="modal fade" role="dialog">
+<div id="import" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.importDrivers')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@lang('fleet.close')"></button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/import-drivers','method'=>'POST','files'=>true]) !!}
@@ -158,7 +158,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@lang('fleet.close')"></button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/delete-drivers','method'=>'POST','id'=>'form_delete']) !!}
@@ -182,7 +182,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@lang('fleet.close')"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_delete')</p>
@@ -204,7 +204,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.change_password')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@lang('fleet.close')"></button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>url('admin/change_password'),'id'=>'changepass_form']) !!}

@@ -27,4 +27,40 @@ Web installer imports MySQL dump; no migrations dir. PG schema in docs/fleet-pgs
   3. DataTable / Select2 / datepickers / FullCalendar / Chart.js / Fastclick / Pnotify stacks.
 - Legacy views emit inline scripts in their `@section('script')`/`@section('script-bottom')`. These evaluate at **parse time** and need the synchronous global `window.jQuery` — hence the classic jQuery must precede `@yield('script')` in `footer-script.blade.php` (do not reorder after `@yield('script')`, or inline scripts run before jQuery).
 - `resources/js/head.js` must NOT re-bind `window.$`/`window.jQuery` (module-level `import $ from 'jquery'`), or two jQuery instances coexist. App code reads the CDN global `jQuery` / `window.bootstrap`.
+
+## Legacy view conversion (BS4 → BS5) — Attex shell migration
+
+### Scope
+- `resources/views/**/*.blade.php` (138 files) extend the legacy layout `layouts.app`
+  (Bootstrap 4 + AdminLTE). Also 3 files extend `layouts.master` and 7 error views
+  extend `errors::minimal`. All are candidates for the Attex BS5 shell
+  (`layouts/attex.blade.php` + partials under `layouts/attex/`).
+
+### Conversion pattern (applied to all candidate views)
+1. Layout reference: `@extends('layouts.app')` → `@extends('layouts.attex')`.
+   Sections `content`, `breadcrumb`, `page_title`, `extra_css` (and legacy
+   `script`/`script-bottom`/`styles`) are all honoured by the Attex shell.
+2. Data attributes: `data-toggle="modal"` → `data-bs-toggle="modal"`,
+   `data-target` → `data-bs-target`, `data-dismiss` → `data-bs-dismiss`.
+3. Modal markup: `.modal.fade` stays; close buttons use
+   `<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">`.
+4. Card colour variant: `card card-*` → `card` (BS5 uses `bg-*` utilities for
+   colour; the Attex shell handles them via its SCSS).
+5. Leave inline legacy JS (DataTables, Select2, datepickers, FullCalendar,
+   Chart.js, Fastclick, Pnotify, custom checkboxes) untouched — they are
+   classic scripts that run after `jQuery` + `legacy-compat.js` are defined.
+6. Verify each converted view renders through the Attex shell with the live
+   probe route (`/admin/probe`) before considering it complete.
+
+### Current status
+- **Completed & render-verified:** `drivers/index.blade.php`,
+  `vehicles/index.blade.php` (BS5 markup, classic JS untouched).
+- **Pending:** remaining ~133 view files across `fleet/`, `bookings/`,
+  `finance/`, `reports/`, `users/`, etc.; `layouts.master` (3); error pages
+  (`errors::minimal`, 7).
+
+### Open item
+The full ~133-file migration is the next step. Recommend a per-module batch
+convention (index/detail/create/edit) with a render-assert run after each
+batch, approving progression module by module.
 - Do not turn this app into a taxi/passenger-booking system; keep the Attex shell, controlled statuses/commodities, and configurable reference data.
