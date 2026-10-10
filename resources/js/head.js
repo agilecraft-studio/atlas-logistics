@@ -4,10 +4,6 @@
 * Module/App: Main Js
 */
 
-import $ from 'jquery';
-window.$ = $;
-window.jQuery = $;
-
 import moment from 'moment';
 window.moment = moment;
 

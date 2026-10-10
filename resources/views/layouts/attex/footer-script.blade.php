@@ -8,6 +8,7 @@
         } else { alert(message); }
     };
 </script>
+@include('layouts.attex.legacy-scripts')
 @yield('script')
 {{-- BC shim: old views use script section name "script" already; also support "scripts" --}}
 @yield('scripts')

@@ -4,34 +4,40 @@
  * Bootstrap 4 -> Bootstrap 5 runtime shim for admin views that have not yet
  * been converted to Bootstrap 5 (Attex) markup.
  *
- * SCOPE: temporary migration shim, loaded from layouts/attex.blade.php for the
- * admin shell only. Two jobs:
+ * PLAIN (non-module) classic script. It is loaded BEFORE the legacy inline
+ * scripts (and before the deferred Vite modules that bring in Bootstrap 5)
+ * through layouts/attex/legacy-scripts.blade.php. Because it is classic, it
+ * must not use `import` and must not depend on DOMContentLoaded.
  *
+ * Two jobs (see README for the full migration doc):
  *  1. Rewrite the Bootstrap 4 `data-*` trigger attributes to the Bootstrap 5
- *     `data-bs-*` names, so declarative markup (modals, dropdowns, tabs,
- *     collapses, tooltips) keeps working without touching each view.
- *
+ *     `data-bs-*` names, so declarative markup keeps working.
  *  2. Restore the jQuery plugin API that Bootstrap 5 removed
  *     ($.fn.modal / tab / tooltip / alert / collapse / popover / carousel /
- *     toast / offcanvas), because legacy inline scripts call
- *     $('#x').modal('show') and friends directly.
+ *     toast / offcanvas), so legacy inline scripts calling
+ *     $('#x').modal('show') and friends keep working.
+ *
+ * The Bootstrap 5 constructors are resolved LAZILY, at invocation time. This
+ * lets the bridge map onto classes that only arrive inside the deferred
+ * Vite modules after parsing.
  *
  * As views are converted to real Bootstrap 5 markup, the corresponding rules
  * here become dead and MUST be deleted with them.
  */
 
-import $ from 'jquery';
+// Classic jQuery 3.3.1 is loaded by layouts/attex/legacy-scripts.blade.php
+// before this file, so the global `jQuery` is guaranteed to exist here.
 
 (function ($) {
     'use strict';
 
-    // -----------------------------------------------------------------------
+    // ---------------------------------------------------------------------
     // 1. data-* -> data-bs-* attribute upgrade
-    // -----------------------------------------------------------------------
+    // ---------------------------------------------------------------------
 
     // Only the three Bootstrap trigger attributes the legacy views actually
     // use. Extend this list only when a converted view is found to need more.
-    var RENAMED_ATTRS = ['toggle', 'target', 'dismiss'];
+    var RENAMED_ATTRS = [ 'toggle', 'target', 'dismiss' ];
 
     function upgradeAttributes(root) {
         if (!root || !root.querySelectorAll) {
@@ -40,7 +46,6 @@ import $ from 'jquery';
 
         RENAMED_ATTRS.forEach(function (name) {
             var legacy = root.querySelectorAll('[data-' + name + ']');
-
             Array.prototype.forEach.call(legacy, function (el) {
                 var modern = 'data-bs-' + name;
 
@@ -54,24 +59,9 @@ import $ from 'jquery';
         });
     }
 
-    // Bootstrap 5 delegates clicks on document and reads the attribute at
-    // event time, so upgrading before user interaction is sufficient.
-    function upgradeDocument() {
-        upgradeAttributes(document);
-    }
-
-    // -----------------------------------------------------------------------
-    // 2. jQuery plugin API bridge (Bootstrap 5 removed it)
-    // -----------------------------------------------------------------------
-    //
-    // Legacy inline scripts call e.g. $('#x').modal('show'), .tab('show'),
-    // .alert('close'), .tooltip(). Bootstrap 5 is class-based only, so each
-    // bridge maps the old jQuery call onto the equivalent Bootstrap 5 class.
-    //
-    // The Bootstrap 5 constructor is resolved LAZILY, at invocation time. This
-    // file is emitted as a classic script that runs at parse time, while
-    // Bootstrap 5 arrives later inside a deferred Vite module, so
-    // window.bootstrap cannot be assumed to exist when the bridge is defined.
+    // ---------------------------------------------------------------------
+    // 2. jQuery plugin API bridge for Bootstrap 5 (class-based only)
+    // ---------------------------------------------------------------------
 
     var PLUGINS = {
         modal: 'Modal',
@@ -87,96 +77,67 @@ import $ from 'jquery';
         scrollspy: 'ScrollSpy'
     };
 
-    /**
-     * Maps a Bootstrap 4 jQuery action string onto a Bootstrap 5 method.
-     * 'destroy' (BS4) becomes 'dispose' (BS5).
-     */
-    function resolveAction(instance, action, args) {
-        if (action === 'dispose' || action === 'destroy') {
-            instance.dispose();
+    // Resolve a Bootstrap 5 constructor lazily. Bootstrap arrives inside the
+    // deferred Vite modules, so it is not guaranteed to exist when this file
+    // runs. Retries until it does.
+    function resolveCtor(name, callback) {
+        var Ctor = window.bootstrap && window.bootstrap[name];
+        if (!Ctor) {
+            if (!window.__ATTEX_BOOTSTRAP_RESOLVING) {
+                window.__ATTEX_BOOTSTRAP_RESOLVING = true;
+                setTimeout(function () {
+                    window.__ATTEX_BOOTSTRAP_RESOLVING = false;
+                    resolveCtor(name, callback);
+                }, 25);
+            }
             return;
         }
-
-        if (typeof instance[action] === 'function') {
-            instance[action].apply(instance, args);
-        }
+        callback(Ctor);
     }
 
-    function installPluginBridge(jq) {
-        if (!jq || !jq.fn) {
-            return;
-        }
-
+    function installPluginBridge($) {
         Object.keys(PLUGINS).forEach(function (name) {
-            if (jq.fn[name]) {
+            if ($.fn[name]) {
                 return;
             }
-
-            jq.fn[name] = function (action) {
+            $.fn[name] = function (action) {
                 var args = Array.prototype.slice.call(arguments, 1);
-
                 return this.each(function () {
-                    var Ctor = window.bootstrap && window.bootstrap[PLUGINS[name]];
-
-                    if (!Ctor) {
-                        return;
+                    function run(Ctor) {
+                        var inst = Ctor.getOrCreateInstance(this);
+                        var fn = inst[action];
+                        if (action === undefined || typeof action === 'object') {
+                            Ctor.getOrCreateInstance(this, action);
+                            return;
+                        }
+                        if (typeof action === 'string') {
+                            if (action === 'dispose' || action === 'destroy') {
+                                if (typeof inst.dispose === 'function') inst.dispose();
+                            } else if (typeof fn === 'function') {
+                                fn.apply(inst, args);
+                            }
+                        }
                     }
-
-                    // No argument, or an options object: initialise.
-                    if (action === undefined || typeof action === 'object') {
-                        Ctor.getOrCreateInstance(this, action);
-                        return;
-                    }
-
-                    if (typeof action === 'string') {
-                        resolveAction(Ctor.getOrCreateInstance(this), action, args);
-                    }
+                    resolveCtor(PLUGINS[name], run);
                 });
             };
         });
     }
 
-    // -----------------------------------------------------------------------
-    // 3. Initialisation
-    // -----------------------------------------------------------------------
-    //
-    // Legacy inline scripts are classic (non-module) scripts that run at parse
-    // time, while Vite emits this file as type="module" (deferred). So this
-    // file is ALSO emitted as a classic script by the layout (see
-    // layouts/attex/legacy-scripts.blade.php) and must therefore not depend on
-    // DOMContentLoaded having fired.
+    installPluginBridge($);
 
-    // Bootstrap 5 is exposed on window.bootstrap by resources/js/app.js. When
-    // this runs before app.js, install the bridge as soon as it appears.
-    function tryInstall() {
-        installPluginBridge($);
-    }
-
-    if (window.bootstrap) {
-        tryInstall();
-    } else {
-        // Poll briefly: app.js is a deferred module that runs after parsing.
-        var attempts = 0;
-        var poll = setInterval(function () {
-            attempts += 1;
-            if (window.bootstrap) {
-                clearInterval(poll);
-                tryInstall();
-            } else if (attempts > 100) {
-                // ~10s; give up rather than loop forever.
-                clearInterval(poll);
-            }
-        }, 100);
-    }
+    // ---------------------------------------------------------------------
+    // 3. Initialisation (run at parse time, before the deferred modules)
+    // ---------------------------------------------------------------------
 
     // Upgrade declarative attributes as early as possible.
-    upgradeDocument();
+    upgradeAttributes(document);
 
     // Views inject markup via AJAX (modals, dynamic rows), so keep upgrading.
     if (typeof MutationObserver === 'function') {
         new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                Array.prototype.forEach.call(mutation.addedNodes, function (node) {
+                Array.prototype.forEach.call(mutation.addedNodes || [], function (node) {
                     if (node.nodeType === 1) {
                         upgradeAttributes(node);
                     }
@@ -187,7 +148,7 @@ import $ from 'jquery';
 
     window.AtlasLegacyCompat = {
         upgradeAttributes: upgradeAttributes,
-        upgradeDocument: upgradeDocument
+        upgradeDocument: function () { upgradeAttributes(document); }
     };
 
 })(jQuery);
