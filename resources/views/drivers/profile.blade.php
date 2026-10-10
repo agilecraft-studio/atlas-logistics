@@ -127,7 +127,7 @@
                   @if($row->getMeta('ride_status') == "Completed" || $row->status == 1)
                   <tr>
                     <td>{{ $row->customer->name ?? '—' }}</td>
-                    <td>{{$row->vehicle->make_name}} - {{$row->vehicle->model_name}} - {{$row->vehicle['license_plate']}}</td>
+                    <td>{{$row->vehicle->make_name ?? '—'}} - {{$row->vehicle->model_name ?? '—'}} - {{$row->vehicle['license_plate'] ?? '—'}}</td>
                     <td>
                     @if($row->pickup != null)
                     {{date($date_format_setting.' g:i A',strtotime($row->pickup))}}
@@ -187,7 +187,7 @@
                   @if($row->getMeta('ride_status') == "Upcoming")
                   <tr>
                     <td>{{ $row->customer->name ?? '—' }}</td>
-                    <td>{{$row->vehicle->make_name}} - {{$row->vehicle->model_name}} - {{$row->vehicle['license_plate']}}</td>
+                    <td>{{$row->vehicle->make_name ?? '—'}} - {{$row->vehicle->model_name ?? '—'}} - {{$row->vehicle['license_plate'] ?? '—'}}</td>
                     <td>
                     @if($row->pickup != null)
                     {{date($date_format_setting.' g:i A',strtotime($row->pickup))}}
