@@ -45,3 +45,14 @@
 - Other pre-existing issues found, NOT fixed (untouched files): home.blade reads $_SERVER['HTTP_USER_AGENT'] directly (500 only if UA header absent); drivers/profile.blade crashes on $row->customer->name when a booking's customer_id has no matching users row (bookings 1 and 2 both point to missing users 4 and 5).
 - Phase 3 pending: trip lifecycle, dispatch checks, expenses/advances/incidents, profitability (trip tables already exist).
 
+## 2026-10-10 (2) Fixed all open errors from today's laravel-2026-10-10.log
+- Settings save500s (3 occurrences): SettingsController::store() wrote $request->traccar_username/password/server_link but the form has no such inputs (they live on the dedicated traccar_settings screen via TrackerController) -> null into NOT NULL settings.value. Removed the 3 orphaned writes (coalescing them would have blanked the real traccar credentials on every save). Also added `?? ''` to fare_mode/return_booking updates (unchecked checkboxes post null; they would have crashed next).
+- vehicle_review_index: orphaned review user (force-deleted user) -> `$r->user->name ?? '—'` (page 500 -> 200 verified).
+- drivers/profile null customer (bookings.customer_id -> missing users 4/5) -> `?? '—'` in both Completed/Upcoming rows (driver dashboard 500 -> 200 verified).
+- home.blade +4 sibling views read $_SERVER['HTTP_USER_AGENT'] directly -> `?? ''` (6 occurrences; dashboard 500 without UA -> 200 verified).
+- drivers/index `count($errors)` on null -> `count($errors ?? [])` (log context was a CLI render harness).
+- Verified: reproduce-first script /tmp/logfix_verify.php 11/11 PASS after fixes; Phase 2 suite 34/34 still PASS; php -l clean; blades compile.
+- Not actionable: ParseError routes/admin.php:344 entries (04:20-04:27, transient pre-session edit, file lints clean now); /tmp/render_view.php offsetSet error (external temp harness, not app code).
+
+- Phase 3 pending: trip lifecycle, dispatch checks, expenses/advances/incidents, profitability (trip tables already exist).
+

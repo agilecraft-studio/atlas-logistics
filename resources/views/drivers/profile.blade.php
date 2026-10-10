@@ -126,7 +126,7 @@
                   @foreach($bookings as $row)
                   @if($row->getMeta('ride_status') == "Completed" || $row->status == 1)
                   <tr>
-                    <td>{{$row->customer->name}}</td>
+                    <td>{{ $row->customer->name ?? '—' }}</td>
                     <td>{{$row->vehicle->make_name}} - {{$row->vehicle->model_name}} - {{$row->vehicle['license_plate']}}</td>
                     <td>
                     @if($row->pickup != null)
@@ -186,7 +186,7 @@
               
                   @if($row->getMeta('ride_status') == "Upcoming")
                   <tr>
-                    <td>{{$row->customer->name}}</td>
+                    <td>{{ $row->customer->name ?? '—' }}</td>
                     <td>{{$row->vehicle->make_name}} - {{$row->vehicle->model_name}} - {{$row->vehicle['license_plate']}}</td>
                     <td>
                     @if($row->pickup != null)

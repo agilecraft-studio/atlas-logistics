@@ -184,9 +184,6 @@ class SettingsController extends Controller {
 		foreach ($request->get('name') as $key => $val) {
 			Settings::where('name', $key)->update(['value' => $val]);
 			Settings::where('name', 'fuel_enable_driver')->update(['value' => $fuel_enable]);
-			Settings::where('name', 'traccar_username')->update(['value' => $request->traccar_username]);
-			Settings::where('name', 'traccar_password')->update(['value' => $request->traccar_password]);
-			Settings::where('name', 'traccar_server_link')->update(['value' => $request->traccar_server_link]);
 			Settings::where('name', 'income_enable_driver')->update(['value' => $income_enable]);
 			Settings::where('name', 'expense_enable_driver')->update(['value' => $expense_enable]);
 
@@ -200,9 +197,9 @@ class SettingsController extends Controller {
 			}
 		}
 
-		Settings::where('name', 'fare_mode')->update(['value' => $request->fare_mode]);
+		Settings::where('name', 'fare_mode')->update(['value' => $request->fare_mode ?? '']);
 
-		Settings::where('name', 'return_booking')->update(['value' => $request->return_booking]);
+		Settings::where('name', 'return_booking')->update(['value' => $request->return_booking ?? '']);
 
 		
 		$taxes = json_encode($request->udf);
