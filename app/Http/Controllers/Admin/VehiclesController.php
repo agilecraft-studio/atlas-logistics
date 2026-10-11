@@ -93,7 +93,7 @@ class VehiclesController extends Controller {
 					return ($vehicle->model_name) ? $vehicle->model_name : '';
 				})
 				->addColumn('displayname', function ($vehicle) {
-					return ($vehicle->type_id) ? $vehicle->types->displayname : '';
+					return ($vehicle->type_id && $vehicle->types) ? $vehicle->types->displayname : '';
 				})
 				->addColumn('color', function ($vehicle) {
 					return ($vehicle->color_name) ? $vehicle->color_name : '';
@@ -102,7 +102,7 @@ class VehiclesController extends Controller {
 					return $vehicle->license_plate;
 				})
 				->addColumn('group', function ($vehicle) {
-					return ($vehicle->group_id) ? $vehicle->group->name : '';
+					return ($vehicle->group_id && $vehicle->group) ? $vehicle->group->name : '';
 				})
 				->addColumn('LXBXH', function ($vehicle) {
 					$LBH = ($vehicle->length) ? $vehicle->length . ' X ' : '';
@@ -127,7 +127,7 @@ class VehiclesController extends Controller {
 							return $driver->name;
 						}
 					}
-					return null;
+					return 'Unassigned';
 				})
 				->addColumn('action', function ($vehicle) {
 					return view('vehicles.list-actions', ['row' => $vehicle]);
@@ -420,8 +420,11 @@ class VehiclesController extends Controller {
 		return redirect('admin/vehicles/' . $request->get('vehicle_id') . '/edit?tab=insurance');
 	}
 	public function view_event($id) {
-		$data['vehicle'] = VehicleModel::with(['drivers.metas', 'types', 'metas'])->where('id', $id)->get()->first();
-		return view("vehicles.view_event", $data);
+		$vehicle = VehicleModel::with(['drivers.metas', 'types', 'metas'])->find($id);
+		if (!$vehicle) {
+			abort(404);
+		}
+		return view("vehicles.view_event", ['vehicle' => $vehicle]);
 	}
 	public function assign_driver(Request $request) {
 		$vehicle = VehicleModel::find($request->get('vehicle_id'));
@@ -572,10 +575,10 @@ class VehiclesController extends Controller {
 					return '<img src="' . $src . '" height="70px" width="70px">';
 				})
 				->addColumn('user', function ($vehicle) {
-					return ($vehicle->user->name) ?? '';
+					return $vehicle->user?->name ?? '—';
 				})
 				->addColumn('vehicle', function ($review) {
-					return $review->vehicle->make_name . '-' . $review->vehicle->model_name . '-' . $review->vehicle->types->displayname;
+					return ($review->vehicle ? $review->vehicle->make_name . '-' . $review->vehicle->model_name . '-' . ($review->vehicle->types->displayname ?? '—') : '—');
 				})
 				->addColumn('action', function ($vehicle) {
 					return view('vehicles.vehicle_review_index_list_actions', ['row' => $vehicle]);

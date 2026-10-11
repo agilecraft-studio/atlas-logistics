@@ -75,7 +75,7 @@
                @foreach($data as $row)
                 <tr>
                   <td>{{$row->vehicle['year']}}
-                    {{$row->vehicle->make_name}} - {{$row->vehicle->model_name}}
+                    {{$row->vehicle?->make_name ?? '—'}} - {{$row->vehicle?->model_name ?? '—'}}
                     <br>
                     <b> @lang('fleet.vin'): </b>{{$row->vehicle['vin']}}
                     <br>

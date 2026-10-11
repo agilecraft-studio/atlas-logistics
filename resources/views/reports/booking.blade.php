@@ -161,13 +161,13 @@
 
             <tr>
 
-              <td>{{$row->customer->name}}</td>
+              <td>{{$row->customer?->name ?? "—"}}</td>
 
               <td>
 
               @if($row->vehicle_id != null)
 
-              {{$row->vehicle->make_name}} - {{$row->vehicle->model_name}} - {{$row->vehicle->license_plate}}
+              {{$row->vehicle?->make_name ?? "—"}} - {{$row->vehicle?->model_name ?? "—"}} - {{$row->vehicle?->license_plate ?? "—"}}
 
               @endif
 

@@ -15,7 +15,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">@lang('fleet.vehicle_inspection') : {{$review->vehicle->make_name}} - {{$review->vehicle->model_name}} - {{$review->vehicle->types['displayname']}}&nbsp; <a href="{{url('admin/print-vehicle-review/'.$review->id)}}" class="btn btn-danger"><i class="bi bi-printer"></i>&nbsp; @lang('fleet.print')</a></h3>
+        <h3 class="card-title">@lang('fleet.vehicle_inspection') : {{$review->vehicle?->make_name ?? '—'}} - {{$review->vehicle?->model_name ?? '—'}} - {{$review->vehicle?->types?->displayname ?? '—'}}&nbsp; <a href="{{url('admin/print-vehicle-review/'.$review->id)}}" class="btn btn-danger"><i class="bi bi-printer"></i>&nbsp; @lang('fleet.print')</a></h3>
       </div>
 
       <div class="card-body">
@@ -23,7 +23,7 @@
           <div class="col-md-6">
             <div class="form-group">
               {!! Form::label('vehicle_id',__('fleet.vehicle')." : ", ['class' => 'form-label']) !!}
-              {{$review->vehicle->make_name}} - {{$review->vehicle->model_name}} - {{$review->vehicle->types['displayname']}}
+              {{$review->vehicle?->make_name ?? '—'}} - {{$review->vehicle?->model_name ?? '—'}} - {{$review->vehicle?->types?->displayname ?? '—'}}
             </div>
           </div>
 

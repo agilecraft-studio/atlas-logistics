@@ -68,8 +68,8 @@
             <tbody>
               @foreach($data as $row)
               <tr>
-                <td>{{$row->customer['name']}}</td>
-                <td>{{$row->vehicle->make_name}} - {{$row->vehicle->model_name}} - {{$row->vehicle['license_plate']}}</td>
+                <td>{{$row->customer['name'] ?? '—'}}</td>
+                <td>{{$row->vehicle->make_name ?? '—'}} - {{$row->vehicle->model_name ?? '—'}} - {{$row->vehicle['license_plate'] ?? '—'}}</td>
                 <td style="width:10% !important">{!! str_replace(",", ",<br>", $row->pickup_addr) !!}</td>
                 <td style="width:10% !important">{!! str_replace(",", ",<br>", $row->dest_addr) !!}</td>
                 <td>

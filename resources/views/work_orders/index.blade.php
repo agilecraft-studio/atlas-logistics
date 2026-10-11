@@ -57,12 +57,12 @@
                 @endif
               </td>
               <td>
-                {{$row->vehicle['year']}}
-                {{$row->vehicle->make_name}} - {{$row->vehicle->model_name}}
+                {{$row->vehicle['year'] ?? '—'}}
+                {{$row->vehicle['make_name'] ?? '—'}} - {{$row->vehicle['model_name'] ?? '—'}}
                 <br>
-                <b> @lang('fleet.vin'): </b>{{$row->vehicle['vin']}}
+                <b> @lang('fleet.vin'): </b>{{$row->vehicle['vin'] ?? '—'}}
                 <br>
-                <b> @lang('fleet.plate'):</b> {{$row->vehicle['license_plate']}}
+                <b> @lang('fleet.plate'):</b> {{$row->vehicle['license_plate'] ?? '—'}}
               </td>
               <td>
                 {{ date($date_format_setting,strtotime($row->created_at)) }}

@@ -32,8 +32,8 @@
             {{-- @dd($reviews->vehicle) --}}
           @foreach($reviews as $r)
             <tr>
-              <td>{{$r->vehicle->make_name}} - {{$r->vehicle->model_name}} - {{$r->vehicle->types['displayname']}}</td>
-              <td>{{$r->user->name}}</td>
+              <td>{{$r->vehicle?->make_name ?? '—'}} - {{$r->vehicle?->model_name ?? '—'}} - {{$r->vehicle?->types?->displayname ?? '—'}}</td>
+              <td>{{$r->user?->name ?? '—'}}</td>
               <td>{{$r->reg_no}}</td>
               <td>
                 <div class="btn-group">

@@ -76,17 +76,17 @@
                 <tr>
                   <td>
                       @if($row->vehicle_id != null)
-                      {{$row->vehicle->make_name}}
+                      {{$row->vehicle?->make_name ?? "—"}}
                       @endif
                     </td>
                     <td>
                       @if($row->vehicle_id != null)
-                      {{$row->vehicle->model_name}}
+                      {{$row->vehicle?->model_name ?? "—"}}
                       @endif
                     </td>
                     <td>
                       @if($row->vehicle_id != null)
-                      {{$row->vehicle->license_plate}}
+                      {{$row->vehicle?->license_plate ?? "—"}}
                       @endif
                     </td>
                     <td>{{$row->category->name}}</td>

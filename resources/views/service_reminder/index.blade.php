@@ -53,20 +53,20 @@
                 @endif
               </td>
               <td>
-                @lang('fleet.unit') #: {{$reminder->vehicle['id']}}
+                @lang('fleet.unit') #: {{$reminder->vehicle['id'] ?? '—'}}
                 <br>
-                {{$reminder->vehicle->year}} {{$reminder->vehicle->make_name}} {{$reminder->vehicle->model_name}}
+                {{$reminder->vehicle?->year ?? '—'}} {{$reminder->vehicle?->make_name ?? '—'}} {{$reminder->vehicle?->model_name ?? '—'}}
                 <br>
-                @lang('fleet.vin'):{{$reminder->vehicle->vin}}
+                @lang('fleet.vin'):{{$reminder->vehicle?->vin ?? '—'}}
                 <br>
-                @lang('fleet.plate'):{{$reminder->vehicle->license_plate}}
+                @lang('fleet.plate'):{{$reminder->vehicle?->license_plate ?? '—'}}
               </td>
               <td>
-                {{$reminder->services['description']}}
+                {{$reminder->services['description'] ?? '—'}}
                 <br>
-                @lang('fleet.interval'): {{$reminder->services->overdue_time}} {{$reminder->services->overdue_unit}}
+                @lang('fleet.interval'): {{$reminder->services['overdue_time'] ?? '—'}} {{$reminder->services['overdue_unit'] ?? '—'}}
                 @if($reminder->services->overdue_meter != null)
-                @lang('fleet.or') {{$reminder->services->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
+                @lang('fleet.or') {{$reminder->services['overdue_meter'] ?? 0}} {{AtlasLogistics::get('dis_format')}}
                 @endif
               </td>
               <td>
@@ -75,9 +75,9 @@
                 @lang('fleet.last_performed') @lang('fleet.meter'): {{$reminder->last_meter}}
               </td>
               <td>
-                @php($interval = substr($reminder->services->overdue_unit,0,-3))
+                @php($interval = substr($reminder->services['overdue_unit'] ?? '',0,-3))
                 @if($reminder->services->overdue_time != null)
-                  @php($int = $reminder->services->overdue_time.$interval)
+                  @php($int = ($reminder->services['overdue_time'] ?? '').$interval)
                 @else
                   @php($int = AtlasLogistics::get('time_interval')."day")
                 @endif
@@ -98,9 +98,9 @@
               <td>
                 @if($reminder->services->overdue_meter != null)
                   @if($reminder->last_meter == 0)
-                    {{$reminder->vehicle->int_mileage + $reminder->services->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
+                    {{($reminder->vehicle?->int_mileage ?? 0) + ($reminder->services['overdue_meter'] ?? 0)}} {{AtlasLogistics::get('dis_format')}}
                   @else
-                    {{$reminder->last_meter + $reminder->services->overdue_meter}} {{AtlasLogistics::get('dis_format')}}
+                    {{($reminder->last_meter ?? 0) + ($reminder->services['overdue_meter'] ?? 0)}} {{AtlasLogistics::get('dis_format')}}
                   @endif
                 @endif
               </td>

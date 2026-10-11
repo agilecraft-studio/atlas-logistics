@@ -65,7 +65,7 @@
         <div class="col-sm-4 invoice-col">
          <b> To</b>
           <address>
-            {!! nl2br(e($booking->customer->getMeta('address'))) !!}
+            {!! nl2br(e($booking->customer?->getMeta('address') ?? '')) !!}
           </address>
         </div>
 
@@ -73,7 +73,7 @@
           <b>Invoice#</b>
                {{ $i['income_id'] }}
           <br>
-          <b>{{ $booking->customer->name }}</b>
+          <b>{{ $booking->customer?->name ?? '—' }}</b>
         </div>
 
       </div>
@@ -114,13 +114,13 @@
                @if($booking->vehicle_id != null)
               <tr>
                 <th style="width:50%">@lang('fleet.vehicle'):</th>
-                <td> {{$booking->vehicle->make_name}} - {{$booking->vehicle->model_name}} - {{$booking->vehicle['license_plate']}}</td>
+                <td> {{$booking->vehicle?->make_name ?? '—'}} - {{$booking->vehicle?->model_name ?? '—'}} - {{$booking->vehicle['license_plate'] ?? '—'}}</td>
               </tr>
               @endif
               @if($booking->driver_id != null)
               <tr>
                 <th>@lang('fleet.driver'):</th>
-                <td>{{ $booking->driver->name }}</td>
+                <td>{{ $booking->driver?->name ?? '—' }}</td>
               </tr>
               @endif
               <tr>

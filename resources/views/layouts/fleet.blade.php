@@ -6,7 +6,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('fleet_title', 'Dashboard') | Atlas Logistics</title>
+@php
+    // Title section contract: fleet_title -> page_title -> 'Dashboard'
+    $fleetTitle = trim(View::hasSection('fleet_title') ? (string) View::getSection('fleet_title') : (View::hasSection('page_title') ? (string) View::getSection('page_title') : ''));
+    if ($fleetTitle === '') {
+        // No section declared: derive a per-page title from the current route name.
+        // e.g. vehicles.index -> 'Vehicles', logistics.trips.index -> 'Trips'.
+        $__routeName = optional(request()->route())->getName();
+        if (is_string($__routeName) && $__routeName !== '') {
+            $__parts = explode('.', $__routeName);
+            $__last = end($__parts);
+            if (count($__parts) > 1 && in_array($__last, ['index', 'show', 'edit', 'create', 'store', 'update', 'destroy'], true)) {
+                array_pop($__parts);
+                $__last = end($__parts);
+            }
+            $fleetTitle = trim(ucwords(str_replace(['-', '_'], ' ', (string) $__last)));
+        }
+    }
+    $fleetTitle = ($fleetTitle !== '') ? $fleetTitle : 'Dashboard';
+    // Subtitle: fleet_subtitle -> page_subtitle -> 'Atlas Logistics operations'
+    $fleetSubtitle = trim(View::hasSection('fleet_subtitle') ? (string) View::getSection('fleet_subtitle') : (View::hasSection('page_subtitle') ? (string) View::getSection('page_subtitle') : ''));
+    $fleetSubtitle = ($fleetSubtitle !== '') ? $fleetSubtitle : 'Atlas Logistics operations';
+@endphp
+<title>{{ $fleetTitle }} | Atlas Logistics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
@@ -44,7 +66,7 @@ $vis = collect($section['items'] ?? [])->filter(function ($i) { return auth()->c
 <header class="fleet-topbar">
 <div class="fleet-heading">
 <button class="fleet-menu-button" type="button" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
-<div><h1>@yield('fleet_title', 'Dashboard')</h1><p>@yield('fleet_subtitle', 'Atlas Logistics operations')</p></div>
+<div><h1>{{ $fleetTitle }}</h1><p>{{ $fleetSubtitle }}</p></div>
 </div>
 <div class="fleet-top-actions">
 @yield('fleet_topbar_actions')

@@ -104,6 +104,13 @@
 
     {{-- @endif --}}
     @if($row->vehicle_id != null)
+    @php
+      $vt = $row->vehicle ? $row->vehicle->types->vehicletype : null;
+      $vtKey = (is_string($vt) && $vt !== '') ? strtolower(str_replace(' ', '', $vt)) : null;
+      $vtFare = function ($suffix) use ($vtKey) {
+          return ($vtKey !== null && $vtKey !== '') ? AtlasLogistics::fare($vtKey . $suffix) : '';
+      };
+    @endphp
 
    
 
@@ -115,21 +122,21 @@
       data-user-id="{{$row->user_id}}" 
       data-customer-id="{{$row->customer_id}}" 
       data-vehicle-id= "{{$row->vehicle_id}}" 
-      data-vehicle-type="{{strtolower(str_replace(' ','',$row->vehicle->types->vehicletype))}}" 
-      data-base-mileage="{{($row->total_kms)?$row->total_kms:AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_km')}}" 
+      data-vehicle-type="{{$vtKey}}" 
+      data-base-mileage="{{($row->total_kms)?$row->total_kms:$vtFare('_base_km')}}" 
 
       @if(AtlasLogistics::get('fare_mode')=="type_wise")
 
     
       @php
 
-        if(isset($row->vehicle_id))
+        if(isset($row->vehicle_id) && $row->vehicle && $row->vehicle->type_id)
         {
-          $vehicle=\App\Model\VehicleModel::where('id',$row->vehicle_id)->first();
+          $v_type=\App\Model\VehicleTypeModel::where('id',$row->vehicle->type_id)->first();
 
-          $v_type=\App\Model\VehicleTypeModel::where('id',$vehicle->type_id)->first();
+            $type = $v_type ? strtolower(str_replace(" ", "", $v_type->vehicletype)) : null;
 
-            $type = strtolower(str_replace(" ", "", $v_type->vehicletype));
+            if ($type !== null && $type !== '') {
 
             $base_fare = AtlasLogistics::fare($type . '_base_fare');
             $km_base = AtlasLogistics::fare($type . '_base_km');
@@ -140,6 +147,7 @@
             } else {
                 $total_fare = $base_fare + (($row->total_kms - $km_base) * $std_fare);
             }
+            }
         }
 
       
@@ -147,29 +155,29 @@
 
 
 
-      data-base-fare="{{($total_fare) ? $total_fare : AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_fare')}}"
+      data-base-fare="{{($total_fare ?? null) ? $total_fare : $vtFare('_base_fare')}}"
 
       @elseif(AtlasLogistics::get('fare_mode')=="price_wise")
         
-          data-base-fare="{{$row->vehicle->price}}"
+          data-base-fare="{{$row->vehicle->price ?? ''}}"
 
       @endif
       
 
-    data-base_km_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_km')}}"
-    data-base_fare_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_fare')}}"
-    data-wait_time_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_base_time')}}"
-    data-std_fare_1="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_std_fare')}}"
+    data-base_km_1="{{$vtFare('_base_km')}}"
+    data-base_fare_1="{{$vtFare('_base_fare')}}"
+    data-wait_time_1="{{$vtFare('_base_time')}}"
+    data-std_fare_1="{{$vtFare('_std_fare')}}"
 
-    data-base_km_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_base_km')}}"
-    data-base_fare_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_base_fare')}}"
-    data-wait_time_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_wait_time')}}"
-    data-std_fare_2="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_weekend_std_fare')}}"
+    data-base_km_2="{{$vtFare('_weekend_base_km')}}"
+    data-base_fare_2="{{$vtFare('_weekend_base_fare')}}"
+    data-wait_time_2="{{$vtFare('_weekend_wait_time')}}"
+    data-std_fare_2="{{$vtFare('_weekend_std_fare')}}"
 
-    data-base_km_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_base_km')}}"
-    data-base_fare_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_base_fare')}}"
-    data-wait_time_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_wait_time')}}"
-    data-std_fare_3="{{AtlasLogistics::fare(strtolower(str_replace(' ','',$row->vehicle->types->vehicletype)).'_night_std_fare')}}"
+    data-base_km_3="{{$vtFare('_night_base_km')}}"
+    data-base_fare_3="{{$vtFare('_night_base_fare')}}"
+    data-wait_time_3="{{$vtFare('_night_wait_time')}}"
+    data-std_fare_3="{{$vtFare('_night_std_fare')}}"
     ><span aria-hidden="true" class="fa fa-file" style="color: #5cb85c;">
 
     </span> @lang('fleet.invoice')

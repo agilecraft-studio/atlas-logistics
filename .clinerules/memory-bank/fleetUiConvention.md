@@ -84,3 +84,46 @@ authenticated sweep 200+fleet-shell; /installation,/installed,/migrate,
 - A few migrated views carry their own external <script src> (Google Maps
   x4, Pusher, Summernote CDN, jQuery Validate CDN in attex-era partials) —
   pre-existing, untouched.
+
+## Null-safety convention (added 2026-10-11 evening)
+A nullable Eloquent relation read in a Blade or in a DataTables column closure is
+a 500 the moment the FK is null or orphaned. Production proof:
+$vehicle->types->displayname in vehicles/view_event.blade.php 500'd
+/admin/vehicle/event/{id} for every vehicle whose type_id IS NULL (log
+laravel-2026-10-11 17:03:50 + 17:05:44, userId 1).
+
+Rules:
+- Read relations with PHP 8 nullsafe ?-> plus a placeholder:
+  $x->rel?->col ?? '—'. NEVER @-suppress. ?? alone is NOT enough: it only
+  guards the FINAL segment, so $r->vehicle->types['displayname'] ?? em-dash
+  still 500s when $r->vehicle itself is null.
+- Placeholder conventions: person/assignee -> 'Unassigned'; entity (vehicle,
+  vehicle type, customer, vendor) -> '—' (em dash). Numeric arithmetic that can
+  receive null -> coalesce to 0, never to a placeholder.
+- Legacy serialized metas: guard unserialize(). unserialize(null) raises a
+  PHP 8.5 deprecation that Laravel escalates to ErrorException, i.e. a SECOND
+  500 waiting on the same endpoint. Use:
+  is_string($m) && $m !== '' ? unserialize($m) : null
+- When a view reads the same nullable chain many times (bookings/list-actions
+  read $row->vehicle->types->vehicletype 16x), compute ONE guarded local plus a
+  small fare closure in an @php block; do not repeat the chain. Re-check the
+  surrounding @if/@elseif/@endif brace balance after restructuring.
+- Controllers: eager-load the relations the Blade actually reads, and 404 via
+  abort(404) rather than handing a null model to a view that dereferences it.
+
+## Title section contract (added 2026-10-11)
+resources/views/layouts/fleet.blade.php resolves BOTH the <title> and the
+topbar <h1>/<p> from ONE fallback chain, computed once in an @php block at the
+top of <head>:
+1. fleet_title / fleet_subtitle (wave-1 logistics views declare these)
+2. page_title / page_subtitle (legacy attex naming, still honoured)
+3. route-derived: current route name minus a trailing CRUD verb, title-cased
+   (vehicles.index -> Vehicles, logistics.trips.index -> Trips). Read via
+   request()->route(), which is populated during a real request.
+4. 'Dashboard' / 'Atlas Logistics operations'
+
+Do not @yield a title directly in this layout again. New views should still
+declare @section('fleet_title', ...) for a human label; the route-derived step
+exists only so the ~137 mechanically migrated legacy views (which declare no
+title section at all) stop reading 'Dashboard' on every page. Legacy views are
+NOT mass-edited for titles - the layout fallback is the fix.

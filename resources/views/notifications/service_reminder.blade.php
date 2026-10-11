@@ -55,11 +55,11 @@
               @endif
               </td>
               <td>
-              {{$data->vehicle->year}} {{$data->vehicle->make_name}} {{$data->vehicle->model_name}}
+              {{$data->vehicle?->year ?? '—'}} {{$data->vehicle?->make_name ?? '—'}} {{$data->vehicle?->model_name ?? '—'}}
               <br>
-              @lang('fleet.vin'):{{$data->vehicle->vin}}
+              @lang('fleet.vin'):{{$data->vehicle?->vin ?? '—'}}
               <br>
-              @lang('fleet.plate'):{{$data->vehicle->license_plate}}
+              @lang('fleet.plate'):{{$data->vehicle?->license_plate ?? '—'}}
               </td>
               <td>
               {{ $notification->data['msg'] }}

@@ -24,8 +24,8 @@
           <tbody>
             @foreach($order->parts as $row)
             <tr>
-              <td>{{ $row->workorder->vehicle->make_name }} - {{ $row->workorder->vehicle->model_name }} - {{
-                $row->workorder->vehicle->license_plate }}</td>
+              <td>{{ $row->workorder?->vehicle?->make_name ?? '—' }} - {{ $row->workorder?->vehicle?->model_name ?? '—' }} - {{
+                $row->workorder?->vehicle?->license_plate ?? '—' }}</td>
               <td>{!! $row->workorder->description !!}</td>
               <td>{{ $row->part->title }}</td>
               <td>{{ $row->qty }}</td>

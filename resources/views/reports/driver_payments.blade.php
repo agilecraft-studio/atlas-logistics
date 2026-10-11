@@ -67,7 +67,7 @@
                     <td></td>
                     {{-- <td>{{ $payment->id }}</td> --}}
                     <td>{{ $payment->driver_id }}</td>
-                    <td>{{ $payment->driver->name }}</td>
+                    <td>{{ $payment->driver?->name ?? 'Unassigned' }}</td>
                     <td>@lang('fleet.booking_id'): {{ $payment->id }}</td>
                     <td>{{ $currency }}{{ $payment->driver_amount??$payment->total }}</td>
                     <td>{{ date($date_format_setting.' h:i A',strtotime($payment->updated_at)) }}</td>
@@ -77,7 +77,7 @@
                     <td></td>
                     {{-- <td>{{ $payment->id }}</td> --}}
                     <td>{{ $payment->driver_id }}</td>
-                    <td>{{ $payment->driver->name }}</td>
+                    <td>{{ $payment->driver?->name ?? 'Unassigned' }}</td>
                     <td>@lang('fleet.payment')</td>
                     <td>{{ $currency }}{{ $payment->amount }}</td>
                     <td>{{ date($date_format_setting.' h:i A',strtotime($payment->updated_at)) }}</td>

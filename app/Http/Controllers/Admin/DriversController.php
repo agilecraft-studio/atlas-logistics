@@ -252,7 +252,7 @@ class DriversController extends Controller {
 					return '<input type="checkbox" name="ids[]" value="' . $user->id . '" class="checkbox" id="chk' . $user->id . '" onclick=\'checkcheckbox();\'>';
 				})
 				->addColumn('customer', function ($row) {
-					return ($row->customer->name) ?? "";
+					return $row->customer?->name ?? '—';
 				})
 				->addColumn('ride_status', function ($row) {
 					return ($row->getMeta('ride_status')) ?? "";
@@ -305,7 +305,7 @@ class DriversController extends Controller {
 				})
 				->addColumn('vehicle', function ($row) {
 					$vehicle_type = VehicleTypeModel::find($row->getMeta('vehicle_typeid'));
-					return !empty($row->vehicle_id) ? $row->vehicle->make_name . '-' . $row->vehicle->model_name . '-' . $row->vehicle->license_plate : ($vehicle_type->displayname) ?? "";
+					return !empty($row->vehicle_id) ? (($row->vehicle ? $row->vehicle->make_name . '-' . $row->vehicle->model_name . '-' . $row->vehicle->license_plate : '—')) : ($vehicle_type->displayname ?? '—');
 				})
 				->filterColumn('vehicle', function ($query, $keyword) {
 					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) ilike ?", ["%$keyword%"])

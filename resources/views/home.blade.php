@@ -227,8 +227,8 @@ $dk=array_keys($dates);
                     <tr>
                         <td><a href="{{url('admin/bookings/'.$vb->booking_id.'/edit')}}">{{$vb->booking_id}}</a></td>
                         <td>{{$vb->message}}</td>
-                        <td><a href="tel:{{$vb->booking->driver->phone}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
-                          <a href="tel:{{$vb->booking->customer->mobno}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
+                        <td><a href="tel:{{$vb->booking?->driver?->phone ?? ''}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
+                          <a href="tel:{{$vb->booking?->customer?->mobno ?? ''}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
                       </tr>
                     @endforeach
                   </table>
@@ -253,8 +253,8 @@ $dk=array_keys($dates);
                     <tr>
                       <td><a href="{{url('admin/bookings/'.$vb->booking_id.'/edit')}}">{{$vb->booking_id}}</a></td>
                       <td>{{$da->message}}</td>
-                      <td><a href="tel:{{$vb->booking->driver->phone}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
-                        <a href="tel:{{$vb->booking->customer->mobno}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
+                      <td><a href="tel:{{$vb->booking?->driver?->phone ?? ''}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
+                        <a href="tel:{{$vb->booking?->customer?->mobno ?? ''}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
                     </tr>
                   @endforeach
                 </table>

@@ -71,7 +71,7 @@
               <tbody>
                @foreach($data as $row)
                 <tr>
-                  <td>{{$row->user->name}}</td>
+                  <td>{{$row->user?->name ?? '—'}}</td>
                   <td style="width:10% !important">{!! str_replace(",", ",<br>", $row->pickup_addr) !!}</td>
                   <td style="width:10% !important">{!! str_replace(",", ",<br>", $row->dest_addr) !!}</td>
                   <td>

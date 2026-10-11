@@ -31,9 +31,9 @@
       </address>
     </div>
     <div class="col-sm-4 invoice-col">
-      <b>@if($booking->customer->getMeta('address') != null)@lang('fleet.To') @endif</b>
+      <b>@if($booking->customer?->getMeta('address') != null)@lang('fleet.To') @endif</b>
       <address>
-        {!! nl2br(e($booking->customer->getMeta('address'))) !!}
+        {!! nl2br(e($booking->customer?->getMeta('address') ?? '')) !!}
       </address>
     </div>
     <div class="col-sm-4 invoice-col">
@@ -44,7 +44,7 @@
       <b>Invoice#</b>
       {{ $i['income_id'] }}
       <br>
-      <b>{{ $booking->customer->name }}</b>
+      <b>{{ $booking->customer?->name ?? '—' }}</b>
     </div>
   </div>
   <div class="row">
@@ -77,15 +77,15 @@
           <tr>
             <th style="width:50%">@lang('fleet.vehicle'):</th>
             <td>
-              {{$booking->vehicle->make_name}} - {{$booking->vehicle->model_name}} -
-              {{$booking->vehicle['license_plate']}}
+              {{$booking->vehicle?->make_name ?? '—'}} - {{$booking->vehicle?->model_name ?? '—'}} -
+              {{$booking->vehicle['license_plate'] ?? '—'}}
             </td>
           </tr>
           @endif
           @if($booking->driver_id != null)
           <tr>
             <th>@lang('fleet.driver'):</th>
-            <td>{{ $booking->driver->name }}</td>
+            <td>{{ $booking->driver?->name ?? '—' }}</td>
           </tr>
           @endif
           <tr>

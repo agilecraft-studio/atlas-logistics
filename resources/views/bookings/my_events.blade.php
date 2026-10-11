@@ -3,12 +3,12 @@
 	<th>@lang('fleet.booking_id') : {{$booking->id}}</th>
 	<tr>
 	<th>@lang('fleet.customer')</th>
-	<td>{{ $booking->customer->name}}</td>
+	<td>{{ $booking->customer?->name ?? '—'}}</td>
 	</tr>
 	<tr>
 	<th>@lang('fleet.vehicle')</th>
 	@if($booking->vehicle_id != null)
-	<td>{{ $booking->vehicle->make_name}} - {{ $booking->vehicle->model_name}} - {{ $booking->vehicle->license_plate}}</td>
+	<td>{{ $booking->vehicle?->make_name ?? '—'}} - {{ $booking->vehicle?->model_name ?? '—'}} - {{ $booking->vehicle?->license_plate ?? '—'}}</td>
 	@endif
 	</tr>
 	<tr>

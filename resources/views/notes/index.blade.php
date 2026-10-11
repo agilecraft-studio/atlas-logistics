@@ -53,15 +53,15 @@
               </td>
               <td>
               @lang('fleet.unit') #: {{$row->vehicle_id}} <br>
-              {{$row->vehicle['year']}}
-              {{$row->vehicle->make_name}} - {{$row->vehicle->model_name}}
+              {{$row->vehicle['year'] ?? '—'}}
+              {{$row->vehicle['make_name'] ?? '—'}} - {{$row->vehicle['model_name'] ?? '—'}}
               <br>
-              @lang('fleet.vin'): {{$row->vehicle['vin']}}
+              @lang('fleet.vin'): {{$row->vehicle['vin'] ?? '—'}}
               <br>
-              @lang('fleet.plate'): {{$row->vehicle['license_plate']}}
+              @lang('fleet.plate'): {{$row->vehicle['license_plate'] ?? '—'}}
               </td>
               <td>
-              {{$row->customer->name}}
+              {{$row->customer?->name ?? '—'}}
               </td>
               <td>
               {{date($date_format_setting,strtotime($row->submitted_on))}}

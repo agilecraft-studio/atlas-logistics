@@ -33,7 +33,7 @@
 				<tr>
 					<th>@lang('fleet.type')</th>
 					<td>
-						{{$vehicle->types->displayname}}
+						{{$vehicle->types?->displayname ?? '—'}}
 					</td>
 				</tr>
 
@@ -154,7 +154,7 @@
 				<tr>
 					<th>@lang('fleet.vehicle')</th>
 					<td>
-					{{$vehicle->make_name}}-{{$vehicle->model_name}}-{{$vehicle->types->displayname}}
+					{{$vehicle->make_name}}-{{$vehicle->model_name}}-{{$vehicle->types?->displayname ?? '—'}}
 					</td>
 				</tr>
 
@@ -200,7 +200,8 @@
 									<th>@lang('fleet.expenseAmount')</th>
 								</thead>
 								@php
-								$value = unserialize($vehicle->getMeta('purchase_info'));
+								$purchase_info = $vehicle->getMeta('purchase_info');
+								$value = (is_string($purchase_info) && $purchase_info !== '') ? unserialize($purchase_info) : null;
 								@endphp
 								<tbody id="hvk">
 									@if($value != null)

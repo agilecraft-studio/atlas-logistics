@@ -69,9 +69,9 @@
           <tbody>
           @foreach($expense as $row)
             <tr>
-              <td>{{$row->vehicle->make_name}}</td>
-              <td>{{$row->vehicle->model_name}}</td>
-              <td>{{$row->vehicle->license_plate}}</td>
+              <td>{{$row->vehicle?->make_name ?? "—"}}</td>
+              <td>{{$row->vehicle?->model_name ?? "—"}}</td>
+              <td>{{$row->vehicle?->license_plate ?? "—"}}</td>
               <td>
               @if($row->type == "s")
               {{$row->service->description}}

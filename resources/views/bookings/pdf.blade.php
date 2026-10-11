@@ -75,7 +75,7 @@
          <b> To</b>
           <address>
             <b>{{isset( $booking->customer->name) }}</b> <br>
-            {!! nl2br(e($booking->customer->getMeta('address'))) !!}
+            {!! nl2br(e($booking->customer?->getMeta('address') ?? '')) !!}
           </address>
         </div>
 
@@ -129,13 +129,13 @@
               @if($booking->vehicle_id??'' != null)
               <tr>
                 <th style="width:50%">@lang('fleet.vehicle'):</th>
-                <td> {{$booking->make_name}} - {{$booking->model_name}} - {{$booking->vehicle['license_plate']}}</td>
+                <td> {{$booking->make_name}} - {{$booking->model_name}} - {{$booking->vehicle['license_plate'] ?? '—'}}</td>
               </tr>
               @endif
               @if($booking->driver_id != null)
               <tr>
                 <th>@lang('fleet.driver'):</th>
-                <td>{{ $booking->driver->name }}</td>
+                <td>{{ $booking->driver?->name ?? '—' }}</td>
               </tr>
               @endif
               <tr>

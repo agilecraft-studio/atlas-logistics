@@ -38,8 +38,8 @@
                 {{-- @dd($r->vehicle->model_name) --}}
                 <input type="checkbox" name="ids[]" value="{{ $r->id }}" class="checkbox" id="chk{{ $r->id }}" onclick='checkcheckbox();'>
               </td>
-              <td>{{$r->vehicle->make_name ?? '—'}} - {{$r->vehicle->model_name ?? '—'}} - {{$r->vehicle->types['displayname'] ?? '—'}}</td>
-              <td>{{$r->user->name ?? '—'}}</td>
+              <td>{{$r->vehicle?->make_name ?? '—'}} - {{$r->vehicle?->model_name ?? '—'}} - {{$r->vehicle?->types?->displayname ?? '—'}}</td>
+              <td>{{$r->user?->name ?? '—'}}</td>
               <td>{{$r->reg_no}}</td>
               <td>
                 <div class="btn-group">

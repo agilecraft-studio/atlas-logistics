@@ -37,7 +37,7 @@
               <tr>
                 <td>{{$row->id}}</td>
                 <td>
-                  {{$row->booking->customer->name}}
+                  {{$row->booking?->customer?->name ?? '—'}}
                 </td>
                 <td>{{$row->method}}</td>
                 <td>{{$row->transaction_id}}</td>
