@@ -23,7 +23,13 @@ class AppServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function boot() {
-		//
+		// Fleet Operations Dashboard: bust cached payloads on source-table writes.
+		\App\Model\Trip::observe(\App\Observers\FleetDashboardObserver::class);
+		\App\Model\TripExpense::observe(\App\Observers\FleetDashboardObserver::class);
+		\App\Model\ComplianceDocument::observe(\App\Observers\FleetDashboardObserver::class);
+		\App\Model\VehicleLogisticsProfile::observe(\App\Observers\FleetDashboardObserver::class);
+		\App\Model\DriverComplianceProfile::observe(\App\Observers\FleetDashboardObserver::class);
+		\App\Model\FuelModel::observe(\App\Observers\FleetDashboardObserver::class);
 	}
 
 	/**

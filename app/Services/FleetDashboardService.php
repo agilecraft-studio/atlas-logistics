@@ -45,6 +45,18 @@ class FleetDashboardService
         });
     }
 
+    /**
+     * Bust all cached dashboard payloads (month|week|year).
+     * Called by FleetDashboardObserver on Trip/TripExpense/ComplianceDocument/
+     * VehicleLogisticsProfile/DriverComplianceProfile/FuelModel writes.
+     */
+    public static function flushCache(): void
+    {
+        foreach (['month', 'week', 'year'] as $period) {
+            Cache::forget("fleet-dashboard:{$period}");
+        }
+    }
+
     /** @param string $period */
     protected function compute(string $period): array
     {
@@ -82,7 +94,7 @@ class FleetDashboardService
         // ---- Action required counts ----
         $expiringDocuments = $this->countExpiringDocuments(config('logistics.default_alert_days', 30));
         $servicesDue = $this->countServicesDue();
-        $fuelVarianceAlerts = 0; // TODO(source): no fuel-variance model in current schema.
+        $fuelVarianceAlerts = $this->countFuelVarianceAlerts();
         $pendingExpenseApprovals = (int) TripExpense::where('status', 'pending')->count();
         $missingPods = $this->countMissingPods();
 
@@ -195,6 +207,60 @@ class FleetDashboardService
         return (int) Trip::where('status', 'completed')
             ->whereNull('pod_path')
             ->count();
+    }
+
+    protected function countFuelVarianceAlerts(): int
+    {
+        // Real source: legacy `fuel` fills (FuelModel: vehicle_id, start_meter, qty, date).
+        // Flags vehicles whose latest fill implies km/l below half their own median
+        // (i.e. consumption ≥ 2x normal) — computed in PHP to stay DB-agnostic.
+        // Returns 0 when the table is missing/empty.
+        try {
+            $fills = DB::table('fuel')
+                ->select('vehicle_id', 'start_meter', 'qty', 'date')
+                ->whereNull('deleted_at')
+                ->whereNotNull('vehicle_id')
+                ->where('qty', '>', 0)
+                ->where('start_meter', '>', 0)
+                ->orderBy('vehicle_id')
+                ->orderBy('date')
+                ->orderBy('id')
+                ->limit(5000)
+                ->get();
+        } catch (\Throwable $e) {
+            return 0;
+        }
+
+        if ($fills->isEmpty()) {
+            return 0;
+        }
+
+        $alerts = 0;
+        foreach ($fills->groupBy('vehicle_id') as $vehicleFills) {
+            $ordered = $vehicleFills->values();
+            if ($ordered->count() < 3) {
+                continue;
+            }
+            $rates = [];
+            for ($i = 1; $i < $ordered->count(); $i++) {
+                $km = (float) $ordered[$i]->start_meter - (float) $ordered[$i - 1]->start_meter;
+                $litres = (float) $ordered[$i]->qty;
+                if ($km > 0 && $litres > 0) {
+                    $rates[] = $km / $litres;
+                }
+            }
+            if (count($rates) < 2) {
+                continue;
+            }
+            sort($rates);
+            $mid = intdiv(count($rates), 2);
+            $median = count($rates) % 2 ? $rates[$mid] : ($rates[$mid - 1] + $rates[$mid]) / 2;
+            $latest = end($rates);
+            if ($median > 0 && $latest < ($median / 2)) {
+                $alerts++;
+            }
+        }
+        return $alerts;
     }
 
     // ---- Collections ----

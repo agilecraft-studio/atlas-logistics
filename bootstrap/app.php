@@ -76,6 +76,7 @@ return Application::configure()
         // --- Route middleware aliases (mirrors the legacy Kernel aliases) ---
         $middleware->alias([
             'superadmin' => \App\Http\Middleware\SuperAdmin::class,
+            'internal.staff' => \App\Http\Middleware\InternalStaff::class,
             'officeadmin' => \App\Http\Middleware\OfficeAdmin::class,
             'lang_check' => \App\Http\Middleware\SetLocale::class,
             'canInstall' => \App\Http\Middleware\canInstall::class,

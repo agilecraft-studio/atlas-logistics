@@ -169,3 +169,29 @@ demo numbers + `?? fallback` placeholders never shipped).
   dashboard with full middleware stack; tinker service returns all 20 keys
   (zeros on empty DB); view render RENDER_OK len=43960 (after guest-safe user chip);
   CDN grep exit 1 (clean); `?? [0-9]` grep exit 1 (clean).
+
+## 12. Dashboard follow-up — SHIPPED 2026-10-11 (verified)
+- **Log error fixed (root cause, not symptom)**: today's log showed 24×
+  `Target class [internal.staff] does not exist` (+ cascading headers-sent fatals).
+  Cause: Laravel 13 ignores legacy `app/Http/Kernel.php $routeMiddleware` and
+  resolves aliases from `bootstrap/app.php`, where `internal.staff` was never
+  registered — so EVERY `/admin/logistics/*` hit 500'd. Fixed by adding
+  `'internal.staff' => InternalStaff::class` to the `$middleware->alias()` block.
+  Verified: `route:list -v` resolves it; no new log entries after fix.
+  (The 2× `FleetDashboardService.php:177` syntax errors + 1× undefined-method in
+  the log were my own mid-edit states, already fixed and verified before this.)
+- **Observer invalidation**: new `App\Observers\FleetDashboardObserver` (created/
+  updated/deleted/restored/forceDeleted → `FleetDashboardService::flushCache()`)
+  registered in `AppServiceProvider::boot()` on Trip, TripExpense,
+  ComplianceDocument, VehicleLogisticsProfile, DriverComplianceProfile, FuelModel.
+  TTL remains as backstop. Verified: all 6 models resolve, `flushCache()` OK.
+- **Real fuel variance**: `countFuelVarianceAlerts()` reads legacy `fuel` table
+  (`vehicle_id, start_meter, qty, date`); flags vehicles whose latest km/l is
+  < ½ their own median (≥2× consumption). Returns 0 on missing/empty table
+  (try/catch + empty guards). No more TODO.
+- **Default dashboard**: `HomeController@index` redirects internal staff
+  (non-D/C + `can('LogisticsReports list')`) to `logistics.dashboard`; D/C users
+  keep existing views. Sidebar: new "Fleet Dashboard" item in menu-logistics
+  (gated `@can('LogisticsReports list')`, active state on dashboard routes).
+- Verified (observed): `php -l` ×5 clean; route stack intact; tinker render
+  RENDER_OK len=43960; observer models 6/6; log error count frozen at 24.

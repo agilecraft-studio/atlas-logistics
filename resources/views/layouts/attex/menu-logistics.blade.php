@@ -43,6 +43,14 @@
 </li>
 @endcan
 
+@can('LogisticsReports list')
+<li class="side-nav-item">
+    <a href="{{ route('logistics.dashboard') }}" class="side-nav-link @if(Request::is('admin/logistics/dashboard*')) active @endif">
+        <i class="ri-dashboard-3-line"></i><span> Fleet Dashboard </span>
+    </a>
+</li>
+@endcan
+
 @canany(['Trips list', 'TripExpenses list', 'Advances list', 'LogisticsReports list'])
 <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarTrips" aria-expanded="{{ Request::is('admin/logistics/trips*') || Request::is('admin/logistics/expenses*') || Request::is('admin/logistics/advances*') || Request::is('admin/logistics/reports*') ? 'true' : 'false' }}" class="side-nav-link">

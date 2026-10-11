@@ -91,6 +91,13 @@ class HomeController extends Controller {
 		echo $vCalendar->render();
 	}
 	public function index() {
+		// Fleet Operations Dashboard is the default landing for internal staff
+		// (drivers/customers keep their own views below; internal.staff blocks
+		// them from the fleet route anyway).
+		if (! in_array(Auth::user()->user_type, ["D", "C"], true)
+			&& Auth::user()->can('LogisticsReports list')) {
+			return redirect()->route('logistics.dashboard');
+		}
 		if (Auth::user()->user_type == "D") {
 			// $drivers = User::where('user_type', 'D')->get();
 			// foreach ($drivers as $driver) {
