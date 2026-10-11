@@ -56,3 +56,11 @@
 
 - Phase 3 pending: trip lifecycle, dispatch checks, expenses/advances/incidents, profitability (trip tables already exist).
 
+
+## 2026-10-11 (PM) installer hard-removed + FULL fleet UI migration + log fixes
+- Installer/licensing fully deleted (controllers, IsInstalled/canInstall middleware, requests, helpers, config/installer.php, views, VersionAutoUpdate, storage/installed marker). All installation/installed/migrate/migration/upgrade* URLs verified 404 on the live vhost; zero code traces (grep app/routes/bootstrap/config/resources).
+- Fleet shell de-zoomed (negative margins removed, font scale normalized) + fleet.css legacy Bootstrap/AdminLTE compat layer + layouts/fleet-legacy.blade.php runtime (LOCAL jQuery+moment, PNotify shim, modal shim, CSRF/route globals).
+- All 137 remaining attex/app views migrated to layouts.fleet (mechanical: layout/section renames, 397 fa->bi icons, 8 dual script sections merged, 133 breadcrumbs dropped). view:cache clean; 51-URL authenticated HTTP sweep 200+fleet-shell; final 20-URL sweep produced ZERO new log entries.
+- Log-error fixes: bookings_meta sum(text) PostgreSQL crash cast to numeric at 15 sites (reports/drivers + related, was 500); customers report null-relation crash nullsafe at 6 sites; expenses/index $m ordering bug (page 500) fixed; reports/driver chart asset path repaired.
+- Commits: a5a0369 (installer removal), 0860590 (shell de-zoom + legacy runtime), ba766ff (137-view migration), c940005 (report fixes). Push to origin still pending GitHub key auth.
+- Env note: php-fpm runs as `atlas`; CLI runs as `finch` cannot overwrite atlas-owned 644 cache files in storage/framework/cache (logged as file_put_contents permission denied when harnesses run the file cache). Live vhost unaffected. Use `sudo -u atlas` or CACHE array for CLI harnesses.
