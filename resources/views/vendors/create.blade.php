@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('vendors.index')}}"> @lang('fleet.vendors') </a></li>
-<li class="breadcrumb-item active">@lang('fleet.add_vendor')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -35,7 +31,7 @@
               {!! Form::label('phone',__('fleet.phone'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
                 </div>
                 {!! Form::number('phone',null,['class'=>'form-control','required']) !!}
               </div>
@@ -46,7 +42,7 @@
               {!! Form::label('email',__('fleet.email'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email',null,['class'=>'form-control','required']) !!}
               </div>
@@ -83,7 +79,7 @@
               {!! Form::label('address1',__('fleet.address1'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book-o" aria-hidden="true"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book-o" aria-hidden="true"></i></span>
                 </div>
                 {!! Form::text('address1',null,['class'=>'form-control','required']) !!}
               </div>
@@ -94,7 +90,7 @@
               {!! Form::label('address2',__('fleet.address2'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book-o" aria-hidden="true"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book-o" aria-hidden="true"></i></span>
                 </div>
                 {!! Form::text('address2',null,['class'=>'form-control']) !!}
               </div>
@@ -150,7 +146,7 @@
   </div>
 </div>
 @endsection
-@section("script")
+@section('scripts')
 <script>
   function select_type(val){
     var type=$("#type option:selected").text();

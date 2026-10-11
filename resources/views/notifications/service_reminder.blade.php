@@ -1,7 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.serviceReminders')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">

@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('mechanic.index')}}"> @lang('fleet.mechanics') </a></li>
-<li class="breadcrumb-item active">@lang('fleet.add_mechanic')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -37,7 +33,7 @@
               {!! Form::label('email',__('fleet.email'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email',null,['class'=>'form-control','required']) !!}
               </div>
@@ -49,7 +45,7 @@
               {!! Form::label('contact_number',__('fleet.contact_number'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
                 </div>
                 {!! Form::number('contact_number',null,['class'=>'form-control','required','id'=>'phone']) !!}
               </div>
@@ -93,7 +89,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   $(".add_udf").click(function () {
     // alert($('#udf').val());

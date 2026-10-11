@@ -1,9 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('menu.fare_settings')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
 .custom .nav-link.active {
     background-color: #21bc6c !important;
@@ -170,7 +166,7 @@
 </div>
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
   @if(isset($_GET['tab']) && $_GET['tab']!="")

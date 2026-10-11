@@ -1,8 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.vehicle_inspection')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -18,7 +15,7 @@
         <h3 class="card-title">
         @lang('fleet.vehicle_inspection')
         &nbsp;
-        @can('VehicleInspection add')<a href="{{ url('admin/vehicle-reviews-create')}}" class="btn btn-success" title="@lang('fleet.add_vehicle_inspection')"><i class="fa fa-plus"></i></a>@endcan</h3>
+        @can('VehicleInspection add')<a href="{{ url('admin/vehicle-reviews-create')}}" class="btn btn-success" title="@lang('fleet.add_vehicle_inspection')"><i class="bi bi-plus-lg"></i></a>@endcan</h3>
       </div>
 
       <div class="card-body table-responsive">
@@ -47,15 +44,15 @@
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                    <span class="fa fa-gear"></span>
+                    <span class="bi bi-gear"></span>
                     <span class="visually-hidden">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu custom" role="menu">
-                    @can('VehicleInspection edit')<a class="dropdown-item" href="{{ url("admin/vehicle-review/".$r->id."/edit") }}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
+                    @can('VehicleInspection edit')<a class="dropdown-item" href="{{ url("admin/vehicle-review/".$r->id."/edit") }}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
                     {!! Form::hidden("id",$r->id) !!}
-                    @can('VehicleInspection delete')<a class="dropdown-item" data-id="{{$r->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                    @can('VehicleInspection delete')<a class="dropdown-item" data-id="{{$r->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
                     <a class="dropdown-item" href="{{url('admin/view-vehicle-review/'.$r->id)}}">
-                    <span class="fa fa-eye" aria-hidden="true" style="color: #398439"></span> @lang('fleet.view')
+                    <span class="bi bi-eye" aria-hidden="true" style="color: #398439"></span> @lang('fleet.view')
                     </a>
                   </div>
                 </div>
@@ -69,7 +66,7 @@
           <tfoot>
             <tr>
               <th>
-                @can('VehicleInspection delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('VehicleInspection delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>@lang('fleet.vehicle')</th>
               <th>@lang('fleet.review_by')</th>
@@ -130,7 +127,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");
@@ -149,7 +146,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3]),
@@ -165,7 +162,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3]
             }

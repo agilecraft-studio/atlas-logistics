@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('vehicle_group.index')}}">@lang('fleet.vehicleGroup')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.editGroup')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 
 <div class="row">

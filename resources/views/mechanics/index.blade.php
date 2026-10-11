@@ -1,10 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('fleet.mechanics')</li>
-@endsection
-@section('extra_css')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -29,7 +26,7 @@
         <h3 class="card-title">
         @lang('fleet.mechanics')
         &nbsp;
-        @can('Mechanics add')<a href="{{ route('mechanic.create')}}" class="btn btn-success" title="@lang('fleet.create_mechanic')"><i class="fa fa-plus"></i></a>@endcan
+        @can('Mechanics add')<a href="{{ route('mechanic.create')}}" class="btn btn-success" title="@lang('fleet.create_mechanic')"><i class="bi bi-plus-lg"></i></a>@endcan
         {{-- <button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button> --}}
         </h3>
       </div>
@@ -68,13 +65,13 @@
               <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                  <span class="fa fa-gear"></span>
+                  <span class="bi bi-gear"></span>
                   <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu custom" role="menu">
-                  @can('Mechanics edit')<a class="dropdown-item" href="{{url("admin/mechanic/".$row->id."/edit") }}"><span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
+                  @can('Mechanics edit')<a class="dropdown-item" href="{{url("admin/mechanic/".$row->id."/edit") }}"><span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
                   {!! Form::hidden("id",$row->id) !!}
-                  @can('Mechanics delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                  @can('Mechanics delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
                 </div>
               </div>
                 {!! Form::open(['url' => 'admin/mechanic/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
@@ -88,7 +85,7 @@
             <tr>
               <th>
               @if($data->count() > 0)
-              @can('Mechanics delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+              @can('Mechanics delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
               @endif
               </th>
               <th>@lang('fleet.name')</th>
@@ -152,7 +149,7 @@
   <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");

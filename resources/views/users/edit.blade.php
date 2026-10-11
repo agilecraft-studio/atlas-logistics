@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   /* The switch - the box around the slider */
   .switch {
@@ -63,10 +63,6 @@
   }
 </style>
 @endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('users.index')}}"> @lang('fleet.users')@lang('fleet.managers') </a></li>
-<li class="breadcrumb-item active">@lang('fleet.editUser')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -119,7 +115,7 @@
               {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email', $user->email,['class' => 'form-control','required']) !!}
               </div>
@@ -199,7 +195,7 @@
 </div>
 
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
     $('#group_id').select2({placeholder: "@lang('fleet.selectGroup')",allowClear:true});

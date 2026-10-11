@@ -1,18 +1,11 @@
-    @extends('layouts.attex')
+    @extends('layouts.fleet')
 
-@section('extra_css')
+@section('styles')
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
 
 @endsection
 
-@section('breadcrumb')
-
-    <li class="breadcrumb-item"><a href="{{ route('bookings.index') }}">@lang('menu.bookings')</a></li>
-
-    <li class="breadcrumb-item active">@lang('fleet.edit_booking')</li>
-
-@endsection
 
 @section('content')
 

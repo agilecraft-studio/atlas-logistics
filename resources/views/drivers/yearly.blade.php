@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.yearlyReport')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -146,7 +142,7 @@
   </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $('#vehicle_id').select2({placeholder: "@lang('fleet.selectVehicle')"});
 
@@ -197,8 +193,7 @@
 
   });
 </script>
-@endsection
-@section('scripts')
+
 <script>
   window.chartColors = {
     red: 'rgb(255, 99, 132)',

@@ -1,9 +1,9 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @section('content')
 @php($api1="API_KEY")
 @php($api2="API_KEY")
 @endsection
-    @section('script')
+    @section('scripts')
 <script type="text/javascript">
   function initMap() {
     var geocoder = new google.maps.Geocoder();

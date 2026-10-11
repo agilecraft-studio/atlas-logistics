@@ -1,10 +1,6 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('notes.index')}}">@lang('fleet.notes')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.edit_note')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -45,7 +41,7 @@
             <div class="form-group">
               {!! Form::label('submitted_on', __('fleet.submitted_on'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><span class="fa fa-calendar"></span>
+                <div class="input-group-prepend"><span class="input-group-text"><span class="bi bi-calendar"></span>
                 </div>
                 {!! Form::text('submitted_on',$data->submitted_on,['class'=>'form-control']) !!}
               </div>
@@ -85,7 +81,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
   $('#vehicle_id').select2({placeholder: "@lang('fleet.selectVehicle')"});

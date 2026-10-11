@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
   .checkbox,
@@ -8,10 +8,6 @@
     height: 20px;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item "><a href="{{ route('bookings.index')}}">@lang('menu.bookings')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.transactions')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -69,7 +65,7 @@
   </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 <script>
   $(function(){
     

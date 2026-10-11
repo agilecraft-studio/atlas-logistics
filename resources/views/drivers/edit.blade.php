@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 
@@ -11,11 +11,6 @@
 
 @endsection
 
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('drivers.index')}}">@lang('fleet.drivers')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.edit_driver')</li>
-
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -67,7 +62,7 @@
               {!! Form::label('address', __('fleet.address'), ['class' => 'form-label required']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book"></i></span>
                 </div>
                 {!! Form::text('address', $driver->getMeta('address'),['class' => 'form-control','required']) !!}
               </div>
@@ -78,7 +73,7 @@
               {!! Form::label('email', __('fleet.email'), ['class' => 'form-label required']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email', $driver->email,['class' => 'form-control','required']) !!}
               </div>
@@ -125,7 +120,7 @@
             <div class="form-group">
               {!! Form::label('issue_date', __('fleet.issueDate'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('issue_date', $driver->getMeta('issue_date'),['class' => 'form-control','required']) !!}
               </div>
@@ -136,7 +131,7 @@
             <div class="form-group">
               {!! Form::label('exp_date', __('fleet.expirationDate'), ['class' => 'form-label required']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('exp_date', $driver->getMeta('exp_date'),['class' => 'form-control','required']) !!}
               </div>
@@ -148,7 +143,7 @@
             <div class="form-group">
               {!! Form::label('start_date', __('fleet.join_date'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('start_date', $driver->getMeta('start_date'),['class' => 'form-control']) !!}
               </div>
@@ -158,7 +153,7 @@
             <div class="form-group">
               {!! Form::label('end_date', __('fleet.leave_date'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('end_date', $driver->getMeta('end_date'),['class' => 'form-control']) !!}
               </div>
@@ -230,7 +225,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
     $('#driver_commision_type').on('change', function(){

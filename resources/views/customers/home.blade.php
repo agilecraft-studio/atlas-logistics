@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
 	table#acrylic {
             border-collapse: separate;

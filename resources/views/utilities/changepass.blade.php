@@ -1,7 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.change_details')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row col-md-12">
 	@if (count($errors) > 0)
@@ -41,7 +38,7 @@
 							{!! Form::label('email',__('fleet.email'),['class'=>"form-label"]) !!}
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fa fa-envelope"></i></span></div>
+								<span class="input-group-text"><i class="bi bi-envelope"></i></span></div>
 								{!! Form::email('email',$user_data->email,['class'=>"form-control",'required']) !!}
 							</div>
 						</div>
@@ -79,7 +76,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 						  {!! Form::label('dark_mode',__('fleet.dark_mode'), ['class' => 'form-label']) !!}
-						  {{-- <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> --}}
+						  {{-- <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> --}}
 						  <br>
 						  <label class="switch">
 							<input type="checkbox" name="theme" value="dark-mode" id="expense_enable_driver" @if($user_data->theme=='dark-mode') checked @endif>
@@ -122,7 +119,7 @@
 							{!! Form::label('password',__('fleet.password'),['class'=>"form-label"]) !!}
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fa fa-lock"></i></span></div>
+								<span class="input-group-text"><i class="bi bi-lock"></i></span></div>
 								<input type="password" name="password" class="form-control" required>
 							</div>
 						</div>
@@ -142,7 +139,7 @@
 </div>
 
 @endsection
-@section("script")
+@section('scripts')
 <script>
 	$(document).ready(function () {
 		// window.setTimeout(function () { 

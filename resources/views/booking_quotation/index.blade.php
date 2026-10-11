@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section('extra_css')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
   .checkbox,
@@ -11,9 +11,6 @@
   }
 </style>
 @endsection
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.booking_quotes')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -21,7 +18,7 @@
       <div class="card-header with-border">
         <h3 class="card-title"> @lang('fleet.manageBookingQuotations') &nbsp;
           @can('BookingQuotations add')<a href="{{route('booking-quotation.create')}}" class="btn btn-success"
-            title="@lang('fleet.add_quote')"><i class="fa fa-plus"></i></a>@endcan
+            title="@lang('fleet.add_quote')"><i class="bi bi-plus-lg"></i></a>@endcan
         </h3>
       </div>
 
@@ -52,7 +49,7 @@
                 <th>
                   @can('BookingQuotations delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
                     data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
-                      class="fa fa-trash"></i></button>@endcan
+                      class="bi bi-trash"></i></button>@endcan
                 </th>
                 <th>@lang('fleet.customer')</th>
                 <th>@lang('fleet.vehicle')</th>
@@ -137,7 +134,7 @@
   </div>
 </div>
 @endsection
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   @if(Session::get('msg'))
     new PNotify({

@@ -1,10 +1,6 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('vehicle-breakdown.index')}}">@lang('fleet.vehicle_breakdown')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.edit_vehicle_breakdown')</li>
 @endsection
 @section('content')
 <div class="row">

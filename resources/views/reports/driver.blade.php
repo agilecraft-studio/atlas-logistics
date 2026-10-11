@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.driverReport')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -27,7 +23,7 @@
           </div>
 
           <button type="submit" class="btn btn-info" style="margin-right: 10px">@lang('fleet.generate_report')</button>
-          <button type="submit" formaction="{{url('admin/print-driver-report')}}" class="btn btn-danger"><i class="fa fa-print"></i> @lang('fleet.print')</button>
+          <button type="submit" formaction="{{url('admin/print-driver-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
         </div>
         {!! Form::close() !!}
       </div>
@@ -94,7 +90,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/js/cdn/Chart.bundle.min.js')}}"></script>
+<script src="{{ asset('assets/js/cdn-Chart.bundle.min.js')}}"></script>
 
 <script type="text/javascript">
 
@@ -207,9 +203,7 @@ window.onload = function() {
     });
 };
 </script>
-@endsection
 
-@section("script")
 <script type="text/javascript">
   $(document).ready(function() {
     $('#myTable').DataTable({

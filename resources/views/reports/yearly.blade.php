@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.yearlyReport')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -33,7 +29,7 @@
             </select></div>
           </div>
           <button type="submit" class="btn btn-info" style="margin-right: 10px">@lang('fleet.generate_report')</button>
-          <button type="submit" formaction="{{url('admin/print-yearly-report')}}" class="btn btn-danger"><i class="fa fa-print"></i> @lang('fleet.print')</button>
+          <button type="submit" formaction="{{url('admin/print-yearly-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
         </div>
         {!! Form::close() !!}
       </div>
@@ -285,8 +281,7 @@ var c1 = [176,255,84,220,134,66,238];
   };
 
 </script>
-@endsection
-@section("script")
+
 <script type="text/javascript">
 $(document).ready(function() {
     $("#vehicle_id").select2();

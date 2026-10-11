@@ -1,10 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('booking-quotation.index')}}">@lang('fleet.booking_quotes')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.receipt')</li>
-@endsection
 @section('content')
 <div class="invoice p-3 mb-3">
   <div class="row">
@@ -128,7 +124,7 @@
   <div class="row no-print">
     <div class="col-xs-12">
       <a href="{{url('admin/print-quote/'.$data->id)}}" target="_blank" class="btn btn-danger"><i
-          class="fa fa-print"></i> @lang('fleet.print')</a>
+          class="bi bi-printer"></i> @lang('fleet.print')</a>
     </div>
   </div>
 </div>

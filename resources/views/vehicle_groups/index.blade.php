@@ -1,8 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.vehicleGroup')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -18,7 +15,7 @@
         <h3 class="card-title">
         @lang('fleet.vehicleGroup')
         &nbsp;
-        @can('VehicleGroup add')<a href="{{ route('vehicle_group.create')}}" class="btn btn-success" title="@lang('fleet.createGroup')"><i class="fa fa-plus"></i></a>@endcan</h3>
+        @can('VehicleGroup add')<a href="{{ route('vehicle_group.create')}}" class="btn btn-success" title="@lang('fleet.createGroup')"><i class="bi bi-plus-lg"></i></a>@endcan</h3>
       </div>
 
       <div class="card-body table-responsive">
@@ -41,7 +38,7 @@
           <tfoot>
             <tr>
               <th>
-                @can('VehicleGroup delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('VehicleGroup delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>@lang('fleet.groupName')</th>
               <th>@lang('fleet.description')</th>
@@ -103,7 +100,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click", function () {
     var id = $(this).data("submit");
@@ -131,7 +128,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4]),
@@ -147,7 +144,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4]
             }

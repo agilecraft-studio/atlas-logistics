@@ -1,10 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('work_order.index')}}">@lang('fleet.work_orders') </a></li>
-<li class="breadcrumb-item active">@lang('fleet.work_order_logs')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -125,7 +121,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");

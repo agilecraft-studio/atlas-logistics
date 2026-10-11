@@ -1,6 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section('extra_css')
+@section('styles')
 
 <style type="text/css">
 
@@ -138,13 +138,6 @@ input:checked + .slider:before {
 
 @endsection
 
-@section("breadcrumb")
-
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-
-<li class="breadcrumb-item active">@lang('menu.api_settings')</li>
-
-@endsection
 
 @section('content')
 
@@ -237,7 +230,7 @@ input:checked + .slider:before {
 
                   <h6>{!! Form::label('google_api',__('fleet.google_places_api'),['class'=>"form-label"]) !!} 
 
-                    <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
+                    <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
 
                     <strong class="text-muted">(<a href="https://docs.listingprowp.com/knowledgebase/how-to-get-map-working-with-google-api-key/" target="blank">@lang('fleet.api_guide')</a>)</strong>
 
@@ -275,7 +268,7 @@ input:checked + .slider:before {
 
                   <h6>{!! Form::label('driver_review',__('fleet.driver_review'),['class'=>"form-label"]) !!}
 
-                    <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                    <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
                   </h6>
 
@@ -311,7 +304,7 @@ input:checked + .slider:before {
 
                   <div class="input-group-prepend">
 
-                  <span class="input-group-text"><i class="fa fa-clock-o"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-clock"></i></span></div>
 
                   {!! Form::number('name[max_trip]',AtlasLogistics::api('max_trip'),['class'=>"form-control trip","required"]) !!}
 
@@ -329,7 +322,7 @@ input:checked + .slider:before {
 
                     <div class="input-group-prepend">
 
-                    <span class="input-group-text"><i class="fa fa-calendar-check-o"></i></span></div>
+                    <span class="input-group-text"><i class="bi bi-calendar-check"></i></span></div>
 
                     {!! Form::number('name[booking]',AtlasLogistics::api('booking'),['class'=>"form-control",'required']) !!}
 
@@ -345,7 +338,7 @@ input:checked + .slider:before {
 
                     <div class="input-group-prepend">
 
-                    <span class="input-group-text"><i class="fa fa-calendar-times-o"></i></span>
+                    <span class="input-group-text"><i class="bi bi-calendar-times-o"></i></span>
 
                     </div>
 
@@ -386,7 +379,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-lg-12">
                   {!! Form::label('db_url',__('fleet.db_url'),['class'=>"form-label"]) !!}
-                      <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd" ></i></a>
+                      <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd" ></i></a>
                 </div>
                 <div class="form-group col-lg-6"> 
                   <h6>{!! Form::label('Fleet Manager App','',['class'=>"form-label"]) !!}</h6>
@@ -479,7 +472,7 @@ input:checked + .slider:before {
 
                   {!! Form::label('server_key',__('fleet.legacy_key'),['class'=>"form-label"]) !!}
 
-                  <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
                   {!! Form::text('server_key',
 
@@ -509,7 +502,7 @@ input:checked + .slider:before {
 
                   {!! Form::label('api_key',__('fleet.google_maps'),['class'=>"form-label"]) !!}
 
-                  <a data-bs-toggle="modal" data-bs-target="#myModal6"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal6"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
                   {!! Form::text('api_key',
 
@@ -809,7 +802,7 @@ input:checked + .slider:before {
 
 
 
-@section('script')
+@section('scripts')
 
 <script>
     $(document).ready(function () {

@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section("extra_css")
+@extends('layouts.fleet')
+@section('styles')
 
 <style type="text/css">
   .modal-body {
@@ -7,10 +7,6 @@
     overflow-y: auto;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('bookings.index')}}">@lang('menu.bookings')</a></li>
-<li class="breadcrumb-item active">@lang('menu.calendar')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -63,7 +59,7 @@
 </div>
 @endsection
 
-@section("script")
+@section('scripts')
 @if(AtlasLogistics::get('language')!="English-en")
 @php($lg = explode('-',AtlasLogistics::get('language')))
 @if($lg[1]!='al')

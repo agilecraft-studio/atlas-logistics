@@ -1,10 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.work_orders')</li>
-@endsection
-@section('extra_css')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -20,7 +17,7 @@
         <h3 class="card-title">
         @lang('fleet.work_orders')
         &nbsp;
-        @can('WorkOrders add')<a href="{{ route('work_order.create')}}" class="btn btn-success" title="@lang('fleet.create_workorder')"><i class="fa fa-plus"></i></a>@endcan</h3>
+        @can('WorkOrders add')<a href="{{ route('work_order.create')}}" class="btn btn-success" title="@lang('fleet.create_workorder')"><i class="bi bi-plus-lg"></i></a>@endcan</h3>
       </div>
 
       <div class="card-body table-responsive">
@@ -93,13 +90,13 @@
               <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                <span class="fa fa-gear"></span>
+                <span class="bi bi-gear"></span>
                 <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu custom" role="menu">
-                  <a class="dropdown-item" href='{{ url("admin/parts-used/".$row->id)}}'> <span aria-hidden="true" class="fa fa-wrench" style="color: green;"></span> @lang('fleet.partsUsed')</a>
-                  @can('WorkOrders edit')<a class="dropdown-item" href='{{ url("admin/work_order/".$row->id."/edit")}}'> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
-                  @can('WorkOrders delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                  <a class="dropdown-item" href='{{ url("admin/parts-used/".$row->id)}}'> <span aria-hidden="true" class="bi bi-wrench" style="color: green;"></span> @lang('fleet.partsUsed')</a>
+                  @can('WorkOrders edit')<a class="dropdown-item" href='{{ url("admin/work_order/".$row->id."/edit")}}'> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
+                  @can('WorkOrders delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
                 </div>
               </div>
               {!! Form::open(['url' => 'admin/work_order/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
@@ -113,7 +110,7 @@
             <tr>
               <th>
                 @if($data->count() > 0)
-                @can('WorkOrders delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('WorkOrders delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
                 @endif
               </th>
               <th>@lang('fleet.vehicleImage')</th>
@@ -182,7 +179,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");
@@ -201,7 +198,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5,6,7,8,9,10,11]),
@@ -217,7 +214,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4, 5, 6, 7,8,9,10,11]
             }

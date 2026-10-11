@@ -1,4 +1,4 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
 @section('content')
 <div class="row">

@@ -1,9 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('service-reminder.index')}}">@lang('fleet.serviceReminders')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.add_service_reminder')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 @endsection
 @section('content')
@@ -39,7 +35,7 @@
             {!! Form::label('start_date', __('fleet.start_date'), ['class' => 'form-label']) !!}
             <div class="input-group date">
               <div class="input-group-prepend"><span class="input-group-text"><span
-                    class="fa fa-calendar"></span></span></div>
+                    class="bi bi-calendar"></span></span></div>
               {!! Form::text('start_date',date('Y-m-d'),['class'=>'form-control','required','id'=>'start_date']) !!}
             </div>
           </div>
@@ -88,7 +84,7 @@
 </div>
 
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
     $('#vehicle_id').select2({placeholder: "@lang('fleet.selectVehicle')"});

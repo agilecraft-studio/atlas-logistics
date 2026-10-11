@@ -1,10 +1,6 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">{{ link_to_route('roles.index', __('fleet.roles'))}}</li>
-<li class="breadcrumb-item active">@lang('fleet.add_role')</li>
-@endsection
+@extends('layouts.fleet')
 
-@section('extra_css')
+@section('styles')
 <style>
   input[type="checkbox"]{
     width:20px;
@@ -126,7 +122,7 @@
 </div>
 @endsection
 
-@section('script')
+@section('scripts')
   <script>
     $(".All").change(function() {
       var name = $(this).data('type');

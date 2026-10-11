@@ -1,8 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.vehicle_inspection')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -18,7 +15,7 @@
         <h3 class="card-title">
         @lang('fleet.vehicle_inspection')
         &nbsp;
-        <a href="{{ url('admin/vehicle-inspection-create')}}" class="btn btn-success" title="@lang('fleet.add_vehicle_inspection')"><i class="fa fa-plus"></i></a></h3>
+        <a href="{{ url('admin/vehicle-inspection-create')}}" class="btn btn-success" title="@lang('fleet.add_vehicle_inspection')"><i class="bi bi-plus-lg"></i></a></h3>
       </div>
 
       <div class="card-body table-responsive">
@@ -41,12 +38,12 @@
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                    <span class="fa fa-gear"></span>
+                    <span class="bi bi-gear"></span>
                     <span class="visually-hidden">Toggle Dropdown</span>
                   </button>
                   <div class="dropdown-menu custom" role="menu">
                     <a class="dropdown-item" href="{{url('admin/view-vehicle-inspection/'.$r->id)}}">
-                    <span class="fa fa-eye" aria-hidden="true" style="color: #398439"></span> @lang('fleet.view')
+                    <span class="bi bi-eye" aria-hidden="true" style="color: #398439"></span> @lang('fleet.view')
                     </a>
                   </div>
                 </div>

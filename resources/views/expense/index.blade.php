@@ -1,10 +1,10 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @php($currency=AtlasLogistics::get('currency'))
 
-@section('extra_css')
+@section('styles')
 
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 
@@ -22,11 +22,6 @@
 
 @endsection
 
-@section("breadcrumb")
-
-<li class="breadcrumb-item active">@lang('fleet.expense')</li>
-
-@endsection
 
 @section('content')
 
@@ -162,7 +157,7 @@
 
               <div class="input-group-prepend">
 
-              <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+              <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
 
               <input  name="date" type="text"  id="date" value="{{ date('Y-m-d')}}" class="form-control">
 
@@ -220,7 +215,7 @@
 
               <div class="input-group date ms-3 me-3">
 
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
 
                 {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=> __('fleet.start_date'),'required']) !!}
 
@@ -234,7 +229,7 @@
 
               <div class="input-group date ms-3">
 
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
 
                 {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
 
@@ -246,7 +241,7 @@
 
               <button type="submit" class="btn btn-warning">
 
-                <i class="fa fa-search"></i>
+                <i class="bi bi-search"></i>
 
               </button>
 
@@ -362,7 +357,7 @@
 
               @can('Transactions delete')<button type="button" class="btn btn-danger delete" id="btn_delete" data-id="{{$row->id}}" title="@lang('fleet.delete')">
 
-                <span class="fa fa-times" aria-hidden="true"></span>
+                <span class="bi bi-x-lg" aria-hidden="true"></span>
 
               </button>@endcan
 
@@ -384,7 +379,7 @@
 
                 @if($today->count() > 0)
 
-                @can('Transactions delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="fa fa-trash"></i></button>@endcan
+                @can('Transactions delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>@endcan
 
                 @endif
 
@@ -518,7 +513,7 @@
 
 
 
-@section("script")
+@section('scripts')
 
 <script type="text/javascript">
 

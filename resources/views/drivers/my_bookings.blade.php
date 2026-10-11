@@ -1,13 +1,10 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
 @php
   use App\Model\Bookings;
   $date_format_setting = AtlasLogistics::get('date_format') ?? 'd-m-Y';
 @endphp
 
-@section("breadcrumb")
-  <li class="breadcrumb-item active">@lang('menu.my_bookings')</li>
-@endsection
 
 @section('content')
 <div class="row">

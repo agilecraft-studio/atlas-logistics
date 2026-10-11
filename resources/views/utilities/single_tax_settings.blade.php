@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('menu.general_settings')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -91,7 +87,7 @@
               <div class="input-group mb-3">
                 {!! Form::number('name[tax_charge]',AtlasLogistics::get('tax_charge'),['class'=>"form-control",'required','min'=>0,'step'=>"0.01"]) !!}
                 <div class="input-group-append">
-                  <span class="input-group-text fa fa-percent"></span>
+                  <span class="input-group-text bi bi-percent"></span>
                 </div>
               </div>
           </div>
@@ -174,7 +170,7 @@
 <!--model 2 -->
 @endsection
 
-@section('script')
+@section('scripts')
 
 <script type="text/javascript">
   $('.view1').click(function(){

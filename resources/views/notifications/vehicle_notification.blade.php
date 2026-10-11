@@ -1,9 +1,5 @@
 
-@extends('layouts.attex')
-@section("breadcrumb")
-
-<li class="breadcrumb-item active">@lang('menu.notifications')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">

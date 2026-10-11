@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li><a href="#">@lang('menu.reports')</a></li>
-<li class="active">@lang('menu.partsReport')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
 	<div class="col-md-12">

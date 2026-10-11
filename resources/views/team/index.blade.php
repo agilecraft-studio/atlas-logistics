@@ -1,8 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.team')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -54,14 +51,14 @@
               <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                  <span class="fa fa-gear"></span>
+                  <span class="bi bi-gear"></span>
                   <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu custom" role="menu">
-                  @can('Team edit')<a class="dropdown-item" href="{{url("admin/team/".$row->id."/edit") }}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
+                  @can('Team edit')<a class="dropdown-item" href="{{url("admin/team/".$row->id."/edit") }}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
                   {!! Form::hidden("id",$row->id) !!}
 
-                  @can('Team delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                  @can('Team delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
                 </div>
               </div>
               {!! Form::open(['url' => 'admin/team/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
@@ -75,7 +72,7 @@
             <tr>
               <th>
                 @if($data->count() > 0)
-                @can('Team delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('Team delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
                 @endif
               </th>
               <th>@lang('fleet.picture')</th>
@@ -137,7 +134,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");

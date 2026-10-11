@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style>
   .layouthack {
     margin-top: 0px;
@@ -13,10 +13,6 @@
 </style>
 @endsection
 
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('parts.index')}}">@lang('menu.manageParts')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.addParts')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -151,7 +147,7 @@
   </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
     $('#manufacturer-input').on('input', function() {

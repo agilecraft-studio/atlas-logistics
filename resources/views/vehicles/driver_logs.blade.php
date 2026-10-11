@@ -1,9 +1,5 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('vehicles.index')}}">@lang('fleet.vehicles')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.driver_logs')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -39,7 +35,7 @@
   </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $(function(){
     

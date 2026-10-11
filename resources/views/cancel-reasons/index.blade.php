@@ -1,9 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('fleet.cancellation')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -19,7 +15,7 @@
         <h3 class="card-title">
         @lang('fleet.cancellation')
         &nbsp;
-        <a href="{{ route('cancel-reason.create')}}" class="btn btn-success" title="@lang('fleet.addNew')"><i class="fa fa-plus"></i></a></h3>
+        <a href="{{ route('cancel-reason.create')}}" class="btn btn-success" title="@lang('fleet.addNew')"><i class="bi bi-plus-lg"></i></a></h3>
       </div>
 
       <div class="card-body table-responsive">
@@ -45,12 +41,12 @@
               <td>
               <div class="btn-group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                  <span class="fa fa-gear"></span>
+                  <span class="bi bi-gear"></span>
                   <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu custom" role="menu">
-                  <a class="dropdown-item" href="{{ url("admin/cancel-reason/".$reason->id."/edit")}}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>
-                  <a class="dropdown-item" data-id="{{$reason->id}}" data-toggle="modal" data-target="#myModal" ><span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
+                  <a class="dropdown-item" href="{{ url("admin/cancel-reason/".$reason->id."/edit")}}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>
+                  <a class="dropdown-item" data-id="{{$reason->id}}" data-toggle="modal" data-target="#myModal" ><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
                 </div>
               </div>
               {!! Form::open(['url' => 'admin/cancel-reason/'.$reason->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$reason->id]) !!}
@@ -64,7 +60,7 @@
             <tr>
               <th>
                 @if($reasons->count() > 0)
-                  <button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>
+                  <button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>
                 @endif
               </th>
               <th>@lang('fleet.reason')</th>
@@ -123,7 +119,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");

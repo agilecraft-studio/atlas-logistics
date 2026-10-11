@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.fleet')
 
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
-@section('extra_css')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
   .checkbox,
@@ -63,9 +63,6 @@
 
 </style>
 @endsection
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('menu.bookings')</li>
-@endsection
 @section('content')
 @if (count($errors) > 0)
   <div class="alert alert-danger">
@@ -83,7 +80,7 @@
       <div class="card-header with-border">
         <h3 class="card-title"> @lang('fleet.manage_bookings') &nbsp;
           @can('Bookings add')<a href="{{route('bookings.create')}}" class="btn btn-success"
-            title="@lang('fleet.new_booking')"><i class="fa fa-plus"></i></a>@endcan
+            title="@lang('fleet.new_booking')"><i class="bi bi-plus-lg"></i></a>@endcan
         </h3>
       </div>
 
@@ -117,7 +114,7 @@
                 <th>
                   @can('Bookings delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
                     data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
-                      class="fa fa-trash"></i></button>@endcan
+                      class="bi bi-trash"></i></button>@endcan
                 </th>
                 <th>@lang('fleet.customer')</th>
                 <th>@lang('fleet.vehicle')</th>
@@ -331,7 +328,7 @@
                 <label class="form-label">@lang('fleet.total_tax') (%) </label>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text fa fa-percent"></span>
+                    <span class="input-group-text bi bi-percent"></span>
                   </div>
                   {!! Form::number('total_tax_charge',0,['class'=>'form-control
                   sum','readonly','id'=>'total_tax_charge','min'=>0,'step'=>'0.01']) !!}
@@ -379,7 +376,7 @@
                 <label class="form-label">@lang('fleet.date')</label>
                 <div class='input-group'>
                   <div class="input-group-prepend">
-                    <span class="input-group-text"> <span class="fa fa-calendar"></span></span>
+                    <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
                   </div>
                   {!! Form::text('date',date('Y-m-d'),['class'=>'form-control','id'=>'date']) !!}
                 </div>
@@ -400,7 +397,7 @@
 <!-- generate invoice modal -->
 @endsection
 
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   @if(Session::get('msg'))
     new PNotify({
@@ -614,7 +611,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5,6,7,8,9,10]),
@@ -630,7 +627,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }

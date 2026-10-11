@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
@@ -13,10 +13,6 @@
     /* width: calc(100% / 2); */
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('drivers.index')}}">@lang('fleet.drivers')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.addDriver')</li>
 @endsection
 
 @section('content')
@@ -68,7 +64,7 @@
               {!! Form::label('address', __('fleet.address'), ['class' => 'form-label required']) !!}
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
                 </div>
                 {!! Form::text('address', null,['class' => 'form-control','required']) !!}
               </div>
@@ -79,7 +75,7 @@
               {!! Form::label('email', __('fleet.email'), ['class' => 'form-label required']) !!}
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email', null,['class' => 'form-control','required']) !!}
               </div>
@@ -124,7 +120,7 @@
             <div class="form-group">
               {!! Form::label('issue_date', __('fleet.issueDate'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('issue_date', null,['class' => 'form-control','required','id' => 'issue_date']) !!}
               </div>
@@ -135,7 +131,7 @@
             <div class="form-group">
               {!! Form::label('exp_date', __('fleet.expirationDate'), ['class' => 'form-label required']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('exp_date', null,['class' => 'form-control','required']) !!}
               </div>
@@ -147,7 +143,7 @@
             <div class="form-group">
               {!! Form::label('start_date', __('fleet.join_date'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('start_date', null,['class' => 'form-control','required']) !!}
               </div>
@@ -157,7 +153,7 @@
             <div class="form-group">
               {!! Form::label('end_date', __('fleet.leave_date'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span>
                 </div>
                 {!! Form::text('end_date', null,['class' => 'form-control']) !!}
               </div>
@@ -168,7 +164,7 @@
               {!! Form::label('password', __('fleet.password'), ['class' => 'form-label']) !!}
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
                 </div>
                 {!! Form::password('password', ['class' => 'form-control','required']) !!}
               </div>
@@ -233,7 +229,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 

@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('incomecategories.index')}}">@lang('fleet.incomeCategories')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.editIncomeType')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
     <div class="col-md-12">

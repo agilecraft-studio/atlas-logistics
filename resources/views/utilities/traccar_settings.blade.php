@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section('breadcrumb')
-    <li class="breadcrumb-item">@lang('menu.settings')</li>
-    <li class="breadcrumb-item active">@lang('menu.traccar_settings')</li>
-@endsection
+@extends('layouts.fleet')
 
 @section('content')
     <div class="row">
@@ -18,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12 mb-2">
                             <h5>  @lang('fleet.traccar_enable')
-                                <a data-bs-toggle="modal" data-bs-target="#myModal9"><i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
+                                <a data-bs-toggle="modal" data-bs-target="#myModal9"><i class="bi bi-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
                             </h5>
                         </div>
                         <div class="col-md-6 col-sm-12 mb-2">
@@ -32,7 +28,7 @@
                         {{-- <div class="col-md-12 text-center">
                             <div class="form-group">
                                 {!! Form::label('traccar_enable', __('fleet.traccar_enable'), ['class' => 'form-label']) !!}
-                                <a data-bs-toggle="modal" data-bs-target="#myModal9"><i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
+                                <a data-bs-toggle="modal" data-bs-target="#myModal9"><i class="bi bi-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
                                 <br>
                                 <label class="switch">
                                     <input type="checkbox" name="traccar_enable" value="1" id="traccar_enable"
@@ -113,7 +109,7 @@
     </div>
 @endsection
 
-@section('script')
+@section('scripts')
     <script>
         $('#traccar_enable').on('change', function() {
             if ($(this).is(':checked')) {

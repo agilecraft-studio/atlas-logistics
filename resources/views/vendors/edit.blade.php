@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('vendors.index')}}"> @lang('fleet.vendors') </a></li>
-<li class="breadcrumb-item active"> @lang('fleet.edit_vendor')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -41,7 +37,7 @@
               {!! Form::label('phone',__('fleet.phone'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
                 </div>
                 {!! Form::number('phone',$data->phone,['class'=>'form-control','required']) !!}
               </div>
@@ -53,7 +49,7 @@
               {!! Form::label('email',__('fleet.email'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email',$data->email,['class'=>'form-control','required']) !!}
               </div>
@@ -97,7 +93,7 @@
               {!! Form::label('address1',__('fleet.address1'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
                 </div>
                 {!! Form::text('address1',$data->address1,['class'=>'form-control','required']) !!}
               </div>
@@ -109,7 +105,7 @@
               {!! Form::label('address2',__('fleet.address2'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
                 </div>
                 {!! Form::text('address2',$data->address2,['class'=>'form-control']) !!}
               </div>
@@ -184,7 +180,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   $(".add_udf").click(function () {
     // alert($('#udf').val());

@@ -1,8 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.vendors')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -27,7 +24,7 @@
         <h3 class="card-title">
         @lang('fleet.vendors')
         &nbsp;
-        @can('Vendors add')<a href="{{ route('vendors.create')}}" class="btn btn-success" title="@lang('fleet.create_vendor')"><i class="fa fa-plus"></i></a>@endcan
+        @can('Vendors add')<a href="{{ route('vendors.create')}}" class="btn btn-success" title="@lang('fleet.create_vendor')"><i class="bi bi-plus-lg"></i></a>@endcan
         @can('Vendors import')<button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>@endcan
         </h3>
       </div>
@@ -55,7 +52,7 @@
           <tfoot>
             <tr>
               <th>
-              @can('Vendors delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+              @can('Vendors delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>#</th>
               <th>@lang('fleet.picture')</th>
@@ -155,7 +152,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");
@@ -173,7 +170,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5,6]),
@@ -189,7 +186,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4, 5, 6]
             }

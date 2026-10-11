@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
     <style type="text/css">
         .modal {
             overflow: auto;
@@ -28,9 +28,6 @@
         }
     </style>
 @endsection
-@section('breadcrumb')
-    <li class="breadcrumb-item active">@lang('fleet.vehicles')</li>
-@endsection
 
 @section('content')
     <div class="row">
@@ -39,7 +36,7 @@
                 <div class="card-header">
                     <h3 class="card-title">@lang('fleet.manageVehicles') &nbsp; @can('Vehicles add')
                             <a href="{{ route('vehicles.create') }}" class="btn btn-success" title="@lang('fleet.addNew')"><i
-                                    class="fa fa-plus"></i></a>
+                                    class="bi bi-plus-lg"></i></a>
                         @endcan
                         {{-- @can('Vehicles import')<button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>@endcan --}}
                     </h3>
@@ -74,7 +71,7 @@
                                     @can('Vehicles delete')
                                         <button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
                                             data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
-                                                class="fa fa-trash"></i></button>
+                                                class="bi bi-trash"></i></button>
                                     @endcan
                                 </th>
                                 <th>#</th>
@@ -207,7 +204,7 @@
     <!--model 2 -->
 @endsection
 
-@section('script')
+@section('scripts')
     <script type="text/javascript">
         $("#del_btn").on("click", function() {
             var id = $(this).data("submit");
@@ -257,7 +254,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5,6,7,8,9]),
@@ -273,7 +270,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4, 5, 6, 7,8,9]
             }

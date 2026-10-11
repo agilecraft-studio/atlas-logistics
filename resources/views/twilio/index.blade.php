@@ -1,9 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('fleet.twilio_settings')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .nav-link {
     padding: .5rem !important;
@@ -115,7 +111,7 @@ input:checked + .slider:before {
               {!! Form::label('from',__('fleet.from'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
                 </div>
                 {!! Form::text('from', AtlasLogistics::twilio('from') ,['class' => 'form-control','required']) !!}
               </div>
@@ -182,7 +178,7 @@ input:checked + .slider:before {
 </div>
 @endsection
 
-@section("script")
+@section('scripts')
 
 <script type="text/javascript">
   @if(Session::get('msg'))

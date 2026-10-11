@@ -1,4 +1,4 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php
 $dk=array_keys($dates);
 @endphp
@@ -7,7 +7,7 @@ $dk=array_keys($dates);
   @can('Users list')
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box">
-      <span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
+      <span class="info-box-icon bg-info"><i class="bi bi-people"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">@lang('fleet.users')</span>
         <span class="info-box-number">{{$users}}</span>
@@ -18,7 +18,7 @@ $dk=array_keys($dates);
   @can('Drivers list')
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box">
-      <span class="info-box-icon bg-info"><i class="fa fa-id-card"></i></span>
+      <span class="info-box-icon bg-info"><i class="bi bi-id-card"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">@lang('fleet.drivers')</span>
         <span class="info-box-number">{{$drivers}}</span>
@@ -30,7 +30,7 @@ $dk=array_keys($dates);
   @can('Customer list')
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box">
-      <span class="info-box-icon bg-info"><i class="fa fa-address-card"></i></span>
+      <span class="info-box-icon bg-info"><i class="bi bi-address-card"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">@lang('fleet.customers')</span>
         <span class="info-box-number">{{$customers}}</span>
@@ -41,7 +41,7 @@ $dk=array_keys($dates);
   @can('Vehicles list')
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box">
-      <span class="info-box-icon bg-info"><i class="fa fa-taxi"></i></span>
+      <span class="info-box-icon bg-info"><i class="bi bi-taxi"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">@lang('fleet.vehicles')</span>
         <span class="info-box-number">{{$vehicles}}</span>
@@ -89,7 +89,7 @@ $dk=array_keys($dates);
           <div class="col-md-2">
             @can('Bookings list')
             <div class="info-box mb-3 bg-warning">
-              <span class="info-box-icon"><i class="fa fa-address-book"></i></span>
+              <span class="info-box-icon"><i class="bi bi-address-book"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.bookings')</span>
                 <span class="info-box-number">{{$bookings}}</span>
@@ -98,7 +98,7 @@ $dk=array_keys($dates);
             @endcan
             @can('Transactions list')
             <div class="info-box mb-3 bg-success">
-              <span class="info-box-icon"><i class="fa fa-money-bill"></i></span>
+              <span class="info-box-icon"><i class="bi bi-money-bill"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.income')</span>
                 <span class="info-box-number">{{ AtlasLogistics::get("currency")}}{{$income}}</span>
@@ -106,7 +106,7 @@ $dk=array_keys($dates);
               <!-- /.info-box-content -->
             </div>
             <div class="info-box mb-3 bg-danger">
-              <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
+              <span class="info-box-icon"><i class="bi bi-credit-card"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.expense')</span>
                 <span class="info-box-number">{{ AtlasLogistics::get("currency")}}{{$expense}}</span>
@@ -116,7 +116,7 @@ $dk=array_keys($dates);
             @endcan
             @can('Vendors list')
             <div class="info-box mb-3 bg-info">
-              <span class="info-box-icon"><i class="fa fa-shopping-cart"></i></span>
+              <span class="info-box-icon"><i class="bi bi-shopping-cart"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.vendors')</span>
                 <span class="info-box-number">{{$vendors}}</span>
@@ -227,8 +227,8 @@ $dk=array_keys($dates);
                     <tr>
                         <td><a href="{{url('admin/bookings/'.$vb->booking_id.'/edit')}}">{{$vb->booking_id}}</a></td>
                         <td>{{$vb->message}}</td>
-                        <td><a href="tel:{{$vb->booking->driver->phone}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="fa fa-phone" style="font-size:15px"></i> Call Driver</a>
-                          <a href="tel:{{$vb->booking->customer->mobno}}" class="btn btn-success btn-sm"><i class="fa fa-phone" style="font-size:15px"></i> Call Customer</a></td>
+                        <td><a href="tel:{{$vb->booking->driver->phone}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
+                          <a href="tel:{{$vb->booking->customer->mobno}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
                       </tr>
                     @endforeach
                   </table>
@@ -253,8 +253,8 @@ $dk=array_keys($dates);
                     <tr>
                       <td><a href="{{url('admin/bookings/'.$vb->booking_id.'/edit')}}">{{$vb->booking_id}}</a></td>
                       <td>{{$da->message}}</td>
-                      <td><a href="tel:{{$vb->booking->driver->phone}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="fa fa-phone" style="font-size:15px"></i> Call Driver</a>
-                        <a href="tel:{{$vb->booking->customer->mobno}}" class="btn btn-success btn-sm"><i class="fa fa-phone" style="font-size:15px"></i> Call Customer</a></td>
+                      <td><a href="tel:{{$vb->booking->driver->phone}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
+                        <a href="tel:{{$vb->booking->customer->mobno}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
                     </tr>
                   @endforeach
                 </table>
@@ -457,8 +457,7 @@ function random_color(i){
             }]
         };
 </script>
-@endsection
-@section('script')
+
 <script type="text/javascript">
   $("#year").on("change",function(){
     var year = this.value;

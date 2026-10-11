@@ -1,16 +1,9 @@
-@extends('layouts.attex')
-
-@section("breadcrumb")
-
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-
-<li class="breadcrumb-item active">@lang('menu.general_settings')</li>
-
-@endsection
+@extends('layouts.fleet')
 
 
 
-@section('extra_css')
+
+@section('styles')
 
 <style type="text/css">
 
@@ -356,7 +349,7 @@
 
           <div class="row col-md-6">
 
-          <div class="col-md-8">  <div class="form-group"> <label class="form-label text-uppercase">{{$key}}</label> <div class="input-group mb-3"><input type="number" name="udf[{{$key}}]" class="form-control" required value="{{$value}}" min=0 step="0.01"> <div class="input-group-append"> <span class="input-group-text fa fa-percent"></span> </div> </div></div></div><div class="col-md-4"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">@lang('fleet.Remove')</button> </div></div>
+          <div class="col-md-8">  <div class="form-group"> <label class="form-label text-uppercase">{{$key}}</label> <div class="input-group mb-3"><input type="number" name="udf[{{$key}}]" class="form-control" required value="{{$value}}" min=0 step="0.01"> <div class="input-group-append"> <span class="input-group-text bi bi-percent"></span> </div> </div></div></div><div class="col-md-4"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">@lang('fleet.Remove')</button> </div></div>
 
           </div>
 
@@ -370,7 +363,7 @@
 
             {!! Form::label('invoice_text',__('fleet.invoice_text'),['class'=>"form-label"]) !!}
 
-            <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
             {!! Form::textarea('name[invoice_text]',
 
@@ -386,7 +379,7 @@
 
               {!! Form::label('web_footer',__('fleet.web_footer'), ['class' => 'form-label']) !!}
 
-              <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <textarea name="name[web_footer]" id="web_footer" class="form-control">{{ AtlasLogistics::get('web_footer') }}</textarea>
 
@@ -402,7 +395,7 @@
 
               {!! Form::label('fuel_enable_driver',__('fleet.fuel_enable_driver'), ['class' => 'form-label']) !!}
 
-              <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <br>
 
@@ -424,7 +417,7 @@
 
               {!! Form::label('income_enable_driver',__('fleet.income_enable_driver'), ['class' => 'form-label']) !!}
 
-              <a data-bs-toggle="modal" data-bs-target="#myModal7"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal7"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <br>
 
@@ -450,7 +443,7 @@
 
               {!! Form::label('expense_enable_driver',__('fleet.expense_enable_driver'), ['class' => 'form-label']) !!}
 
-              <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+              <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
 
               <br>
 
@@ -946,7 +939,7 @@
 
 
 
-@section('script')
+@section('scripts')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
 
@@ -1120,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     else{
 
-      $(".blank").append('<div class="row col-md-12"><div class="col-md-4">  <div class="form-group"> <label class="form-label">'+ field.toUpperCase() +'</label> <div class="input-group mb-3"><input type="number" name="udf['+ field +']" class="form-control" placeholder="Enter '+ field +'" required min=0 step="0.01"> <div class="input-group-append"> <span class="input-group-text fa fa-percent"></span> </div> </div></div></div><div class="col-md-4"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div></div></div>');
+      $(".blank").append('<div class="row col-md-12"><div class="col-md-4">  <div class="form-group"> <label class="form-label">'+ field.toUpperCase() +'</label> <div class="input-group mb-3"><input type="number" name="udf['+ field +']" class="form-control" placeholder="Enter '+ field +'" required min=0 step="0.01"> <div class="input-group-append"> <span class="input-group-text bi bi-percent"></span> </div> </div></div></div><div class="col-md-4"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div></div></div>');
 
       $('#udf1').val("");
 

@@ -1,7 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section('extra_css')
+@section('styles')
 <style type="text/css">
 .nav-tabs-custom>.nav-tabs>li.active{border-top-color:#3c8dbc !important;}
 .custom_color.active
@@ -10,10 +10,6 @@
   background-color: #02bcd1 !important;
 }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ url('admin/')}}">@lang('fleet.home')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.myProfile')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -51,7 +47,7 @@
       </div>
       <!-- /.box-header -->
       <div class="card-body">
-        <strong><i class="fa fa-user margin-r-5"></i> @lang('fleet.personal_info')</strong>
+        <strong><i class="bi bi-person margin-r-5"></i> @lang('fleet.personal_info')</strong>
         <p class="text-muted">
           @lang('fleet.driver') @lang('fleet.name'): {{$data->getMeta('first_name')}} {{$data->getMeta('middle_name')}} {{$data->getMeta('last_name')}}
           <br>
@@ -62,7 +58,7 @@
           @lang('fleet.address'): {{$data->getMeta('address')}}
         </p>
         <hr>
-        <strong><i class="fa fa-file margin-r-5"></i> @lang('fleet.doc_info')</strong>
+        <strong><i class="bi bi-file-earmark margin-r-5"></i> @lang('fleet.doc_info')</strong>
 
         <p class="text-muted">
           @lang('fleet.licenseNumber'): {{$data->getMeta('license_number')}}
@@ -234,7 +230,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
   $('.driver_table').DataTable({

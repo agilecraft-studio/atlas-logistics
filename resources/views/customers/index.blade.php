@@ -1,9 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.customers')</li>
-@endsection
-@section('extra_css')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -30,7 +27,7 @@
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.manage_customers')
-        &nbsp; @can('Customer add')<a href="{{route('customers.create')}}" class="btn btn-success" title="@lang('fleet.add_new')"><i class="fa fa-plus"></i></a>@endcan
+        &nbsp; @can('Customer add')<a href="{{route('customers.create')}}" class="btn btn-success" title="@lang('fleet.add_new')"><i class="bi bi-plus-lg"></i></a>@endcan
         @can('Customer import')&nbsp;&nbsp;<button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>@endcan
         </h3>
       </div>
@@ -56,7 +53,7 @@
           <tfoot>
             <tr>
               <th>
-                @can('Customer delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="fa fa-trash"></i></button>@endcan
+                @can('Customer delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>@lang('fleet.name')</th>
               <th>@lang('fleet.email')</th>
@@ -172,12 +169,12 @@
           {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-lock"></i></span>
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
             </div>
             {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
             <div class="input-group-prepend">
               <button type="button" id="show-password-button" class="show-password-button" >
-                <i class="fa fa-eye" aria-hidden="true"></i>
+                <i class="bi bi-eye" aria-hidden="true"></i>
               </button>
             </div>
           </div>
@@ -196,7 +193,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 
 <script type="text/javascript">
 
@@ -242,7 +239,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5]),
@@ -258,7 +255,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4, 5]
             }

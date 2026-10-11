@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('customers.index')}}">@lang('fleet.customers')</a></li>
-<li class="breadcrumb-item active"> @lang('fleet.edit_customer')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -46,7 +42,7 @@
               {!! Form::label('phone',__('fleet.phone'), ['class' => 'form-label']) !!}
               <div class=" input-group mb-3">
                 <div class="input-group-prepend date">
-                  <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
                 </div>
                 {!! Form::number('phone', $data->getMeta('mobno'),['class' => 'form-control','required']) !!}
               </div>
@@ -58,7 +54,7 @@
               {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                 </div>
                 {!! Form::email('email', $data->email,['class' => 'form-control','required']) !!}
               </div>
@@ -70,7 +66,7 @@
               {!! Form::label('address', __('fleet.address'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                  <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
                 </div>
                 {!! Form::textarea('address', $data->getMeta('address'),['class' => 'form-control','size'=>'30x2','required']) !!}
               </div>
@@ -96,7 +92,7 @@
 </div>
 
 @endsection
-{{-- @section('script')
+{{-- @section('scripts')
 <script type="text/javascript">
   //Flat red color scheme for iCheck
   $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({

@@ -1,10 +1,6 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.vendorReport')</li>
 @endsection
 @section('content')
 
@@ -13,7 +9,7 @@
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">
-        @lang('fleet.vendorReport') &nbsp; <a href="{{url('admin/print-vendor-report')}}" class="btn btn-danger"><i class="fa fa-print"></i> @lang('fleet.print')</a>
+        @lang('fleet.vendorReport') &nbsp; <a href="{{url('admin/print-vendor-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</a>
         </h3>
       </div>
 
@@ -27,7 +23,7 @@
               {!! Form::label('date1',__('fleet.From')) !!}
               <div class="input-group ms-2">
                 <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+                <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
                 {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=>__('fleet.start_date'),'required']) !!}
               </div>
             </div>
@@ -35,13 +31,13 @@
               {!! Form::label('date2',__('fleet.To')) !!}
               <div class="input-group ms-2">
                 <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+                <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
                 {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
               </div>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-info">
-              <i class="fa fa-search"></i>
+              <i class="bi bi-search"></i>
               </button>
             </div>
             {!! Form::close() !!}
@@ -145,9 +141,6 @@ window.onload = function() {
 };
 </script>
 
-@endsection
-
-@section('script')
 <script src="{{ asset('assets/js/moment.js') }}"></script>
 <!-- bootstrap datepicker -->
 <script src="{{asset('assets/js/bootstrap-datepicker.min.js')}}"></script>

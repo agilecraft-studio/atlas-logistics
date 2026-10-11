@@ -1,9 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('menu.email_notification')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
 
 /* The switch - the box around the slider */
@@ -99,7 +95,7 @@ input[type="checkbox"]{
                 (@lang('fleet.disable'))
               @endif
             </span>
-            <a data-bs-toggle="modal" data-bs-target="#myModal1"><i class="fa fa-info-circle fa-lg ms-1" aria-hidden="true"  style="color: #8639dd"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#myModal1"><i class="bi bi-info-circle fa-lg ms-1" aria-hidden="true"  style="color: #8639dd"></i></a>
           </h4>
           </div>
           <div class="col-md-3 col-sm-12">
@@ -183,7 +179,7 @@ input[type="checkbox"]{
 <!-- Modal 1-->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
   //Flat green color scheme for iCheck

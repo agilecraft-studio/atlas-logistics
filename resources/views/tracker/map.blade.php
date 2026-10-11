@@ -1,8 +1,5 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section('breadcrumb')
-    <li class="breadcrumb-item active">@lang('fleet.vehicle_track')</li>
-@endsection
 
 @section('content')
     {{-- @dd($error) --}}
@@ -62,7 +59,7 @@
     {{-- @endif --}}
 @endsection
 
-@section('script')
+@section('scripts')
     <script src="https://maps.googleapis.com/maps/api/js?key={{ AtlasLogistics::get('traccar_map_key') }} &loading=async" defer>
     </script>
 

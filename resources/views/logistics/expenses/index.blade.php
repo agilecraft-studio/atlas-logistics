@@ -1,8 +1,8 @@
 @extends('layouts.fleet')
 @section('fleet_title', 'Trip Expenses')
+@php $m = fn ($v) => number_format((float) $v, 2); @endphp
 @section('fleet_subtitle', $m($total) . ' ' . $base . ' (' . ucfirst($status) . ')')
 @section('content')
-@php $m = fn ($v) => number_format((float) $v, 2); @endphp
 <x-fleet.panel title="Trip Expenses" icon="bi-cash-stack">
     <div class="fleet-toolbar">
         <div class="d-flex flex-wrap gap-2">

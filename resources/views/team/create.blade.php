@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">{{ link_to_route('team.index', __('fleet.team'))}}</li>
-<li class="breadcrumb-item active">@lang('fleet.addMember')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -65,7 +61,7 @@
 </div>
 @endsection
 
-@section('script')
+@section('scripts')
 
 <script>
   $(document).ready(function() {
@@ -78,7 +74,7 @@
 @endsection
 
 
-{{-- @section('script')
+{{-- @section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
   //Flat green color scheme for iCheck

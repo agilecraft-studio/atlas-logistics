@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
 
 /* The switch - the box around the slider */
@@ -68,10 +68,6 @@ input:checked + .slider:before {
 
 </style>
 @endsection
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('menu.api_settings')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -119,7 +115,7 @@ input:checked + .slider:before {
                 @if(AtlasLogistics::api('api') == "1")
                 <div class="form-group col-md-3">
                   <h6>{!! Form::label('google_api',__('fleet.google_places_api'),['class'=>"form-label"]) !!} 
-                    <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
+                    <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> <br>
                     <strong class="text-muted">(<a href="https://docs.listingprowp.com/knowledgebase/how-to-get-map-working-with-google-api-key/" target="blank">@lang('fleet.api_guide')</a>)</strong>
                   </h6>
                   <label class="switch">
@@ -138,7 +134,7 @@ input:checked + .slider:before {
 
                 <div class="form-group col-md-3">
                   <h6>{!! Form::label('driver_review',__('fleet.driver_review'),['class'=>"form-label"]) !!}
-                    <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                    <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   </h6>
                   <label class="switch">
                   <input type="checkbox" name="name[driver_review]" value="1" @if(AtlasLogistics::api('driver_review') == "1") checked @endif>
@@ -156,7 +152,7 @@ input:checked + .slider:before {
                   {!! Form::label('max_trip',__('fleet.max_trip'),['class'=>"form-label"]) !!}
                   <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-clock-o"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-clock"></i></span></div>
                   {!! Form::number('name[max_trip]',AtlasLogistics::api('max_trip'),['class'=>"form-control trip","required"]) !!}
                   </div>
                 </div>
@@ -165,7 +161,7 @@ input:checked + .slider:before {
                   {!! Form::label('booking',__('fleet.booking'),['class'=>"form-label"]) !!}
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-calendar-check-o"></i></span></div>
+                    <span class="input-group-text"><i class="bi bi-calendar-check"></i></span></div>
                     {!! Form::number('name[booking]',AtlasLogistics::api('booking'),['class'=>"form-control",'required']) !!}
                   </div>
                 </div>
@@ -173,7 +169,7 @@ input:checked + .slider:before {
                   {!! Form::label('cancel',__('fleet.cancel'),['class'=>"form-label"]) !!}
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-calendar-times-o"></i></span>
+                    <span class="input-group-text"><i class="bi bi-calendar-times-o"></i></span>
                     </div>
                     {!! Form::number('name[cancel]',AtlasLogistics::api('cancel'),['class'=>"form-control"]) !!}
                   </div>
@@ -195,7 +191,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-md-12">
                   {!! Form::label('db_url',__('fleet.db_url'),['class'=>"form-label"]) !!}
-                  <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('db_url',
                   AtlasLogistics::api('db_url'),['class'=>"form-control",'required','placeholder'=>'for example: https://PROJECT.firebaseio.com']) !!}
                 </div>
@@ -232,7 +228,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-md-12">
                   {!! Form::label('server_key',__('fleet.legacy_key'),['class'=>"form-label"]) !!}
-                  <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal4"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('server_key',
                   AtlasLogistics::api('server_key'),['class'=>"form-control",'required']) !!}
                 </div>
@@ -247,7 +243,7 @@ input:checked + .slider:before {
               <div class="row">
                 <div class="form-group col-md-12">
                   {!! Form::label('api_key',__('fleet.google_maps'),['class'=>"form-label"]) !!}
-                  <a data-bs-toggle="modal" data-bs-target="#myModal6"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal6"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   {!! Form::text('api_key',
                   AtlasLogistics::api('api_key'),['class'=>"form-control",'required']) !!}
                 </div>
@@ -397,7 +393,7 @@ input:checked + .slider:before {
 </div>
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $(".api_btn").on("click",function(){
     // alert($(".trip").val());

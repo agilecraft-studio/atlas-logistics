@@ -1,10 +1,6 @@
-@extends('layouts.app')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
-@endsection
-@section('breadcrumb')
-    <li class="breadcrumb-item "><a href="{{ route('booking-quotation.index') }}">@lang('fleet.booking_quotes')</a></li>
-    <li class="breadcrumb-item active">@lang('fleet.add_quote')</li>
 @endsection
 @section('content')
     <div class="row">
@@ -59,7 +55,7 @@
                                 {!! Form::label('pickup', __('fleet.pickup'), ['class' => 'form-label']) !!}
                                 <div class='input-group mb-3 date'>
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"> <span class="fa fa-calendar"></span></span>
+                                        <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
                                     </div>
                                     {!! Form::text('pickup', date('Y-m-d H:i:s'), ['class' => 'form-control', 'required']) !!}
                                 </div>
@@ -70,7 +66,7 @@
                                 {!! Form::label('dropoff', __('fleet.dropoff'), ['class' => 'form-label']) !!}
                                 <div class='input-group date'>
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                                        <span class="input-group-text"><span class="bi bi-calendar"></span></span>
                                     </div>
                                     {!! Form::text('dropoff', date('Y-m-d H:i:s'), ['class' => 'form-control', 'required']) !!}
                                 </div>
@@ -187,7 +183,7 @@
                                 <label class="form-label">@lang('fleet.total_tax') (%) </label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text fa fa-percent"></span>
+                                        <span class="input-group-text bi bi-percent"></span>
                                     </div>
                                     {!! Form::number('total_tax_percent', $tax_percent, [
                                         'class' => 'form-control sum',
@@ -331,7 +327,7 @@
                         {!! Form::label('phone', __('fleet.phone'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                <span class="input-group-text"><i class="bi bi-phone"></i></span>
                             </div>
                             {!! Form::number('phone', null, ['class' => 'form-control', 'required']) !!}
                         </div>
@@ -340,7 +336,7 @@
                         {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                             </div>
                             {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
                         </div>
@@ -349,7 +345,7 @@
                         {!! Form::label('address', __('fleet.address'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                                <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
                             </div>
                             {!! Form::textarea('address', null, ['class' => 'form-control', 'size' => '30x2']) !!}
                         </div>
@@ -366,7 +362,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
     <script>
 
 

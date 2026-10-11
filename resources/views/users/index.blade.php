@@ -1,9 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.users')@lang('fleet.managers')</li>
-@endsection
-@section('extra_css')
+@section('styles')
 <style type="text/css">
   .checkbox,
   #chk_all {
@@ -26,7 +23,7 @@
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.manageUsers')@lang('fleet.managers') &nbsp;
           @can('Users add')<a href="{{route('users.create')}}" class="btn btn-success" title="@lang('fleet.addUser')"><i
-              class="fa fa-plus"></i></a></h3>@endcan
+              class="bi bi-plus-lg"></i></a></h3>@endcan
       </div>
 
       <div class="card-body table-responsive">
@@ -55,7 +52,7 @@
 
                 @can('Users delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
                   title="@lang('fleet.delete')" data-bs-target="#bulkModal" disabled>
-                  <i class="fa fa-trash"></i></button>@endcan
+                  <i class="bi bi-trash"></i></button>@endcan
 
               </th>
               <th>#</th>
@@ -135,12 +132,12 @@
             {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
               </div>
               {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
               <div class="input-group-prepend">
                 <button type="button" id="show-password-button" class="show-password-button" >
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  <i class="bi bi-eye" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
@@ -157,7 +154,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");
@@ -200,7 +197,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5]),
@@ -216,7 +213,7 @@
           },
           {
             extend: 'excel',
-            text: '<i class="fa fa-file-excel-o"></i> Excel',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
             exportOptions: {
                 columns: [1, 2, 3, 4, 5]
             }

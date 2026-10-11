@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   /* The switch - the box around the slider */
   .switch {
@@ -61,10 +61,6 @@
   }
 
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item">{{ link_to_route('vehicle-types.index', __('fleet.vehicle_types'))}}</li>
-<li class="breadcrumb-item active">@lang('fleet.edit_vehicle_type')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -137,7 +133,7 @@
 </div>
 @endsection
 
-{{-- @section('script')
+{{-- @section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
   //Flat green color scheme for iCheck

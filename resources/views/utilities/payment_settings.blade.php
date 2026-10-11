@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('fleet.payment_settings')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -111,7 +107,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $('#currency_code').select2({placeholder:"@lang('fleet.selectCurrency')"});
 

@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.monthlyReport')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -151,7 +147,7 @@
 </div>
 
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript" src="{{ asset('assets/js/cdn/jszip.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/cdn/pdfmake.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/cdn/vfs_fonts.js')}}"></script>
@@ -205,8 +201,7 @@
 
   });
 </script>
-@endsection
-@section('scripts')
+
 <script>
   window.chartColors = {
     red: 'rgb(255, 99, 132)',

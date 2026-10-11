@@ -1,10 +1,6 @@
-@extends('layouts.app')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap-datetimepicker.min.css')}}">
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('bookings.index')}}">@lang('menu.bookings')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.edit_booking')</li>
 @endsection
 @section('content')
 
@@ -57,7 +53,7 @@
               {!! Form::label('pickup',__('fleet.pickup'), ['class' => 'form-label']) !!}
               <div class='input-group date' id='from_date'>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                  <span class="input-group-text"><span class="bi bi-calendar"></span></span>
                 </div>
                 {!! Form::text('pickup',$data->pickup,['class'=>'form-control','required']) !!}
               </div>
@@ -68,7 +64,7 @@
               {!! Form::label('dropoff',__('fleet.dropoff'), ['class' => 'form-label']) !!}
               <div class='input-group date' id='to_date'>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><span class="fa fa-calendar"></span>
+                  <span class="input-group-text"><span class="bi bi-calendar"></span>
                   </span>
                 </div>
                 {!! Form::text('dropoff',$data->dropoff,['class'=>'form-control','required']) !!}
@@ -86,7 +82,7 @@
               {!! Form::label('pickup',__('fleet.Return_pickup'), ['class' => 'form-label']) !!}
               <div class='input-group date' id='from_date'>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                  <span class="input-group-text"><span class="bi bi-calendar"></span></span>
                 </div>
                 {!! Form::text('return_pickup_date_time',$return_booking->pickup,['class'=>'form-control', 'id' => 'returnPickup','required','autocomplete' => 'off']) !!}
               </div>
@@ -97,7 +93,7 @@
               {!! Form::label('dropoff',__('fleet.Return_dropoff'), ['class' => 'form-label']) !!}
               <div class='input-group date' id='to_date'>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><span class="fa fa-calendar"></span>
+                  <span class="input-group-text"><span class="bi bi-calendar"></span>
                   </span>
                 </div>
                 {!! Form::text('return_dropoff_date_time',$return_booking->dropoff,['class'=>'form-control', 'id' => 'returnDropoff', 'required','autocomplete' => 'off']) !!}
@@ -313,7 +309,7 @@
 
 @endsection
 
-@section("script")
+@section('scripts')
 <script>
 
   var getDriverRoute='{{ url("admin/get_driver") }}';

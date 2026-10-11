@@ -1,8 +1,5 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.roles')</li>
-@endsection
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -16,7 +13,7 @@
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">@lang('fleet.roles') &nbsp;
-        <a href="{{ route('roles.create')}}" class="btn btn-success" title="@lang('fleet.addNew')"><i class="fa fa-plus"></i></a></h3>
+        <a href="{{ route('roles.create')}}" class="btn btn-success" title="@lang('fleet.addNew')"><i class="bi bi-plus-lg"></i></a></h3>
       </div>
 
       <div class="card-body table-responsive">
@@ -38,15 +35,15 @@
                 <td>
                   <div class="btn-group">
                     <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                    <span class="fa fa-gear"></span>
+                    <span class="bi bi-gear"></span>
                     <span class="visually-hidden">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu custom" role="menu">
-                    <a class="dropdown-item" href="{{url("admin/roles/".$row->id."/edit") }}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>
+                    <a class="dropdown-item" href="{{url("admin/roles/".$row->id."/edit") }}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>
                     {!! Form::hidden("id",$row->id) !!}
 
                     @if($row->id != 1)
-                      <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
+                      <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
                     @endif
                     </div>
                   </div>
@@ -88,7 +85,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
 
   $("#del_btn").on("click",function(){

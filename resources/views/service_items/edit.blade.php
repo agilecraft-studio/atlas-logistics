@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   /* The switch - the box around the slider */
   .switch {
@@ -62,10 +62,6 @@
     border-radius: 50%;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('service-item.index')}}">@lang('fleet.serviceItems')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.edit_service_item')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -218,7 +214,7 @@
 </div>
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $('#time1').on('change',function(){
     $('#chk1').prop('checked',true);

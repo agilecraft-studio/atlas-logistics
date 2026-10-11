@@ -1,10 +1,6 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap-datetimepicker.min.css')}}">
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ url('admin/vehicle-reviews')}}">@lang('fleet.vehicle_inspection')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.add_vehicle_inspection')</li>
 @endsection
 @section('content')
 
@@ -88,7 +84,7 @@
             {!! Form::label('datetime_out',__('fleet.datetime_out'), ['class' => 'form-label']) !!}
             <div class='input-group'>
               <div class="input-group-prepend">
-              <span class="input-group-text"> <span class="fa fa-calendar"></span></span>
+              <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
               </div>
               {!! Form::text('datetime_out',null,['class'=>'form-control','required','id'=>'date_out']) !!}
             </div>
@@ -99,7 +95,7 @@
             {!! Form::label('datetime_in',__('fleet.datetime_in'), ['class' => 'form-label']) !!}
             <div class='input-group'>
               <div class="input-group-prepend">
-                <span class="input-group-text">    <span class="fa fa-calendar"></span>
+                <span class="input-group-text">    <span class="bi bi-calendar"></span>
               </span>
               </div>
               {!! Form::text('datetime_in',null,['class'=>'form-control','required','id'=>'date_in']) !!}
@@ -331,20 +327,20 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $('#vehicle_id').select2({placeholder:"@lang('fleet.selectVehicle')"});
   $('#date_in').datetimepicker({format: 'YYYY-MM-DD HH:mm:ss',sideBySide: true,icons: {
-              previous: 'fa fa-arrow-left',
-              next: 'fa fa-arrow-right',
-              up: "fa fa-arrow-up",
-              down: "fa fa-arrow-down"
+              previous: 'bi bi-arrow-left',
+              next: 'bi bi-arrow-right',
+              up: "bi bi-arrow-up",
+              down: "bi bi-arrow-down"
   }});
   $('#date_out').datetimepicker({format: 'YYYY-MM-DD HH:mm:ss',sideBySide: true,icons: {
-              previous: 'fa fa-arrow-left',
-              next: 'fa fa-arrow-right',
-              up: "fa fa-arrow-up",
-              down: "fa fa-arrow-down"
+              previous: 'bi bi-arrow-left',
+              next: 'bi bi-arrow-right',
+              up: "bi bi-arrow-up",
+              down: "bi bi-arrow-down"
   }});
 
   $(".add_udf").click(function () {

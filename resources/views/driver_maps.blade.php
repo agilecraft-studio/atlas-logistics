@@ -1,7 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.maps')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -53,7 +50,7 @@
 </div>
 
 @endsection
-@section('script')
+@section('scripts')
 <script src="https://maps.googleapis.com/maps/api/js?key={{AtlasLogistics::api('api_key')}}"></script>
 <script type="text/javascript">
   function gm_authFailure() {

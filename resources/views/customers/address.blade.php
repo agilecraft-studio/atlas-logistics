@@ -1,19 +1,15 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
 .height{
   height: 200px;
 }
 </style>
 @endsection
-@section('page_title')
+@section('fleet_title')
 <span> @lang('fleet.yourAddress')
   <small class="text-muted">{{Auth::user()->name}}</small>
 </span>
-@endsection
-@section("breadcrumb")
-
-<li class="breadcrumb-item active">@lang('fleet.addresses')</li>
 @endsection
 @section('content')
 

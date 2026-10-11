@@ -1,7 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 @php($currency=AtlasLogistics::get('currency'))
-@section('extra_css')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
   .checkbox, #chk_all{
@@ -9,9 +9,6 @@
     height: 20px;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.manage_income')</li>
 @endsection
 @section('content')
 @if (count($errors) > 0)
@@ -77,7 +74,7 @@
               <div class="col-md-12">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
                   <input required="required" name="date" type="text" value="{{ date('Y-m-d')}}"  id="date" class="form-control">
                 </div>
               </div>
@@ -110,7 +107,7 @@
               <div class="col-xs-6">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-percent"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-percent"></i></span></div>
                   <input name="tax_percent" type="text" id="tax_percent" class="form-control" readonly value="{{ $tax_percent }}">
                 </div>
               </div>
@@ -152,7 +149,7 @@
 </div>
 
 
-@section('script')
+@section('scripts')
 
 <script>
   $(document).ready(function() {

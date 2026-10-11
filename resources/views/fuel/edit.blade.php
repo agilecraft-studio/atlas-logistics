@@ -1,9 +1,5 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('fuel.index')}}">@lang('fleet.fuel')</a></li>
-<li class="breadcrumb-item active"> @lang('fleet.edit_fuel')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -42,7 +38,7 @@
               {!! Form::label('date',__('fleet.date'), ['class' => 'form-label']) !!}
               <div class='input-group'>
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><span class="fa fa-calendar"></span>
+                  <span class="input-group-text"><span class="bi bi-calendar"></span>
                 </div>
                 {!! Form::text('date',$data->date,['class'=>'form-control','required']) !!}
               </div>
@@ -152,7 +148,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $(document).ready(function() {
   var fuel_from = '{{ $data->fuel_from }}';
@@ -199,7 +195,7 @@
 
 
 @endsection
-@section('extra_css')
+@section('styles')
 <style type="text/css">
   /* The switch - the box around the slider */
   .switch {

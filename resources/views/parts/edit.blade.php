@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style>
   .layouthack {
     margin-top: 0px;
@@ -11,10 +11,6 @@
     }
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('parts.index')}}">@lang('menu.manageParts')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.editParts')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -167,7 +163,7 @@
   </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#vendor_id").select2({placeholder:"@lang('fleet.select_vendor')"});
   $("#category_id").select2({placeholder:"@lang('fleet.parts_category')"});

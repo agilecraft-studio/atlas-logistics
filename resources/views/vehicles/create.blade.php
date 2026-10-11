@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .nav-tabs-custom>.nav-tabs>li.active {
     border-top-color: #00a65a !important;
@@ -62,10 +62,6 @@
 </style>
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 @endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('vehicles.index')}}">@lang('fleet.vehicles')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.addVehicle')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -98,7 +94,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('make_name', __('fleet.SelectVehicleMake'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="make_name" class="form-control" required id="make_name">
                       <option></option>
@@ -182,7 +178,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('color_name', __('fleet.SelectVehicleColor'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="color_name" class="form-control" required id="color_name">
                       <option></option>
@@ -249,7 +245,7 @@
                   <div class="col-xs-6">
                     <div class="input-group date">
                       <div class="input-group-prepend"><span class="input-group-text"><i
-                            class="fa fa-calendar"></i></span></div>
+                            class="bi bi-calendar"></i></span></div>
                       {!! Form::text('reg_exp_date', null,['class' => 'form-control','required']) !!}
                     </div>
                   </div>
@@ -259,7 +255,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   {!! Form::label('model_name', __('fleet.SelectVehicleModel'), ['class' => 'col-xs-5 control-label']) !!}
-                  <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="fa fa-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
+                  <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
                     <select name="model_name" class="form-control" required id="model_name">
                       <option></option>
@@ -281,7 +277,7 @@
                   <div class="col-xs-6">
                     <div class="input-group date">
                       <div class="input-group-prepend"><span class="input-group-text"><i
-                            class="fa fa-calendar"></i></span></div>
+                            class="bi bi-calendar"></i></span></div>
                       {!! Form::text('lic_exp_date', null,['class' => 'form-control','required']) !!}
                     </div>
                   </div>
@@ -412,7 +408,7 @@
   </div>
 </div>
 @endsection
-@section("script")
+@section('scripts')
 <script type="text/javascript">
   var udf_validation = "@lang('fleet.Enter_field_name')";
   $(".add_udf").click(function () {

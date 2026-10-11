@@ -1,10 +1,6 @@
-@extends('layouts.app')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
-@endsection
-@section('breadcrumb')
-    <li class="breadcrumb-item "><a href="{{ route('booking-quotation.index') }}">@lang('fleet.booking_quotes')</a></li>
-    <li class="breadcrumb-item active">@lang('fleet.edit_quote')</li>
 @endsection
 @section('content')
     <div class="row">
@@ -46,7 +42,7 @@
                                 {!! Form::label('pickup', __('fleet.pickup'), ['class' => 'form-label']) !!}
                                 <div class='input-group mb-3 date'>
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"> <span class="fa fa-calendar"></span></span>
+                                        <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
                                     </div>
                                     {!! Form::text('pickup', $data->pickup, ['class' => 'form-control', 'required']) !!}
                                 </div>
@@ -57,7 +53,7 @@
                                 {!! Form::label('dropoff', __('fleet.dropoff'), ['class' => 'form-label']) !!}
                                 <div class='input-group date'>
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                                        <span class="input-group-text"><span class="bi bi-calendar"></span></span>
                                     </div>
                                     {!! Form::text('dropoff', $data->dropoff, ['class' => 'form-control', 'required']) !!}
                                 </div>
@@ -307,7 +303,7 @@
                                 <label class="form-label">@lang('fleet.total_tax') (%) </label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text fa fa-percent"></span>
+                                        <span class="input-group-text bi bi-percent"></span>
                                     </div>
                                     {!! Form::number('total_tax_percent', $data->total_tax_percent, [
                                         'class' => 'form-control
@@ -428,7 +424,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
     <script>
       var getDriverRoute='{{ url("admin/get_driver") }}';
       var getVehicle='{{ url("admin/get_vehicle") }}';

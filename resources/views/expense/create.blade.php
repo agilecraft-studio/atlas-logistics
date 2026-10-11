@@ -1,7 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 @php($currency=AtlasLogistics::get('currency'))
-@section('extra_css')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
   .checkbox, #chk_all{
@@ -9,9 +9,6 @@
     height: 20px;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.expense')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -79,7 +76,7 @@
           <div class="col-md-3" style="margin-top: 10px;">
             <div class="input-group">
               <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-calendar"></i></span></div>
+              <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
               <input  name="date" type="text"  id="date" value="{{ date('Y-m-d')}}" class="form-control">
             </div>
           </div>
@@ -94,7 +91,7 @@
 </div>
 
 
-@section('script')
+@section('scripts')
 
 <script>
   $(document).ready(function() {

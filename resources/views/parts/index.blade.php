@@ -1,12 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
-@section("breadcrumb")
 
-<li class="breadcrumb-item active">@lang('menu.manageParts')</li>
-
-@endsection
-
-@section('extra_css')
+@section('styles')
 
 <link rel="stylesheet" type="text/css"  href="https://cdn.datatables.net/buttons/1.4.0/css/buttons.dataTables.min.css" />
 
@@ -162,7 +157,7 @@
 
                 <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
 
-                  <span class="fa fa-gear"></span>
+                  <span class="bi bi-gear"></span>
 
                   <span class="visually-hidden">Toggle Dropdown</span>
 
@@ -170,11 +165,11 @@
 
                 <div class="dropdown-menu custom" role="menu">
 
-                  <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#stockModal" data-title="{{ $row->title }}"> <span aria-hidden="true" class="fa fa-plus-square" style="color: green"></span> @lang('fleet.addStock')</a>
+                  <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#stockModal" data-title="{{ $row->title }}"> <span aria-hidden="true" class="bi bi-plus-square" style="color: green"></span> @lang('fleet.addStock')</a>
 
-                  @can('Parts edit')<a class="dropdown-item" href="{{ url("admin/parts/".$row->id."/edit")}}"> <span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
+                  @can('Parts edit')<a class="dropdown-item" href="{{ url("admin/parts/".$row->id."/edit")}}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
 
-                  @can('Parts delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="fa fa-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                  @can('Parts delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
 
                 </div>
 
@@ -202,7 +197,7 @@
 
                 @if($data->count() > 0)
 
-                @can('Parts delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('Parts delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
 
                 @endif
 
@@ -394,7 +389,7 @@
 
 
 
-@section('script')
+@section('scripts')
 
 <script type="text/javascript">
 
@@ -572,7 +567,7 @@
 
             extend: 'print',
 
-            text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+            text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
             exportOptions: {
 
@@ -608,7 +603,7 @@
 
             extend: 'excel',
 
-            text: '<i class="fa fa-file-excel-o"></i> @lang('fleet.Export')',
+            text: '<i class="bi bi-file-earmark-spreadsheet"></i> @lang('fleet.Export')',
 
             exportOptions: {
 
@@ -632,7 +627,7 @@
 
             extend: 'pdf',
 
-            text: '<i class="fa fa-file-pdf-o"></i> @lang('fleet.pdf')',
+            text: '<i class="bi bi-file-earmark-pdf"></i> @lang('fleet.pdf')',
 
             exportOptions: {
 

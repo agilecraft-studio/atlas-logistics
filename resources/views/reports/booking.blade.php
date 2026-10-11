@@ -1,16 +1,9 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 
 
-@section("breadcrumb")
-
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-
-<li class="breadcrumb-item active">@lang('fleet.booking_report')</li>
-
-@endsection
 
 @section('content')
 
@@ -100,7 +93,7 @@
 
           <button type="submit" class="btn btn-info" style="margin-right: 1px">@lang('fleet.generate_report')</button>
 
-          <button type="submit" formaction="{{url('admin/print-booking-report')}}" class="btn btn-danger"><i class="fa fa-print"></i> @lang('fleet.print')</button>
+          <button type="submit" formaction="{{url('admin/print-booking-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
 
         </div>
 
@@ -243,7 +236,7 @@
 
 
 
-@section("script")
+@section('scripts')
 
 <script type="text/javascript">
 

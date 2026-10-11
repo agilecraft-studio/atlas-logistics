@@ -1,8 +1,4 @@
-@extends('layouts.attex')
-@section("breadcrumb")
-<li class="breadcrumb-item">{{ link_to_route('expensecategories.index', __('fleet.expenseCategories'))}}</li>
-<li class="breadcrumb-item active">@lang('fleet.editExpenseType')</li>
-@endsection
+@extends('layouts.fleet')
 @section('content')
 <div class="row">
   <div class="col-md-12">

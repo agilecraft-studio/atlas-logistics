@@ -1,6 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
-@section('extra_css')
+@section('styles')
 <style type="text/css">
 .show-password-button{
     outline: none;
@@ -23,9 +23,6 @@
     border-radius: 50%;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.drivers')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -61,7 +58,7 @@
       <div class="card-header">
         <h3 class="card-title">@lang('menu.drivers') &nbsp;
           @can('Drivers add') <a href="{{ route('drivers.create') }}" class="btn btn-success"
-            title="@lang('fleet.addDriver')"> <i class="fa fa-plus"></i> </a> @endcan
+            title="@lang('fleet.addDriver')"> <i class="bi bi-plus-lg"></i> </a> @endcan
           @can('Drivers import') &nbsp;&nbsp;<button data-bs-toggle="modal" data-bs-target="#import"
             class="btn btn-warning">@lang('fleet.import')</button>@endcan
         </h3>
@@ -93,7 +90,7 @@
               <th>
                 @can('Drivers delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
                   title="@lang('fleet.delete')" data-bs-target="#bulkModal" disabled>
-                  <i class="fa fa-trash"></i></button>@endcan
+                  <i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>#</th>
               <th>@lang('fleet.driverImage')</th>
@@ -214,12 +211,12 @@
             {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
               </div>
               {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
               <div class="input-group-prepend">
                 <button type="button" id="show-password-button" class="show-password-button" >
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  <i class="bi bi-eye" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
@@ -236,7 +233,7 @@
 <!-- Modal -->
 @endsection
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
 
   $("#del_btn").on("click",function(){
@@ -278,7 +275,7 @@
           buttons: [
               {
             extend: 'print',
-            text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+            text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
             exportOptions: {
               columns: ([1,2,3,4,5,6,7]),
@@ -294,7 +291,7 @@
               },
               {
                 extend: 'excel',
-                text: '<i class="fa fa-file-excel-o"></i> Excel',
+                text: '<i class="bi bi-file-earmark-spreadsheet"></i> Excel',
                 exportOptions: {
                     columns: [1, 2, 3, 4, 5, 6, 7]
                 }

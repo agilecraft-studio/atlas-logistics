@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <style type="text/css">
   .nav-link {
     padding: .5rem !important;
@@ -14,10 +14,6 @@
       min-height: 200px;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item">@lang('menu.settings')</li>
-<li class="breadcrumb-item active">@lang('menu.email_content')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -134,7 +130,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 <script>
     ClassicEditor.create( document.querySelector( '#ins' ) );
     ClassicEditor.create( document.querySelector( '#vl' ) );

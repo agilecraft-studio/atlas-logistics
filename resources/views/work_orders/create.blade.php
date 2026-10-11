@@ -1,10 +1,6 @@
-@extends('layouts.attex')
-@section('extra_css')
+@extends('layouts.fleet')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('work_order.index')}}">@lang('fleet.work_orders') </a></li>
-<li class="breadcrumb-item active">@lang('fleet.add_order')</li>
 @endsection
 @section('content')
 <div class="row">
@@ -43,7 +39,7 @@
             <div class="form-group">
               {!! Form::label('required_by', __('fleet.required_by'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><span class="fa fa-calendar"></span>
+                <div class="input-group-prepend"><span class="input-group-text"><span class="bi bi-calendar"></span>
                 </div>
                 {!! Form::text('required_by',null,['class'=>'form-control','required']) !!}
               </div>
@@ -157,7 +153,7 @@
   </div>
 </div>
 @endsection
-@section("script")
+@section('scripts')
 <script type="text/javascript">
 $(document).ready(function() {
 

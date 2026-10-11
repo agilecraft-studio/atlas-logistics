@@ -1,10 +1,7 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
-@section("breadcrumb")
-<li class="breadcrumb-item active">@lang('fleet.serviceReminders')</li>
-@endsection
-@section('extra_css')
+@section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
     width: 20px;
@@ -20,7 +17,7 @@
         <h3 class="card-title">
         @lang('fleet.serviceReminders')
         &nbsp;
-        @can('ServiceReminders add')<a href="{{ route('service-reminder.create')}}" class="btn btn-success" style="margin-bottom: 5px" title="@lang('fleet.add_service_reminder')"><i class="fa fa-plus"></i></a>@endcan &nbsp;
+        @can('ServiceReminders add')<a href="{{ route('service-reminder.create')}}" class="btn btn-success" style="margin-bottom: 5px" title="@lang('fleet.add_service_reminder')"><i class="bi bi-plus-lg"></i></a>@endcan &nbsp;
         @can('ServiceItems add')<a href="{{ route('service-item.create')}}" class="btn btn-success" style="margin-bottom: 5px">@lang('fleet.add_service_item')</a></h3>@endcan
       </div>
 
@@ -112,7 +109,7 @@
 
                 {!! Form::hidden("id",$reminder->id) !!}
                   @can('ServiceReminders delete')<button type="button" class="btn btn-danger" data-id="{{$reminder->id}}" data-toggle="modal" data-target="#myModal" title="@lang('fleet.delete')">
-                  <span class="fa fa-times" aria-hidden="true"></span>
+                  <span class="bi bi-x-lg" aria-hidden="true"></span>
                   </button>@endcan
                 {!! Form::close() !!}
               </td>
@@ -123,7 +120,7 @@
             <tr>
               <th>
                 @if($service_reminder->count() > 0)
-                @can('ServiceReminders delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="fa fa-trash"></i></button>@endcan
+                @can('ServiceReminders delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
                 @endif
               </th>
               <th>@lang('fleet.image')</th>
@@ -189,7 +186,7 @@
 @endsection
 
 
-@section('script')
+@section('scripts')
 <script type="text/javascript">
   $("#del_btn").on("click",function(){
     var id=$(this).data("submit");

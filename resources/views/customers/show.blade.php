@@ -1,6 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
-@section('extra_css')
+@section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
   .checkbox,
@@ -9,10 +9,6 @@
     height: 20px;
   }
 </style>
-@endsection
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="{{ route('customers.index') }}">@lang('fleet.customers')</a></li>
-<li class="breadcrumb-item active">{{ $customer->name }}</li>
 @endsection
 @section('content')
 <div class="row">
@@ -23,7 +19,7 @@
             @lang('fleet.details')</span>
           <div class=" float-end">
             <a href="{{ route('customers.edit',$customer->id) }}" class="float-end btn btn-sm btn-warning"
-              title="@lang('fleet.edit_driver')"><i class="fa fa-edit"></i></a>
+              title="@lang('fleet.edit_driver')"><i class="bi bi-pencil-square"></i></a>
           </div>
         </h3>
       </div>
@@ -81,7 +77,7 @@
                 <th>
                   @can('Bookings delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
                     data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
-                      class="fa fa-trash"></i></button>@endcan
+                      class="bi bi-trash"></i></button>@endcan
                 </th>
                 <th>@lang('fleet.customer')</th>
                 <th>@lang('fleet.vehicle')</th>
@@ -103,7 +99,7 @@
   </div>
 </div>
 @endsection
-@section('script')
+@section('scripts')
 <script>
   $(function(){
     
@@ -112,7 +108,7 @@
       buttons: [
           {
         extend: 'print',
-        text: '<i class="fa fa-print"></i> {{__("fleet.print")}}',
+        text: '<i class="bi bi-printer"></i> {{__("fleet.print")}}',
 
         exportOptions: {
            columns: ([1,2,3,4,5,6,7,8,9,10]),

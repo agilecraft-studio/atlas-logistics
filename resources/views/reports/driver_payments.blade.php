@@ -1,10 +1,6 @@
-@extends('layouts.attex')
+@extends('layouts.fleet')
 @php $currency = AtlasLogistics::get('currency') @endphp
 @php $date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y'; @endphp
-@section("breadcrumb")
-<li class="breadcrumb-item"><a href="#">@lang('menu.reports')</a></li>
-<li class="breadcrumb-item active">@lang('fleet.paymentReport')</li>
-@endsection
 @section('content')
 <div class="row">
   <div class="col-md-12">
@@ -110,7 +106,7 @@
 </div>
 @endsection
 
-@section('script')
+@section('scripts')
 <script>
   $(function(){
         $('#driver').on('change', function(){
