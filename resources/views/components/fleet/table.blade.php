@@ -1,1 +1,1 @@
-<div {{ $attributes->merge(['class' => 'fleet-table-wrap']) }}><table class="fleet-table">{{ $slot }}</table></div>
+<div {{ $attributes->merge(['class' => 'table-responsive']) }}><table class="table table-bordered table-hover">{{ $slot }}</table></div>

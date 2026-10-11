@@ -1,5 +1,11 @@
 @props(['title' => null, 'icon' => null])
-<article {{ $attributes->merge(['class' => 'fleet-card fleet-panel']) }}>
-@if($title)<div class="fleet-panel-heading"><h2>@if($icon)<i class="bi {{ $icon }}"></i> @endif{{ $title }}</h2></div>@endif
-{{ $slot }}
-</article>
+<div {{ $attributes->merge(['class' => 'card']) }}>
+    @if($title)
+        <div class="card-header py-3 px-3">
+            <h5 class="mb-0">
+                @if($icon)<i class="bi {{ $icon }} me-2"></i>@endif{{ $title }}
+            </h5>
+        </div>
+    @endif
+    <div class="card-body">{{ $slot }}</div>
+</div>

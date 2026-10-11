@@ -15,6 +15,8 @@
         btn.addEventListener('click', function () {
             var m = btn.closest('.fleet-modal');
             if (m) m.classList.remove('open');
+            var m2 = btn.closest('.modal');
+            if (m2) m2.classList.remove('show');
         });
     });
     document.querySelectorAll('[data-fleet-confirm]').forEach(function (form) {

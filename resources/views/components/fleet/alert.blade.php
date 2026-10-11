@@ -1,2 +1,2 @@
 @props(['type' => 'info'])
-<div {{ $attributes->merge(['class' => 'fleet-alert-box fleet-alert-' . $type]) }}>{{ $slot }}</div>
+<div {{ $attributes->merge(['class' => 'alert alert-'.$type.' alert-dismissible fade show']) }}>{{ $slot }}</div>

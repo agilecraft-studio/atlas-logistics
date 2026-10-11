@@ -1,3 +1,42 @@
 @props(['status' => ''])
-@php $s = strtolower(trim((string) $status)); @endphp
-<span {{ $attributes->merge(['class' => 'fleet-pill fleet-pill-' . preg_replace('/[^a-z0-9]+/', '-', $s)]) }}>{{ $slot }}</span>
+@php
+    $s = strtolower(trim((string) $status));
+    $map = [
+        'active' => 'success',
+        'available' => 'success',
+        'valid' => 'success',
+        'fitted' => 'success',
+        'spare' => 'success',
+        'completed' => 'success',
+        'delivered' => 'success',
+        'approved' => 'success',
+        'scheduled' => 'info',
+        'loaded' => 'info',
+        'dispatched' => 'info',
+        'assigned' => 'info',
+        'planned' => 'info',
+        'in transit' => 'primary',
+        'on trip' => 'primary',
+        'at border' => 'primary',
+        'returned' => 'dark',
+        'pending' => 'warning',
+        'due soon' => 'warning',
+        'needs attention' => 'warning',
+        'workshop' => 'warning',
+        'rejected' => 'danger',
+        'cancelled' => 'danger',
+        'expired' => 'danger',
+        'suspended' => 'danger',
+        'terminated' => 'dark',
+        'failed' => 'danger',
+        'offline' => 'danger',
+        'out of service' => 'danger',
+        'retired' => 'dark',
+        'no' => 'secondary',
+        'no expiry' => 'dark',
+        'unavailable' => 'secondary',
+        'deactivated' => 'dark',
+    ];
+    $color = $map[$s] ?? 'secondary';
+@endphp
+<span {{ $attributes->merge(['class' => 'badge badge-sm rounded-pill bg-'.$color]) }}>{{ $slot }}</span>
