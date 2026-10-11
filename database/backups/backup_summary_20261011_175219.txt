@@ -1,0 +1,76 @@
+Backup Summary
+==============
+Date: Sun Oct 11 17:52:21 CAT 2026
+Database: atlas_logistics
+Backup File: /var/www/atlas-logistic/database/backups/atlas_logistics_backup_20261011_175219.sql.gz
+Original Size: 268K
+Compressed Size: 36K
+Total Tables: 81
+Missing From Backup: 0
+
+Essential Tables:
+OK users
+OK users_meta
+OK password_resets
+OK countries
+OK currencies
+OK exchange_rates
+OK border_posts
+OK trip_expense_categories
+OK document_types
+OK vehicles
+OK vehicle_types
+OK vehicle_group
+OK trailers
+OK vehicle_logistics_profiles
+OK driver_compliance_profiles
+OK compliance_documents
+OK vehicle_components
+OK driver_vehicle
+OK trips
+OK trip_checkpoints
+OK trip_expenses
+OK driver_advances
+OK trip_incidents
+OK bookings
+OK booking_alerts
+OK booking_income
+OK booking_payments
+OK booking_quotation
+OK fuel
+OK service_items
+OK service_reminder
+OK work_orders
+OK work_order_logs
+OK vehicle_breakdown
+OK vehicle_review
+OK driver_logs
+OK driver_alert
+OK driver_payments
+OK expense
+OK expense_cat
+OK income
+OK income_cat
+OK parts
+OK parts_category
+OK parts_used
+OK vendors
+OK mechanics
+OK addresses
+OK cities
+OK reasons
+OK notes
+OK message
+OK messages
+OK reviews
+OK team
+OK testimonials
+OK company_services
+OK settings
+OK api_settings
+OK chat_settings
+OK email_content
+OK fare_settings
+OK frontend
+OK payment_settings
+OK twilio_settings
