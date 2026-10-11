@@ -64,5 +64,8 @@ Route::prefix('logistics')->namespace('Logistics')->group(function () {
     Route::post('trips/{tripId}/advances', 'DriverAdvancesController@store')->name('logistics.advances.store')->where('tripId', '[0-9]+');
     Route::delete('advances/{id}', 'DriverAdvancesController@destroy')->name('logistics.advances.destroy')->where('id', '[0-9]+');
 
+    // Fleet Operations Dashboard
+    Route::get('dashboard', 'FleetDashboardController@index')->name('logistics.dashboard')->middleware('permission:LogisticsReports list');
+
     Route::get('reports/profitability', 'TripReportsController@profitability')->name('logistics.reports.profitability');
 });

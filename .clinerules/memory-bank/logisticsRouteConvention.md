@@ -122,3 +122,50 @@ never executed by its author; diffed line-by-line against live before applying).
   on public repo — needs filter-repo + rotation per README (NOT done here).
 - Verified: `php -l` ×8 clean, `optimize:clear`, `route:list` still 55 logistics routes,
   `logistics:grant-role --help` renders.
+
+## 11. Fleet Operations Dashboard — SHIPPED 2026-10-11 (verified)
+Source: `patches/dashboard-patch/atlas-logistics-dashboard.blade.php` (design contract only;
+demo numbers + `?? fallback` placeholders never shipped).
+- Route: `logistics.dashboard` GET `/admin/logistics/dashboard` in `routes/logistics.php`
+  (full explicit name per convention; no numeric params so no `where` constraint).
+  Middleware (observed via `route:list -v`): web, lang_check, auth, officeadmin,
+  IsInstalled, internal.staff (inherited from routes/admin.php group), permission:
+  `LogisticsReports list` (existing Spatie string from migration 2026_10_11_000004).
+- Controller: `App\Http\Controllers\Admin\Logistics\FleetDashboardController@index`
+  (extends base Controller — NO HomeController exists in this repo). Validates
+  `?period=` inline against `month|week|year`, defaults `month`.
+- Service: `App\Services\FleetDashboardService::data(string $period): array`
+  Contract keys: active_trips, available_trucks, trucks_on_trip, trucks_in_workshop,
+  drivers_on_duty, revenue_this_month, trip_costs_this_month, net_profit_this_month,
+  recent_trips[], expiring_documents, services_due, fuel_variance_alerts (=0 with
+  `// TODO(source)` — no fuel-variance model in schema), pending_expense_approvals,
+  missing_pods, cost_categories[], revenue_chart[], cost_chart[], chart_months[],
+  trip_status_values[] (+ trip_status_labels[]). Real sources: trips (status counts,
+  revenue_amount_base, pod_path, checkpoints), vehicle_logistics_profiles
+  (logistics_status available/on_trip/workshop, next_service_date), ComplianceDocument
+  (expiry_date within config default_alert_days=30), TripExpense (approved/period,
+  pending approvals; joined to trip_expense_categories). Statuses ONLY from
+  config/logistics.php trip_statuses (planned/in_transit/completed/closed/cancelled).
+  Aggregates via selectRaw/groupBy/counters, one eager-loaded query for recent trips.
+  Cache: `Cache::remember("fleet-dashboard:{period}", +5min)`; observer invalidation
+  still open (see Remaining).
+- Views: `resources/views/fleet/dashboard/index.blade.php` extends `layouts.attex`
+  (NOT layouts.app) with `@section('styles')`/`@section('scripts')` (attex has NO
+  `@stack` — `@push` silently drops assets). Design sidebar kept as 1:1 mapped shell
+  inside content area (live attex sidebar stays; nav items use REAL routes gated by
+  @can: Trips list, FleetRegister list, TripExpenses list, Compliance list,
+  LogisticsReports list). No `?? numeric` demo fallbacks; display `?? '—'` only for
+  nullable row text. Partials: kpi-card, revenue-chart, status-donut, trips-table,
+  action-required, availability, cost-categories. All href="#" replaced with real
+  route() links. User chip null-safe from auth()->user() + getRoleNames().
+  ONE JSON island `#fleet-dashboard-data` via @json; all {{ }} escaped.
+- Assets (local, pinned, no CDN): `public/vendor/apexcharts/dist/apexcharts.min.js`
+  (v3.44.0), `public/vendor/bootstrap-icons/css/bootstrap-icons.min.css` (v1.11.3)
+  + `css/fonts/*.{woff,woff2}`, `public/vendor/atlas-dashboard/fleet-dashboard.css`
+  (verbatim from patch) + `dashboard.js` (chart init from JSON island).
+- Nav-mapping decision: design shell kept (not merged into attex menu) to preserve
+  1:1 pixel fidelity; rationale recorded here. Sidebar links permission-gated.
+- Verified (observed): `php -l` ×3 clean; `optimize:clear` OK; route:list shows
+  dashboard with full middleware stack; tinker service returns all 20 keys
+  (zeros on empty DB); view render RENDER_OK len=43960 (after guest-safe user chip);
+  CDN grep exit 1 (clean); `?? [0-9]` grep exit 1 (clean).
