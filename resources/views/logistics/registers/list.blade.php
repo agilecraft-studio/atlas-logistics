@@ -1,19 +1,15 @@
-@extends('layouts.attex')
-@section('page_title', $title)
-@section('breadcrumb')
-<li class="breadcrumb-item active">{{ $title }}</li>
-@endsection
+@extends('layouts.fleet')
+@section('fleet_title', $title)
+@section('fleet_subtitle', $intro)
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+<x-fleet.panel :title="$title" icon="bi-table">
+        <div class="fleet-toolbar">
             <div class="text-muted">{{ $intro }}</div>
             <div class="d-flex gap-2">
-                @foreach($extra as $x)<a href="{{ $x['url'] }}" class="btn btn-light">{{ $x['label'] }}</a>@endforeach
+                @foreach($extra as $x)<a href="{{ $x['url'] }}" class="fleet-btn fleet-btn-ghost">{{ $x['label'] }}</a>@endforeach
             </div>
         </div>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle dt-simple w-100">
+        <x-fleet.table>
                 <thead>
                     <tr>
                         @foreach($headers as $h)<th>{{ $h }}</th>@endforeach
@@ -25,24 +21,17 @@
                     <tr>
                         @foreach($row['cells'] as $cell)
                         <td>
-                            @if(is_array($cell))<span class="badge bg-{{ $cell['badge'] }}">{{ $cell['text'] }}</span>@else{{ $cell }}@endif
+                            @if(is_array($cell))<x-fleet.status-pill :status="$cell['text']">{{ $cell['text'] }}</x-fleet.status-pill>@else{{ $cell }}@endif
                         </td>
                         @endforeach
                         <td class="text-end text-nowrap">
                             @foreach($row['links'] as $l)
-                            <a href="{{ $l['url'] }}" class="btn btn-sm {{ $l['class'] ?? 'btn-light' }}">{{ $l['label'] }}</a>
+                            <a href="{{ $l['url'] }}" class="fleet-btn fleet-btn-sm {{ ($l['class'] ?? '') === 'btn-danger' ? 'fleet-btn-danger' : 'fleet-btn-ghost' }}">{{ $l['label'] }}</a>
                             @endforeach
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-@endsection
-@section('scripts')
-<script>
-    $(function () { $('.dt-simple').DataTable({ order: [], pageLength: 25 }); });
-</script>
+            </x-fleet.table>
+</x-fleet.panel>
 @endsection

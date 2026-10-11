@@ -1,20 +1,16 @@
-@extends('layouts.attex')
-@section('page_title', $title)
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ $back }}">Back</a></li>
-<li class="breadcrumb-item active">{{ $title }}</li>
-@endsection
+@extends('layouts.fleet')
+@section('fleet_title', $title)
+@section('fleet_subtitle', $intro ?? 'Fill in the details below.')
 @section('content')
-<div class="card">
-    <div class="card-body">
+<x-fleet.panel :title="$title" icon="bi-pencil-square">
         @if($intro ?? null)<p class="text-muted">{{ $intro }}</p>@endif
         @if($errors->any())
-        <div class="alert alert-danger">
+        <x-fleet.alert type="danger">
             <strong>Please fix the following:</strong>
             <ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
-        </div>
+        </x-fleet.alert>
         @endif
-        <form method="POST" action="{{ $action }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ $action }}" enctype="multipart/form-data" class="fleet-form">
             @csrf
             @if($method !== 'POST') @method($method) @endif
             <div class="row">
@@ -71,10 +67,9 @@
                 @endforeach
             </div>
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{{ $back }}" class="btn btn-light">Cancel</a>
+                <button type="submit" class="fleet-btn">Save</button>
+                <a href="{{ $back }}" class="fleet-btn fleet-btn-ghost">Cancel</a>
             </div>
         </form>
-    </div>
-</div>
+</x-fleet.panel>
 @endsection

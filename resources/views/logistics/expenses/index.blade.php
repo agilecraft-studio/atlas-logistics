@@ -1,20 +1,18 @@
-@extends('layouts.attex')
-@section('page_title', 'Trip Expenses')
-@section('breadcrumb')<li class="breadcrumb-item active">Trip Expenses</li>@endsection
+@extends('layouts.fleet')
+@section('fleet_title', 'Trip Expenses')
+@section('fleet_subtitle', $m($total) . ' ' . $base . ' (' . ucfirst($status) . ')')
 @section('content')
 @php $m = fn ($v) => number_format((float) $v, 2); @endphp
-<div class="card mb-3"><div class="card-body">
-    <div class="d-flex flex-wrap gap-2 align-items-center">
-        <div class="btn-group" role="group">
+<x-fleet.panel title="Trip Expenses" icon="bi-cash-stack">
+    <div class="fleet-toolbar">
+        <div class="d-flex flex-wrap gap-2">
             @foreach(['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'all' => 'All'] as $k => $label)
-                <a href="{{ route('logistics.expenses.index', ['status' => $k]) }}" class="btn btn-sm {{ $status === $k ? 'btn-primary' : 'btn-light' }}">{{ $label }}</a>
+                <a href="{{ route('logistics.expenses.index', ['status' => $k]) }}" class="fleet-btn fleet-btn-sm {{ $status === $k ? '' : 'fleet-btn-ghost' }}">{{ $label }}</a>
             @endforeach
         </div>
-        <div class="ms-auto text-muted">{{ $m($total) }} {{ $base }} ({{ ucfirst($status) }})</div>
+        <div class="text-muted">{{ $m($total) }} {{ $base }} ({{ ucfirst($status) }})</div>
     </div>
-</div></div>
-<div class="card"><div class="card-body">
-    <div class="table-responsive"><table class="table table-sm table-hover align-middle mb-0" id="expensesTable">
+    <x-fleet.table>
         <thead class="table-light"><tr><th>Date</th><th>Trip</th><th>Driver</th><th>Truck</th><th>Category</th><th class="text-end">Amount</th><th class="text-end">{{ $base }}</th><th>Paid by</th><th>Status</th><th></th></tr></thead>
         <tbody>@forelse($rows as $e)
             <tr><td>{{ $e->expense_date->format('d M Y') }}</td>
@@ -25,13 +23,12 @@
                 <td class="text-end">{{ $m($e->amount) }} {{ $e->currency }}</td>
                 <td class="text-end">{{ $m($e->amount_base) }}</td>
                 <td>{{ $e->paid_by === 'company' ? 'Company' : 'Driver cash' }}</td>
-                <td><span class="badge bg-{{ ['pending' => 'warning', 'approved' => 'success', 'rejected' => 'danger'][$e->status] ?? 'secondary' }}">{{ ucfirst($e->status) }}</span></td>
+                <td><x-fleet.status-pill :status="$e->status">{{ ucfirst($e->status) }}</x-fleet.status-pill></td>
                 <td class="text-end text-nowrap">
-                    @if($e->status === 'pending')@can('TripExpenses approve')<form method="POST" action="{{ route('logistics.expenses.approve', $e->id) }}" class="d-inline">@csrf @method('PUT')<button class="btn btn-sm btn-success">Approve</button></form>@endcan @endif
-                    @if($e->status !== 'approved')@can('TripExpenses delete')<form method="POST" action="{{ route('logistics.expenses.destroy', $e->id) }}" class="d-inline" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button></form>@endcan @endif
+                    @if($e->status === 'pending')@can('TripExpenses approve')<form method="POST" action="{{ route('logistics.expenses.approve', $e->id) }}" class="d-inline">@csrf @method('PUT')<button class="fleet-btn fleet-btn-sm">Approve</button></form>@endcan @endif
+                    @if($e->status !== 'approved')@can('TripExpenses delete')<form method="POST" action="{{ route('logistics.expenses.destroy', $e->id) }}" class="d-inline" data-fleet-confirm="Delete?">@csrf @method('DELETE')<button class="fleet-btn fleet-btn-sm fleet-btn-danger"><i class="bi bi-trash"></i></button></form>@endcan @endif
                 </td></tr>
         @empty<tr><td colspan="10" class="text-muted text-center">No expenses found.</td></tr>@endforelse</tbody>
-    </table></div>
-</div></div>
+    </x-fleet.table>
+</x-fleet.panel>
 @endsection
-@push('scripts')<script>$(document).ready(function() { if ($.fn.DataTable) { $('#expensesTable').DataTable({ order: [[0, 'desc']], pageLength: 25 }); } });</script>@endpush

@@ -1,9 +1,6 @@
-@extends('layouts.attex')
-@section('page_title', 'Trip ' . $trip->trip_number)
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('logistics.trips.index') }}">Trips</a></li>
-<li class="breadcrumb-item active">{{ $trip->trip_number }}</li>
-@endsection
+@extends('layouts.fleet')
+@section('fleet_title', 'Trip ' . $trip->trip_number)
+@section('fleet_subtitle', $trip->route_label)
 @section('content')
 @php
     $m = fn ($v) => number_format((float) $v, 2);
@@ -12,11 +9,10 @@
     $shownBlockers = session('blockers', $blockers ?? []);
 @endphp
 
-@if($errors->any())<div class="alert alert-danger"><ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div>@endif
-@if(!empty($shownBlockers))<div class="alert alert-warning"><strong>Dispatch checks failed:</strong><ul class="mb-0">@foreach($shownBlockers as $b)<li>{{ $b }}</li>@endforeach</ul></div>@endif
+@if($errors->any())<x-fleet.alert type="danger"><ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></x-fleet.alert>@endif
+@if(!empty($shownBlockers))<x-fleet.alert type="warning"><strong>Dispatch checks failed:</strong><ul class="mb-0">@foreach($shownBlockers as $b)<li>{{ $b }}</li>@endforeach</ul></x-fleet.alert>@endif
 
-<div class="card">
-    <div class="card-body">
+<x-fleet.panel :title="$trip->trip_number" icon="bi-signpost-2-fill">
         <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
             <div>
                 <h4 class="mb-1">{{ $trip->trip_number }} <span class="badge bg-{{ $statusColor }}">{{ config('logistics.trip_statuses.' . $trip->status, $trip->status) }}</span></h4>
