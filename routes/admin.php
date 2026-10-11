@@ -262,7 +262,9 @@ Route::namespace ('Admin')->group(function () {
         Route::get('payment-settings', 'SettingsController@payment_settings');
         Route::post('payment-settings', 'SettingsController@payment_settings_post');
         // Atlas Logistics cross-border modules (trips, compliance, fleet register, master data)
-        require base_path('routes/logistics.php');
+        Route::middleware('internal.staff')->group(function () {
+            require base_path('routes/logistics.php');
+        });
 
     });
 

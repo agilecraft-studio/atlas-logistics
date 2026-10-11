@@ -106,3 +106,19 @@ Constrain numeric params: `->where(['id' => '[0-9]+', 'rowId' => '[0-9]+', 'trip
   `LogisticsReports list`.
 - Verified: `php -l` clean (controller + routes), `view:clear`, tinker:
   19/19 Phase-3 names resolve, TripsController instantiable (abstract-columns fatal gone).
+
+## 10. Phase-3 hardening patch — APPLIED 2026-10-11 (verified)
+Source: `patches/atlas-logistics-phase3-hardening.zip` (built against snapshot,
+never executed by its author; diffed line-by-line against live before applying).
+- New: `SecurityHeaders` middleware (web group) + `InternalStaff` middleware
+  (alias `internal.staff`, wraps logistics routes in `routes/admin.php` — C/D users get 403).
+- New: `logistics:grant-role` artisan command (registered in Console Kernel) for
+  non-Super-Admin roles until the Roles screen lists logistics modules.
+- `TripsController` (patch version kept in full): planned-only `edit()`/`update()`
+  guards, collision-proof `nextNumber()`, `setAssets()` marks/releases truck profile
+  + trailer, blockers only on planned trips.
+- `.gitignore` blocks `.env.*`/`*.bak`/`*.sql`; `.env.bak` removed from disk + index.
+  ⚠️ History still contains `.env.bak` (commits d5e880a, a0cb034, 7c8821d, 2aa8a55)
+  on public repo — needs filter-repo + rotation per README (NOT done here).
+- Verified: `php -l` ×8 clean, `optimize:clear`, `route:list` still 55 logistics routes,
+  `logistics:grant-role --help` renders.

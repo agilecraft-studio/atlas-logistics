@@ -29,6 +29,7 @@ class Kernel extends HttpKernel {
 			\Illuminate\View\Middleware\ShareErrorsFromSession::class,
 			\App\Http\Middleware\VerifyCsrfToken::class,
 			\Illuminate\Routing\Middleware\SubstituteBindings::class,
+			\App\Http\Middleware\SecurityHeaders::class,
 
 		],
 
@@ -46,6 +47,7 @@ class Kernel extends HttpKernel {
 		'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
 		'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 		'superadmin' => \App\Http\Middleware\SuperAdmin::class,
+		'internal.staff' => \App\Http\Middleware\InternalStaff::class,
 		'officeadmin' => \App\Http\Middleware\OfficeAdmin::class,
 		'lang_check' => \App\Http\Middleware\SetLocale::class,
 		'canInstall' => \App\Http\Middleware\canInstall::class,

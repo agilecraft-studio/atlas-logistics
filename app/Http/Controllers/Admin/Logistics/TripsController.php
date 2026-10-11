@@ -78,7 +78,7 @@ class TripsController extends CrudController
         $data['revenue_amount_base'] = $base;
 
         if (!$id) {
-            $data['trip_number'] = 'TRP-' . now()->year . '-' . str_pad((string) (Trip::withTrashed()->whereYear('created_at', now()->year)->count() + 1), 4, '0', STR_PAD_LEFT);
+            $data['trip_number'] = $this->nextNumber();
             $data['status'] = 'planned';
             $data['created_by'] = auth()->id();
         }
@@ -130,13 +130,57 @@ class TripsController extends CrudController
         return view('logistics.trips.show', [
             'trip'       => $trip,
             'summary'    => $finance->summary($trip),
-            'blockers'   => app(ComplianceService::class)->dispatchBlockers($trip),
+            'blockers'   => $trip->status === 'planned' ? app(ComplianceService::class)->dispatchBlockers($trip) : [],
             'currencies' => Currency::where('is_active', true)->orderBy('code')->get(),
             'categories' => TripExpenseCategory::where('is_active', true)->orderBy('name')->get(),
             'countries'  => Country::where('is_active', true)->orderBy('name')->get(),
             'borders'    => BorderPost::orderBy('name')->get(),
             'base'       => CurrencyService::base(),
         ]);
+    }
+
+    // ---- Only planned trips may be edited (a started trip must not change truck, driver or price) ----
+    public function edit()
+    {
+        $trip = Trip::findOrFail($this->id());
+        if ($trip->status !== 'planned') {
+            return redirect()->route('logistics.trips.show', ['id' => $trip->id])->with('error', 'Only planned trips can be edited.');
+        }
+        return parent::edit();
+    }
+
+    public function update(Request $request)
+    {
+        $trip = Trip::findOrFail($this->id());
+        if ($trip->status !== 'planned') {
+            return redirect()->route('logistics.trips.show', ['id' => $trip->id])->with('error', 'Only planned trips can be edited.');
+        }
+        return parent::update($request);
+    }
+
+    protected function nextNumber(): string
+    {
+        $n = Trip::withTrashed()->whereYear('created_at', now()->year)->count() + 1;
+        do {
+            $number = 'TRP-' . now()->year . '-' . str_pad((string) $n, 4, '0', STR_PAD_LEFT);
+            $n++;
+        } while (Trip::withTrashed()->where('trip_number', $number)->exists());
+        return $number;
+    }
+
+    /** Mark truck + trailer on_trip, or release them to available (only if they were on_trip). */
+    protected function setAssets(Trip $trip, string $status): void
+    {
+        $p = VehicleLogisticsProfile::firstOrNew(['vehicle_id' => $trip->vehicle_id]);
+        if ($status === 'on_trip' || $p->logistics_status === 'on_trip') {
+            $p->logistics_status = $status;
+            $p->save();
+        }
+        if ($trip->trailer_id) {
+            Trailer::where('id', $trip->trailer_id)
+                ->when($status === 'available', fn ($q) => $q->where('status', 'on_trip'))
+                ->update(['status' => $status]);
+        }
     }
 
     // ---- Lifecycle Actions ----
@@ -169,11 +213,8 @@ class TripsController extends CrudController
             'override_reason' => $request->boolean('override') ? $data['override_reason'] . ' [Overridden by ' . auth()->user()->name . ']' : null,
         ]);
 
-        // Operational status lives on the logistics profile (verified: no status column on vehicles).
-        VehicleLogisticsProfile::updateOrCreate(
-            ['vehicle_id' => $trip->vehicle_id],
-            ['logistics_status' => 'on_trip']
-        );
+        // Operational status lives on the logistics profile (vehicles has no status column).
+        $this->setAssets($trip, 'on_trip');
 
         return back()->with('success', 'Trip dispatched successfully.');
     }
@@ -202,10 +243,7 @@ class TripsController extends CrudController
 
         $trip->update($updateData);
 
-        VehicleLogisticsProfile::updateOrCreate(
-            ['vehicle_id' => $trip->vehicle_id],
-            ['logistics_status' => 'available']
-        );
+        $this->setAssets($trip, 'available');
 
         return back()->with('success', 'Trip marked as delivered. Approve expenses to close.');
     }
