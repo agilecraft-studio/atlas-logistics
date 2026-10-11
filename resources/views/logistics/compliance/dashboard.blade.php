@@ -24,6 +24,7 @@
                     <option value="vehicle" {{ $type === 'vehicle' ? 'selected' : '' }}>Trucks only</option>
                     <option value="trailer" {{ $type === 'trailer' ? 'selected' : '' }}>Trailers only</option>
                     <option value="driver" {{ $type === 'driver' ? 'selected' : '' }}>Drivers only</option>
+                    <option value="company" {{ $type === 'company' ? 'selected' : '' }}>Company only</option>
                 </select>
             </div>
             <div class="col-auto ms-auto d-flex gap-2">
@@ -37,7 +38,7 @@
                 <tbody>
                 @foreach($items as $i)
                     <tr class="{{ $i['status'] === 'expired' ? 'table-danger' : '' }}">
-                        <td>{{ ['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver'][$i['owner_type']] }}</td>
+                        <td>{{ ['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver', 'company' => 'Company'][$i['owner_type']] ?? $i['owner_type'] }}</td>
                         <td>{{ $i['owner'] }}</td>
                         <td>{{ $i['item'] }} @if($i['critical'])<span class="badge bg-dark">critical</span>@endif</td>
                         <td>{{ $i['number'] ?: '—' }}</td>

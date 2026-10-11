@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Model\ComplianceDocument;
+use App\Model\Country;
+use App\Model\DocumentType;
 use App\Model\DriverComplianceProfile;
 use App\Model\Trailer;
 use App\Model\Trip;
@@ -106,6 +108,9 @@ class ComplianceService
         if ($type === 'driver') {
             return isset($drivers[$id]) ? $drivers[$id]->name : null;
         }
+        if ($type === 'company') {
+            return 'Atlas General Dealers (company)';
+        }
         return null;
     }
 
@@ -195,6 +200,10 @@ class ComplianceService
             }
         }
 
+        if ($crossBorder) {
+            $blockers = array_merge($blockers, $this->permitBlockers($trip, $today));
+        }
+
         // double booking
         $busy = Trip::where('status', 'in_transit')->where('id', '!=', $trip->id);
         if ((clone $busy)->where('vehicle_id', $trip->vehicle_id)->exists()) {
@@ -208,5 +217,60 @@ class ComplianceService
         }
 
         return $blockers;
+    }
+
+    /**
+     * Cross-border permit check: the truck AND the trailer (when attached) each need a
+     * non-expired 'Cross-Border Road Service Permit' whose coverage includes the
+     * destination country and every transit country. A permit with no coverage
+     * countries listed is treated as unrestricted. Expired permits are reported by the
+     * generic critical-document check above; this only checks coverage + presence.
+     */
+    protected function permitBlockers(Trip $trip, Carbon $today): array
+    {
+        $needed = array_unique(array_filter(array_merge(
+            [$trip->destination_country_id], (array) $trip->route_country_ids
+        )));
+        if (!$needed) {
+            return [];
+        }
+        $permitTypeIds = DocumentType::where('name', 'Cross-Border Road Service Permit')
+            ->where('is_active', true)->pluck('id')->all();
+        if (!$permitTypeIds) {
+            return [];
+        }
+        $names = Country::whereIn('id', $needed)->pluck('name', 'id')->all();
+        $out = [];
+        $assets = [['vehicle', $trip->vehicle_id, 'Truck']];
+        if ($trip->trailer_id) {
+            $trailer = Trailer::withTrashed()->find($trip->trailer_id);
+            $assets[] = ['trailer', $trip->trailer_id, 'Trailer ' . ($trailer ? $trailer->registration_number : '#' . $trip->trailer_id)];
+        } else {
+            $assets[0][2] = 'Truck ' . (optional(VehicleModel::withTrashed()->find($trip->vehicle_id))->license_plate ?: '#' . $trip->vehicle_id);
+        }
+        foreach ($assets as [$type, $id, $label]) {
+            $permits = ComplianceDocument::where('owner_type', $type)->where('owner_id', $id)
+                ->whereIn('document_type_id', $permitTypeIds)->get()
+                ->filter(fn ($d) => !$d->expiry_date || !$d->expiry_date->copy()->startOfDay()->lt($today));
+            if ($permits->isEmpty()) {
+                $out[] = "{$label}: no valid Cross-Border Road Service Permit on file.";
+                continue;
+            }
+            $covered = [];
+            foreach ($permits as $d) {
+                $cov = (array) ($d->coverage_country_ids ?? []);
+                if (empty($cov)) {
+                    $covered = $needed; // unrestricted permit covers everything
+                    break;
+                }
+                $covered = array_unique(array_merge($covered, array_map('intval', $cov)));
+            }
+            foreach ($needed as $cid) {
+                if (!in_array((int) $cid, array_map('intval', $covered), true)) {
+                    $out[] = "{$label}: no permit covers " . ($names[$cid] ?? "country #{$cid}") . '.';
+                }
+            }
+        }
+        return $out;
     }
 }

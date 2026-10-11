@@ -23,7 +23,8 @@ class ComplianceDocumentsController extends CrudController
     protected function ownerNames(): array
     {
         if ($this->names === null) {
-            $this->names = ['vehicle' => $this->vehicleOptions(), 'trailer' => $this->trailerOptions(), 'driver' => $this->driverOptions()];
+            $this->names = ['vehicle' => $this->vehicleOptions(), 'trailer' => $this->trailerOptions(), 'driver' => $this->driverOptions(),
+                'company' => [0 => 'Atlas General Dealers (company)']];
         }
         return $this->names;
     }
@@ -55,17 +56,19 @@ class ComplianceDocumentsController extends CrudController
     protected function fields(): array
     {
         $types = DocumentType::where('is_active', true)->orderBy('applies_to')->orderBy('name')->get()
-            ->mapWithKeys(fn ($t) => [$t->id => $t->name . ' (' . ['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver'][$t->applies_to] . ')'])->all();
+            ->mapWithKeys(fn ($t) => [$t->id => $t->name . ' (' . ['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver', 'company' => 'Company'][$t->applies_to] ?? $t->applies_to . ')'])->all();
 
         return [
             ['name' => 'owner', 'label' => 'Belongs to', 'type' => 'select', 'options' => $this->ownerOptions(), 'rules' => ['required', 'regex:/^(vehicle|trailer|driver):\d+$/'], 'col' => 6],
-            ['name' => 'document_type_id', 'label' => 'Document type', 'type' => 'select', 'options' => $types, 'rules' => 'required|exists:document_types,id', 'col' => 6],
+            ['name' => 'document_type_id', 'label' => 'Document type', 'type' => 'select', 'options' => $types, 'rules' => 'required|exists:document_types,id', 'col' => 4],
+            ['name' => 'coverage_country_ids', 'label' => 'Permit covers (blank = unrestricted)', 'type' => 'multiselect', 'options' => $this->countryOptions(), 'rules' => 'nullable|array', 'col' => 4, 'help' => 'Only for cross-border permits. Leave blank for unrestricted.'],
             ['name' => 'document_number', 'label' => 'Document / policy number', 'rules' => 'nullable|string|max:100', 'col' => 4],
             ['name' => 'issue_date', 'label' => 'Issue date', 'type' => 'date', 'rules' => 'nullable|date', 'col' => 4],
             ['name' => 'expiry_date', 'label' => 'Expiry date', 'type' => 'date', 'rules' => 'nullable|date|after_or_equal:issue_date', 'col' => 4],
             ['name' => 'alert_days', 'label' => 'Warn this many days before expiry (blank = use type default)', 'type' => 'number', 'rules' => 'nullable|integer|min:1|max:365', 'col' => 6],
             ['name' => 'file_path', 'label' => 'Scan / photo (PDF, JPG, PNG, max 5 MB)', 'type' => 'file', 'rules' => 'nullable|file|max:5120|mimes:pdf,jpg,jpeg,png', 'col' => 6],
-            ['name' => 'notes', 'label' => 'Notes', 'type' => 'textarea', 'rules' => 'nullable|string|max:1000', 'col' => 12],
+            ['name' => 'first_registration_date', 'label' => 'First registration (registration certificates have no printed expiry)', 'type' => 'date', 'rules' => 'nullable|date', 'col' => 6],
+            ['name' => 'notes', 'label' => 'Notes', 'type' => 'textarea', 'rules' => 'nullable|string|max:1000', 'col' => 6],
         ];
     }
 
@@ -96,7 +99,7 @@ class ComplianceDocumentsController extends CrudController
     protected function columns(): array
     {
         return [
-            ['label' => 'Belongs to', 'value' => fn ($r) => (['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver'][$r->owner_type] ?? '') . ': '
+            ['label' => 'Belongs to', 'value' => fn ($r) => (['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver', 'company' => 'Company'][$r->owner_type] ?? '') . ': '
                 . ($this->ownerNames()[$r->owner_type][$r->owner_id] ?? '(deleted)')],
             ['label' => 'Document', 'value' => fn ($r) => optional($r->type)->name],
             ['label' => 'Number', 'field' => 'document_number'],

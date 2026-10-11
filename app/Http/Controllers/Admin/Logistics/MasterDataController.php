@@ -97,7 +97,7 @@ class MasterDataController extends CrudController
                 'title' => 'Document Types', 'singular' => 'Document type', 'model' => DocumentType::class,
                 'fields' => [
                     ['name' => 'name', 'label' => 'Document name', 'rules' => 'required|string|max:100', 'col' => 5],
-                    ['name' => 'applies_to', 'label' => 'Applies to', 'type' => 'select', 'options' => ['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver'], 'rules' => 'required|in:vehicle,trailer,driver', 'col' => 3],
+                    ['name' => 'applies_to', 'label' => 'Applies to', 'type' => 'select', 'options' => ['vehicle' => 'Truck', 'trailer' => 'Trailer', 'driver' => 'Driver', 'company' => 'Company'], 'rules' => 'required|in:vehicle,trailer,driver,company', 'col' => 3],
                     ['name' => 'default_alert_days', 'label' => 'Warn this many days before expiry', 'type' => 'number', 'rules' => 'required|integer|min:1|max:365', 'col' => 4],
                     ['name' => 'is_critical', 'label' => 'Critical (expired = trip cannot be dispatched)', 'type' => 'checkbox'],
                     $active,

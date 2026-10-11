@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Logistics;
 use App\Http\Controllers\Controller;
 use App\Services\ComplianceService;
 
-/** One screen showing everything expired or expiring: trucks, trailers, drivers. */
+/** One screen showing everything expired or expiring: trucks, trailers, drivers, company. */
 class ComplianceDashboardController extends Controller
 {
     public function __construct()
@@ -17,7 +17,7 @@ class ComplianceDashboardController extends Controller
     {
         $days = (int) request('days', 30);
         $days = in_array($days, [7, 14, 30, 60, 90], true) ? $days : 30;
-        $type = in_array(request('type'), ['vehicle', 'trailer', 'driver'], true) ? request('type') : null;
+        $type = in_array(request('type'), ['vehicle', 'trailer', 'driver', 'company'], true) ? request('type') : null;
 
         $all = $service->items(90);
 

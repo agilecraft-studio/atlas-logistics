@@ -7,6 +7,16 @@
        * global route/label JS variables used by legacy dependent-dropdown scripts --}}
 <script src="{{ asset('assets/js/plugins-jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/moment.js') }}"></script>
+{{-- DataTables core + Bootstrap4 styling + Buttons/export stack (same local files as the legacy shell). --}}
+<script src="{{ asset('assets/js/cdn-jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins-dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-vfs_fonts.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-jszip.min.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/js/cdn-buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins-select2.full.min.js') }}"></script>
 <script>
 window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
 var getDriverRoute = '{{ url('admin/get_driver') }}';

@@ -128,6 +128,9 @@ abstract class CrudController extends Controller
             if (($f['type'] ?? '') === 'checkbox') {
                 $data[$f['name']] = $request->boolean($f['name']);
             }
+            if (($f['type'] ?? '') === 'multiselect') {
+                $data[$f['name']] = array_values(array_filter((array) $request->input($f['name'], [])));
+            }
         }
 
         $data = $this->prepare($data, $request, $id);
@@ -202,7 +205,7 @@ abstract class CrudController extends Controller
     }
 
     /** "vehicle:12" / "trailer:3" / "driver:7" keyed options for the owner select. */
-    protected function ownerOptions(array $types = ['vehicle', 'trailer', 'driver']): array
+    protected function ownerOptions(array $types = ['vehicle', 'trailer', 'driver', 'company']): array
     {
         $out = [];
         if (in_array('vehicle', $types)) {
@@ -213,6 +216,9 @@ abstract class CrudController extends Controller
         }
         if (in_array('driver', $types)) {
             foreach ($this->driverOptions() as $id => $l) { $out["driver:$id"] = "[Driver] $l"; }
+        }
+        if (in_array('company', $types)) {
+            $out['company:0'] = '[Company] Atlas General Dealers (company)';
         }
         return $out;
     }
