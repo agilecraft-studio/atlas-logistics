@@ -7,6 +7,10 @@
        * global route/label JS variables used by legacy dependent-dropdown scripts --}}
 <script src="{{ asset('assets/js/plugins-jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/moment.js') }}"></script>
+{{-- Bootstrap 4.1 bundle (same local file the legacy shell used): powers
+     data-toggle="dropdown" action menus + data-toggle="modal" triggers.
+     data-bs-toggle="modal/dismiss" shims below bridge BS5-syntax triggers. --}}
+<script src="{{ asset('assets/js/plugins-bootstrap.bundle.min.js') }}"></script>
 {{-- DataTables core + Bootstrap4 styling + Buttons/export stack (same local files as the legacy shell). --}}
 <script src="{{ asset('assets/js/cdn-jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins-dataTables.bootstrap4.min.js') }}"></script>
@@ -54,40 +58,31 @@ var base_url = '{{ url('/') }}';
         return { close: function () { t.remove(); } };
     };
 
-    /* Bootstrap-style modal shim (show/hide with bs events + relatedTarget). */
-    $.fn.modal = function (action) {
-        return this.each(function () {
-            var $m = $(this);
-            if (action === 'show') {
-                var e1 = $.Event('show.bs.modal'); $m.trigger(e1);
-                if (e1.isDefaultPrevented()) { return; }
-                $m.addClass('show').attr('aria-modal', 'true').attr('aria-hidden', 'false').css('display', 'block');
-                document.documentElement.style.overflow = 'hidden';
-                $m.trigger($.Event('shown.bs.modal', { relatedTarget: $m.data('fleetRelatedTarget') || null }));
-            } else if (action === 'hide') {
-                var e2 = $.Event('hide.bs.modal'); $m.trigger(e2);
-                if (e2.isDefaultPrevented()) { return; }
-                $m.removeClass('show').attr('aria-hidden', 'true').removeAttr('aria-modal').css('display', 'none');
-                document.documentElement.style.overflow = '';
-                $m.trigger('hidden.bs.modal');
-            } else if (action === 'toggle') {
-                $m.hasClass('show') ? $m.modal('hide') : $m.modal('show');
-            }
-        });
-    };
-    $(document).on('click', '[data-toggle="modal"], [data-bs-toggle="modal"]', function (e) {
-        var target = $(this).attr('data-target') || $(this).attr('data-bs-target');
+    /* Modal: the Bootstrap 4 bundle above owns $.fn.modal. The two delegated
+       handlers below only bridge BS5-syntax triggers (data-bs-toggle /
+       data-bs-target / data-bs-dismiss) onto it. No custom modal shim, so
+       Bootstrap's own .modal('show') backs every legacy .modal.fade dialog
+       (#import, #bulkModal, #myModal, #changepass, trip modals, ...). */
+    $(document).on('click', '[data-bs-toggle="modal"]', function (e) {
+        var target = $(this).attr('data-bs-target');
         if (!target || target === '#') { return; }
         e.preventDefault();
-        var $t = $(target);
-        $t.data('fleetRelatedTarget', this);
-        $t.modal('show');
+        $(target).modal('show');
     });
-    $(document).on('click', '[data-dismiss="modal"], [data-bs-dismiss="modal"]', function () {
+    /* Dropdown bridge: a few migrated index views use BS5 syntax
+       (data-bs-toggle="dropdown") but the vendored bundle is Bootstrap 4.1,
+       which only binds data-toggle. Mirror the attribute so BS4's own
+       dropdown plugin backs every action menu. Runs once at parse time
+       (table rows arrive via DataTables AJAX: bridge those too). */
+    function fleetBridgeDropdowns(root) {
+        (root || document).querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (el) {
+            if (!el.hasAttribute('data-toggle')) { el.setAttribute('data-toggle', 'dropdown'); }
+        });
+    }
+    fleetBridgeDropdowns(document);
+    $(document).on('draw.dt', function (e) { fleetBridgeDropdowns(e.target && e.target.parentNode ? e.target.parentNode : document); });
+    $(document).on('click', '[data-bs-dismiss="modal"]', function () {
         $(this).closest('.modal').modal('hide');
-    });
-    $(document).on('keydown', function (e) {
-        if (e.key === 'Escape') { $('.modal.show').last().modal('hide'); }
     });
 })(window.jQuery);
 </script>

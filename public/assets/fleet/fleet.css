@@ -387,3 +387,18 @@ img.rounded,img.avatar{border-radius:10px}
 .alert-dismissible{padding-right:34px;}
 .fade{transition:opacity .15s linear;}
 .show{opacity:1;}
+
+/* ---- Interaction restore (2026-10-11): DataTables Buttons + dropdown escape ----
+   dt-buttons render as .btn inside .dt-buttons; map them to the ghost/secondary
+   fleet button so Print/Excel/Search controls match the design tokens. */
+.dt-buttons{display:inline-flex;flex-wrap:wrap;gap:8px;margin:0 10px 10px 0}
+.dt-buttons .btn{background:#fff;border-color:var(--atlas-border);color:var(--atlas-navy);font-weight:700}
+.dt-buttons .btn:hover{background:var(--atlas-navy-50);color:var(--atlas-navy)}
+.dt-button-collection.dropdown-menu{padding:6px}
+/* Action menus must escape the horizontally-scrolling card body: when a row menu
+   is open, let this one wrapper show vertical overflow instead of clipping it.
+   Bootstrap appends .show to the open .dropdown-menu; the :has rule only fires
+   while a menu is open, so normal table scrolling is untouched. */
+.card-body.table-responsive:has(.dropdown-menu.show){overflow:visible}
+/* Same escape for fleet CRUD tables wrapped in .fleet-table-wrap. */
+.fleet-table-wrap:has(.dropdown-menu.show){overflow:visible}
