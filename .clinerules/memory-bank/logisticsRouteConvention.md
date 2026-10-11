@@ -195,3 +195,22 @@ demo numbers + `?? fallback` placeholders never shipped).
   (gated `@can('LogisticsReports list')`, active state on dashboard routes).
 - Verified (observed): `php -l` ×5 clean; route stack intact; tinker render
   RENDER_OK len=43960; observer models 6/6; log error count frozen at 24.
+
+## 13. Production cache-permission 500 — FIXED 2026-10-11 (verified)
+- **Symptom**: `GET /admin/logistics/dashboard` 500 on production:
+  `file_put_contents(.../storage/framework/cache/data/3d/65/...): Permission denied`
+  at `FleetDashboardService.php:43` (`Cache::remember`).
+- **Root cause (server, not code)**: this dev box IS production's deploy host
+  (`APP_URL=https://app.atlaslogistics.co.mw` in `.env`), PHP-FPM pool runs as
+  `atlas`, and earlier `php artisan` runs as `root` left 33 root-owned files
+  under `storage/` (incl. the file-cache shard `3d/65`). `atlas` could not
+  overwrite the dashboard cache entry. The dashboard merely exposed it first —
+  any file-cache write would have 500'd the same way.
+- **Fix (two layers)**:
+  1. Code: `data()` cache call + `flushCache()` wrapped in try/catch (report +
+     degrade to uncached) so a cache-filesystem fault can never 500 the page
+     or a model-write request again.
+  2. Server: `chown -R atlas:www-data storage/` + `chmod -R g+ws storage/`;
+     verified 0 root-owned files remain.
+- **Verified (observed)**: as `atlas`: `optimize:clear` OK; tinker service 20
+  keys, fuel=0, FLUSH_OK, RENDER_OK len=43960.

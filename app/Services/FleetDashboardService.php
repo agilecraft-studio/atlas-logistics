@@ -40,9 +40,18 @@ class FleetDashboardService
             $period = 'month';
         }
 
-        return Cache::remember("fleet-dashboard:{$period}", now()->addMinutes(5), function () use ($period) {
+        // NOTE: wrapped in try/catch so a file-cache permission failure (e.g. a
+        // root-owned storage file on the server) degrades to uncached instead
+        // of 500ing the dashboard. The ownership itself must still be fixed
+        // on the server (chown atlas:www-data storage/).
+        try {
+            return Cache::remember("fleet-dashboard:{$period}", now()->addMinutes(5), function () use ($period) {
+                return $this->compute($period);
+            });
+        } catch (\Throwable $e) {
+            report($e);
             return $this->compute($period);
-        });
+        }
     }
 
     /**
@@ -52,8 +61,14 @@ class FleetDashboardService
      */
     public static function flushCache(): void
     {
-        foreach (['month', 'week', 'year'] as $period) {
-            Cache::forget("fleet-dashboard:{$period}");
+        // Defensive: never let a cache-filesystem failure 500 a web request
+        // that triggered a model write (see data() note above).
+        try {
+            foreach (['month', 'week', 'year'] as $period) {
+                Cache::forget("fleet-dashboard:{$period}");
+            }
+        } catch (\Throwable $e) {
+            report($e);
         }
     }
 
