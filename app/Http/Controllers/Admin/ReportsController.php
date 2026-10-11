@@ -689,7 +689,7 @@ class ReportsController extends Controller {
 			$drivers_by_year[$d->driver->name] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", date("Y"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		// dd($drivers_by_year);
 		$data['drivers_by_year'] = $drivers_by_year;
@@ -698,7 +698,7 @@ class ReportsController extends Controller {
 			$drivers_by_month[$d->driver->name] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->whereMonth("bookings.updated_at", date("n"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", date("Y"))->whereMonth("bookings.updated_at", date("n"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['drivers_by_month'] = $drivers_by_month;
 		// dd($drivers_by_month);
@@ -734,7 +734,7 @@ class ReportsController extends Controller {
 			$drivers_by_year[$d->driver->name] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get("year"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		// dd($drivers_by_year);
 		$data['drivers_by_year'] = $drivers_by_year;
@@ -743,7 +743,7 @@ class ReportsController extends Controller {
 			$drivers_by_month[$d->driver->name] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		// dd($drivers_by_month);
 		$data['drivers_by_month'] = $drivers_by_month;
@@ -773,20 +773,20 @@ class ReportsController extends Controller {
 		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 		$customers_by_year = array();
 		foreach ($customers as $d) {
-			$customers_by_year[$d->customer->name] = Bookings::meta()
+			$customers_by_year[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", date("Y"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['customers_by_year'] = $customers_by_year;
 		arsort($customers_by_year);
 		$data['top10'] = array_slice($customers_by_year, 0, 10);
 		$customers_by_month = array();
 		foreach ($customers as $d) {
-			$customers_by_month[$d->customer->name] = Bookings::meta()
+			$customers_by_month[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->whereMonth("bookings.updated_at", date("n"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", date("Y"))->whereMonth("bookings.updated_at", date("n"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['customers_by_month'] = $customers_by_month;
 		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
@@ -818,20 +818,20 @@ class ReportsController extends Controller {
 		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 		$customers_by_year = array();
 		foreach ($customers as $d) {
-			$customers_by_year[$d->customer->name] = Bookings::meta()
+			$customers_by_year[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['customers_by_year'] = $customers_by_year;
 		arsort($customers_by_year);
 		$data['top10'] = array_slice($customers_by_year, 0, 10);
 		$customers_by_month = array();
 		foreach ($customers as $d) {
-			$customers_by_month[$d->customer->name] = Bookings::meta()
+			$customers_by_month[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['customers_by_month'] = $customers_by_month;
 		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
@@ -1034,7 +1034,7 @@ class ReportsController extends Controller {
 			$drivers_by_month[$d->driver->name] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['drivers_by_month'] = $drivers_by_month;
 		$data['year_select'] = $request->get("year");
@@ -1077,20 +1077,20 @@ class ReportsController extends Controller {
 		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
 		$customers_by_year = array();
 		foreach ($customers as $d) {
-			$customers_by_year[$d->customer->name] = Bookings::meta()
+			$customers_by_year[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['customers_by_year'] = $customers_by_year;
 		arsort($customers_by_year);
 		$data['top10'] = array_slice($customers_by_year, 0, 10);
 		$customers_by_month = array();
 		foreach ($customers as $d) {
-			$customers_by_month[$d->customer->name] = Bookings::meta()
+			$customers_by_month[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
 				->where(function ($query) {
 					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+				})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 		}
 		$data['customers_by_month'] = $customers_by_month;
 		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();

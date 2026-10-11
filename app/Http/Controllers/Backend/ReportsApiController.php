@@ -262,7 +262,7 @@ class ReportsApiController extends Controller {
 				$customers_by_year[$d->customer->name] = Bookings::meta()
 					->where(function ($query) {
 						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+					})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 			}
 			arsort($customers_by_year);
 			$customers_by_month = array();
@@ -270,7 +270,7 @@ class ReportsApiController extends Controller {
 				$customers_by_month[$d->customer->name] = Bookings::meta()
 					->where(function ($query) {
 						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+					})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 			}
 			$table = array();
 			$labels = array();
@@ -338,14 +338,14 @@ class ReportsApiController extends Controller {
 				$drivers_by_year[$d->driver->name] = Bookings::meta()
 					->where(function ($query) {
 						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get("year"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+					})->whereYear("bookings.updated_at", $request->get("year"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 			}
 			$drivers_by_month = array();
 			foreach ($drivers as $d) {
 				$drivers_by_month[$d->driver->name] = Bookings::meta()
 					->where(function ($query) {
 						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum('value');
+					})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
 			}
 			$table = array();
 			$labels = array();
