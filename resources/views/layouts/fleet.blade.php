@@ -72,6 +72,7 @@ $fp = preg_split('/\s+/', trim($fn)); $fi = strtoupper(substr($fp[0] ?? 'A', 0, 
 </div>
 <script src="{{ asset('assets/fleet/vendor/apexcharts.min.js') }}"></script>
 <script src="{{ asset('assets/fleet/fleet.js') }}"></script>
+@include('layouts.fleet-legacy')
 @yield('scripts')
 </body>
 </html>
