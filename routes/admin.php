@@ -21,7 +21,7 @@ Route::namespace ('Admin')->group(function () {
     // });
 // dd('test');
     Route::get("/", 'HomeController@index')->middleware(['lang_check', 'auth']);
-    Route::group(['middleware' => ['lang_check', 'auth', 'officeadmin', 'IsInstalled']], function () {
+    Route::group(['middleware' => ['lang_check', 'auth', 'officeadmin']], function () {
 
 
 
@@ -320,7 +320,7 @@ Route::namespace ('Admin')->group(function () {
         Route::get('/addresses', 'AddressController@index');
 
         Route::resource('/cancel-reason', 'ReasonController');
-        Route::post('delete-fuel', 'FuelController@bulk_delete')->middleware('IsInstalled');
+        Route::post('delete-fuel', 'FuelController@bulk_delete');
 
         Route::get('/add-parts', 'WorkOrdersController@addParts')->name('add.parts');
     });

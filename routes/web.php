@@ -3,29 +3,16 @@
 /*
  * Internal admin application - no public/customer pages.
  * "/" redirects into the admin area. Authentication lives under /admin.
+ * NOTE: the legacy web installer + version-upgrade controllers were hard
+ * removed; all installation/upgrade/migration HTTP endpoints are gone.
+ * Database work runs via CLI migrations only (`php artisan migrate --force`).
  */
 
 Route::get('/', function () {
     return redirect('admin');
-})->middleware(['IsInstalled'])->name('root');
+})->name('root');
 
-// System installer / version upgrade (maintenance, kept per approved decision)
-Route::get('installation', 'LaravelWebInstaller@index');
-Route::post('installed', 'LaravelWebInstaller@install');
-Route::get('installed', 'LaravelWebInstaller@index');
-Route::get('migrate', 'LaravelWebInstaller@db_migration');
-Route::get('migration', 'LaravelWebInstaller@migration');
-Route::get('upgrade', 'UpdateVersion@upgrade')->middleware('canInstall');
-Route::get('upgrade3', 'UpdateVersion@upgrade3')->middleware('canInstall');
-Route::get('upgrade4', 'UpdateVersion@upgrade4')->middleware('canInstall');
-Route::get('upgrade4.0.2', 'UpdateVersion@upgrade402')->middleware('canInstall');
-Route::get('upgrade4.0.3', 'UpdateVersion@upgrade403')->middleware('canInstall');
-Route::get('upgrade5', 'UpdateVersion@upgrade5')->middleware('canInstall');
-Route::get('upgrade6', 'UpdateVersion@upgrade6')->middleware('canInstall');
-Route::get('upgrade6.0.1', 'UpdateVersion@upgrade601')->middleware('canInstall');
-Route::get('upgrade6.0.2', 'UpdateVersion@upgrade602')->middleware('canInstall');
-Route::get('upgrade6.0.3', 'UpdateVersion@upgrade603')->middleware('canInstall');
-Route::get('upgrade6.1', 'UpdateVersion@upgrade61')->middleware('canInstall');
+// System installer / version upgrade HTTP endpoints fully removed.
 
 // Payment gateway routes disconnected (public customer booking-checkout flow;
 // PaymentController remains on disk for reference, no routes registered).
