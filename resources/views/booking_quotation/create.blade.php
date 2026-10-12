@@ -2,36 +2,41 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
 @endsection
+@section('page_title', __('fleet.add_quote'))
+@section('fleet_subtitle', __('fleet.add_quote'))
 @section('content')
+@if (count($errors) > 0)
+  <x-fleet.alert type="danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </x-fleet.alert>
+@endif
+
     <div class="row">
         <div class="col-md-12">
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        @lang('fleet.add_quote')
-                    </h3>
+            <x-fleet.panel :title="__('fleet.add_quote')" icon="bi-pencil-square">
+              <div class="fleet-toolbar">
+                <div class="text-muted">{{ __('fleet.add_quote') }}</div>
+                <div class="d-flex gap-2">
+                  @can('BookingQuotations add')
+                    <a href="{{ route('booking-quotation.create') }}" class="fleet-btn"><i class="bi bi-plus-lg"></i> Add Quote</a>
+                  @endcan
                 </div>
+              </div>
+              <div class="table-responsive">
 
-                <div class="card-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    {!! Form::open(['route' => 'booking-quotation.store', 'method' => 'post','class' => 'form-reset']) !!}
+                    {!! Form::open(['route' => 'booking-quotation.store', 'method' => 'post','class' => 'fleet-form form-reset']) !!}
                     {!! Form::hidden('user_id', Auth::user()->id) !!}
                     {!! Form::hidden('status', 0) !!}
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('customer_id', __('fleet.selectCustomer'), ['class' => 'form-label']) !!}
                                 @if (Auth::user()->user_type != 'C')
-                                    <a href="#" data-toggle="modal" data-target="#exampleModal">@lang('fleet.new_customer')</a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">@lang('fleet.new_customer')</a>
                                 @endif
                                 <select id="customer_id" name="customer_id" class="form-control" required>
                                     <option value="">-</option>
@@ -51,23 +56,23 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('pickup', __('fleet.pickup'), ['class' => 'form-label']) !!}
                                 <div class='input-group mb-3 date'>
-                                    <div class="input-group-prepend">
+                                    
                                         <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
-                                    </div>
+
                                     {!! Form::text('pickup', date('Y-m-d H:i:s'), ['class' => 'form-control', 'required']) !!}
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('dropoff', __('fleet.dropoff'), ['class' => 'form-label']) !!}
                                 <div class='input-group date'>
-                                    <div class="input-group-prepend">
+                                    
                                         <span class="input-group-text"><span class="bi bi-calendar"></span></span>
-                                    </div>
+
                                     {!! Form::text('dropoff', date('Y-m-d H:i:s'), ['class' => 'form-control', 'required']) !!}
                                 </div>
                             </div>
@@ -75,7 +80,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('vehicle_id', __('fleet.selectVehicle'), ['class' => 'form-label']) !!}
                                 <select id="vehicle_id" name="vehicle_id" class="form-control" required>
                                     <option value="">-</option>
@@ -103,7 +108,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('driver_id', __('fleet.selectDriver'), ['class' => 'form-label']) !!}
 
                                 <select id="driver_id" name="driver_id" class="form-control" required>
@@ -118,7 +123,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('travellers', __('fleet.no_travellers'), ['class' => 'form-label']) !!}
                                 {!! Form::number('travellers', 1, ['class' => 'form-control', 'min' => 1]) !!}
                             </div>
@@ -126,7 +131,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.daytype')</label>
                                 <select id="day" name="day" class="form-control vehicles sum" required>
                                     <option value="1" selected>Weekdays</option>
@@ -136,13 +141,13 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.trip_mileage') ({{ AtlasLogistics::get('dis_format') }})</label>
                                 {!! Form::number('mileage', null, ['class' => 'form-control sum', 'min' => 1, 'id' => 'mileage', 'required']) !!}
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.waitingtime')</label>
                                 {!! Form::number('waiting_time', 0, [
                                     'class' => 'form-control sum',
@@ -155,12 +160,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.total') @lang('fleet.amount') </label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
+                                    
                                         <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
-                                    </div>
+
                                     {!! Form::number('total', null, [
                                         'class' => 'form-control',
                                         'id' => 'total',
@@ -179,12 +184,12 @@
                             @endforeach
                         @endif
                         <div class="col-md-3">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.total_tax') (%) </label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
+                                    
                                         <span class="input-group-text bi bi-percent"></span>
-                                    </div>
+
                                     {!! Form::number('total_tax_percent', $tax_percent, [
                                         'class' => 'form-control sum',
                                         'readonly',
@@ -196,12 +201,12 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.total') @lang('fleet.tax_charge')</label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
+                                    
                                         <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
-                                    </div>
+
                                     {!! Form::number('total_tax_charge_rs', 0, [
                                         'class' => 'form-control sum',
                                         'readonly',
@@ -213,12 +218,12 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">@lang('fleet.total') @lang('fleet.amount') </label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
+                                    
                                         <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
-                                    </div>
+
                                     {!! Form::number('tax_total', null, [
                                         'class' => 'form-control',
                                         'id' => 'tax_total',
@@ -233,7 +238,7 @@
                     @if (Auth::user()->user_type == 'C')
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     {!! Form::label('d_pickup', __('fleet.pickup_addr'), ['class' => 'form-label']) !!}
                                     <select id="d_pickup" name="d_pickup" class="form-control">
                                         <option value="">-</option>
@@ -246,7 +251,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     {!! Form::label('d_dest', __('fleet.dropoff_addr'), ['class' => 'form-label']) !!}
                                     <select id="d_dest" name="d_dest" class="form-control">
                                         <option value="">-</option>
@@ -261,19 +266,19 @@
                     @endif
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('pickup_addr', __('fleet.pickup_addr'), ['class' => 'form-label']) !!}
                                 {!! Form::text('pickup_addr', null, ['class' => 'form-control', 'required', 'style' => 'height:100px']) !!}
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('dest_addr', __('fleet.dropoff_addr'), ['class' => 'form-label']) !!}
                                 {!! Form::text('dest_addr', null, ['class' => 'form-control', 'required', 'style' => 'height:100px']) !!}
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('note', __('fleet.note'), ['class' => 'form-label']) !!}
                                 {!! Form::textarea('note', null, [
                                     'class' => 'form-control',
@@ -283,11 +288,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        {!! Form::submit(__('fleet.submit'), ['class' => 'btn btn-success']) !!}
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="submit" class="fleet-btn">{{ __('fleet.submit') }}</button>
+                        <a href="{{ url('admin/booking-quotation') }}" class="fleet-btn fleet-btn-ghost">{{ __('fleet.back') }}</a>
                     </div>
                     {!! Form::close() !!}
-                </div>
+              </div>
+            </x-fleet.panel>
             </div>
         </div>
     </div>
@@ -298,24 +305,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLabel">@lang('fleet.new_customer')</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
                 {!! Form::open(['route' => 'customers.ajax_store', 'method' => 'post', 'id' => 'create_customer_form']) !!}
                 <div class="modal-body">
                     <div class="alert alert-danger print-error-msg" style="display:none">
                         <ul></ul>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('first_name', __('fleet.firstname'), ['class' => 'form-label']) !!}
                         {!! Form::text('first_name', null, ['class' => 'form-control', 'required']) !!}
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('last_name', __('fleet.lastname'), ['class' => 'form-label']) !!}
                         {!! Form::text('last_name', null, ['class' => 'form-control', 'required']) !!}
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('gender', __('fleet.gender'), ['class' => 'form-label']) !!}<br>
                         <input type="radio" name="gender" class="flat-red gender" value="1" checked>
                         @lang('fleet.male')<br>
@@ -323,37 +329,37 @@
                         <input type="radio" name="gender" class="flat-red gender" value="0"> @lang('fleet.female')
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('phone', __('fleet.phone'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
+                            
                                 <span class="input-group-text"><i class="bi bi-phone"></i></span>
-                            </div>
+
                             {!! Form::number('phone', null, ['class' => 'form-control', 'required']) !!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
+                            
                                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            </div>
+
                             {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('address', __('fleet.address'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
+                            
                                 <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
-                            </div>
+
                             {!! Form::textarea('address', null, ['class' => 'form-control', 'size' => '30x2']) !!}
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
-                    <button type="submit" class="btn btn-info">@lang('fleet.save_cust')</button>
+                    <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
+                    <button type="submit" class="fleet-btn fleet-btn-outline">@lang('fleet.save_cust')</button>
                 </div>
             </div>
             {!! Form::close() !!}
@@ -366,9 +372,9 @@
     <script>
 
 
-  $(document).ready(function() {
-    $(".form-reset").on("submit", function(event) {
-        $('input[type="submit"]').prop('disabled', true);
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.form-reset').addEventListener('submit', function(event) {
+        document.querySelectorAll('input[type="submit"]').forEach(function(el) { el.disabled = true; });
     });
   });
 
@@ -388,8 +394,8 @@
     @if (AtlasLogistics::api('google_api') == '1')
         <script>
             function initMap() {
-                $('#pickup_addr').attr("placeholder", "");
-                $('#dest_addr').attr("placeholder", "");
+                document.getElementById('pickup_addr').setAttribute('placeholder', '');
+                document.getElementById('dest_addr').setAttribute('placeholder', '');
                 // var input = document.getElementById('searchMapInput');
                 var pickup_addr = document.getElementById('pickup_addr');
                 new google.maps.places.Autocomplete(pickup_addr);
