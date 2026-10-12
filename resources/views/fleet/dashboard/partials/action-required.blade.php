@@ -1,6 +1,6 @@
 <article class="fleet-card fleet-panel">
     <div class="fleet-panel-heading">
-        <h2><i class="bi bi-exclamation-circle-fill" style="color:#ef5363"></i>Action Required</h2>
+        <h2><i class="bi bi-exclamation-circle-fill" style="color:var(--atlas-danger)"></i>Action Required</h2>
         <a href="{{ route('logistics.documents.index') }}" class="fleet-view-all">View All <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="fleet-alert-list">

@@ -11,15 +11,15 @@
     </div>
     <div class="fleet-availability">
         <div class="fleet-availability-item">
-            <span class="fleet-availability-icon" style="background:#dff7e9;color:#11965f"><i class="bi bi-truck-front-fill"></i></span>
+            <span class="fleet-availability-icon" style="background:#DFF3E8;color:var(--atlas-success)"><i class="bi bi-truck-front-fill"></i></span>
             <div><small>Available</small><strong>{{ $dashboard['available_trucks'] }}</strong><em>{{ $availablePct }}%</em></div>
         </div>
         <div class="fleet-availability-item">
-            <span class="fleet-availability-icon" style="background:#e1f1ff;color:#1688e8"><i class="bi bi-truck"></i></span>
+            <span class="fleet-availability-icon" style="background:#E4F1FC;color:var(--atlas-info)"><i class="bi bi-truck"></i></span>
             <div><small>On Trip</small><strong>{{ $dashboard['trucks_on_trip'] }}</strong><em>{{ $ontripPct }}%</em></div>
         </div>
         <div class="fleet-availability-item">
-            <span class="fleet-availability-icon" style="background:#ffe6e8;color:#e34d5d"><i class="bi bi-wrench-adjustable"></i></span>
+            <span class="fleet-availability-icon" style="background:#FBE3E5;color:var(--atlas-danger)"><i class="bi bi-wrench-adjustable"></i></span>
             <div><small>In Workshop</small><strong>{{ $dashboard['trucks_in_workshop'] }}</strong><em>{{ $workshopPct }}%</em></div>
         </div>
     </div>

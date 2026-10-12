@@ -1,4 +1,4 @@
-@extends('layouts.fleet')
+@extends('layouts.attex')
 
 @php
   use App\Model\Bookings;

@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', 'Compliance Dashboard')
+@extends('layouts.attex')
+@section('page_title', 'Compliance Dashboard')
 @section('fleet_subtitle', 'Expired and upcoming document expiries')
 @section('content')
 <section class="fleet-kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">

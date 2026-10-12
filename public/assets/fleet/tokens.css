@@ -1,0 +1,24 @@
+/* Atlas Logistics brand tokens — logo-derived. SINGLE SOURCE OF TRUTH. */
+:root{
+  /* Brand navy (wordmark) */
+  --atlas-navy:#16294D;      --atlas-navy-950:#081527;  --atlas-navy-900:#0E1F3D;
+  --atlas-navy-800:#16294D;  --atlas-navy-700:#24406B;  --atlas-navy-600:#33578A;
+  --atlas-navy-200:#C7D3E4;  --atlas-navy-100:#DCE4EF;  --atlas-navy-50:#F2F5FA;
+  /* Brand amber (logo marigold) */
+  --atlas-amber:#F6A71B;     --atlas-amber-700:#9A6A00; --atlas-amber-600:#C98600;
+  --atlas-amber-300:#FFC65C; --atlas-amber-100:#FDEBC6; --atlas-amber-50:#FEF7E8;
+  /* Neutrals */
+  --atlas-ink:#16233C; --atlas-muted:#6B7C93; --atlas-border:#E3E9F2;
+  --atlas-bg:#F5F7FB;  --atlas-surface:#FFFFFF;
+  /* Semantic */
+  --atlas-success:#1E9E6A; --atlas-warning:#E08600;
+  --atlas-danger:#D64550;  --atlas-info:#1688E8;
+  /* Chart series order */
+  --chart-1:#16294D; --chart-2:#F6A71B; --chart-3:#1688E8;
+  --chart-4:#1E9E6A; --chart-5:#D64550; --chart-6:#7A8CA3;
+  /* Legacy alias bridge — old fleet var names auto-map to tokens */
+  --atlas-navy-2:var(--atlas-navy-900);
+  --atlas-teal:var(--atlas-amber);   /* teal accent retired → amber */
+  --atlas-green:var(--atlas-success);
+  --atlas-blue:var(--atlas-info);
+}

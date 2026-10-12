@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', $title)
+@extends('layouts.attex')
+@section('page_title', $title)
 @section('fleet_subtitle', $intro ?? 'Fill in the details below.')
 @section('content')
 <x-fleet.panel :title="$title" icon="bi-pencil-square">

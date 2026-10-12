@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', 'Trip Profitability Report')
+@extends('layouts.attex')
+@section('page_title', 'Trip Profitability Report')
 @section('fleet_subtitle', 'Revenue, cost and margin per trip')
 @section('content')
 @php $m = fn ($v) => number_format((float) $v, 2); @endphp

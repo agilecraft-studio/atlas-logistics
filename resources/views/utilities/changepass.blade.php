@@ -1,4 +1,4 @@
-@extends('layouts.fleet')
+@extends('layouts.attex')
 @section('content')
 <div class="row col-md-12">
 	@if (count($errors) > 0)

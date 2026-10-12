@@ -1,4 +1,4 @@
-@extends('layouts.fleet')
+@extends('layouts.attex')
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
 @endsection

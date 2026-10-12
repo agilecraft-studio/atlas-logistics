@@ -1,4 +1,4 @@
-@extends('layouts.fleet')
+@extends('layouts.attex')
 @section('content')
 @php($api1="API_KEY")
 @php($api2="API_KEY")

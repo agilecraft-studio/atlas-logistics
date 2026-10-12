@@ -1,0 +1,281 @@
+/*
+ * Atlas Logistics brand theme for the Attex shell — OVERRIDE-ONLY LAYER.
+ * ---------------------------------------------------------------------
+ * LOAD ORDER CONTRACT (resources/views/layouts/attex/head-css.blade.php):
+ *   tokens.css -> Attex CSS (Vite app.scss/icons.scss) -> THIS FILE -> fleet-components.css
+ * NEVER edit Attex core CSS/JS; recolor this app here and in tokens.css only.
+ *
+ * RULES: colors / borders / backgrounds / box-shadows ONLY.
+ * No display, grid, width/height, position, float, layout margin/padding, @media.
+ * No !important except the two whitelisted DataTables pagination rules noted below.
+ */
+
+/* --------------------------------------------------------------------
+ * 1. BASE PALETTE REMAP (Attex --ct-* variables -> Atlas tokens).
+ *    Same selectors as Attex's own definitions, later in the cascade,
+ *    so they win for the light theme. The dark-theme block
+ *    ([data-bs-theme=dark], higher specificity) is left untouched.
+ * ------------------------------------------------------------------ */
+:root,
+[data-bs-theme=light] {
+  /* Primary = brand navy; hover emphasis = navy-700 (derived .btn-* rules follow) */
+  --ct-primary: var(--atlas-navy);
+  --ct-primary-rgb: 22, 41, 77;
+  --ct-primary-text-emphasis: var(--atlas-navy-700);
+  --ct-primary-bg-subtle: var(--atlas-navy-50);
+  --ct-primary-border-subtle: var(--atlas-navy-100);
+
+  /* Body / surfaces / borders */
+  --ct-body-bg: var(--atlas-bg);
+  --ct-body-color: var(--atlas-muted);
+  --ct-emphasis-color: var(--atlas-ink);
+  --ct-heading-color: var(--atlas-navy-800);
+  --ct-secondary-color: var(--atlas-muted);
+  --ct-secondary-bg: var(--atlas-surface);
+  --ct-tertiary-bg: var(--atlas-navy-50);
+  --ct-border-color: var(--atlas-border);
+  --ct-border-color-translucent: var(--atlas-border);
+
+  /* Links */
+  --ct-link-color: var(--atlas-navy-600);
+  --ct-link-color-rgb: 51, 87, 138;
+  --ct-link-hover-color: var(--atlas-navy-700);
+  --ct-code-color: var(--atlas-info);
+
+  /* Focus rings -> amber */
+  --ct-focus-ring-color: rgba(246, 167, 27, .35);
+  --ct-btn-focus-shadow-rgb: 246, 167, 27;
+
+  /* Semantic colors + derived tints (tints are derived shades of the frozen
+     tokens; values carried over from the proven fleet compat layer). */
+  --ct-success: var(--atlas-success);
+  --ct-success-rgb: 30, 158, 106;
+  --ct-success-text-emphasis: #0E6B43;
+  --ct-success-bg-subtle: #DFF3E8;
+  --ct-success-border-subtle: #BCE6D2;
+
+  --ct-warning: var(--atlas-warning);
+  --ct-warning-rgb: 224, 134, 0;
+  --ct-warning-text-emphasis: var(--atlas-amber-700);
+  --ct-warning-bg-subtle: var(--atlas-amber-50);
+  --ct-warning-border-subtle: var(--atlas-amber-100);
+
+  --ct-danger: var(--atlas-danger);
+  --ct-danger-rgb: 214, 69, 80;
+  --ct-danger-text-emphasis: #A9232E;
+  --ct-danger-bg-subtle: #FBE3E5;
+  --ct-danger-border-subtle: #F3C9CD;
+
+  --ct-info: var(--atlas-info);
+  --ct-info-rgb: 22, 136, 232;
+  --ct-info-text-emphasis: #1068A8;
+  --ct-info-bg-subtle: #E4F1FC;
+  --ct-info-border-subtle: #C4E0F6;
+
+  /* Dropdowns */
+  --ct-dropdown-bg: var(--atlas-surface);
+  --ct-dropdown-border-color: var(--atlas-border);
+  --ct-dropdown-divider-bg: var(--atlas-border);
+  --ct-dropdown-header-color: var(--atlas-muted);
+  --ct-dropdown-link-color: var(--atlas-ink);
+  --ct-dropdown-link-hover-color: var(--atlas-navy);
+  --ct-dropdown-link-hover-bg: var(--atlas-navy-50);
+  --ct-dropdown-link-active-bg: var(--atlas-navy);
+  --ct-dropdown-link-active-color: #fff;
+  --ct-dropdown-link-disabled-color: var(--atlas-muted);
+
+  /* Modals */
+  --ct-modal-border-color: var(--atlas-border);
+  --ct-modal-header-border-color: var(--atlas-border);
+  --ct-modal-footer-border-color: var(--atlas-border);
+  --ct-modal-footer-bg: var(--atlas-surface);
+
+  /* Pagination */
+  --ct-pagination-color: var(--atlas-navy-600);
+  --ct-pagination-bg: var(--atlas-surface);
+  --ct-pagination-border-color: var(--atlas-border);
+  --ct-pagination-hover-color: var(--atlas-navy);
+  --ct-pagination-hover-bg: var(--atlas-navy-50);
+  --ct-pagination-hover-border-color: var(--atlas-border);
+  --ct-pagination-active-color: #fff;
+  --ct-pagination-active-bg: var(--atlas-navy);
+  --ct-pagination-active-border-color: var(--atlas-navy);
+  --ct-pagination-focus-color: #fff;
+  --ct-pagination-focus-bg: var(--atlas-navy);
+  --ct-pagination-focus-box-shadow: rgba(246, 167, 27, .35);
+
+  /* Tables */
+  --ct-table-color: var(--atlas-muted);
+  --ct-table-border-color: var(--atlas-border);
+  --ct-table-striped-bg: var(--atlas-navy-50);
+  --ct-table-hover-bg: var(--atlas-navy-50);
+}
+
+
+/* --------------------------------------------------------------------
+ * 2. SIDEBAR (menu) + TOPBAR.
+ *    Attex sidebar is DARK (layout sets data-menu-color="dark"), so the
+ *    ACTIVE nav = navy-700 fill + 3px inset amber indicator (decision
+ *    recorded from Step 0 audit; not the light-theme amber-pill variant).
+ *    Every menu-color combination is reskinned to the one navy gradient
+ *    so the skin stays single-shell in light AND dark bs-theme.
+ * ------------------------------------------------------------------ */
+html[data-menu-color=dark],
+html[data-menu-color=brand],
+html[data-bs-theme=dark][data-menu-color=light],
+html[data-bs-theme=dark][data-menu-color=dark],
+html[data-bs-theme=dark][data-menu-color=brand] {
+  --ct-menu-bg: linear-gradient(180deg, var(--atlas-navy) 0%, var(--atlas-navy-950) 100%);
+  --ct-menu-item-color: #D7E1EE;
+  --ct-menu-item-hover-color: #FFFFFF;
+  --ct-menu-item-active-color: #FFFFFF;
+  --ct-menu-condensed-link-bg: var(--atlas-navy-700);
+}
+
+html[data-topbar-color=light],
+html[data-bs-theme=dark][data-topbar-color=light] {
+  /* Topbar is already white (data-topbar-color="light"); only recolor items. */
+  --ct-topbar-item-color: var(--atlas-ink);
+  --ct-topbar-item-hover-color: var(--atlas-navy-700);
+}
+
+/* Sidebar edge on the navy gradient */
+.leftside-menu {
+  border-right-color: var(--atlas-navy-950);
+}
+
+/* Nav link hover = navy-700 fill; ACTIVE = navy-700 fill + amber indicator */
+.wrapper .leftside-menu .side-nav .side-nav-item > .side-nav-link:hover,
+.wrapper .leftside-menu .side-nav .side-nav-item > .side-nav-link:focus {
+  background-color: var(--atlas-navy-700);
+  color: #fff;
+}
+.wrapper .leftside-menu .side-nav .side-nav-item > .side-nav-link.active {
+  background-color: var(--atlas-navy-700);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--atlas-amber);
+}
+
+/* Submenu links: same fill; current page gets the amber indicator */
+.side-nav-second-level li > a:hover,
+.side-nav-second-level li > a:focus {
+  background-color: var(--atlas-navy-700);
+  color: #fff;
+}
+.side-nav-second-level li > a.active {
+  background-color: var(--atlas-navy-700);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--atlas-amber);
+}
+
+/* --------------------------------------------------------------------
+ * 3. PAGE TITLE / BUTTONS / FOCUS RINGS
+ * ------------------------------------------------------------------ */
+.page-title {
+  color: var(--atlas-navy-800);
+}
+
+/* Primary buttons: navy, hover navy-700 (re-declared so both the baked and
+   the var-derived Attex .btn-primary blocks resolve to the brand). */
+.btn-primary {
+  --ct-btn-color: #fff;
+  --ct-btn-bg: var(--atlas-navy);
+  --ct-btn-border-color: var(--atlas-navy);
+  --ct-btn-hover-color: #fff;
+  --ct-btn-hover-bg: var(--atlas-navy-700);
+  --ct-btn-hover-border-color: var(--atlas-navy-700);
+  --ct-btn-active-color: #fff;
+  --ct-btn-active-bg: var(--atlas-navy-900);
+  --ct-btn-active-border-color: var(--atlas-navy-900);
+  --ct-btn-focus-shadow-rgb: 246, 167, 27;
+}
+
+/* Amber focus-visible rings (Attex kills native outlines; rings come from here) */
+.nav-link:focus-visible {
+  box-shadow: 0 0 0 .25rem rgba(246, 167, 27, .35);
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--atlas-amber-600);
+  box-shadow: 0 0 0 .2rem rgba(246, 167, 27, .22);
+}
+.btn-close:focus {
+  box-shadow: 0 0 0 .2rem rgba(246, 167, 27, .22);
+}
+
+/* --------------------------------------------------------------------
+ * 4. TABLES
+ *    Attex forces cell backgrounds with
+ *    `.table > :not(caption) > * > * { background-color: var(--ct-table-bg) !important }`
+ *    so the thead tint is applied by re-pointing the per-cell variable
+ *    (no !important needed). Header text = #516D89 per skin spec.
+ * ------------------------------------------------------------------ */
+.table > thead > tr > * {
+  --ct-table-bg: var(--atlas-navy-50);
+  color: #516D89;
+}
+
+/* --------------------------------------------------------------------
+ * 5. BADGES -> semantic tokens
+ * ------------------------------------------------------------------ */
+.badge-primary   { color: #fff; background-color: var(--atlas-navy); }
+.badge-secondary { color: #fff; background-color: var(--atlas-muted); }
+.badge-success   { color: #fff; background-color: var(--atlas-success); }
+.badge-info      { color: #fff; background-color: var(--atlas-info); }
+.badge-warning   { color: #fff; background-color: var(--atlas-warning); }
+.badge-danger    { color: #fff; background-color: var(--atlas-danger); }
+.badge-light     { color: var(--atlas-ink); background-color: var(--atlas-navy-50); }
+.badge-dark      { color: #fff; background-color: var(--atlas-navy); }
+
+/* --------------------------------------------------------------------
+ * 6. MODALS (default white modals only; colored-header variants keep
+ *    their own white-text !important rules in Attex core)
+ * ------------------------------------------------------------------ */
+.modal-title {
+  color: var(--atlas-navy-800);
+}
+
+/* --------------------------------------------------------------------
+ * 7. DATATASETS / DATATABLES WIDGET CHROME -> same tokens
+ * ------------------------------------------------------------------ */
+.dataTables_wrapper {
+  color: var(--atlas-ink);
+}
+.dataTables_wrapper .dataTables_filter input {
+  border-color: var(--atlas-border);
+}
+.dataTables_wrapper .dataTables_length select {
+  border-color: var(--atlas-border);
+}
+.dataTables_wrapper .dataTables_info {
+  color: var(--atlas-muted);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: var(--atlas-navy-600);
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: var(--atlas-navy-50);
+  color: var(--atlas-navy);
+}
+/* WHITELISTED !important x2: the legacy BS4 DataTables renderer marks the
+   active page only with class `current`; without !important the plugin's
+   unthemed default wins over any same-specificity color rule. Proven
+   necessary in production (carried over verbatim from fleet.css compat). */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: var(--atlas-navy) !important;
+  color: #fff !important;
+  border: 0;
+}
+.dt-buttons .btn,
+.dt-button {
+  background: var(--atlas-surface);
+  border-color: var(--atlas-border);
+  color: var(--atlas-navy);
+}
+.dt-buttons .btn:hover,
+.dt-button:hover {
+  background: var(--atlas-navy-50);
+  color: var(--atlas-navy);
+}
+

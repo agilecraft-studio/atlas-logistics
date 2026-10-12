@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', 'Driver Advances')
+@extends('layouts.attex')
+@section('page_title', 'Driver Advances')
 @section('fleet_subtitle', 'Outstanding advances by driver')
 @section('content')
 @php $m = fn ($v) => number_format((float) $v, 2); @endphp

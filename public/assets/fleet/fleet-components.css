@@ -1,0 +1,199 @@
+/*
+ * Atlas Logistics — fleet CONTENT components (inside the Attex shell).
+ * --------------------------------------------------------------------
+ * Split from the retired fleet.css shell: every sidebar/topbar/shell rule
+ * (fleet-shell, fleet-sidebar, fleet-topbar, fleet-menu-button, fleet-user,
+ * fleet-notification, fleet-content, fleet-region, collapsed-sidebar,
+ * fleet-toast shim) was deleted — Attex owns the shell and its responsive
+ * behaviour. What remains are the content widgets + the legacy-markup
+ * compat rules Attex Bootstrap does not provide.
+ * Load AFTER attex-brand-theme.css (head-css.blade.php enforces the order).
+ */
+
+/* ---- Dashboard widgets (de-shell map: KEEP) ---- */
+.fleet-period { border:1px solid var(--atlas-border);border-radius:8px;background:#fff;padding:9px 12px;color:var(--atlas-ink);font-size:12.5px; }
+.fleet-kpi-grid { display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-bottom:15px; }
+.fleet-card { background:#fff;border:1px solid var(--atlas-border);border-radius:10px;box-shadow:0 2px 8px rgba(18,54,88,.025); }
+.fleet-kpi { padding:15px 12px;min-width:0; }
+.fleet-kpi-top { display:flex;align-items:center;gap:10px; }
+.fleet-kpi-icon { width:40px;height:40px;flex:0 0 40px;border-radius:13px;display:grid;place-items:center;color:white;font-size:17px; }
+.bg-teal { background:var(--atlas-info); } .bg-green { background:var(--atlas-success); } .bg-amber { background:var(--atlas-amber); } .bg-blue { background:var(--atlas-info); } .bg-red { background:var(--atlas-danger); } .bg-cyan { background:var(--atlas-info); }
+.fleet-kpi-label { font-size:11.5px;color:var(--atlas-muted);line-height:1.35; }
+.fleet-kpi-value { font-size:22px;line-height:1.3;font-weight:800;color:var(--atlas-navy);margin-top:5px;white-space:nowrap; }
+.fleet-kpi-trend { margin-top:8px;font-size:11px;color:var(--atlas-muted);white-space:nowrap; }
+.trend-up { color:var(--atlas-success);font-weight:800; } .trend-down { color:var(--atlas-danger);font-weight:800; }
+.fleet-grid-main { display:grid;grid-template-columns:minmax(0,1.9fr) minmax(300px,1fr);gap:12px;margin-bottom:12px; }
+.fleet-grid-bottom { display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.5fr);gap:12px; }
+.fleet-panel { padding:17px 17px 14px;min-width:0; }
+.fleet-panel-heading { display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px; }
+.fleet-panel-heading h2 { font-size:14.5px;font-weight:800;color:var(--atlas-navy);margin:0; }
+.fleet-panel-heading h2 i { color:var(--atlas-navy-700);margin-right:7px; }
+.fleet-legend { font-size:11.5px;color:var(--atlas-muted);display:flex;gap:14px; }
+.legend-dot { display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px; }
+.fleet-chart { height:210px; }
+.fleet-status-wrap { display:grid;grid-template-columns:44% 56%;align-items:center;gap:5px; }
+.fleet-donut { height:190px;min-width:0; }
+.fleet-status-list { list-style:none;padding:0;margin:0; }
+.fleet-status-list li { display:grid;grid-template-columns:10px 1fr auto auto;gap:7px;align-items:center;border-bottom:1px solid var(--atlas-border);padding:10px 0;font-size:11.5px;color:var(--atlas-muted); }
+.fleet-status-list li:last-child { border-bottom:0; }
+.fleet-status-list strong { color:var(--atlas-ink);font-size:11.5px; }
+.fleet-status-list small { color:var(--atlas-muted);font-size:11px;min-width:26px;text-align:right; }
+.fleet-table-wrap { overflow-x:auto; }
+.fleet-table { width:100%;border-collapse:collapse;white-space:nowrap;font-size:11.5px; }
+.fleet-table thead th { background:var(--atlas-navy-50);color:var(--atlas-muted);font-size:11px;font-weight:800;padding:10px 9px;border-bottom:1px solid var(--atlas-border); }
+.fleet-table tbody td { padding:10px 9px;border-bottom:1px solid var(--atlas-border);color:var(--atlas-muted); }
+.fleet-table tbody tr:last-child td { border-bottom:0; }
+.fleet-table tbody tr:hover { background:var(--atlas-surface); }
+
+.trip-ref { color:var(--atlas-navy-700);font-weight:800; }
+.status-pill { display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:800; }
+.status-green { color:var(--atlas-success);background:var(--atlas-success); } .status-orange { color:var(--atlas-amber-700);background:var(--atlas-amber-100); } .status-blue { color:var(--atlas-navy-700);background:var(--atlas-navy-50); } .status-red { color:var(--atlas-danger);background:var(--atlas-danger); }
+.progress-track { width:74px;height:7px;background:var(--atlas-border);border-radius:8px;overflow:hidden;display:inline-block;vertical-align:middle; }
+.progress-fill { height:100%;border-radius:8px;background:var(--atlas-success); }
+.progress-fill.blue { background:var(--atlas-info); } .progress-fill.teal { background:var(--atlas-info); } .progress-fill.red { background:var(--atlas-danger); }
+.fleet-view-all { border:1px solid var(--atlas-border);background:white;border-radius:6px;padding:6px 9px;font-size:11.5px;color:var(--atlas-navy-700);text-decoration:none;white-space:nowrap; }
+.fleet-view-all:hover { background:var(--atlas-navy-50); }
+.fleet-alert-list { display:flex;flex-direction:column; }
+.fleet-alert { display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--atlas-border);text-decoration:none;color:inherit; }
+.fleet-alert:last-child { border-bottom:0; }
+.fleet-alert-icon { width:32px;height:32px;flex:0 0 32px;border-radius:10px;display:grid;place-items:center;font-size:14px; }
+.alert-red { color:var(--atlas-danger);background:var(--atlas-danger); } .alert-amber { color:var(--atlas-amber-600);background:var(--atlas-amber-50); } .alert-blue { color:var(--atlas-info);background:var(--atlas-navy-50); }
+.fleet-alert-copy { min-width:0;flex:1; }
+.fleet-alert-copy strong { display:block;font-size:11.5px;color:var(--atlas-ink);line-height:1.4; }
+.fleet-alert-copy small { display:block;font-size:11px;color:var(--atlas-muted);margin-top:3px; }
+.fleet-alert-count { min-width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--atlas-danger);font-size:11.5px;font-weight:800; }
+.fleet-alert-count.amber { background:var(--atlas-amber); }
+.fleet-availability { display:grid;grid-template-columns:repeat(3,1fr); }
+.fleet-availability-item { display:flex;align-items:center;gap:10px;padding:12px 9px;border-right:1px solid var(--atlas-border); }
+.fleet-availability-item:last-child { border-right:0; }
+.fleet-availability-icon { width:42px;height:42px;display:grid;place-items:center;border-radius:50%;font-size:17px; }
+.fleet-availability-item small { display:block;color:var(--atlas-muted);font-size:11px; }
+.fleet-availability-item strong { display:block;color:var(--atlas-navy);font-size:17px;margin:2px 0; }
+.fleet-availability-item em { font-size:11px;color:var(--atlas-muted);font-style:normal; }
+.fleet-cost-row { display:grid;grid-template-columns:95px minmax(50px,1fr) 120px;gap:10px;align-items:center;margin:12px 0;font-size:11.5px;color:var(--atlas-muted); }
+.fleet-cost-track { height:9px;background:var(--atlas-navy-100);border-radius:10px;overflow:hidden; }
+.fleet-cost-fill { height:100%;border-radius:10px; }
+.cost-value { text-align:right;white-space:nowrap;color:var(--atlas-muted);font-size:11px; }
+
+/* ---- Fleet primitives (x-fleet components + fleet markup) ---- */
+.fleet-btn{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:9px 14px;font-size:13.5px;font-weight:700;border:1px solid transparent;text-decoration:none;cursor:pointer;background:var(--atlas-navy);color:#fff}
+.fleet-btn:hover{filter:brightness(.95);color:#fff}
+.fleet-btn-ghost{background:#fff;color:var(--atlas-ink);border-color:var(--atlas-border)}
+.fleet-btn-danger{background:var(--atlas-danger);color:#fff}
+.fleet-btn-sm{padding:5px 10px;font-size:12.5px}
+.fleet-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.fleet-toolbar .fleet-search{border:1px solid var(--atlas-border);border-radius:8px;padding:9px 12px;font-size:13.5px;min-width:220px}
+.fleet-form label{display:block;font-size:12.5px;font-weight:700;color:var(--atlas-ink);margin-bottom:5px}
+.fleet-form input,.fleet-form select,.fleet-form textarea{width:100%;border:1px solid var(--atlas-border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--atlas-ink);background:#fff}
+.fleet-form input:focus,.fleet-form select:focus,.fleet-form textarea:focus{outline:2px solid rgba(246,167,27,.22);border-color:var(--atlas-amber-600)}
+.fleet-error{color:var(--atlas-danger);font-size:12.5px;margin-top:4px}
+.fleet-field{margin-bottom:12px}
+.fleet-table-wrap{background:#fff;border:1px solid var(--atlas-border);border-radius:10px;overflow:auto}
+.fleet-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.fleet-table thead th{background:var(--atlas-navy-50);color:var(--atlas-muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;padding:10px 12px;text-align:left;white-space:nowrap}
+.fleet-table tbody td{padding:10px 12px;border-top:1px solid var(--atlas-border);color:var(--atlas-ink)}
+.fleet-table tbody tr:hover{background:var(--atlas-navy-50)}
+.fleet-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:800;background:var(--atlas-navy-100);color:var(--atlas-muted)}
+.fleet-pill-active,.fleet-pill-approved,.fleet-pill-available,.fleet-pill-completed,.fleet-pill-delivered,.fleet-pill-valid{color:#0E6B43;background:#DFF3E8}
+.fleet-pill-pending,.fleet-pill-due-soon,.fleet-pill-workshop{color:var(--atlas-amber-700);background:var(--atlas-amber-50)}
+.fleet-pill-expired,.fleet-pill-cancelled,.fleet-pill-failed,.fleet-pill-rejected,.fleet-pill-suspended{color:#A9232E;background:#FBE3E5}
+.fleet-pill-in-transit,.fleet-pill-on-trip,.fleet-pill-loading,.fleet-pill-planned{color:var(--atlas-info);background:var(--atlas-navy-50)}
+.fleet-modal{display:none;position:fixed;inset:0;background:rgba(8,21,39,.5);z-index:1050;align-items:center;justify-content:center}
+.fleet-modal.open{display:flex}
+.fleet-modal-dialog{width:min(560px,92vw)}
+.fleet-modal-content{background:#fff;border-radius:12px;overflow:hidden}
+.fleet-modal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--atlas-border)}
+.fleet-modal-body{padding:16px}
+.fleet-alert-box{border-radius:10px;padding:12px 14px;font-size:13.5px;margin-bottom:12px}
+.fleet-alert-success{background:#DFF3E8;color:var(--atlas-success)}
+.fleet-alert-danger{background:#FBE3E5;color:var(--atlas-danger)}
+
+/* ---- Legacy markup compat (kept: classnames Attex Bootstrap does NOT provide) ---- */
+/* BS4-era grid column absent from BS5 (38 legacy views) */
+.col-xs-6{width:50%}
+/* thead-inverse (47 legacy views) — dark table header */
+.thead-inverse>tr>th,.thead-inverse>tr>td{background:var(--atlas-navy);color:var(--atlas-navy-100);border-color:var(--atlas-navy-700)}
+/* BS4 form names still used by legacy views */
+.form-group{margin-bottom:13px}
+th>label{display:block;font-size:12.5px;font-weight:700;color:var(--atlas-ink);margin-bottom:5px}
+.control-label{display:block;font-size:12.5px;font-weight:700;color:var(--atlas-ink);margin-bottom:5px}
+.input-group{display:flex;width:100%;align-items:stretch}
+.input-group>.form-control{border-radius:8px;position:relative;flex:1 1 auto;min-width:0}
+.input-group-prepend,.input-group-append{display:flex}
+.input-group-prepend .input-group-text,.input-group-append .input-group-text,.input-group-text{display:flex;align-items:center;padding:9px 12px;border:1px solid var(--atlas-border);background:var(--atlas-navy-50);color:var(--atlas-muted);font-size:13.5px;white-space:nowrap}
+.input-group-prepend .input-group-text{border-right:0;border-radius:8px 0 0 8px}
+.input-group-append .input-group-text{border-left:0;border-radius:0 8px 8px 0}
+.input-group>.form-control:not(:first-child){border-radius:0 8px 8px 0}
+.input-group>.form-control:not(:last-child){border-radius:8px 0 0 8px}
+.checkbox{display:inline-flex;align-items:center;gap:7px;font-weight:500}
+.checkbox input,#chk_all{width:17px;height:17px;accent-color:var(--atlas-amber)}
+/* AdminLTE info-box (home dashboard + 1 legacy view) */
+.info-box{display:flex;background:#fff;border:1px solid var(--atlas-border);border-radius:10px;box-shadow:0 2px 8px rgba(18,54,88,.025);padding:13px;align-items:center;gap:12px}
+.info-box-icon{width:44px;height:44px;flex:0 0 44px;border-radius:12px;display:grid;place-items:center;color:#fff;font-size:18px}
+.info-box-content{min-width:0}
+.info-box-number{display:block;font-size:18px;font-weight:800;color:var(--atlas-navy)}
+.info-box-text{display:block;font-size:11.5px;color:var(--atlas-muted)}
+.info-box-more{font-size:11px;color:var(--atlas-navy-700);text-decoration:none}
+/* Invoice layout (5 legacy views) */
+.invoice-col{margin-bottom:18px}
+.invoice-col h4{font-size:13.5px;font-weight:800;color:var(--atlas-navy);margin:0 0 6px}
+/* Pure-CSS toggle switch (legacy .switch/.slider markup, 5 views) */
+.switch{position:relative;display:inline-block;width:42px;height:22px}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;inset:0;background:var(--atlas-navy-100);transition:.2s;border-radius:22px}
+.switch .slider.round::before{content:'';position:absolute;height:16px;width:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:var(--atlas-success)}
+.switch input:checked+.slider.round::before{transform:translateX(20px)}
+/* BS4 utility names absent from BS5 */
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-muted{color:var(--atlas-muted)!important}
+.text-danger{color:var(--atlas-danger)!important}
+.text-success{color:var(--atlas-success)!important}
+.text-warning{color:var(--atlas-amber-700)!important}
+.text-info{color:var(--atlas-info)!important}
+.text-nowrap,.nowrap{white-space:nowrap!important}
+.font-weight-bold{font-weight:800!important}
+.pull-right{float:right!important}
+.pull-left{float:left!important}
+.ml-0{margin-left:0!important}.ml-1{margin-left:4px!important}.ml-2{margin-left:8px!important}.ml-3{margin-left:14px!important}.ml-4{margin-left:18px!important}.ml-5{margin-left:26px!important}
+.mr-0{margin-right:0!important}.mr-1{margin-right:4px!important}.mr-2{margin-right:8px!important}.mr-3{margin-right:14px!important}.mr-4{margin-right:18px!important}.mr-5{margin-right:26px!important}
+img.avatar{border-radius:10px}
+
+/* Dropdown action menus must escape horizontally-scrolling wrappers:
+   while a .dropdown-menu is open, let the wrapper show vertical overflow.
+   (:has only fires while a menu is open; normal table scrolling untouched.) */
+.card-body.table-responsive:has(.dropdown-menu.show){overflow:visible}
+.fleet-table-wrap:has(.dropdown-menu.show){overflow:visible}
+
+.fleet-alert-warning{background:var(--atlas-amber-50);color:var(--atlas-amber-700)}
+.fleet-alert-info{background:var(--atlas-navy-50);color:var(--atlas-navy-700)}
+.fleet-empty{text-align:center;padding:32px 16px;color:var(--atlas-muted)}
+.fleet-empty i{font-size:28px}
+.fleet-pagination{display:flex;gap:6px;justify-content:center;padding:14px}
+
+
+/* ---- Content media queries (de-shell map: KEEP — content, not shell) ---- */
+@media(max-width:1400px) {
+    .fleet-kpi-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .fleet-kpi-value { font-size:19px; }
+}
+@media(max-width:1000px) {
+    .fleet-grid-main,.fleet-grid-bottom { grid-template-columns:1fr; }
+}
+@media(max-width:650px) {
+    .fleet-kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:8px; }
+    .fleet-kpi { padding:12px 10px; }
+    .fleet-kpi-icon { width:34px;height:34px;flex-basis:34px; }
+    .fleet-kpi-label { font-size:11px; }
+    .fleet-kpi-value { font-size:19px; }
+    .fleet-status-wrap { grid-template-columns:1fr; }
+    .fleet-donut { height:180px; }
+    .fleet-status-list li { font-size:12.5px; }
+    .fleet-panel { padding:13px 11px; }
+    .fleet-chart { height:220px; }
+    .fleet-availability-item { flex-direction:column;align-items:flex-start;gap:5px;padding:9px 5px; }
+    .fleet-availability-icon { width:34px;height:34px; }
+    .fleet-cost-row { grid-template-columns:72px minmax(40px,1fr);gap:8px; }
+    .cost-value { grid-column:2;text-align:left;margin-top:-7px; }
+}

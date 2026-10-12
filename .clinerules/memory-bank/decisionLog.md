@@ -1,5 +1,13 @@
 # Atlas Logistics - Decision Log
 
+## 2026-10-12 (SKIN DECISION: Attex shell + fleet colors-only)
+- SKIN-1 (decisive): Attex is the ONE structural shell for the whole admin. Its responsive behaviour (sidebar collapse, menu plugin, media queries, table wrappers) is approved and proven, so it is PRESERVED UNTOUCHED. The fleet design contributes COLORS ONLY via tokens.css + one override stylesheet. Supersedes the 2026-10-11 "fleet is the shell" direction.
+- SKIN-2: `layouts.fleet` / `layouts.fleet-legacy` RETIRED and deleted; every admin view now `@extends('layouts.attex')` (grep empty). Dashboard de-shelled: its sidebar/topbar/negative-margin-hack/menu-toggle JS removed; content widgets kept verbatim inside Attex's content container; period select moved to the Attex topbar slot and drives `?period=` (controller whitelists month|week|year).
+- SKIN-3: Attex core CSS/JS NEVER edited. Only the app's own layout partials were wired (head-css.blade.php, attex.blade.php topbar-actions yield, footer-script.blade.php, legacy-init.blade.php). Vite bundle `app-RAGfHJGK.js` (menu/collapse) and `build/` + `resources/scss/` are byte-for-byte unchanged.
+- SKIN-4: Load order (head-css.blade.php): legacy-css -> tokens.css -> Attex @vite CSS -> attex-brand-theme.css -> fleet-components.css. Override layer is colors/borders/backgrounds/box-shadows ONLY; `!important` used ONLY on the 2 DataTables `.paginate_button.current` rules (legacy BS4 renderer + proven in prod). Sidebar is dark -> ACTIVE nav = navy-700 fill + 3px inset amber bar.
+- SKIN-5: CDN removed: attex partial's two cdn.jsdelivr.net jquery.validate refs swapped to local `assets/js/jquery.validate*.min.js`. Chart JS reads palette via getComputedStyle (no hardcoded hex). Attex uses image logos (no brand text chip), so there is no logo-chip selector to recolor.
+- SKIN-6: No migrations, no route/permission/menu changes. route:list count unchanged (904). FleetDashboardController period whitelist is the only controller touch (period sanitisation for the new topbar select).
+
 ## 2026-10-09 (round 3: Api/api1 SQL, date casts, route integrity, English-only)
 - Q1: Applied patch `patches/atlas-logistics-fixes-three`. Verified live on pgsql (PHP + DB available).
 - Q2: Api/api1 GROUP BY fixes: `Api/`+`api1/` VendorApiController make/model/color lists, api1/UsersApi get_make/get_model (distinct), Backend/VendorsApiController types now select only grouped column. get_month_years uses `as year`/`as month`. CURDATE()/YEAR() covered by round-2 migration.

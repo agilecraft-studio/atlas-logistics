@@ -1,5 +1,55 @@
 # Atlas Logistics — Fleet UI Convention (single shell)
 
+> ## ⚠️ SKIN DECISION 2026-10-12 — SUPERSEDES the 2026-10-11 "fleet is the shell" text below.
+> **Attex is now the ONE structural shell for the whole admin** (its
+> mobile/tablet/web responsive behaviour is approved and proven). The fleet
+> design contributes **COLORS ONLY**, via `tokens.css` + one override sheet.
+> The fleet dashboard keeps its CONTENT widgets but renders inside the Attex
+> shell; `layouts.fleet` / `layouts.fleet-legacy` are RETIRED (deleted).
+> Attex core CSS/JS is NEVER edited — theming is override-only.
+>
+> **Every admin view now `@extends('layouts.attex')`; `grep -RIn
+> "@extends('layouts.fleet')" resources/views` is EMPTY.** The sections below
+> (fleet.css split, nav registry, compat layer, null-safety, title contract)
+> remain valid for CONTENT — read them with this banner in mind.
+
+### Load-order contract (head-css.blade.php — NEVER reorder)
+`legacy-css` → **tokens.css** → Attex CSS (`@vite` app.scss/icons.scss) →
+**attex-brand-theme.css** → **fleet-components.css** → per-view `@yield('css')`.
+`fleet-charts.js` loads in the dashboard view after its content; `fleet.js`
+(confirm + x-fleet.modal close) loads from the Attex footer.
+
+### Files (`public/assets/fleet/`)
+- `tokens.css` — SINGLE SOURCE OF TRUTH for the logo palette (navy/amber/
+  neutral/semantic + `--chart-1..6`). Frozen. Legacy alias bridge lives here:
+  `--atlas-navy-2`, `--atlas-teal`→amber, `--atlas-green`→success,
+  `--atlas-blue`→info so old var names keep resolving.
+- `attex-brand-theme.css` — OVERRIDE-ONLY recolor of Attex. Colors/borders/
+  backgrounds/box-shadows ONLY. No display/grid/width/height/position/float/
+  layout margin-padding/`@media`. `!important` used ONLY on the two DataTables
+  `.paginate_button.current` rules (legacy BS4 renderer marks active only via
+  `.current`; proven necessary, carried from fleet.css). Sidebar is dark →
+  ACTIVE nav = navy-700 fill + 3px inset amber bar (not the amber-pill variant).
+- `fleet-components.css` — CONTENT components split out of the old fleet.css
+  (KPI grid/cards/panels/tables/pills/progress/alerts/availability/cost rows +
+  legacy-markup compat). Content media queries (1400/1000/650px) live here —
+  they are content, not shell.
+- `fleet-charts.js` — chart bootstrap; colors read from tokens via
+  `getComputedStyle` (no hardcoded hex). `fleet.js` no longer contains sidebar
+  toggle (Attex owns it).
+
+### Removed with the fleet shell
+`.fleet-shell`, `.fleet-sidebar`, `.fleet-topbar`, `.fleet-menu-button`,
+`.fleet-user`, `.fleet-notification`, `.fleet-content`, `.fleet-region`,
+`.fleet-dashboard` negative-margin hack, 1000px icon-rail / 650px sidebar-hide
+shell media queries, and the sidebar-toggle JS — Attex provides all of these.
+Attex uses image logos (`.logo-lg`/`.logo-sm` `<img>`), so there is NO brand
+text chip to recolor (audit finding — nothing to remap there).
+
+---
+
+# (Superseded 2026-10-11 record — kept for migration context)
+
 Status 2026-10-11 (PM): FULL MIGRATION SHIPPED. ALL admin views now extend
 `layouts.fleet`; zero views reference `layouts.attex`/`layouts.app`.
 Waves 2-4 collapsed into one mechanical migration + compat layer (see below).

@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', 'Trip Expenses')
+@extends('layouts.attex')
+@section('page_title', 'Trip Expenses')
 @php $m = fn ($v) => number_format((float) $v, 2); @endphp
 @section('fleet_subtitle', $m($total) . ' ' . $base . ' (' . ucfirst($status) . ')')
 @section('content')

@@ -32,6 +32,11 @@
                         </div>
                     </div>
                     @endif
+                    @hasSection('fleet_topbar_actions')
+                    <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center mb-3">
+                        @yield('fleet_topbar_actions')
+                    </div>
+                    @endif
                     @include('layouts.attex.alerts')
                     @yield('content')
                 </div>

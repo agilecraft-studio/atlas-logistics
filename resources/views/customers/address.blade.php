@@ -1,4 +1,4 @@
-@extends('layouts.fleet')
+@extends('layouts.attex')
 @section('styles')
 <style type="text/css">
 .height{
@@ -6,7 +6,7 @@
 }
 </style>
 @endsection
-@section('fleet_title')
+@section('page_title')
 <span> @lang('fleet.yourAddress')
   <small class="text-muted">{{Auth::user()->name}}</small>
 </span>

@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', 'Trip ' . $trip->trip_number)
+@extends('layouts.attex')
+@section('page_title', 'Trip ' . $trip->trip_number)
 @section('fleet_subtitle', $trip->route_label)
 @section('content')
 @php

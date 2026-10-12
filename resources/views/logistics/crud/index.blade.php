@@ -1,5 +1,5 @@
-@extends('layouts.fleet')
-@section('fleet_title', $title)
+@extends('layouts.attex')
+@section('page_title', $title)
 @section('fleet_subtitle', $intro)
 @section('content')
 @if(isset($entities))

@@ -1,7 +1,6 @@
-@extends('layouts.fleet')
+@extends('layouts.attex')
 
-@section('fleet_title', 'Fleet Operations Dashboard')
-@section('fleet_subtitle', 'Monitor your fleet, trips, costs and performance in real time.')
+@section('page_title', 'Fleet Operations Dashboard')
 @section('fleet_topbar_actions')
 <form method="get" action="{{ route('logistics.dashboard') }}">
     <select name="period" class="fleet-period" aria-label="Dashboard period" onchange="this.form.submit()">
@@ -28,9 +27,10 @@
     @include('fleet.dashboard.partials.availability')
     @include('fleet.dashboard.partials.cost-categories')
 </section>
-            </div>
 @endsection
 @section('scripts')
+<script src="{{ asset('assets/fleet/vendor/apexcharts.min.js') }}"></script>
 <script type="application/json" id="fleet-dashboard-data">@json($dashboard)</script>
+<script src="{{ asset('assets/fleet/fleet-charts.js') }}"></script>
 @endsection
 
