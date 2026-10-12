@@ -63,31 +63,33 @@
 
 </style>
 @endsection
+@section('page_title', __('fleet.manage_bookings'))
+@section('fleet_subtitle', __('fleet.manage_bookings'))
 @section('content')
 @if (count($errors ?? []) > 0)
-  <div class="alert alert-danger">
+  <x-fleet.alert type="danger">
     <ul>
       @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
       @endforeach
     </ul>
-  </div>
+  </x-fleet.alert>
 @endif
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
-      <div class="card-header with-border">
-        <h3 class="card-title"> @lang('fleet.manage_bookings') &nbsp;
-          @can('Bookings add')<a href="{{route('bookings.create')}}" class="btn btn-success"
-            title="@lang('fleet.new_booking')"><i class="bi bi-plus-lg"></i></a>@endcan
-        </h3>
+    <x-fleet.panel :title="__('fleet.manage_bookings')" icon="bi-table">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.manage_bookings') }}</div>
+        <div class="d-flex gap-2">
+          @can('Bookings add')
+            <a href="{{ route('bookings.create') }}" class="fleet-btn"><i class="bi bi-plus-lg"></i> Add Booking</a>
+          @endcan
+        </div>
       </div>
-
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-responsive display" id="ajax_data_table" style="padding-bottom: 35px; width: 100%">
-            <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table" style="padding-bottom: 35px; width: 100%">
+          <thead class="table-dark">
               <tr>
                 <th>
                   <input type="checkbox" id="chk_all">
@@ -112,8 +114,8 @@
             <tfoot>
               <tr>
                 <th>
-                  @can('Bookings delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
-                    data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
+                  @can('Bookings delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                    data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
                       class="bi bi-trash"></i></button>@endcan
                 </th>
                 <th>@lang('fleet.customer')</th>
@@ -144,12 +146,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.cancel_booking')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_cancel')</p>
         {!! Form::open(['url'=>url('admin/cancel-booking'),'id'=>'cancel_booking']) !!}
-        <div class="form-group">
+        <div class="mb-3">
           {!! Form::hidden('cancel_id',null,['id'=>'cancel_id']) !!}
           {!! Form::label('reason',__('fleet.addReason'),['class'=>"form-label"]) !!}
           <select name="reason" class="form-control vehicles" required>
@@ -161,8 +163,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-success">@lang('fleet.submit')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="submit" class="fleet-btn">@lang('fleet.submit')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -177,14 +179,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.complete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_journey')</p>
       </div>
       <div class="modal-footer">
-        <a class="btn btn-success" href="" id="journey_btn">@lang('fleet.submit')</a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <a class="fleet-btn" href="" id="journey_btn">@lang('fleet.submit')</a>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -198,7 +200,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/delete-bookings','method'=>'POST','id'=>'form_delete']) !!}
@@ -206,8 +208,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -222,7 +224,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_delete')</p>
@@ -233,8 +235,8 @@
 
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -249,7 +251,7 @@
       <div class="card card-info">
         <div class="modal-header">
           <h3 class="modal-title">@lang('fleet.add_payment')</h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
         </div>
 
@@ -285,7 +287,7 @@
           @endif
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.incomeType')</label>
                 <select id="income_type" name="income_type" class="form-control vehicles" required>
                   <option value="">@lang('fleet.incomeType')</option>
@@ -297,7 +299,7 @@
             </div>
 
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.daytype')</label>
                 <select id="day" name="day" class="form-control vehicles" required>
                   <option value="1" selected>Weekdays</option>
@@ -309,14 +311,14 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.trip_mileage') ({{AtlasLogistics::get('dis_format')}})</label>
                 {!! Form::number('mileage',null,['class'=>'form-control sum','min'=>1,'step' => '0.01','id'=>'mileage']) !!}
               </div>
             </div>
 
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.waitingtime')</label>
                 {!! Form::number('waiting_time',0,['class'=>'form-control sum','min'=>0,'id'=>'waiting_time']) !!}
               </div>
@@ -324,10 +326,10 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.total_tax') (%) </label>
                 <div class="input-group mb-3">
-                  <div class="input-group-prepend">
+                  
                     <span class="input-group-text bi bi-percent"></span>
                   </div>
                   {!! Form::number('total_tax_charge',0,['class'=>'form-control
@@ -336,10 +338,10 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.total') @lang('fleet.tax_charge')</label>
                 <div class="input-group mb-3">
-                  <div class="input-group-prepend">
+                  
                     <span class="input-group-text">{{ AtlasLogistics::get('currency') }}</span>
                   </div>
                   {!! Form::number('total_tax_charge_rs',0,['class'=>'form-control
@@ -348,10 +350,10 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.amount') </label>
                 <div class="input-group mb-3">
-                  <div class="input-group-prepend">
+                  
                     <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                   </div>
                   {!! Form::number('total',null,['class'=>'form-control','id'=>'total','required','min'=>1,
@@ -360,10 +362,10 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.total') @lang('fleet.amount') </label>
                 <div class="input-group mb-3">
-                  <div class="input-group-prepend">
+                  
                     <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
                   </div>
                   {!! Form::number('tax_total',null,['class'=>'form-control','id'=>'tax_total','readonly','min'=>0,
@@ -372,10 +374,10 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.date')</label>
                 <div class='input-group'>
-                  <div class="input-group-prepend">
+                  
                     <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
                   </div>
                   {!! Form::text('date',date('Y-m-d'),['class'=>'form-control','id'=>'date']) !!}
@@ -385,7 +387,7 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              {!! Form::submit(__('fleet.invoice'), ['class' => 'btn btn-info']) !!}
+              {!! Form::submit(__('fleet.invoice'), ['class' => 'fleet-btn fleet-btn-outline']) !!}
             </div>
           </div>
           {!! Form::close() !!}
