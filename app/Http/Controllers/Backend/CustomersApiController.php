@@ -105,7 +105,7 @@ class CustomersApiController extends Controller {
 				//             "email" => $customer[3],
 				//             "password" => bcrypt($customer[6]),
 				//             "user_type" => "C",
-				//             "api_token" => str_random(60),
+				//             "api_token" => Str::random(60),
 				//         ])->id;
 				//         $user = User::find($id);
 				//         $user->first_name = $customer[0];
@@ -285,7 +285,7 @@ class CustomersApiController extends Controller {
 				"email" => $request->email,
 				"password" => bcrypt("password"),
 				"user_type" => "C",
-				"api_token" => str_random(60),
+				"api_token" => Str::random(60),
 			])->id;
 			$user = User::find($id);
 			$user->first_name = $request->first_name;

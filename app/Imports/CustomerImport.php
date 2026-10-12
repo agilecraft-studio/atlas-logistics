@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CustomerImport implements ToModel, WithHeadingRow, WithValidation
 {
@@ -36,7 +37,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation
                 "email" => $customer['email'],
                 "password" => bcrypt($customer['password']),
                 "user_type" => "C",
-                "api_token" => str_random(60),
+                "api_token" => Str::random(60),
             ])->id;
             $user = User::find($id);
             $user->first_name = $customer['first_name'];

@@ -47,7 +47,7 @@ class DriverRegisterController extends Controller
         $driver->email      = $data['email'];
         $driver->password   = Hash::make($data['password']);
         $driver->user_type  = 'D';                       // driver, same as legacy
-        $driver->api_token  = Str::random(60);           // legacy used str_random(60) (now removed); Str::random is equivalent
+        $driver->api_token  = Str::random(60);           // legacy used the global str_random helper (removed in Laravel 9; Str:: is the supported equivalent)
         $driver->user_id    = Auth::id();                // creator, mirroring legacy assignment
         $driver->save();
 

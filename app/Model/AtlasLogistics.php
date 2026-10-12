@@ -17,17 +17,18 @@ use App\Model\FareSettings;
 use App\Model\FrontendModel;
 use App\Model\Settings;
 use App\Model\TwilioSettings;
+use Illuminate\Support\Arr;
 
 class AtlasLogistics {
 
 	public static function twilio($key) {
 		$settings = array_pluck(TwilioSettings::all()->toArray(), 'value', 'name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 
 	public static function get($key) {
 		$settings = array_pluck(Settings::all()->toArray(), 'value', 'name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 
 	public static function set($key, $val) {
@@ -39,24 +40,24 @@ class AtlasLogistics {
 
 	public static function api($key) {
 		$settings = array_pluck(ApiSettings::all()->toArray(), 'key_value', 'key_name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 
 	public static function fare($key) {
 		$key = str_replace(' ', '', $key);
 		$settings = array_pluck(FareSettings::all()->toArray(), 'key_value', 'key_name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 
 	public static function email_msg($key) {
 		$settings = array_pluck(EmailContent::all()->toArray(), 'value', 'key');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 
 	public static function frontend($key) {
 		$settings = array_pluck(FrontendModel::all()->toArray(), 'key_value', 'key_name');
 		if (is_array($key)) {
-			return array_only($settings, $key);
+			return Arr::only($settings, $key);
 		}
 
 		return $settings[$key] ?? null;
@@ -64,11 +65,11 @@ class AtlasLogistics {
 
 	public static function payment($key) {
 		$settings = array_pluck(PaymentSettings::all()->toArray(), 'value', 'name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 
 	public static function chat($key) {
 		$settings = array_pluck(ChatSettingsModel::all()->toArray(), 'value', 'name');
-		return (is_array($key))?array_only($settings, $key): $settings[$key];
+		return (is_array($key))?Arr::only($settings, $key): $settings[$key];
 	}
 }

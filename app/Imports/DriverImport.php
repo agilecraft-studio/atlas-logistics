@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class DriverImport implements ToModel, WithHeadingRow, WithValidation
 {
@@ -28,7 +29,7 @@ class DriverImport implements ToModel, WithHeadingRow, WithValidation
                 "email" => $driver['email'],
                 "password" => bcrypt($driver['password']),
                 "user_type" => "D",
-                'api_token' => str_random(60),
+                'api_token' => Str::random(60),
             ]);
 
             $user->is_active = 1;

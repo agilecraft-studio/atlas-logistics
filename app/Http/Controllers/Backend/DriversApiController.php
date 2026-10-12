@@ -60,7 +60,7 @@ class DriversApiController extends Controller {
 				//             "email" => $driver[4],
 				//             "password" => bcrypt($driver[15]),
 				//             "user_type" => "D",
-				//             'api_token' => str_random(60),
+				//             'api_token' => Str::random(60),
 				//         ])->id;
 				//         $user = User::find($id);
 				//         $user->is_active = 1;
@@ -759,7 +759,7 @@ class DriversApiController extends Controller {
 				"email" => $request->email,
 				"password" => bcrypt($request->password),
 				"user_type" => "D",
-				'api_token' => str_random(60),
+				'api_token' => Str::random(60),
 			])->id;
 			$user = User::find($id);
 			if ($request->file('driver_image') && $request->file('driver_image')->isValid()) {

@@ -481,7 +481,7 @@ class FrontendApiController extends Controller {
 			$data['message'] = implode(", ", $errors->all());
 			$data['userinfo'] = "";
 		} else {
-			$id = User::create(['name' => $request->first_name . " " . $request->last_name, 'email' => $request->emailid, 'password' => bcrypt($request->password), 'user_type' => 'C', 'api_token' => str_random(60)])->id;
+			$id = User::create(['name' => $request->first_name . " " . $request->last_name, 'email' => $request->emailid, 'password' => bcrypt($request->password), 'user_type' => 'C', 'api_token' => Str::random(60)])->id;
 			$user = User::find($id);
 			$user->login_status = 1;
 			$user->first_name = $request->first_name;

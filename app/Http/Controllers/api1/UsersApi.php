@@ -575,7 +575,7 @@ class UsersApi extends Controller {
 			}
 			if ($exist == null) {
 
-				$id = User::create(['name' => $request->get('user_name'), 'email' => $request->get('emailid'), 'password' => bcrypt($request->get('password')), 'user_type' => 'C', 'api_token' => str_random(60)])->id;
+				$id = User::create(['name' => $request->get('user_name'), 'email' => $request->get('emailid'), 'password' => bcrypt($request->get('password')), 'user_type' => 'C', 'api_token' => Str::random(60)])->id;
 				$user = User::find($id);
 				$user->login_status = 1;
 				$name = explode(" ", $request->get('user_name'));
@@ -596,7 +596,7 @@ class UsersApi extends Controller {
 				$user->email = $request->get('emailid');
 				$user->password = bcrypt($request->get('password'));
 				$user->user_type = "C";
-				$user->api_token = str_random(60);
+				$user->api_token = Str::random(60);
 				$user->deleted_at = null;
 				$user->setMeta($request->all());
 				$user->mode = $mode;
@@ -876,7 +876,7 @@ public function user_login(Request $request) {
 					$data['data'] = "";
 
 				} else {
-					$id = User::create(['name' => $request->get('user_name'), 'email' => $request->get('emailid'), 'password' => "", 'user_type' => 'C', 'api_token' => str_random(60)])->id;
+					$id = User::create(['name' => $request->get('user_name'), 'email' => $request->get('emailid'), 'password' => "", 'user_type' => 'C', 'api_token' => Str::random(60)])->id;
 					$newuser = User::find($id);
 					$name = explode(" ", $request->get('user_name'));
 					$newuser->first_name = $name[0];

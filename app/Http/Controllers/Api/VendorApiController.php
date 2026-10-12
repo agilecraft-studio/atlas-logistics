@@ -1250,7 +1250,7 @@ class VendorApiController extends Controller {
 				"email" => $request->get("email"),
 				"password" => bcrypt("password"),
 				"user_type" => "C",
-				"api_token" => str_random(60),
+				"api_token" => Str::random(60),
 			])->id;
 			$user = User::find($id);
 			$user->user_id = $request->get("user_id");
@@ -1862,7 +1862,7 @@ class VendorApiController extends Controller {
 				"email" => $request->get("email"),
 				"password" => bcrypt($request->get("password")),
 				"user_type" => "D",
-				'api_token' => str_random(60),
+				'api_token' => Str::random(60),
 				'user_id' => $request->id,
 			])->id;
 			$user = User::find($id);

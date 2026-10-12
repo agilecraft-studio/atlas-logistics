@@ -110,7 +110,7 @@ class UsersController extends Controller {
 			"password" => bcrypt($request->get("password")),
 			"user_type" => $user_type,
 			"group_id" => $request->get("group_id"),
-			'api_token' => str_random(60),
+			'api_token' => Str::random(60),
 		])->id;
 		$user = User::find($id);
 		$user->user_id = Auth::user()->id;

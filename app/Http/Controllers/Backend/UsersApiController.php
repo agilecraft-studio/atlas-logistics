@@ -112,7 +112,7 @@ class UsersApiController extends Controller {
 				"password" => bcrypt($request->password),
 				"user_type" => $request->user_type,
 				"group_id" => $request->group_id,
-				'api_token' => str_random(60),
+				'api_token' => Str::random(60),
 			])->id;
 			$user = User::find($id);
 			$accessToken = $user->createToken('authToken')->accessToken;
