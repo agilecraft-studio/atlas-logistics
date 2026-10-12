@@ -22,5 +22,7 @@ docs/email-settings.md
 *.bak
 *.sql
 *.sql.gz
+# Explicit guard: never commit DB dumps / seed dumps (may hold data)
+docs/*.sql
 /tools/__pycache__/
 __pycache__/
