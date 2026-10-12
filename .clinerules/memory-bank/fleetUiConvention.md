@@ -177,3 +177,37 @@ declare @section('fleet_title', ...) for a human label; the route-derived step
 exists only so the ~137 mechanically migrated legacy views (which declare no
 title section at all) stop reading 'Dashboard' on every page. Legacy views are
 NOT mass-edited for titles - the layout fallback is the fix.
+
+## Track B Wave 1 patterns (added 2026-10-12)
+Applies to bookings create/manage, quotations index/create, calendar
+(commits 748d00b, f8bb54c, 94df209, 18babca, 1899556; routes pinned at 908):
+
+- Header: legacy `card card-success/card-info` colour bands are a defect (S1);
+  convert to attex `@section('page_title')` + `@section('fleet_subtitle')` with
+  content inside `x-fleet.panel` (icon `bi-table` / `bi-pencil-square`) +
+  `fleet-toolbar` (Add button `fleet-btn`), table in `fleet-table` /
+  `x-fleet.table`, errors in `x-fleet.alert type="danger"`.
+- Forms: form carries BOTH `fleet-form` (3-col grid theme) AND `form-reset`
+  (legacy JS hook that disables submit on submit — must keep class name);
+  `form-group` -> `mb-3`; labels stay `form-label`; datepicker wrappers lose
+  ONLY the `.input-group-prepend` opener div (keep its inner
+  `input-group-text` icon span + delete the orphan `</div>` closers left
+  behind, else input-group HTML breaks).
+- One Way/Return Way: `.fleet-segmented` control; active segment = navy fill,
+  inactive = outline; drive `#returnDateContainer` via vanilla JS with a null
+  guard when `return_booking` setting is off (else `addEventListener` on null
+  throws and kills the page's other inline scripts).
+- Footer action bar: `d-flex gap-2 justify-content-end`; Save = navy
+  `fleet-btn` SUBMIT button (preserves `form-reset` disable + external create
+  JS validation); Cancel = `fleet-btn fleet-btn-ghost` link (use
+  `url('admin/...')` for unnamed index routes; `fleet.back` ('Back') is the
+  fallback key — there is NO generic `fleet.cancel` key).
+- Modals: `data-toggle/data-target/data-dismiss` -> `data-bs-*`; `close` ->
+  pure `btn-close` (no `&times;` child span); footers primary navy
+  `fleet-btn`, secondary ghost. PNotify + DataTables + select2 +
+  datetimepicker inits are sanctioned plugin exceptions; inline
+  `$(document).ready`/`.attr()`/`jQuery('.form-reset')` in blades -> vanilla
+  `DOMContentLoaded`/`getAttribute`/`querySelector` (google-maps API scripts
+  preserved as-is; create.js IDs `#customer_id/#driver_id/#vehicle_id`,
+  `#pickup/#dropoff`, `#create_customer_form`, `.print-error-msg`,
+  `#exampleModal` must never be renamed by the restyle).
