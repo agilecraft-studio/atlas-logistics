@@ -81,6 +81,23 @@
 .fleet-btn-ghost{background:#fff;color:var(--atlas-ink);border-color:var(--atlas-border)}
 .fleet-btn-danger{background:var(--atlas-danger);color:#fff}
 .fleet-btn-sm{padding:5px 10px;font-size:12.5px}
+/* Footer action bar: primary (navy) right, secondary link left */
+.fleet-form-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;margin-top:18px;padding-top:16px;border-top:1px solid var(--atlas-border)}
+.fleet-form-actions .fleet-actions-left{margin-right:auto}
+/* Segmented control: One Way / Return Way — active = navy fill, inactive = outline */
+.fleet-segmented{display:inline-flex;border:1px solid var(--atlas-navy);border-radius:8px;overflow:hidden}
+.fleet-segmented .fleet-seg{background:#fff;color:var(--atlas-navy);border:0;padding:9px 18px;font-size:13.5px;font-weight:700;cursor:pointer;text-decoration:none}
+.fleet-segmented .fleet-seg+.fleet-seg{border-left:1px solid var(--atlas-navy)}
+.fleet-segmented .fleet-seg.is-active,.fleet-segmented .fleet-seg.is-active:hover{background:var(--atlas-navy);color:#fff}
+.fleet-segmented .fleet-seg:hover{background:var(--atlas-navy-50)}
+/* select2 themed to fleet-form look (tokens only; container/single/results/dropdown) */
+.fleet-form .select2-container--default .select2-selection--single{height:auto;border:1px solid var(--atlas-border);border-radius:8px;padding:6px 4px}
+.fleet-form .select2-container--default .select2-selection--single .select2-selection__rendered{color:var(--atlas-ink);line-height:1.6}
+.fleet-form .select2-container--default .select2-selection--single .select2-selection__arrow{height:100%}
+.fleet-form .select2-container--default.select2-container--focus .select2-selection--single,.fleet-form .select2-container--default.select2-container--open .select2-selection--single{border-color:var(--atlas-amber-600);outline:2px solid rgba(246,167,27,.22)}
+.select2-container--default .select2-results__option--highlighted[aria-selected]{background:var(--atlas-navy-100);color:var(--atlas-ink)}
+.select2-container--default .select2-results__option[aria-selected=true]{background:var(--atlas-navy-50)}
+.select2-dropdown{border-color:var(--atlas-border);border-radius:8px}
 .fleet-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
 .fleet-toolbar .fleet-search{border:1px solid var(--atlas-border);border-radius:8px;padding:9px 12px;font-size:13.5px;min-width:220px}
 .fleet-form label{display:block;font-size:12.5px;font-weight:700;color:var(--atlas-ink);margin-bottom:5px}

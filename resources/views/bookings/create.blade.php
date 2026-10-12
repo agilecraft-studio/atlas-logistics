@@ -2,36 +2,28 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
 @endsection
+@section('page_title', __('fleet.new_booking'))
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        @lang('fleet.new_booking')
-                    </h3>
-                </div>
+    <x-fleet.panel :title="__('fleet.new_booking')" icon="bi-calendar-plus">
+        @if (count($errors) > 0)
+            <x-fleet.alert type="danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </x-fleet.alert>
+        @endif
 
-                <div class="card-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    {!! Form::open(['route' => 'bookings.store', 'method' => 'post','class' => 'form-reset']) !!}
+        {!! Form::open(['route' => 'bookings.store', 'method' => 'post','class' => 'form-reset fleet-form']) !!}
                     {!! Form::hidden('user_id', Auth::user()->id) !!}
                     {!! Form::hidden('status', 0) !!}
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('customer_id', __('fleet.selectCustomer'), ['class' => 'form-label']) !!}
                                 @if (Auth::user()->user_type != 'C')
-                                    <a href="#" data-toggle="modal" data-target="#exampleModal">@lang('fleet.new_customer')</a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">@lang('fleet.new_customer')</a>
                                 @endif
                                 <select id="customer_id" name="customer_id" class="form-control" required>
                                     <option value="">-</option>
@@ -51,23 +43,19 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('pickup', __('fleet.pickup'), ['class' => 'form-label']) !!}
-                                <div class='input-group mb-3 date'>
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"> <span class="bi bi-calendar"></span></span>
-                                    </div>
+                                <div class='input-group date'>
+                                    <span class="input-group-text"><span class="bi bi-calendar"></span></span>
                                     {!! Form::text('pickup', date('Y-m-d H:i:s'), ['class' => 'form-control', 'required']) !!}
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('dropoff', __('fleet.dropoff'), ['class' => 'form-label']) !!}
                                 <div class='input-group date'>
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><span class="bi bi-calendar"></span></span>
-                                    </div>
+                                    <span class="input-group-text"><span class="bi bi-calendar"></span></span>
                                     {!! Form::text('dropoff', null, ['class' => 'form-control', 'required' => true, 'autocomplete' => 'off']) !!}
 
                                 </div>
@@ -79,18 +67,18 @@
 
                     @if(AtlasLogistics::get('return_booking') == 1)
                     <div class="col-lg-12 mt-3">
-                        <button type="button" class="btn btn-success" id="oneWayBtn">@lang('fleet.One_Way')</button>
-                        <button type="button" class="btn btn-secondary" id="returnWayBtn">@lang('fleet.Return_Way')</button>
+                        <div class="fleet-segmented" role="group" aria-label="@lang('fleet.Booking_Type')">
+                            <button type="button" class="fleet-seg is-active" id="oneWayBtn">@lang('fleet.One_Way')</button>
+                            <button type="button" class="fleet-seg" id="returnWayBtn">@lang('fleet.Return_Way')</button>
+                        </div>
                     </div>
-                    
+
                     <div class="col-lg-12 mt-3 d-none" id="returnDateContainer">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="returnPickup">@lang('fleet.Return_pickup')</label>
                                 <div class='input-group date'>
-                                    <div class="input-group-prepend">
                                         <span class="input-group-text"><span class="bi bi-calendar"></span></span>
-                                    </div>
                                     <input type="text" id="returnPickup" name="return_pickup_date_time" class="form-control" autocomplete="off">
                                 </div>
                             </div>
@@ -98,9 +86,7 @@
                             <div class="col-md-6">
                                 <label for="returnDropoff">@lang('fleet.Return_dropoff')</label>
                                 <div class='input-group date'>
-                                    <div class="input-group-prepend">
                                         <span class="input-group-text"><span class="bi bi-calendar"></span></span>
-                                    </div>
                                     <input type="text" id="returnDropoff" name="return_dropoff_date_time" class="form-control" autocomplete="off">
                                 </div>
                             </div>
@@ -115,7 +101,7 @@
 
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                               {!! Form::label('vehicle_id',__('fleet.selectVehicle'), ['class' => 'form-label']) !!}
                               <select id="vehicle_id" name="vehicle_id" class="form-control" required>
                                 <option value="">-</option>
@@ -127,7 +113,7 @@
                             </div>
                           </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('driver_id', __('fleet.selectDriver'), ['class' => 'form-label']) !!}
                                 <select id="driver_id" name="driver_id" class="form-control" required>
                                     <option value="">-</option>
@@ -141,7 +127,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('travellers', __('fleet.no_travellers'), ['class' => 'form-label']) !!}
                                 {!! Form::number('travellers', 1, ['class' => 'form-control', 'min' => 1]) !!}
                             </div>
@@ -150,7 +136,7 @@
                     @if (Auth::user()->user_type == 'C')
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     {!! Form::label('d_pickup', __('fleet.pickup_addr'), ['class' => 'form-label']) !!}
                                     <select id="d_pickup" name="d_pickup" class="form-control">
                                         <option value="">-</option>
@@ -163,7 +149,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     {!! Form::label('d_dest', __('fleet.dropoff_addr'), ['class' => 'form-label']) !!}
                                     <select id="d_dest" name="d_dest" class="form-control">
                                         <option value="">-</option>
@@ -178,19 +164,19 @@
                     @endif
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('pickup_addr', __('fleet.pickup_addr'), ['class' => 'form-label']) !!}
                                 {!! Form::text('pickup_addr', null, ['class' => 'form-control', 'required', 'style' => 'height:100px']) !!}
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('dest_addr', __('fleet.dropoff_addr'), ['class' => 'form-label']) !!}
                                 {!! Form::text('dest_addr', null, ['class' => 'form-control', 'required', 'style' => 'height:100px']) !!}
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 {!! Form::label('note', __('fleet.note'), ['class' => 'form-label']) !!}
                                 {!! Form::textarea('note', null, [
                                     'class' => 'form-control',
@@ -206,14 +192,14 @@
 
                     <hr>
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            {!! Form::label('udf1', __('fleet.add_udf'), ['class' => 'col-xs-5 control-label']) !!}
+                        <div class="mb-3 col-md-6">
+                            {!! Form::label('udf1', __('fleet.add_udf'), ['class' => 'form-label']) !!}
                             <div class="row">
                                 <div class="col-md-8">
                                     {!! Form::text('udf1', null, ['class' => 'form-control']) !!}
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="button" class="btn btn-info add_udf"> @lang('fleet.add')</button>
+                                    <button type="button" class="fleet-btn fleet-btn-sm add_udf"> @lang('fleet.add')</button>
                                 </div>
                             </div>
                         </div>
@@ -222,70 +208,64 @@
                   
 
                     <div class="blank"></div>
-                    <div class="col-md-12">
-                        {!! Form::submit(__('fleet.save_booking'), ['class' => 'btn btn-success']) !!}
+                    <div class="fleet-form-actions">
+                        <a href="{{ route('bookings.index') }}" class="fleet-btn fleet-btn-ghost">@lang('fleet.back')</a>
+                        {!! Form::submit(__('fleet.save_booking'), ['class' => 'fleet-btn']) !!}
                     </div>
                     {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    </div>
-
+    </x-fleet.panel>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalLabel">@lang('fleet.new_customer')</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 {!! Form::open(['route' => 'customers.ajax_store', 'method' => 'post', 'id' => 'create_customer_form']) !!}
                 <div class="modal-body">
                     <div class="alert alert-danger print-error-msg" style="display:none">
                         <ul></ul>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('first_name', __('fleet.firstname'), ['class' => 'form-label']) !!}
                         {!! Form::text('first_name', null, ['class' => 'form-control', 'required']) !!}
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('last_name', __('fleet.lastname'), ['class' => 'form-label']) !!}
                         {!! Form::text('last_name', null, ['class' => 'form-control', 'required']) !!}
                     </div>
-                    <div class="form-group">
-                        {!! Form::label('gender', __('fleet.gender'), ['class' => 'form-label']) !!}<br>
-                        <input type="radio" name="gender" class="flat-red gender" value="1" checked>
-                        @lang('fleet.male')<br>
-
-                        <input type="radio" name="gender" class="flat-red gender" value="0"> @lang('fleet.female')
+                    <div class="mb-3">
+                        {!! Form::label('gender', __('fleet.gender'), ['class' => 'form-label']) !!}
+                        <div class="form-check">
+                            <input type="radio" name="gender" class="form-check-input gender" value="1" id="gender_male" checked>
+                            <label class="form-check-label" for="gender_male">@lang('fleet.male')</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="gender" class="form-check-input gender" value="0" id="gender_female">
+                            <label class="form-check-label" for="gender_female">@lang('fleet.female')</label>
+                        </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('phone', __('fleet.phone'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="bi bi-phone"></i></span>
-                            </div>
+                                        <span class="input-group-text"><i class="bi bi-phone"></i></span>
                             {!! Form::number('phone', null, ['class' => 'form-control', 'required']) !!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            </div>
+                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                             {!! Form::email('email', null, ['class' => 'form-control', 'required']) !!}
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         {!! Form::label('address', __('fleet.address'), ['class' => 'form-label']) !!}
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
-                            </div>
+                                        <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
                             {!! Form::textarea('address', null, ['class' => 'form-control', 'size' => '30x2','required']) !!}
                         </div>
                     </div>
@@ -294,8 +274,8 @@
              
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
-                    <button type="submit" class="btn btn-info">@lang('fleet.save_cust')</button>
+                    <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
+                    <button type="submit" class="fleet-btn">@lang('fleet.save_cust')</button>
                 </div>
             </div>
             {!! Form::close() !!}
@@ -319,13 +299,13 @@ document.addEventListener("DOMContentLoaded", function() {
     let returnWayBtn = document.getElementById("returnWayBtn");
     let returnDateContainer = document.getElementById("returnDateContainer");
 
-    // Toggle active button styles
-    function activateButton(activeBtn, inactiveBtn) {
-        activeBtn.classList.remove("btn-secondary");
-        activeBtn.classList.add("btn-success");
+    // Guard: segmented control only exists when return_booking setting is on
+    if (!oneWayBtn || !returnWayBtn || !returnDateContainer) return;
 
-        inactiveBtn.classList.remove("btn-success");
-        inactiveBtn.classList.add("btn-secondary");
+    // Toggle active segment style
+    function activateButton(activeBtn, inactiveBtn) {
+        activeBtn.classList.add("is-active");
+        inactiveBtn.classList.remove("is-active");
     }
 
     // One Way Click
@@ -334,8 +314,8 @@ document.addEventListener("DOMContentLoaded", function() {
         activateButton(oneWayBtn, returnWayBtn);
         document.querySelector(".booking_type").value = "one_way";
 
-        get_driver($("#pickup").val(), $("#dropoff").val()); 
-        get_vehicle($("#pickup").val(), $("#dropoff").val());
+        get_driver(document.getElementById("pickup").value, document.getElementById("dropoff").value);
+        get_vehicle(document.getElementById("pickup").value, document.getElementById("dropoff").value);
     });
 
     // Return Way Click
@@ -344,8 +324,8 @@ document.addEventListener("DOMContentLoaded", function() {
         activateButton(returnWayBtn, oneWayBtn);
         document.querySelector(".booking_type").value = "return_way";
 
-        get_driver($("#pickup").val(), $("#returnDropoff").val()); 
-        get_vehicle($("#pickup").val(), $("#returnDropoff").val());
+        get_driver(document.getElementById("pickup").value, document.getElementById("returnDropoff").value);
+        get_vehicle(document.getElementById("pickup").value, document.getElementById("returnDropoff").value);
     });
 
     // Set default to One Way on page load
@@ -354,8 +334,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector(".booking_type").value = "one_way";
 });
 </script>
-
-    </script>
 
     <script>
       var datet = "{{date('Y-m-d H:i:s')}}";
@@ -374,8 +352,8 @@ document.addEventListener("DOMContentLoaded", function() {
      @if (AtlasLogistics::api('google_api') == '1')
         <script>
             function initMap() {
-                $('#pickup_addr').attr("placeholder", "");
-                $('#dest_addr').attr("placeholder", "");
+                document.getElementById('pickup_addr').placeholder = "";
+                document.getElementById('dest_addr').placeholder = "";
                 // var input = document.getElementById('searchMapInput');
                 var pickup_addr = document.getElementById('pickup_addr');
                 new google.maps.places.Autocomplete(pickup_addr);
