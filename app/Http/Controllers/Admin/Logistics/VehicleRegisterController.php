@@ -8,7 +8,9 @@ use App\Model\VehicleComponent;
 use App\Model\VehicleLogisticsProfile;
 use App\Model\VehicleModel;
 use App\Services\ComplianceService;
+use App\Services\Logistics\VehicleRegisterFields;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /** Fleet register: one row per truck with VIN, plate, logistics status, service due, documents and tyres. */
 class VehicleRegisterController extends Controller
@@ -17,6 +19,56 @@ class VehicleRegisterController extends Controller
     {
         $this->middleware('permission:FleetRegister list');
         $this->middleware('permission:FleetRegister edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:FleetRegister add', ['only' => ['create', 'store']]);
+    }
+
+    /** Base-record create form (canonical). Creates the vehicles row, then a logistics profile. */
+    public function create()
+    {
+        return view('logistics.crud.form', [
+            'title'  => 'New Truck',
+            'fields' => $this->baseFields(),
+            'model'  => new VehicleModel(),
+            'action' => route('logistics.register.vehicles.store'),
+            'method' => 'POST',
+            'back'   => route('logistics.register.vehicles'),
+            'intro'  => 'Creates the vehicle record (used across the whole system), then opens logistics details to add depot, status and service due dates.',
+        ]);
+    }
+
+    /** Base-record fields + safe placeholders for the profile-only rules the shared form drops. */
+    protected function baseFields(): array
+    {
+        $base = VehicleRegisterFields::all();
+        // logistics_status is required on the profile; seed it on create so a valid
+        // profile row exists immediately (defaults to 'available' in edit()).
+        $base[] = ['name' => 'logistics_status', 'label' => 'Operational status', 'type' => 'select',
+            'rules' => 'nullable|in:available,on_trip,workshop,awaiting_parts,suspended,sold,scrapped', 'col' => 6,
+            'options' => ['available' => 'Available', 'on_trip' => 'On trip', 'workshop' => 'In workshop',
+                'awaiting_parts' => 'Awaiting parts', 'suspended' => 'Suspended', 'sold' => 'Sold', 'scrapped' => 'Scrapped']];
+        return $base;
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate(VehicleRegisterFields::rules());
+
+        $vehicle = new VehicleModel();
+        $vehicle->fill($data);                       // vehicles fillable: make/model/year/engine/color/vin/license_plate
+        $vehicle->user_id = Auth::id();              // creator, mirroring legacy assignment
+        $vehicle->in_service = 1;
+        $vehicle->save();
+
+        $profileData = $request->validate([
+            'logistics_status' => 'nullable|in:available,on_trip,workshop,awaiting_parts,suspended,sold,scrapped',
+        ]);
+        VehicleLogisticsProfile::create([
+            'vehicle_id'       => $vehicle->id,
+            'logistics_status' => $profileData['logistics_status'] ?? 'available',
+        ]);
+
+        return redirect()->route('logistics.register.vehicles.edit', ['id' => $vehicle->id])
+            ->with('success', 'Vehicle created. Add engine/chassis numbers, depot and service dates.');
     }
 
     public function index()
@@ -58,6 +110,9 @@ class VehicleRegisterController extends Controller
             'rows'    => $rows,
             'intro'   => 'Plate, VIN and basic details come from Vehicles. Use "Logistics details" to add engine/chassis numbers, depot, status and service due dates.',
             'extra'   => [['label' => 'Manage vehicles', 'url' => url('admin/vehicles'), 'permission' => 'Vehicles list']],
+            'addUrl'  => route('logistics.register.vehicles.create'),
+            'addLabel'=> 'Add Truck',
+            'addPermission' => 'FleetRegister add',
         ]);
     }
 

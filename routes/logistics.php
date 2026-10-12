@@ -28,9 +28,13 @@ Route::prefix('logistics')->namespace('Logistics')->group(function () {
 
     // Fleet register
     Route::get('register/vehicles', 'VehicleRegisterController@index')->name('logistics.register.vehicles');
+    Route::get('register/vehicles/create', 'VehicleRegisterController@create')->name('logistics.register.vehicles.create');
+    Route::post('register/vehicles', 'VehicleRegisterController@store')->name('logistics.register.vehicles.store');
     Route::get('register/vehicles/{id}/edit', 'VehicleRegisterController@edit')->name('logistics.register.vehicles.edit')->where('id', '[0-9]+');
     Route::put('register/vehicles/{id}', 'VehicleRegisterController@update')->name('logistics.register.vehicles.update')->where('id', '[0-9]+');
     Route::get('register/drivers', 'DriverRegisterController@index')->name('logistics.register.drivers');
+    Route::get('register/drivers/create', 'DriverRegisterController@create')->name('logistics.register.drivers.create');
+    Route::post('register/drivers', 'DriverRegisterController@store')->name('logistics.register.drivers.store');
     Route::get('register/drivers/{id}/edit', 'DriverRegisterController@edit')->name('logistics.register.drivers.edit')->where('id', '[0-9]+');
     Route::put('register/drivers/{id}', 'DriverRegisterController@update')->name('logistics.register.drivers.update')->where('id', '[0-9]+');
     $crud('trailers', 'TrailersController', 'logistics.trailers');

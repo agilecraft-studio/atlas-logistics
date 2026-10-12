@@ -11,6 +11,9 @@
                 <a href="{{ $x['url'] }}" class="fleet-btn fleet-btn-ghost">{{ $x['label'] }}</a>
                 @endcan
                 @endforeach
+                @can($addPermission ?? '__none__')
+                <a href="{{ $addUrl }}" class="fleet-btn"><i class="bi bi-plus-lg"></i> {{ $addLabel ?? 'Add' }}</a>
+                @endcan
             </div>
         </div>
         <x-fleet.table>

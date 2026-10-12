@@ -7,8 +7,12 @@ use App\Model\ComplianceDocument;
 use App\Model\Country;
 use App\Model\DriverComplianceProfile;
 use App\Model\User;
+use App\Services\Logistics\DriverRegisterFields;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 /** Driver register: licence / passport / medical dates, approved countries and status per driver. */
 class DriverRegisterController extends Controller
@@ -17,6 +21,44 @@ class DriverRegisterController extends Controller
     {
         $this->middleware('permission:FleetRegister list');
         $this->middleware('permission:FleetRegister edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:FleetRegister add', ['only' => ['create', 'store']]);
+    }
+
+    /** Base-record create form (canonical). Creates the User (user_type=D), then a compliance profile. */
+    public function create()
+    {
+        return view('logistics.crud.form', [
+            'title'  => 'New Driver',
+            'fields' => DriverRegisterFields::all(),
+            'model'  => new User(),
+            'action' => route('logistics.register.drivers.store'),
+            'method' => 'POST',
+            'back'   => route('logistics.register.drivers'),
+            'intro'  => 'Creates the driver account (used across the whole system), then opens the compliance profile to add licence, passport and approved countries.',
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate(DriverRegisterFields::rules());
+
+        $driver = new User();
+        $driver->name       = trim($data['first_name'] . ' ' . $data['last_name']);
+        $driver->email      = $data['email'];
+        $driver->password   = Hash::make($data['password']);
+        $driver->user_type  = 'D';                       // driver, same as legacy
+        $driver->api_token  = Str::random(60);           // legacy used str_random(60) (now removed); Str::random is equivalent
+        $driver->user_id    = Auth::id();                // creator, mirroring legacy assignment
+        $driver->save();
+
+        DriverComplianceProfile::create([
+            'user_id'        => $driver->id,
+            'driver_status'  => 'active',
+            'emergency_contact_phone' => $data['phone'],
+        ]);
+
+        return redirect()->route('logistics.register.drivers.edit', ['id' => $driver->id])
+            ->with('success', 'Driver created. Add licence, passport and approved countries.');
     }
 
     /** Cell for a date: red if expired, amber if within 30 days. */
@@ -64,6 +106,9 @@ class DriverRegisterController extends Controller
             'rows'    => $rows,
             'intro'   => 'Names come from Drivers. Add each driver\'s licence, passport and approved countries so trips can be checked before dispatch.',
             'extra'   => [['label' => 'Manage drivers', 'url' => url('admin/drivers'), 'permission' => 'Drivers list']],
+            'addUrl'  => route('logistics.register.drivers.create'),
+            'addLabel'=> 'Add Driver',
+            'addPermission' => 'FleetRegister add',
         ]);
     }
 

@@ -55,6 +55,9 @@
                             @if(data_get($model, $name))
                             <div class="form-text"><a href="{{ \Illuminate\Support\Facades\Storage::url(data_get($model, $name)) }}" target="_blank">View current file</a> (upload a new one to replace it)</div>
                             @endif
+                        @elseif($type === 'password')
+                            <input type="password" class="form-control @error($name) is-invalid @enderror" id="f_{{ $name }}" name="{{ $name }}"
+                                value="{{ $val }}" autocomplete="new-password">
                         @else
                             @php $htmlType = $type === 'datetime' ? 'datetime-local' : $type; @endphp
                             <input type="{{ $htmlType }}" class="form-control @error($name) is-invalid @enderror" id="f_{{ $name }}" name="{{ $name }}"
