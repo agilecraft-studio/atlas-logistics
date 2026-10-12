@@ -1,6 +1,6 @@
 @extends('layouts.attex')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
-
+@section('page_title', trans('fleet.manageBookingQuotations'))
 @section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 <style type="text/css">
@@ -12,72 +12,62 @@
 </style>
 @endsection
 @section('content')
-<div class="row">
-  <div class="col-md-12">
-    <div class="card card-info">
-      <div class="card-header with-border">
-        <h3 class="card-title"> @lang('fleet.manageBookingQuotations') &nbsp;
-          @can('BookingQuotations add')<a href="{{route('booking-quotation.create')}}" class="btn btn-success"
-            title="@lang('fleet.add_quote')"><i class="bi bi-plus-lg"></i></a>@endcan
-        </h3>
-      </div>
-
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-responsive display" id="ajax_data_table" style="padding-bottom: 35px; width: 100%">
-            <thead class="thead-inverse">
-              <tr>
-                <th>
-                  <input type="checkbox" id="chk_all">
-                </th>
-                <th style="width: 10% !important">@lang('fleet.customer')</th>
-                <th style="width: 10% !important">@lang('fleet.vehicle')</th>
-                <th style="width: 10% !important">@lang('fleet.pickup_addr')</th>
-                <th style="width: 10% !important">@lang('fleet.dropoff_addr')</th>
-                <th style="width: 10% !important">@lang('fleet.pickup')</th>
-                <th style="width: 10% !important">@lang('fleet.dropoff')</th>
-                <th style="width: 10% !important">@lang('fleet.passengers')</th>
-                <th style="width: 10% !important">@lang('fleet.total') @lang('fleet.amount')</th>
-                <th>@lang('fleet.approve')/@lang('fleet.reject') </th>
-                <th style="width: 10% !important">@lang('fleet.action')</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>
-                  @can('BookingQuotations delete')<button class="btn btn-danger" id="bulk_delete" data-toggle="modal"
-                    data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
-                      class="bi bi-trash"></i></button>@endcan
-                </th>
-                <th>@lang('fleet.customer')</th>
-                <th>@lang('fleet.vehicle')</th>
-                <th>@lang('fleet.pickup_addr')</th>
-                <th>@lang('fleet.dropoff_addr')</th>
-                <th>@lang('fleet.pickup_date')</th>
-                <th>@lang('fleet.dropoff_date')</th>
-                <th>@lang('fleet.passengers')</th>
-                <th>@lang('fleet.total') @lang('fleet.amount')</th>
-                <th>@lang('fleet.approve')/@lang('fleet.reject')</th>
-                <th>@lang('fleet.action')</th>
-              </tr>
-            </tfoot>
-          </table>
+<x-fleet.panel :title="trans('fleet.manageBookingQuotations')" icon="bi-file-earmark-text">
+    <div class="fleet-toolbar">
+        <div class="text-muted">&nbsp;</div>
+        <div class="d-flex gap-2">
+            @can('BookingQuotations add')<a href="{{route('booking-quotation.create')}}" class="fleet-btn" title="@lang('fleet.add_quote')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_quote')</a>@endcan
         </div>
-      </div>
     </div>
-  </div>
-</div>
+    <x-fleet.table>
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" id="chk_all">
+            </th>
+            <th>@lang('fleet.customer')</th>
+            <th>@lang('fleet.vehicle')</th>
+            <th>@lang('fleet.pickup_addr')</th>
+            <th>@lang('fleet.dropoff_addr')</th>
+            <th>@lang('fleet.pickup')</th>
+            <th>@lang('fleet.dropoff')</th>
+            <th>@lang('fleet.passengers')</th>
+            <th>@lang('fleet.total') @lang('fleet.amount')</th>
+            <th>@lang('fleet.approve')/@lang('fleet.reject') </th>
+            <th>@lang('fleet.action')</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>
+              @can('BookingQuotations delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i
+                  class="bi bi-trash"></i></button>@endcan
+            </th>
+            <th>@lang('fleet.customer')</th>
+            <th>@lang('fleet.vehicle')</th>
+            <th>@lang('fleet.pickup_addr')</th>
+            <th>@lang('fleet.dropoff_addr')</th>
+            <th>@lang('fleet.pickup_date')</th>
+            <th>@lang('fleet.dropoff_date')</th>
+            <th>@lang('fleet.passengers')</th>
+            <th>@lang('fleet.total') @lang('fleet.amount')</th>
+            <th>@lang('fleet.approve')/@lang('fleet.reject')</th>
+            <th>@lang('fleet.action')</th>
+          </tr>
+        </tfoot>
+      </x-fleet.table>
+</x-fleet.panel>
 
 <!-- Modal -->
-<div id="bulkModal" class="modal fade" role="dialog">
+<div id="bulkModal" class="modal fade" tabindex="-1" aria-labelledby="bulkModalLabel">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="bulkModalLabel">@lang('fleet.delete')</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/delete-quotes','method'=>'POST','id'=>'form_delete']) !!}
@@ -85,50 +75,47 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
       {!! Form::close() !!}
     </div>
   </div>
 </div>
-<!-- Modal -->
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">@lang('fleet.delete')</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
 </div>
 
 {{-- reject modal --}}
-<div id="rejectModal" class="modal fade" role="dialog">
+<div id="rejectModal" class="modal fade" tabindex="-1" aria-labelledby="rejectModalLabel">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">@lang('fleet.reject') @lang('fleet.bookingQuote')</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="rejectModalLabel">@lang('fleet.reject') @lang('fleet.bookingQuote')</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>@lang('fleet.confirm_reject')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn2" class="btn btn-danger" type="button" data-submit="">@lang('fleet.reject')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn2" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.reject')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
