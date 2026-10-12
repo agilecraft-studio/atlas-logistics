@@ -1,4 +1,5 @@
 @extends('layouts.attex')
+@section('page_title', trans('menu.calendar'))
 @section('styles')
 
 <style type="text/css">
@@ -9,50 +10,39 @@
 </style>
 @endsection
 @section('content')
-<div class="row">
-  <div class="col-md-12">
-    <div class="card card-info">
-      <div class="card-header">
-        <h3 class="card-title">@lang('menu.calendar')</h3>
-      </div>
-      <div class="card-body">
-        <div id='calendar'></div>
-      </div>
-    </div>
-  </div>
-</div>
+<x-fleet.panel :title="trans('menu.calendar')" icon="bi-calendar-event">
+    <div id="calendar"></div>
+</x-fleet.panel>
 
-<div class="modal fade" id="booking_detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="booking_detail" tabindex="-1" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">@lang('fleet.event_details')</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="my_event" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="my_event" tabindex="-1" aria-labelledby="exampleModalLabel1">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel1">@lang('fleet.my_events')</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -89,7 +79,7 @@
           .then(function(content){
             $("#booking_detail .modal-body").empty();
             $("#booking_detail .modal-body").html(content);
-            $("#booking_detail").modal("show");
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('booking_detail')).show();
 
           },
           function(xhr, status, error) {
