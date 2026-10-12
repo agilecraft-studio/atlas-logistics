@@ -40,6 +40,11 @@ class VehicleComponentsController extends CrudController
         return 'Every tyre, battery and serial-numbered part, where it is fitted, and when it was fitted/removed.';
     }
 
+    protected function headerLinks(): array
+    {
+        return [['label' => 'Manage parts stock', 'url' => url('admin/parts'), 'permission' => 'Parts list']];
+    }
+
     public function create()
     {
         $view = parent::create();

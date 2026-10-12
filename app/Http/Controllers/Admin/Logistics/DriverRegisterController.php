@@ -63,7 +63,7 @@ class DriverRegisterController extends Controller
             'headers' => ['Driver', 'Licence', 'Licence expiry', 'Passport expiry', 'Medical expiry', 'Status', 'Countries', 'Documents'],
             'rows'    => $rows,
             'intro'   => 'Names come from Drivers. Add each driver\'s licence, passport and approved countries so trips can be checked before dispatch.',
-            'extra'   => [['label' => 'Manage drivers', 'url' => url('admin/drivers')]],
+            'extra'   => [['label' => 'Manage drivers', 'url' => url('admin/drivers'), 'permission' => 'Drivers list']],
         ]);
     }
 

@@ -7,7 +7,9 @@
     <div class="collapse {{ Request::is('admin/vehicles*') || Request::is('admin/vehicle-types*') || Request::is('admin/vehicle_group*') || Request::is('admin/vehicle-reviews*') || Request::is('admin/vehicle-inspection*') ? 'show' : '' }}" id="sidebarVehicles">
         <ul class="side-nav-second-level">
             @can('Vehicles list')
-            <li><a href="{{ route('vehicles.index') }}" class="@if(Request::is('admin/vehicles*')) active @endif">@lang('menu.manageVehicles')</a></li>
+                @cannot('FleetRegister list')
+                <li><a href="{{ route('vehicles.index') }}" class="@if(Request::is('admin/vehicles*')) active @endif">@lang('menu.manageVehicles')</a></li>
+                @endcannot
             @endcan
             @can('VehicleType list')
             <li><a href="{{ route('vehicle-types.index') }}" class="@if(Request::is('admin/vehicle-types*')) active @endif">@lang('fleet.manage_vehicle_types')</a></li>
@@ -23,11 +25,13 @@
 </li>
 @endcanany
 @can('Drivers list')
-<li class="side-nav-item">
-    <a href="{{ route('drivers.index') }}" class="side-nav-link @if(Request::is('admin/drivers*')) active @endif">
-        <i class="ri-contacts-line"></i><span> @lang('menu.drivers') </span>
-    </a>
-</li>
+    @cannot('FleetRegister list')
+    <li class="side-nav-item">
+        <a href="{{ route('drivers.index') }}" class="side-nav-link @if(Request::is('admin/drivers*')) active @endif">
+            <i class="ri-contacts-line"></i><span> @lang('menu.drivers') </span>
+        </a>
+    </li>
+    @endcannot
 @endcan
 @can('Customer list')
 <li class="side-nav-item">

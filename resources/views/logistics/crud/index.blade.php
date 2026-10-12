@@ -14,7 +14,9 @@
 <div class="text-muted">{{ $intro }}</div>
             <div class="d-flex gap-2">
                 @foreach($headerLinks as $hl)
+                @can($hl['permission'] ?? '__none__')
                 <a href="{{ $hl['url'] }}" class="fleet-btn fleet-btn-ghost">{{ $hl['label'] }}</a>
+                @endcan
                 @endforeach
                 @can($permission . ' add')
                 <a href="{{ route($prefix . '.create', $params) }}" class="fleet-btn"><i class="bi bi-plus-lg"></i> Add {{ $singular }}</a>

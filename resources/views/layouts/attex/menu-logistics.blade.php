@@ -24,8 +24,8 @@
             <li><a href="{{ route('logistics.trailers.index') }}" class="@if(Request::is('admin/logistics/trailers*')) active @endif">Trailers</a></li>
             @endcan
             @can('FleetRegister list')
-            <li><a href="{{ route('logistics.register.drivers') }}" class="@if(Request::is('admin/logistics/register/drivers*')) active @endif">Drivers</a></li>
-            <li><a href="{{ route('logistics.components.index') }}" class="@if(Request::is('admin/logistics/components*')) active @endif">Tyres &amp; Parts</a></li>
+            <li><a href="{{ route('logistics.register.drivers') }}" class="@if(Request::is('admin/logistics/register/drivers*')) active @endif">Driver Register</a></li>
+            <li><a href="{{ route('logistics.components.index') }}" class="@if(Request::is('admin/logistics/components*')) active @endif">Tyres &amp; Fitted Parts</a></li>
             @endcan
             @can('Compliance list')
             <li><a href="{{ route('logistics.documents.index') }}" class="@if(Request::is('admin/logistics/documents*')) active @endif">Documents</a></li>

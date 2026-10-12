@@ -6,7 +6,11 @@
         <div class="fleet-toolbar">
             <div class="text-muted">{{ $intro }}</div>
             <div class="d-flex gap-2">
-                @foreach($extra as $x)<a href="{{ $x['url'] }}" class="fleet-btn fleet-btn-ghost">{{ $x['label'] }}</a>@endforeach
+                @foreach($extra as $x)
+                @can($x['permission'] ?? '__none__')
+                <a href="{{ $x['url'] }}" class="fleet-btn fleet-btn-ghost">{{ $x['label'] }}</a>
+                @endcan
+                @endforeach
             </div>
         </div>
         <x-fleet.table>

@@ -57,7 +57,7 @@ class VehicleRegisterController extends Controller
             'headers' => ['Plate', 'Make / model', 'VIN', 'Status', 'Depot', 'Next service', 'Documents', 'Tyres fitted'],
             'rows'    => $rows,
             'intro'   => 'Plate, VIN and basic details come from Vehicles. Use "Logistics details" to add engine/chassis numbers, depot, status and service due dates.',
-            'extra'   => [['label' => 'Manage vehicles', 'url' => url('admin/vehicles')]],
+            'extra'   => [['label' => 'Manage vehicles', 'url' => url('admin/vehicles'), 'permission' => 'Vehicles list']],
         ]);
     }
 

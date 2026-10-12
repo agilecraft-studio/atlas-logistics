@@ -13,7 +13,9 @@
             <li><a href="{{ route('vendors.index') }}" class="@if(Request::is('admin/vendors*')) active @endif">@lang('menu.vendors')</a></li>
             @endcan
             @can('Parts list')
-            <li><a href="{{ route('parts.index') }}" class="@if(Request::is('admin/parts*')) active @endif">@lang('menu.manageParts')</a></li>
+                @cannot('FleetRegister list')
+                <li><a href="{{ route('parts.index') }}" class="@if(Request::is('admin/parts*')) active @endif">Parts Inventory</a></li>
+                @endcannot
             <li><a href="{{ route('work_order.index') }}" class="@if(Request::is('admin/work_order*')) active @endif">@lang('menu.work_orders')</a></li>
             <li><a href="{{ route('mechanic.index') }}" class="@if(Request::is('admin/mechanic*')) active @endif">@lang('menu.mechanics')</a></li>
             @endcan
