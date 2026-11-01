@@ -11,6 +11,7 @@ use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
+use App\Support\Safe;
 
 class UsersApiController extends Controller {
 	public function upload_documents(Request $request, $id) {
@@ -156,7 +157,7 @@ class UsersApiController extends Controller {
 				"profile_image" => ($row->profile_image) ? url('uploads/' . $row->profile_image) : url('assets/images/user-noimage.png'),
 				"user_type" => $row->user_type,
 				"group_id" => $row->group_id,
-				"module" => unserialize($row->module),
+				"module" => Safe::unserialize($row->module),
 				'created' => date("Y-m-d H:i:s", strtotime($row->created_at)),
 			);
 		}

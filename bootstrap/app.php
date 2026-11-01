@@ -11,9 +11,9 @@ return Application::configure()
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            // Fleet Manager (Atlas Logistics) legacy route groups.
-            // The root controller namespace replaces the legacy
-            // RouteServiceProvider::$namespace = 'App\Http\Controllers'.
+            // Atlas Logistics route groups. Route loading is centralised here;
+            // the legacy RouteServiceProvider (which loaded these files a second
+            // time) has been removed.
             $namespace = 'App\\Http\\Controllers';
 
             Route::middleware('web')

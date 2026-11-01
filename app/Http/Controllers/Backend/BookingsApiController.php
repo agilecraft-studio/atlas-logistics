@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Mail;
 use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\WebPush;
 use Validator;
+use App\Support\Safe;
 
 class BookingsApiController extends Controller {
 	public function update_by_customer(Request $request) {
@@ -825,8 +826,8 @@ class BookingsApiController extends Controller {
 		foreach ($records as $row) {
 			$udf = "";
 			$blank = array();
-			if (unserialize($row->getMeta('udf'))) {
-				$test = unserialize($row->getMeta('udf'));
+			if (Safe::unserialize($row->getMeta('udf'))) {
+				$test = Safe::unserialize($row->getMeta('udf'));
 				foreach ($test as $key => $val) {
 					$blank[] = array(
 						'name' => $key,

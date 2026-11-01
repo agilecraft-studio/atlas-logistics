@@ -15,6 +15,10 @@ class LoginController extends Controller
 
     protected $redirectTo = 'admin/';
 
+    protected $maxAttempts = 5;
+
+    protected $decayMinutes = 10;
+
     public function __construct()
     {
         App::setLocale('English-en');

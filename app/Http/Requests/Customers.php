@@ -35,10 +35,15 @@ class Customers extends FormRequest {
 	 * @return array
 	 */
 	public function rules() {
+		// On create there is no "id" input; appending an empty ignore value
+		// produces `unique:users,email,` which PostgreSQL rejects with
+		// SQLSTATE[22P02] (invalid input syntax for type integer: "").
+		// Only ignore the current record when editing.
+		$ignore = \Request::get("id");
 		return [
 			'first_name' => 'required',
 			'last_name' => 'required',
-			'email' => 'unique:users,email,' . \Request::get("id"),
+			'email' => $ignore ? 'unique:users,email,' . $ignore : 'unique:users,email',
 			'phone' => 'required|numeric|digits_between:7,15',
 			'gender' => 'required',
 			'address' => 'required',

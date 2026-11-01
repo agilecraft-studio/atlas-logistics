@@ -1190,11 +1190,11 @@ public function user_login(Request $request) {
 		
 			$from_date = $date;
 			$to_date = $date;
-			$vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
+			$vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'";
 			$condition = " and type_id = '" . $request->type_id . "'";
 		
 				if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
-					// $q = "select id from vehicles where in_service=1 and deleted_at is null  and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or (DATE_ADD(dropoff, INTERVAL 10 MINUTE)>='" . $from_date . "' and DATE_SUB(pickup, INTERVAL 10 MINUTE)<='" . $to_date . "')))";
+					// $q = "select id from vehicles where in_service=1 and deleted_at is null  and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or ((dropoff + INTERVAL '10 minutes')>='" . $from_date . "' and (pickup - INTERVAL '10 minutes')<='" . $to_date . "')))";
 					$q = "SELECT id
 					FROM vehicles
 					WHERE in_service = 1" . $condition . "
@@ -1207,11 +1207,11 @@ public function user_login(Request $request) {
 						AND (
 							(dropoff BETWEEN '" . $from_date . "' AND '" . $to_date . "'
 							OR pickup BETWEEN '" . $from_date . "' AND '" . $to_date . "')
-							OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+							OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 						)
 					)";
 				} else {
-					// $q = "select id from vehicles where in_service=1 and deleted_at is null and group_id=" . Auth::user()->group_id . " and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or (DATE_ADD(dropoff, INTERVAL 10 MINUTE)>='" . $from_date . "' and DATE_SUB(pickup, INTERVAL 10 MINUTE)<='" . $to_date . "')))";
+					// $q = "select id from vehicles where in_service=1 and deleted_at is null and group_id=" . Auth::user()->group_id . " and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or ((dropoff + INTERVAL '10 minutes')>='" . $from_date . "' and (pickup - INTERVAL '10 minutes')<='" . $to_date . "')))";
 		
 					$q = "SELECT id
 					FROM vehicles
@@ -1226,7 +1226,7 @@ public function user_login(Request $request) {
 						AND (
 							(dropoff BETWEEN '" . $from_date . "' AND '" . $to_date . "'
 							OR pickup BETWEEN '" . $from_date . "' AND '" . $to_date . "')
-							OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+							OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 						)
 					)";
 				}

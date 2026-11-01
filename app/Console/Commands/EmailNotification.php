@@ -12,6 +12,7 @@ use DB;
 use App\Model\AtlasLogistics;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use App\Support\Safe;
 
 class EmailNotification extends Command {
 
@@ -26,8 +27,8 @@ class EmailNotification extends Command {
 	}
 	public function email_send() {
 		$u = AtlasLogistics::email_msg('users');
-		$users = User::whereIn('id', unserialize($u))->get();
-		$chk = unserialize(AtlasLogistics::email_msg('options'));
+		$users = User::whereIn('id', (array) Safe::unserialize($u))->get();
+		$chk = (array) Safe::unserialize(AtlasLogistics::email_msg('options'));
 		$d = VehicleModel::get();
 		if (in_array(1, $chk)) {
 			foreach ($d as $data) {

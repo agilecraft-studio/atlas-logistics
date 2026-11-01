@@ -12,6 +12,7 @@ use App\Model\VehicleReviewModel;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
+use App\Support\Safe;
 
 class VehicleInspectionApiController extends Controller {
 	public function get_vehicles() {
@@ -231,25 +232,25 @@ class VehicleInspectionApiController extends Controller {
 		$details = array();
 		$records = VehicleReviewModel::orderBy('id', 'desc')->get();
 		foreach ($records as $row) {
-			$petrol_card = unserialize($row->petrol_card);
-			$lights_indicators = unserialize($row->lights);
-			$invertor_cigarette = unserialize($row->invertor);
-			$car_mat_seat_cover = unserialize($row->car_mats);
-			$interior_damage = unserialize($row->int_damage);
-			$interior_lights = unserialize($row->int_lights);
-			$exterior_damage = unserialize($row->ext_car);
-			$tyres = unserialize($row->tyre);
-			$extension_ladder = unserialize($row->ladder);
-			$extension_leed = unserialize($row->leed);
-			$power_tools = unserialize($row->power_tool);
-			$ac = unserialize($row->ac);
-			$lights_headlights = unserialize($row->head_light);
-			$lock_alarm = unserialize($row->lock);
-			$windows = unserialize($row->windows);
-			$condition = unserialize($row->condition);
-			$oil_chk = unserialize($row->oil_chk);
-			$suspension = unserialize($row->suspension);
-			$tool_box = unserialize($row->tool_box);
+			$petrol_card = Safe::unserialize($row->petrol_card);
+			$lights_indicators = Safe::unserialize($row->lights);
+			$invertor_cigarette = Safe::unserialize($row->invertor);
+			$car_mat_seat_cover = Safe::unserialize($row->car_mats);
+			$interior_damage = Safe::unserialize($row->int_damage);
+			$interior_lights = Safe::unserialize($row->int_lights);
+			$exterior_damage = Safe::unserialize($row->ext_car);
+			$tyres = Safe::unserialize($row->tyre);
+			$extension_ladder = Safe::unserialize($row->ladder);
+			$extension_leed = Safe::unserialize($row->leed);
+			$power_tools = Safe::unserialize($row->power_tool);
+			$ac = Safe::unserialize($row->ac);
+			$lights_headlights = Safe::unserialize($row->head_light);
+			$lock_alarm = Safe::unserialize($row->lock);
+			$windows = Safe::unserialize($row->windows);
+			$condition = Safe::unserialize($row->condition);
+			$oil_chk = Safe::unserialize($row->oil_chk);
+			$suspension = Safe::unserialize($row->suspension);
+			$tool_box = Safe::unserialize($row->tool_box);
 			$array = array(
 				array(
 					'label' => 'petrol_card',

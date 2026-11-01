@@ -67,146 +67,49 @@
                                 <select id="vehicle_id" name="vehicle_id" class="form-control" required>
                                     <option value="">-</option>
                                     @foreach ($vehicles as $vehicle)
+                                        @php($vehicleTypeKey = strtolower(str_replace(' ', '', $vehicle->types?->vehicletype ?? '')))
                                         <option @if ($vehicle->id == $data->vehicle_id) selected @endif
                                             value="{{ $vehicle->id }}" data-driver="{{ $vehicle->driver_id }}"
-                                            data-vehicle-type="{{ strtolower(
-                                                str_replace(
-                                                    '
-                                                              ',
-                                                    '',
-                                                    $vehicle->types->vehicletype,
-                                                ),
-                                            ) }}"
-                                            data-base-mileage="{{ AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_km') }}"
+                                            data-vehicle-type="{{ $vehicleTypeKey }}"
+                                            data-base-mileage="{{ AtlasLogistics::fare($vehicleTypeKey . '_base_km') }}"
                                             data-base-fare="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_base_fare',
+                                                $vehicleTypeKey . '_base_fare',
                                             ) }}"
                                             data-base_km_1="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_base_km',
+                                                $vehicleTypeKey . '_base_km',
                                             ) }}"
                                             data-base_fare_1="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_base_fare',
+                                                $vehicleTypeKey . '_base_fare',
                                             ) }}"
                                             data-wait_time_1="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_base_time',
+                                                $vehicleTypeKey . '_base_time',
                                             ) }}"
                                             data-std_fare_1="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_std_fare',
+                                                $vehicleTypeKey . '_std_fare',
                                             ) }}"
                                             data-base_km_2="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_weekend_base_km',
+                                                $vehicleTypeKey . '_weekend_base_km',
                                             ) }}"
                                             data-base_fare_2="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_weekend_base_fare',
+                                                $vehicleTypeKey . '_weekend_base_fare',
                                             ) }}"
                                             data-wait_time_2="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_weekend_wait_time',
+                                                $vehicleTypeKey . '_weekend_wait_time',
                                             ) }}"
                                             data-std_fare_2="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_weekend_std_fare',
+                                                $vehicleTypeKey . '_weekend_std_fare',
                                             ) }}"
                                             data-base_km_3="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_night_base_km',
+                                                $vehicleTypeKey . '_night_base_km',
                                             ) }}"
                                             data-base_fare_3="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_night_base_fare',
+                                                $vehicleTypeKey . '_night_base_fare',
                                             ) }}"
                                             data-wait_time_3="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_night_wait_time',
+                                                $vehicleTypeKey . '_night_wait_time',
                                             ) }}"
                                             data-std_fare_3="{{ AtlasLogistics::fare(
-                                                strtolower(
-                                                    str_replace(
-                                                        '
-                                                              ',
-                                                        '',
-                                                        $vehicle->types->vehicletype,
-                                                    ),
-                                                ) . '_night_std_fare',
+                                                $vehicleTypeKey . '_night_std_fare',
                                             ) }}">
                                             {{ $vehicle->make_name }} -
                                             {{ $vehicle->model_name }} - {{ $vehicle->license_plate }}</option>

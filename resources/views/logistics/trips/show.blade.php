@@ -41,8 +41,7 @@
             <div class="col-md-3 mt-2"><small class="text-muted">Odometer</small><div>{{ $trip->start_odometer ?? '—' }} → {{ $trip->end_odometer ?? '—' }} @if($trip->distance_km)({{ $trip->distance_km }} km)@endif</div></div>
             <div class="col-md-3 mt-2"><small class="text-muted">Cargo</small><div>{{ $trip->cargo_description ?: '—' }} @if($trip->cargo_weight_kg)({{ number_format($trip->cargo_weight_kg) }} kg)@endif</div></div>
         </div>
-    </div>
-</div>
+    </x-fleet.panel>
 
 {{-- Financial Summary --}}
 <div class="row">

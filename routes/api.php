@@ -288,7 +288,6 @@ Route::prefix('vendor')->namespace ('Api')->middleware(['throttle', 'auth:api'])
 
 	 Route::post('settings','VendorApiController@settings');
 	
-	 Route::post('test-notification','VendorApiController@test_notification');
 
 });
 

@@ -101,7 +101,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($petrol_card=unserialize($review->petrol_card))
+          @php($petrol_card=\App\Support\Safe::unserialize($review->petrol_card))
           <div class="form-group">
             {!! Form::label('petrol_card',__('fleet.petrol_card'), ['class' => 'form-label']) !!}
             <br>
@@ -112,7 +112,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($light=unserialize($review->lights))
+          @php($light=\App\Support\Safe::unserialize($review->lights))
           <div class="form-group">
             {!! Form::label('lights',__('fleet.lights'), ['class' => 'form-label']) !!}
             <br>
@@ -123,7 +123,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($invertor=unserialize($review->invertor))
+          @php($invertor=\App\Support\Safe::unserialize($review->invertor))
           <div class="form-group">
             {!! Form::label('invertor',__('fleet.invertor'), ['class' => 'form-label']) !!}
             <br>
@@ -134,7 +134,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($car_mat=unserialize($review->car_mats))
+          @php($car_mat=\App\Support\Safe::unserialize($review->car_mats))
           <div class="form-group">
             {!! Form::label('car_mats',__('fleet.car_mats'), ['class' => 'form-label']) !!}
             <br>
@@ -145,7 +145,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($int_damage=unserialize($review->int_damage))
+          @php($int_damage=\App\Support\Safe::unserialize($review->int_damage))
           <div class="form-group">
             {!! Form::label('int_damage',__('fleet.int_damage'), ['class' => 'form-label']) !!}
             <br>
@@ -156,7 +156,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($int_lights=unserialize($review->int_lights))
+          @php($int_lights=\App\Support\Safe::unserialize($review->int_lights))
           <div class="form-group">
             {!! Form::label('int_lights',__('fleet.int_lights'), ['class' => 'form-label']) !!}
             <br>
@@ -167,7 +167,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($ext_car=unserialize($review->ext_car))
+          @php($ext_car=\App\Support\Safe::unserialize($review->ext_car))
           <div class="form-group">
             {!! Form::label('ext_car',__('fleet.ext_car'), ['class' => 'form-label']) !!}
             <br>
@@ -178,7 +178,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($tyre=unserialize($review->tyre))
+          @php($tyre=\App\Support\Safe::unserialize($review->tyre))
           <div class="form-group">
             {!! Form::label('tyre',__('fleet.tyre'), ['class' => 'form-label']) !!}
             <br>
@@ -189,7 +189,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($ladder=unserialize($review->ladder))
+          @php($ladder=\App\Support\Safe::unserialize($review->ladder))
           <div class="form-group">
             {!! Form::label('ladder',__('fleet.ladder'), ['class' => 'form-label']) !!}
             <br>
@@ -200,7 +200,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($leed=unserialize($review->leed))
+          @php($leed=\App\Support\Safe::unserialize($review->leed))
           <div class="form-group">
             {!! Form::label('leed',__('fleet.leed'), ['class' => 'form-label']) !!}
             <br>
@@ -211,7 +211,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($power_tool=unserialize($review->power_tool))
+          @php($power_tool=\App\Support\Safe::unserialize($review->power_tool))
           <div class="form-group">
           {!! Form::label('power_tool',__('fleet.power_tool'), ['class' => 'form-label']) !!}
           <br>
@@ -222,7 +222,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($ac=unserialize($review->ac))
+          @php($ac=\App\Support\Safe::unserialize($review->ac))
           <div class="form-group">
             {!! Form::label('ac',__('fleet.ac'), ['class' => 'form-label']) !!}
             <br>
@@ -233,7 +233,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($head_light=unserialize($review->head_light))
+          @php($head_light=\App\Support\Safe::unserialize($review->head_light))
           <div class="form-group">
             {!! Form::label('head_light',__('fleet.head_light'), ['class' => 'form-label']) !!}
             <br>
@@ -244,7 +244,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($lock=unserialize($review->lock))
+          @php($lock=\App\Support\Safe::unserialize($review->lock))
           <div class="form-group">
             {!! Form::label('lock',__('fleet.lock'), ['class' => 'form-label']) !!}
             <br>
@@ -255,7 +255,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($windows=unserialize($review->windows))
+          @php($windows=\App\Support\Safe::unserialize($review->windows))
           <div class="form-group">
             {!! Form::label('windows',__('fleet.windows'), ['class' => 'form-label']) !!}
             <br>
@@ -266,7 +266,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($condition=unserialize($review->condition))
+          @php($condition=\App\Support\Safe::unserialize($review->condition))
           <div class="form-group">
           {!! Form::label('condition',__('fleet.condition'), ['class' => 'form-label']) !!}
           <br>
@@ -277,7 +277,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($oil_chk=unserialize($review->oil_chk))
+          @php($oil_chk=\App\Support\Safe::unserialize($review->oil_chk))
           <div class="form-group">
             {!! Form::label('oil_chk',__('fleet.oil_chk'), ['class' => 'form-label']) !!}
             <br>
@@ -288,7 +288,7 @@
         </div>
 
         <div class="col-md-6">
-          @php($suspension=unserialize($review->suspension))
+          @php($suspension=\App\Support\Safe::unserialize($review->suspension))
           <div class="form-group">
             {!! Form::label('suspension',__('fleet.suspension'), ['class' => 'form-label']) !!}
             <br>
@@ -299,7 +299,7 @@
         </div>
 
         <div class="col-md-12">
-          @php($tool_box=unserialize($review->tool_box))
+          @php($tool_box=\App\Support\Safe::unserialize($review->tool_box))
           <div class="form-group">
             {!! Form::label('tool_box',__('fleet.tool_box'), ['class' => 'form-label']) !!}
             <br>

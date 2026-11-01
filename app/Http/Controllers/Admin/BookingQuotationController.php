@@ -236,7 +236,7 @@ class BookingQuotationController extends Controller {
 	}
 	public function approve($id) {
 		$group_id = Auth::user()->group_id;
-		$vehicleInterval = AtlasLogistics::get('vehicle_interval') . ' MINUTE';
+		$vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'";
 		$data['customers'] = User::where('user_type', 'C')->get();
 		$data['drivers'] = User::whereUser_type("D")->get();
 		$data['addresses'] = Address::where('customer_id', Auth::user()->id)->get();
@@ -248,8 +248,8 @@ class BookingQuotationController extends Controller {
 					  SELECT vehicle_id FROM bookings 
 					  WHERE status = 0 AND id != " . $id . " AND deleted_at IS NULL 
 					  AND (
-						  DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "' 
-						  OR DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "'  
+						  (pickup - INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "' 
+						  OR (dropoff + INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "'  
 						  OR dropoff BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "'
 					  )
 				  )";
@@ -260,8 +260,8 @@ class BookingQuotationController extends Controller {
 					  SELECT vehicle_id FROM bookings 
 					  WHERE status = 0 AND id != " . $id . " AND deleted_at IS NULL 
 					  AND (
-						  DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "' 
-						  OR DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "'  
+						  (pickup - INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "' 
+						  OR (dropoff + INTERVAL " . $vehicleInterval . ") BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "'  
 						  OR dropoff BETWEEN '" . $data['data']->pickup . "' AND '" . $data['data']->dropoff . "'
 					  )
 				  )";

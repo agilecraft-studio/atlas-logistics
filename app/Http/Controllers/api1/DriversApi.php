@@ -66,6 +66,32 @@ class DriversApi extends Controller {
 
 	use NotificationTrait;
 
+	private function temporaryUploadDirectory(Request $request): ?string
+	{
+		$fcm = preg_replace('/[^A-Za-z0-9_.:-]/', '', (string) $request->input('fcm_id'));
+
+		if ($fcm === '' || $fcm === '.' || $fcm === '..') {
+			return null;
+		}
+
+		return 'assets/temporary_image/' . $fcm;
+	}
+
+	private function storeDriverUpload($file, string $directory): string
+	{
+		$mime = (string) $file->getMimeType();
+
+		if ($mime !== 'application/pdf' && !str_starts_with($mime, 'image/')) {
+			abort(422, 'Unsupported file type.');
+		}
+
+		$name = uniqid() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', basename((string) $file->getClientOriginalName()));
+
+		$file->move($directory, $name);
+
+		return $name;
+	}
+
 
 
 
@@ -76,11 +102,15 @@ class DriversApi extends Controller {
 
 
 
-		 $destinationPath='assets/temporary_image/'.$request->fcm_id;
+		$destinationPath = $this->temporaryUploadDirectory($request);
+
+		if ($destinationPath === null) {
+			return response()->json(['success' => 0, 'message' => 'Invalid device reference.']);
+		}
 
         if (!file_exists($destinationPath)) {
 
-            mkdir($destinationPath, 0777, true); 
+            mkdir($destinationPath, 0755, true);
 
         }
 
@@ -90,7 +120,7 @@ class DriversApi extends Controller {
 
         if (!file_exists($destinationPath1)) {
 
-            mkdir($destinationPath1, 0777, true); 
+            mkdir($destinationPath1, 0755, true);
 
         }
 
@@ -108,7 +138,7 @@ class DriversApi extends Controller {
 
 			$driver_license_front_face=$request->driver_license_front_face;
 
-			$driver_license_front_face_path=uniqid().$driver_license_front_face->getClientOriginalName();
+			$driver_license_front_face_path=$this->storeDriverUpload($driver_license_front_face, $destinationPath);
 
 			$driver_license_front_face->move($destinationPath, $driver_license_front_face_path);
 
@@ -126,7 +156,7 @@ class DriversApi extends Controller {
 
 			$driving_license_back_side=$request->driving_license_back_side;
 
-			$driving_license_back_side_path=uniqid().$driving_license_back_side->getClientOriginalName();
+			$driving_license_back_side_path=$this->storeDriverUpload($driving_license_back_side, $destinationPath);
 
 			$driving_license_back_side->move($destinationPath, $driving_license_back_side_path);
 
@@ -152,7 +182,7 @@ class DriversApi extends Controller {
 
 			$identify_front_face=$request->identify_front_face;
 
-			$identify_front_face_path=uniqid().$identify_front_face->getClientOriginalName();
+			$identify_front_face_path=$this->storeDriverUpload($identify_front_face, $destinationPath);
 
 			$identify_front_face->move($destinationPath, $identify_front_face_path);
 
@@ -172,7 +202,7 @@ class DriversApi extends Controller {
 
 			$identify_backside=$request->identify_backside;
 
-			$identify_backside_path=uniqid().$identify_backside->getClientOriginalName();
+			$identify_backside_path=$this->storeDriverUpload($identify_backside, $destinationPath);
 
 			$identify_backside->move($destinationPath, $identify_backside_path);
 
@@ -190,7 +220,7 @@ class DriversApi extends Controller {
 
 			$criminal_record=$request->criminal_record;
 
-			$criminal_record_path=uniqid().$criminal_record->getClientOriginalName();
+			$criminal_record_path=$this->storeDriverUpload($criminal_record, $destinationPath);
 
 			$criminal_record->move($destinationPath, $criminal_record_path);
 
@@ -208,7 +238,7 @@ class DriversApi extends Controller {
 
 			$drivers_card=$request->drivers_card;
 
-			$drivers_card_path=uniqid().$drivers_card->getClientOriginalName();
+			$drivers_card_path=$this->storeDriverUpload($drivers_card, $destinationPath);
 
 			$drivers_card->move($destinationPath, $drivers_card_path);
 
@@ -224,7 +254,7 @@ class DriversApi extends Controller {
 
 			$drivers_license_gbt=$request->drivers_license_gbt;
 
-			$drivers_license_gbt_path=uniqid().$drivers_license_gbt->getClientOriginalName();
+			$drivers_license_gbt_path=$this->storeDriverUpload($drivers_license_gbt, $destinationPath);
 
 			$drivers_license_gbt->move($destinationPath, $drivers_license_gbt_path);
 
@@ -238,7 +268,7 @@ class DriversApi extends Controller {
 
 			$src_certificate=$request->src_certificate;
 
-			$src_certificate_path=uniqid().$src_certificate->getClientOriginalName();
+			$src_certificate_path=$this->storeDriverUpload($src_certificate, $destinationPath);
 
 			$src_certificate->move($destinationPath, $src_certificate_path);
 
@@ -252,7 +282,7 @@ class DriversApi extends Controller {
 
 			$psychotechnics=$request->psychotechnics;
 
-			$psychotechnics_path=uniqid().$psychotechnics->getClientOriginalName();
+			$psychotechnics_path=$this->storeDriverUpload($psychotechnics, $destinationPath);
 
 			$psychotechnics->move($destinationPath, $psychotechnics_path);
 
@@ -266,7 +296,7 @@ class DriversApi extends Controller {
 
 			$tax_registration=$request->tax_registration;
 
-			$tax_registration_path=uniqid().$tax_registration->getClientOriginalName();
+			$tax_registration_path=$this->storeDriverUpload($tax_registration, $destinationPath);
 
 			$tax_registration->move($destinationPath, $tax_registration_path);
 
@@ -292,7 +322,7 @@ class DriversApi extends Controller {
 
 			$d2_vehicle_card=$request->d2_vehicle_card;
 
-			$d2_vehicle_card_path=uniqid().$d2_vehicle_card->getClientOriginalName();
+			$d2_vehicle_card_path=$this->storeDriverUpload($d2_vehicle_card, $destinationPath);
 
 			$d2_vehicle_card->move($destinationPath, $d2_vehicle_card_path);
 
@@ -312,7 +342,7 @@ class DriversApi extends Controller {
 
 			$license_certificate=$request->license_certificate;
 
-			$license_certificate_path=uniqid().$license_certificate->getClientOriginalName();
+			$license_certificate_path=$this->storeDriverUpload($license_certificate, $destinationPath);
 
 			$license_certificate->move($destinationPath, $license_certificate_path);
 
@@ -336,7 +366,7 @@ class DriversApi extends Controller {
 
 			$ibb_road_route_certificate=$request->ibb_road_route_certificate;
 
-			$ibb_road_route_certificate_path=uniqid().$ibb_road_route_certificate->getClientOriginalName();
+			$ibb_road_route_certificate_path=$this->storeDriverUpload($ibb_road_route_certificate, $destinationPath);
 
 			$ibb_road_route_certificate->move($destinationPath, $ibb_road_route_certificate_path);
 
@@ -356,7 +386,7 @@ class DriversApi extends Controller {
 
 			$compulsory_seat_personal_accident_insurance=$request->compulsory_seat_personal_accident_insurance;
 
-			$compulsory_seat_personal_accident_insurance_path=uniqid().$compulsory_seat_personal_accident_insurance->getClientOriginalName();
+			$compulsory_seat_personal_accident_insurance_path=$this->storeDriverUpload($compulsory_seat_personal_accident_insurance, $destinationPath);
 
 			$compulsory_seat_personal_accident_insurance->move($destinationPath, $compulsory_seat_personal_accident_insurance_path);
 
@@ -374,7 +404,7 @@ class DriversApi extends Controller {
 
 			$sample_d2_carriage_contract=$request->sample_d2_carriage_contract;
 
-			$sample_d2_carriage_contract_path=uniqid().$sample_d2_carriage_contract->getClientOriginalName();
+			$sample_d2_carriage_contract_path=$this->storeDriverUpload($sample_d2_carriage_contract, $destinationPath);
 
 			$sample_d2_carriage_contract->move($destinationPath, $sample_d2_carriage_contract_path);
 
@@ -390,7 +420,7 @@ class DriversApi extends Controller {
 
 			$sample_passanger_list=$request->sample_passanger_list;
 
-			$sample_passanger_list_path=uniqid().$sample_passanger_list->getClientOriginalName();
+			$sample_passanger_list_path=$this->storeDriverUpload($sample_passanger_list, $destinationPath);
 
 			$sample_passanger_list->move($destinationPath, $sample_passanger_list_path);
 
@@ -452,6 +482,14 @@ class DriversApi extends Controller {
 
 		{
 
+			$fcmDir = $this->temporaryUploadDirectory($request);
+
+			if ($fcmDir === null) {
+
+				return ['success' => 0, 'message' => 'Invalid device reference.'];
+
+			}
+
 			$arr = [
 
 				'driver_license_front_face' => $request->driver_license_front_face,
@@ -494,7 +532,15 @@ class DriversApi extends Controller {
 
 				$destination_path = 'assets/document_driver/';	
 
-				$source='assets/temporary_image/'.$request->fcm_id.'/'.$source_file;
+				$source_file = basename((string) $source_file);
+
+				if ($source_file === '') {
+
+					continue;
+
+				}
+
+				$source=$fcmDir.'/'.$source_file;
 
 				$file_name = pathinfo($source, PATHINFO_BASENAME);
 
@@ -544,7 +590,7 @@ class DriversApi extends Controller {
 
 					$official_profile=$request->official_profile;
 
-					$offical_img_path=uniqid().$official_profile->getClientOriginalName();
+					$offical_img_path=$this->storeDriverUpload($official_profile, $destinationImage);
 
 					$official_profile->move($destinationImage, $offical_img_path);
 
@@ -552,7 +598,7 @@ class DriversApi extends Controller {
 
 					$vehicle_images=$request->vehicle_images;
 
-					$vehicle_images_path=uniqid().$vehicle_images->getClientOriginalName();
+					$vehicle_images_path=$this->storeDriverUpload($vehicle_images, $destinationImage);
 
 					$vehicle_images->move($destinationImage, $vehicle_images_path);
 
@@ -706,7 +752,13 @@ class DriversApi extends Controller {
 
 		
 
-		$folderPath = 'assets/temporary_image/' . $request->fcm_id;
+		$folderPath = $this->temporaryUploadDirectory($request);
+
+		if ($folderPath === null) {
+
+			return ['success' => 0, 'message' => 'Invalid device reference.'];
+
+		}
 
 
 
@@ -1386,7 +1438,7 @@ class DriversApi extends Controller {
 
 		
 
-		$vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE'; 
+		$vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'"; 
 
     
 
@@ -1402,7 +1454,7 @@ class DriversApi extends Controller {
 
                 })->orWhere(function ($query) use ($from_date, $vehicleInterval) {
 
-                    $query->whereRaw("DATE_ADD(pickup, INTERVAL $vehicleInterval) >= ?", [$from_date]);
+                    $query->whereRaw("(pickup + INTERVAL $vehicleInterval) >= ?", [$from_date]);
 
                 });
 
@@ -1428,7 +1480,7 @@ class DriversApi extends Controller {
 
     {
 
-        $driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
+        $driverInterval = "'" . (int) AtlasLogistics::get('driver_interval') . " minutes'";
 
 
 
@@ -1456,7 +1508,7 @@ class DriversApi extends Controller {
 
                 })->orWhere(function ($query) use ($pickupTime, $driverInterval) {
 
-                    $query->whereRaw("DATE_ADD(bookings.pickup, INTERVAL $driverInterval) >= ?", [$pickupTime]);
+                    $query->whereRaw("(bookings.pickup + INTERVAL $driverInterval) >= ?", [$pickupTime]);
 
                 });
 
@@ -1486,7 +1538,7 @@ class DriversApi extends Controller {
 
                         })->orWhere(function ($query) use ($pickupTime, $driverInterval) {
 
-                            $query->whereRaw("DATE_ADD(bookings.dropoff, INTERVAL $driverInterval) > ?", [$pickupTime]);
+                            $query->whereRaw("(bookings.dropoff + INTERVAL $driverInterval) > ?", [$pickupTime]);
 
                         });
 

@@ -200,8 +200,7 @@
 									<th>@lang('fleet.expenseAmount')</th>
 								</thead>
 								@php
-								$purchase_info = $vehicle->getMeta('purchase_info');
-								$value = (is_string($purchase_info) && $purchase_info !== '') ? unserialize($purchase_info) : null;
+								$value = \App\Support\Safe::unserialize($vehicle->getMeta('purchase_info'));
 								@endphp
 								<tbody id="hvk">
 									@if($value != null)

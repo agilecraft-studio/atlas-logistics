@@ -25,6 +25,7 @@ use App\Imports\VendorImport;
 use App\Model\AtlasLogistics;
 
 use App\Model\Vendor;
+use App\Support\Safe;
 
 use DataTables;
 
@@ -253,7 +254,7 @@ class VendorController extends Controller {
 
 		$index['vendor_types'] = array_unique($vendor_types);
 
-		$index['udfs'] = unserialize($index['data']->udf);
+		$index['udfs'] = Safe::unserialize($index['data']->udf);
 
 		return view("vendors.edit", $index);
 

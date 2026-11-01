@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Validator;
+use App\Support\Safe;
 
 class VendorsApiController extends Controller {
 	public function import_records(Request $request) {
@@ -245,8 +246,8 @@ class VendorsApiController extends Controller {
 			}
 			$udf = "";
 			$blank = array();
-			if (unserialize($row->udf)) {
-				$test = unserialize($row->udf);
+			if (Safe::unserialize($row->udf)) {
+				$test = Safe::unserialize($row->udf);
 				foreach ($test as $key => $val) {
 					$blank[] = array(
 						'name' => $key,

@@ -14,6 +14,7 @@ use App\Model\PartStock;
 use App\Model\Vendor;
 use Auth;
 use Illuminate\Http\Request;
+use App\Support\Safe;
 
 class PartsController extends Controller {
 	public function __construct() {
@@ -51,12 +52,8 @@ class PartsController extends Controller {
 		$index['data'] = PartsModel::whereId($id)->first();
 		$index['vendors'] = Vendor::get();
 		$index['categories'] = PartsCategoryModel::get();
-		$index['udfs'] = unserialize($index['data']->udf);
+		$index['udfs'] = Safe::unserialize($index['data']->udf);
 		return view("parts.edit", $index);
-	}
-	public function stock($id) {
-		$data['data'] = PartStock::wherePart_id($id)->get();
-		return view("parts.stocks", $data);
 	}
 	public function update(PartsRequest $request) {
 		$part = PartsModel::whereId($request->get("id"))->first();

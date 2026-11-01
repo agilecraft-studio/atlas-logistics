@@ -64,6 +64,7 @@ use Illuminate\Support\Str;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Redirect;
 use Storage;
+use App\Support\Safe;
 
 class SettingsController extends Controller {
 	public function __construct() {
@@ -267,10 +268,10 @@ class SettingsController extends Controller {
 		$data['options'] = array();
 		$data['selected_users'] = array();
 		if ($selected_options->value != null) {
-			$data['options'] = unserialize($selected_options->value);
+			$data['options'] = (array) Safe::unserialize($selected_options->value);
 		}
 		if ($selected_users->value != null) {
-			$data['selected_users'] = unserialize($selected_users->value);
+			$data['selected_users'] = (array) Safe::unserialize($selected_users->value);
 		}
 		return view('utilities.send_email', $data);
 	}

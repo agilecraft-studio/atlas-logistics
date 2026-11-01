@@ -143,7 +143,7 @@
 
             {{-- <div class="form-group">
               {!! Form::label('module',__('fleet.select_modules'), ['class' => 'form-label']) !!} <br>
-              @php($modules=unserialize($user->getMeta('module')))
+              @php($modules=\App\Support\Safe::unserialize($user->getMeta('module')))
               <div class="row">
                 <div class="col-md-4" style="padding: 0px;">
                   <input type="checkbox" name="module[]" value="0" class="flat-red form-control"

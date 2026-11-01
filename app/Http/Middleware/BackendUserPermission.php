@@ -14,6 +14,7 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
+use App\Support\Safe;
 
 class BackendUserPermission {
 	/**
@@ -27,7 +28,7 @@ class BackendUserPermission {
 		if ($m != "S") {
 
 			if (Auth::user()->user_type == "S" || Auth::user()->user_type == "O") {
-				$modules = unserialize(Auth::user()->getMeta('module'));
+				$modules = (array) Safe::unserialize(Auth::user()->getMeta('module'));
 
 				if ($m == 0 && Auth::user()->user_type == "S") {
 					return $next($request);

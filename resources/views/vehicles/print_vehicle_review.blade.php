@@ -109,7 +109,7 @@
           <tr>
             <td><b>@lang('fleet.petrol_card'): </b>
 
-              @php($petrol_card=unserialize($review->petrol_card))
+              @php($petrol_card=\App\Support\Safe::unserialize($review->petrol_card))
               @if($petrol_card['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($petrol_card['flag'] == 0 && $petrol_card['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp;{{$petrol_card['text']}}
@@ -118,7 +118,7 @@
           <tr>
             <td><b>@lang('fleet.lights'): </b>
 
-              @php($light=unserialize($review->lights))
+              @php($light=\App\Support\Safe::unserialize($review->lights))
               @if($light['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($light['flag'] == 0 && $light['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$light['text']}}
@@ -127,7 +127,7 @@
           <tr>
             <td><b>@lang('fleet.invertor'): </b>
 
-              @php($invertor=unserialize($review->invertor))
+              @php($invertor=\App\Support\Safe::unserialize($review->invertor))
               @if($invertor['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($invertor['flag'] == 0 && $invertor['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$invertor['text']}}
@@ -136,7 +136,7 @@
           <tr>
             <td><b>@lang('fleet.car_mats'): </b>
 
-              @php($car_mat=unserialize($review->car_mats))
+              @php($car_mat=\App\Support\Safe::unserialize($review->car_mats))
               @if($car_mat['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($car_mat['flag'] == 0 && $car_mat['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$car_mat['text']}}
@@ -145,7 +145,7 @@
           <tr>
             <td><b>@lang('fleet.int_damage'): </b>
 
-               @php($int_damage=unserialize($review->int_damage))
+               @php($int_damage=\App\Support\Safe::unserialize($review->int_damage))
                 @if($int_damage['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                   @if($int_damage['flag'] == 0 && $int_damage['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                   &nbsp; {{$int_damage['text']}}
@@ -154,7 +154,7 @@
           <tr>
             <td><b>@lang('fleet.int_lights'): </b>
 
-              @php($int_lights=unserialize($review->int_lights))
+              @php($int_lights=\App\Support\Safe::unserialize($review->int_lights))
               @if($int_lights['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($int_lights['flag'] == 0 && $int_lights['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$int_lights['text']}}
@@ -163,7 +163,7 @@
           <tr>
             <td><b>@lang('fleet.ext_car'): </b>
 
-              @php($ext_car=unserialize($review->ext_car))
+              @php($ext_car=\App\Support\Safe::unserialize($review->ext_car))
               @if($ext_car['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($ext_car['flag'] == 0 && $ext_car['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$ext_car['text']}}
@@ -172,7 +172,7 @@
           <tr>
             <td><b>@lang('fleet.tyre'): </b>
 
-              @php($tyre=unserialize($review->tyre))
+              @php($tyre=\App\Support\Safe::unserialize($review->tyre))
               @if($tyre['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($tyre['flag'] == 0 && $tyre['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$tyre['text']}}
@@ -181,7 +181,7 @@
           <tr>
             <td><b>@lang('fleet.ladder'): </b>
 
-              @php($ladder=unserialize($review->ladder))
+              @php($ladder=\App\Support\Safe::unserialize($review->ladder))
               @if($ladder['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($ladder['flag'] == 0 && $ladder['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$ladder['text']}}
@@ -190,7 +190,7 @@
           <tr>
             <td><b>@lang('fleet.leed'): </b>
 
-              @php($leed=unserialize($review->leed))
+              @php($leed=\App\Support\Safe::unserialize($review->leed))
               @if($leed['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($leed['flag'] == 0 && $leed['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$leed['text']}}
@@ -199,7 +199,7 @@
           <tr>
             <td><b>@lang('fleet.power_tool') : </b>
 
-              @php($power_tool=unserialize($review->power_tool))
+              @php($power_tool=\App\Support\Safe::unserialize($review->power_tool))
               @if($power_tool['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($power_tool['flag'] == 0 && $power_tool['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$power_tool['text']}}
@@ -208,7 +208,7 @@
           <tr>
             <td><b>@lang('fleet.ac'): </b>
 
-              @php($ac=unserialize($review->ac))
+              @php($ac=\App\Support\Safe::unserialize($review->ac))
               @if($ac['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($ac['flag'] == 0 && $ac['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$ac['text']}}
@@ -217,7 +217,7 @@
           <tr>
             <td><b>@lang('fleet.head_light'): </b>
 
-              @php($head_light=unserialize($review->head_light))
+              @php($head_light=\App\Support\Safe::unserialize($review->head_light))
               @if($head_light['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($head_light['flag'] == 0 && $head_light['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$head_light['text']}}
@@ -226,7 +226,7 @@
           <tr>
             <td><b>@lang('fleet.lock'): </b>
 
-              @php($lock=unserialize($review->lock))
+              @php($lock=\App\Support\Safe::unserialize($review->lock))
               @if($lock['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($lock['flag'] == 0 && $lock['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$lock['text']}}
@@ -235,7 +235,7 @@
           <tr>
             <td><b>@lang('fleet.windows'): </b>
 
-              @php($windows=unserialize($review->windows))
+              @php($windows=\App\Support\Safe::unserialize($review->windows))
               @if($windows['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($windows['flag'] == 0 && $windows['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$windows['text']}}
@@ -244,7 +244,7 @@
           <tr>
             <td><b>@lang('fleet.condition'): </b>
 
-              @php($condition=unserialize($review->condition))
+              @php($condition=\App\Support\Safe::unserialize($review->condition))
               @if($condition['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($condition['flag'] == 0 && $condition['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$condition['text']}}
@@ -253,7 +253,7 @@
           <tr>
             <td><b>@lang('fleet.oil_chk'): </b>
 
-              @php($oil_chk=unserialize($review->oil_chk))
+              @php($oil_chk=\App\Support\Safe::unserialize($review->oil_chk))
               @if($oil_chk['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($oil_chk['flag'] == 0 && $oil_chk['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$oil_chk['text']}}
@@ -262,7 +262,7 @@
           <tr>
             <td><b>@lang('fleet.suspension'): </b>
 
-              @php($suspension=unserialize($review->suspension))
+              @php($suspension=\App\Support\Safe::unserialize($review->suspension))
               @if($suspension['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($suspension['flag'] == 0 && $suspension['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$suspension['text']}}
@@ -271,7 +271,7 @@
           <tr>
             <td><b>@lang('fleet.tool_box'): </b>
 
-              @php($tool_box=unserialize($review->tool_box))
+              @php($tool_box=\App\Support\Safe::unserialize($review->tool_box))
               @if($tool_box['flag'] == 1) <i class="fa fa-check fa-lg"></i> @endif
                 @if($tool_box['flag'] == 0 && $tool_box['flag'] != null) <i class="fa fa-times fa-lg"></i> @endif
                 &nbsp; {{$tool_box['text']}}

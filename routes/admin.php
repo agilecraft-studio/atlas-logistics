@@ -1,5 +1,5 @@
 <?php
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::namespace ('Admin')->group(function () {
     // Route::get('export-events', 'HomeController@export_calendar');
 
@@ -32,11 +32,11 @@ Route::namespace ('Admin')->group(function () {
  
        
 
-        Route::resource('/vehicle-breakdown', 'VehicleBreakdownController');
+        Route::resource('/vehicle-breakdown', 'VehicleBreakdownController')->except(['show']);
 
         Route::post('delete-vehicle-breakdown', 'VehicleBreakdownController@bulk_delete');
 
-        Route::resource('/driver-alert', 'DriverAlertController');
+        Route::resource('/driver-alert', 'DriverAlertController')->except(['show']);
 
         Route::post('delete-driver-alert', 'DriverAlertController@bulk_delete');
 
@@ -47,11 +47,6 @@ Route::namespace ('Admin')->group(function () {
         
         
         
-        Route::get('/vehicles-track/{id?}','TrackerController@traccarLocation');
-        Route::get('/traccar-settings','TrackerController@traccar_settings')->name('traccar.settings');
-        Route::post('/traccar-settings','TrackerController@traccar_settings_store')->name('traccar_settings.store');
-
-
         Route::post('transactions-fetch', 'BookingsController@transactions_fetch_data');
         Route::get('transactions', 'BookingsController@transactions');
 
@@ -69,31 +64,21 @@ Route::namespace ('Admin')->group(function () {
         // Route::resource('vehicle-model', 'VehicleModelController');
         // Route::post('delete-vehicle-model', 'VehicleModelController@bulk_delete');
 
-        Route::get('firebase', 'FirebaseController@index');
 
-        Route::resource('roles', 'UserAccessController');
+        Route::resource('roles', 'UserAccessController')->except(['show']);
 
         Route::post('/users-fetch', 'UsersController@fetch_data');
-        Route::resource('/users', 'UsersController');
-
-        Route::get('twilio-settings', 'TwilioController@index');
-        Route::post('twilio-settings', 'TwilioController@update');
+        Route::resource('/users', 'UsersController')->except(['show']);
 
         Route::post('reject-quotation', 'BookingQuotationController@reject');
 
-        // Public test fetch-data disconnected (returns Auth::user(); controller remains on disk).
-        // Route::get('fetch-data', 'Testcontroller@fetch');
-        // Route::get('test', function () {
-        //     return view('geocode');
-        // });
         Route::post('clear-database', 'SettingsController@clear_database');
         Route::post('cancel-booking', 'BookingsController@cancel_booking');
-        Route::resource('team', 'TeamController');
         Route::get('parts-used/{id}', 'WorkOrdersController@parts_used');
         Route::get('remove-part/{id}', 'WorkOrdersController@remove_part');
         Route::post('add-stock', 'PartsController@add_stock');
         Route::post('booking-quotation-fetch', 'BookingQuotationController@fetch_data');
-        Route::resource('booking-quotation', 'BookingQuotationController');
+        Route::resource('booking-quotation', 'BookingQuotationController')->except(['show']);
         Route::post('add-booking', 'BookingQuotationController@add_booking');
         Route::get('booking-quotation/invoice/{id}', 'BookingQuotationController@invoice');
         Route::get('print-quote/{id}', 'BookingQuotationController@print');
@@ -105,10 +90,7 @@ Route::namespace ('Admin')->group(function () {
         Route::post('import-customers', 'CustomersController@importCutomers');
         Route::post('import-vendors', 'VendorController@importVendors');
         // routes for bulk delete action
-        Route::post('delete-team', 'TeamController@bulk_delete');
         Route::post('delete-reasons', 'ReasonController@bulk_delete');
-        Route::post('delete-income', 'IncomeController@bulk_delete');
-        Route::post('delete-expense', 'ExpenseController@bulk_delete');
         Route::post('delete-reminders', 'ServiceReminderController@bulk_delete');
         Route::post('delete-service-items', 'ServiceItemsController@bulk_delete');
         Route::post('delete-parts', 'PartsController@bulk_delete');
@@ -135,12 +117,12 @@ Route::namespace ('Admin')->group(function () {
         Route::post('print-expense', 'ReportsController@expense_print');
 
         Route::get('work_order/logs', 'WorkOrdersController@logs');
-        Route::resource('parts-category', 'PartsCategoryController');
+        Route::resource('parts-category', 'PartsCategoryController')->except(['show']);
 
         Route::post('driver-logs-fetch', 'VehiclesController@driver_logs_fetch_data');
         Route::get('driver-logs', 'VehiclesController@driver_logs');
         Route::post('/vehicle-types-fetch', 'VehicleTypeController@fetch_data');
-        Route::resource('/vehicle-types', 'VehicleTypeController');
+        Route::resource('/vehicle-types', 'VehicleTypeController')->except(['show']);
 
         Route::post('vehicle-reviews-fetch', 'VehiclesController@vehicle_review_fetch_data');
         Route::get('vehicle-reviews', 'VehiclesController@vehicle_review_index')->name('vehicle_reviews');
@@ -149,14 +131,7 @@ Route::namespace ('Admin')->group(function () {
         Route::get('vehicle-reviews-create', 'VehiclesController@vehicle_review');
         Route::get('vehicle-review/{id}/edit', 'VehiclesController@review_edit');
         Route::post('vehicle-review-update', 'VehiclesController@update_vehicle_review');
-        Route::post('store-vehicle-review', 'VehiclesController@store_vehicle_review');
         Route::delete('delete-vehicle-review/{id}', 'VehiclesController@destroy_vehicle_review');
-        //maps
-        Route::get('single-driver/{id}', 'DriversController@single_driver');
-        Route::get('driver-maps/', 'DriversController@driver_maps');
-        Route::get('markers/', 'DriversController@markers');
-        Route::get('track-driver/{id}', 'DriversController@track_driver');
-
         Route::post('print-users-report', 'ReportsController@print_users');
         Route::post('print-customer-report', 'ReportsController@print_customer');
         Route::get('print-vendor-report', 'ReportsController@print_vendor');
@@ -178,40 +153,38 @@ Route::namespace ('Admin')->group(function () {
         Route::post('store-key', 'SettingsController@store_key');
         Route::get('test-key', 'SettingsController@test_key');
         Route::post('store-api', 'SettingsController@store_api');
-        Route::resource('service-reminder', 'ServiceReminderController');
-        Route::resource('service-item', 'ServiceItemsController');
+        Route::resource('service-reminder', 'ServiceReminderController')->only(['index', 'create', 'store', 'destroy']);
+        Route::resource('service-item', 'ServiceItemsController')->except(['show']);
         Route::post('/vehicle-group-fetch', 'VehicleGroupController@fetch_data');
-        Route::resource('/vehicle_group', 'VehicleGroupController');
-        Route::post('/income_records', 'IncomeController@income_records');
-        Route::post('/expense_records', 'ExpenseController@expense_records');
+        Route::resource('/vehicle_group', 'VehicleGroupController')->except(['show']);
         Route::post('/store_insurance', 'VehiclesController@store_insurance');
         Route::get('vehicle/event/{id}', 'VehiclesController@view_event');
         Route::post('assignDriver', 'VehiclesController@assign_driver');
 
         Route::post('/work-orders-fetch', 'WorkOrdersController@fetch_data');
-        Route::resource('/work_order', 'WorkOrdersController');
+        Route::resource('/work_order', 'WorkOrdersController')->except(['show']);
         Route::post('/vendors-fetch', 'VendorController@fetch_data');
-        Route::resource('/vendors', 'VendorController');
+        Route::resource('/vendors', 'VendorController')->except(['show']);
         Route::post('drivers-fetch', 'DriversController@fetch_data');
-        Route::resource('/drivers', 'DriversController');
-        Route::resource('/parts', 'PartsController');
+        Route::resource('/drivers', 'DriversController')->except(['show']);
+        Route::resource('/parts', 'PartsController')->except(['show']);
         Route::post('/vehicles-fetch', 'VehiclesController@fetch_data');
-        Route::resource('/vehicles', 'VehiclesController');
+        Route::resource('/vehicles', 'VehiclesController')->except(['show']);
         Route::get("/vehicles/enable/{id}", 'VehiclesController@enable');
         Route::get("/vehicles/disable/{id}", 'VehiclesController@disable');
         Route::post('/bookings-fetch', 'BookingsController@fetch_data');
         Route::post('/driver-bookings-fetch', 'DriversController@fetch_bookings_data');
-        Route::resource('/bookings', 'BookingsController');
+        Route::resource('/bookings', 'BookingsController')->except(['show']);
         Route::post('/prev-address', 'BookingsController@prev_address');
         Route::get('print/{id}', 'BookingsController@print');
-        Route::resource('/acquisition', 'AcquisitionController');
-        Route::resource('/income', 'IncomeController');
-        Route::resource('/settings', 'SettingsController');
+        Route::resource('/income', 'IncomeController')->only(['index', 'store', 'destroy']);
+        Route::get('/settings', 'SettingsController@index')->name('settings.index');
+        Route::post('/settings', 'SettingsController@store')->name('settings.store');
         Route::post('/customers-fetch', 'CustomersController@fetch_data');
         Route::resource('/customers', 'CustomersController');
-        Route::resource('/expense', 'ExpenseController');
-        Route::resource('/expensecategories', 'ExpenseCategories');
-        Route::resource('/incomecategories', 'IncomeCategories');
+        Route::resource('/expense', 'ExpenseController')->only(['index', 'store', 'destroy']);
+        Route::resource('/expensecategories', 'ExpenseCategories')->except(['show']);
+        Route::resource('/incomecategories', 'IncomeCategories')->except(['show']);
         Route::get('/bookings/complete/{id}', 'BookingsController@complete');
         Route::get('/bookings/receipt/{id}', 'BookingsController@receipt');
         Route::get('/bookings/payment/{id}', 'BookingsController@payment');
@@ -242,14 +215,12 @@ Route::namespace ('Admin')->group(function () {
         Route::get("/bookings_calendar", 'BookingsController@calendar_view')->name("bookings.calendar");
         Route::get('/calendar/event/calendar/{id}', 'BookingsController@calendar_event');
         Route::get('/calendar/event/service/{id}', 'BookingsController@service_view');
-        Route::get('/calendar', 'BookingsController@calendar');
         Route::post('/get_driver', 'BookingsController@get_driver');
         Route::post('/get_vehicle', 'BookingsController@get_vehicle');
         Route::post('/bookings/complete', 'BookingsController@complete_post');
         Route::get('/bookings/complete', 'BookingsController@complete_post')->name("bookings.complete");
 
         Route::post("/reports/monthly", "ReportsController@monthly_post");
-        Route::post("/reports/booking", "ReportsController@booking_post");
         Route::post("/reports/delinquent", "ReportsController@delinquent_post");
         Route::get("/send-email", "SettingsController@send_email");
         Route::post("/email-settings", "SettingsController@email_settings");
@@ -270,21 +241,12 @@ Route::namespace ('Admin')->group(function () {
 
     Route::group(['middleware' => ['lang_check', 'auth']], function () {
 
-        // chat routes:
-        Route::get('chat', 'MessagesController@index')->name('chat.index');
-        Route::get('chat-settings', 'MessageSettingsController@index')->name('chat_settings.index');
-        Route::post('chat-settings', 'MessageSettingsController@store')->name('chat_settings.store');
-        Route::get('load-latest-messages', 'MessagesController@getLoadLatestMessages');
-        Route::post('send', 'MessagesController@postSendMessage');
-
-        Route::post('delete-notes', 'NotesController@bulk_delete');
         Route::get('changepassword/{id}', 'UtilityController@change');
         Route::post('changepassword/{id}', 'UtilityController@change_post');
         Route::get('/change-details/{id}', 'UtilityController@changepass')->name("changepass");
         Route::post('/change-details/{id}', 'UtilityController@changepassword');
         Route::post('/change_password', 'UtilityController@password_change');
         Route::get('/vehicle_notification/{type}', 'NotificationController@vehicle_notification');
-        Route::resource('/notes', 'NotesController');
         Route::get('driver_notification/{type}', 'NotificationController@driver_notification');
         Route::get('/reminder/{type}', 'NotificationController@service_reminder');
         Route::get('/my_bookings', 'DriversController@my_bookings')->name('my_bookings');
@@ -294,7 +256,7 @@ Route::namespace ('Admin')->group(function () {
         Route::post("/reports/work-order", "ReportsController@work_order_post");
         Route::post('print-workOrder-report', 'ReportsController@print_workOrder_report');
 //mechanics  CRUD
-        Route::resource('mechanic', 'MechanicController');
+        Route::resource('mechanic', 'MechanicController')->except(['show']);
         Route::post("/delete-mechanics", "MechanicController@bulk_delete");
 // vehicle inspection
         Route::get('vehicle-inspection', 'VehiclesController@vehicle_inspection_index')->name('vehicle_inspection');
@@ -303,13 +265,11 @@ Route::namespace ('Admin')->group(function () {
         Route::post('store-vehicle-review', 'VehiclesController@store_vehicle_review');
         Route::get('view-vehicle-inspection/{id}', 'VehiclesController@view_vehicle_inspection');
 // fuel detail
-        Route::resource('/fuel', 'FuelController');
+        Route::resource('/fuel', 'FuelController')->except(['show']);
 //vehicle Expense
-        Route::resource('/expense', 'ExpenseController');
         Route::post('/expense_records', 'ExpenseController@expense_records');
         Route::post('delete-expense', 'ExpenseController@bulk_delete');
 //vehicle income
-        Route::resource('/income', 'IncomeController');
         Route::post('delete-income', 'IncomeController@bulk_delete');
         Route::post('/income_records', 'IncomeController@income_records');
 // driver reports
@@ -319,10 +279,9 @@ Route::namespace ('Admin')->group(function () {
         Route::post("/driver-reports/monthly", "DriversController@monthly_post");
         Route::get('/addresses', 'AddressController@index');
 
-        Route::resource('/cancel-reason', 'ReasonController');
+        Route::resource('/cancel-reason', 'ReasonController')->except(['show']);
         Route::post('delete-fuel', 'FuelController@bulk_delete');
 
-        Route::get('/add-parts', 'WorkOrdersController@addParts')->name('add.parts');
     });
 
 });

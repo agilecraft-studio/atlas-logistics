@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Redirect;
+use App\Support\Safe;
 
 class VehiclesController extends Controller {
 	public function __construct() {
@@ -235,7 +236,7 @@ class VehiclesController extends Controller {
 		$drivers = User::whereUser_type("D")->get();
 		$vehicle = VehicleModel::findOrFail($id);
 		$vehicle->load('drivers');
-		$udfs = unserialize($vehicle->getMeta('udf'));
+		$udfs = Safe::unserialize($vehicle->getMeta('udf'));
 		$makes = VehicleModel::select('make_name')->groupBy('make_name')->get()->pluck('make_name')->toArray();
 		$models = VehicleModel::select('model_name')->groupBy('model_name')->get()->pluck('model_name')->toArray();
 		// dd($makes,$models);
@@ -603,7 +604,7 @@ class VehiclesController extends Controller {
 			$data['vehicles'] = VehicleModel::where('group_id', $user->group_id)->get();
 		}
 		$vehicleReview = VehicleReviewModel::where('id', $id)->get()->first();
-		$data['udfs'] = unserialize($vehicleReview->udf);
+		$data['udfs'] = Safe::unserialize($vehicleReview->udf);
 		return view('vehicles.vehicle_review_edit', $data);
 	}
 	public function update_vehicle_review(VehiclReviewRequest $request) {

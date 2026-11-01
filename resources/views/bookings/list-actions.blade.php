@@ -105,7 +105,7 @@
     {{-- @endif --}}
     @if($row->vehicle_id != null)
     @php
-      $vt = $row->vehicle ? $row->vehicle->types->vehicletype : null;
+      $vt = $row->vehicle?->types?->vehicletype;
       $vtKey = (is_string($vt) && $vt !== '') ? strtolower(str_replace(' ', '', $vt)) : null;
       $vtFare = function ($suffix) use ($vtKey) {
           return ($vtKey !== null && $vtKey !== '') ? AtlasLogistics::fare($vtKey . $suffix) : '';

@@ -261,9 +261,4 @@ class WorkOrdersController extends Controller {
 		$order = WorkOrders::find($id);
 		return view('work_orders.parts_used', compact('order'));
 	}
-	public function addParts(Request $request) {
-		
-		$parts = PartsModel::whereIn('id', '!=', $request->part_ids)->get();
-		return response()->json(['status' => true, 'parts' => $parts]);
-	}
 }

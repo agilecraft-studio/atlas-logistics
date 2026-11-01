@@ -447,7 +447,7 @@ class DriversApi extends Controller {
     }
     private function isVehicleAvailable($vehicle, $from_date)
     {
-        $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE'; 
+        $vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'"; 
     
         $bookings = Bookings::where('deleted_at', null)
             ->where('cancellation', 0)
@@ -455,7 +455,7 @@ class DriversApi extends Controller {
                 $query->where(function ($query) use ($from_date) {
                     $query->where('pickup', '>=', $from_date);
                 })->orWhere(function ($query) use ($from_date, $vehicleInterval) {
-                    $query->whereRaw("DATE_ADD(pickup, INTERVAL $vehicleInterval) >= ?", [$from_date]);
+                    $query->whereRaw("(pickup + INTERVAL $vehicleInterval) >= ?", [$from_date]);
                 });
             })
             ->where('vehicle_id', $vehicle->id)
@@ -466,7 +466,7 @@ class DriversApi extends Controller {
     
     private function isDriverAvailable($driverId, $pickupTime)
     {
-        $driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
+        $driverInterval = "'" . (int) AtlasLogistics::get('driver_interval') . " minutes'";
 
         $bookings = DB::table('bookings')
             ->join('bookings_meta', 'bookings.id', '=', 'bookings_meta.booking_id')
@@ -478,7 +478,7 @@ class DriversApi extends Controller {
                 $query->where(function ($query) use ($pickupTime) {
                     $query->where('bookings.pickup', '>=', $pickupTime);
                 })->orWhere(function ($query) use ($pickupTime, $driverInterval) {
-                    $query->whereRaw("DATE_ADD(bookings.pickup, INTERVAL $driverInterval) >= ?", [$pickupTime]);
+                    $query->whereRaw("(bookings.pickup + INTERVAL $driverInterval) >= ?", [$pickupTime]);
                 });
             })
             ->whereIn('bookings.driver_id', function ($subQuery) use ($pickupTime, $driverInterval) {
@@ -493,7 +493,7 @@ class DriversApi extends Controller {
                         $query->where(function ($query) use ($pickupTime) {
                             $query->where('bookings.pickup', '<', $pickupTime);
                         })->orWhere(function ($query) use ($pickupTime, $driverInterval) {
-                            $query->whereRaw("DATE_ADD(bookings.dropoff, INTERVAL $driverInterval) > ?", [$pickupTime]);
+                            $query->whereRaw("(bookings.dropoff + INTERVAL $driverInterval) > ?", [$pickupTime]);
                         });
                     });
             })
@@ -3080,15 +3080,15 @@ class DriversApi extends Controller {
 	}
 	// private function isVehicleAvailable($vehicle, $from_date, $to_date)
 	// {
-	//     $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
+	//     $vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'";
 	//     $bookings = Bookings::where('deleted_at', null)
 	//         ->where('cancellation', 0)
 	//         ->where(function ($query) use ($from_date, $to_date, $vehicleInterval) {
 	//             $query->whereBetween('dropoff', [$from_date, $to_date])
 	//                 ->orWhereBetween('pickup', [$from_date, $to_date])
 	//                 ->orWhere(function ($query) use ($from_date, $to_date, $vehicleInterval) {
-	//                     $query->whereRaw("DATE_ADD(dropoff, INTERVAL $vehicleInterval) >= ?", [$from_date])
-	//                         ->whereRaw("DATE_SUB(pickup, INTERVAL $vehicleInterval) <= ?", [$to_date]);
+	//                     $query->whereRaw("(dropoff + INTERVAL $vehicleInterval) >= ?", [$from_date])
+	//                         ->whereRaw("(pickup - INTERVAL $vehicleInterval) <= ?", [$to_date]);
 	//                 });
 	//         })
 	//         ->where('vehicle_id', $vehicle->id)

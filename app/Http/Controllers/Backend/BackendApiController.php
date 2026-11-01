@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth as Login;
 use Illuminate\Support\Str;
 use Storage;
 use Validator;
+use App\Support\Safe;
 
 class BackendApiController extends Controller {
 	public function lang_dropdown() {
@@ -399,7 +400,7 @@ class BackendApiController extends Controller {
 			}
 			$modules = array();
 			if ($user->user_type == "S" || $user->user_type == "O") {
-				$permissions = unserialize($user->module);
+				$permissions = (array) Safe::unserialize($user->module);
 				if (in_array(0, $permissions)) {
 					array_push($modules, 'users');
 				}

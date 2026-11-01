@@ -43,7 +43,7 @@
             <div class="form-group">
               {!! Form::label('customer_id',__('fleet.selectCustomer'), ['class' => 'form-label']) !!}
               <select id="customer_id" readonly="" name="customer_id" class="form-control xxhvk" required>
-                <option selected value="{{$data->customer['id']}}">{{$data->customer['name']}}</option>
+                <option selected value="{{$data->customer?->id}}">{{$data->customer?->name ?? '—'}}</option>
               </select>
             </div>
           </div>

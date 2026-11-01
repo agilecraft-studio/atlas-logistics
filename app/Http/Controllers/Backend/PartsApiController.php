@@ -12,6 +12,7 @@ use Auth;
 use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
+use App\Support\Safe;
 
 class PartsApiController extends Controller {
 	public function upload_documents(Request $request, $id) {
@@ -213,8 +214,8 @@ class PartsApiController extends Controller {
 			}
 			$udf = "";
 			$blank = array();
-			if (unserialize($row->udf)) {
-				$test = unserialize($row->udf);
+			if (Safe::unserialize($row->udf)) {
+				$test = Safe::unserialize($row->udf);
 				foreach ($test as $key => $val) {
 					$blank[] = array(
 						'name' => $key,

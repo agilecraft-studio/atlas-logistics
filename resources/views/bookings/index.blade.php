@@ -134,8 +134,7 @@
             </tfoot>
           </table>
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 

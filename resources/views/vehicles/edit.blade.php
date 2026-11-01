@@ -95,8 +95,6 @@
                 @lang('fleet.general_info') <i class="fa"></i></a></li>
             <li class="nav-item"><a class="nav-link" href="#insurance" data-bs-toggle="tab"> @lang('fleet.insurance') <i
                   class="fa"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="#acq-tab" data-bs-toggle="tab"> @lang('fleet.purchase_info') <i
-                  class="fa"></i></a></li>
             <li class="nav-item"><a class="nav-link" href="#driver" data-bs-toggle="tab"> @lang('fleet.assign_driver') <i
                   class="fa"></i></a></li>
           </ul>
@@ -422,95 +420,6 @@
             </div>
             {!! Form::close() !!}
           </div>
-          <div class="tab-pane " id="acq-tab">
-            <div class="row card-body">
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">@lang('fleet.acquisition') @lang('fleet.add')</h3>
-                  </div>
-                  <div class="card-body">
-                    {!! Form::open(['route' =>
-                    'acquisition.store','method'=>'post','class'=>'form-inline','id'=>'add_form']) !!}
-                    {!! Form::hidden('user_id',Auth::user()->id) !!}
-                    {!! Form::hidden('vehicle_id',$vehicle->id) !!}
-                    <div class="form-group mt-2" style="margin-right: 40px;">
-                      {!! Form::label('exp_name', __('fleet.expenseType'), ['class' => 'form-label','style'=>'margin-right: 5px']) !!}
-                      {!! Form::text('exp_name', null,['class'=>'form-control','required','id'=>'exp_name']) !!}
-                    </div>
-                    <div class="form-group"></div>
-                    <div class="form-group mt-2" style="margin-right: 10px;">
-                      {!! Form::label('exp_amount', __('fleet.expenseAmount'), ['class' => 'form-label','style'=>'margin-right: 5px']) !!}
-                      <div class="input-group" style="margin-right: 10px;">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">{{AtlasLogistics::get('currency')}}</span>
-                        </div>
-                        {!! Form::number('exp_amount',null,['class'=>'form-control','required','step'=>'any','id'=>'exp_amount','min'=>0.01]) !!}
-                      </div>
-                    </div>
-                    <div class="form-group"></div>
-                    <button type="submit" class="btn btn-success">@lang('fleet.add')</button>
-                    {!! Form::close() !!}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row card-body">
-              <div class="col-md-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">@lang('fleet.acquisition') :<strong>@if($vehicle->make_name){{
-                        $vehicle->make_name }}@endif @if($vehicle->model_name){{ $vehicle->model_name }}@endif
-                        {{ $vehicle->license_plate }}</strong>
-                    </h3>
-                  </div>
-                  <div class="card-body" id="acq_table">
-                    <div class="row">
-                      <div class="col-md-12 table-responsive">
-                        @php($value = unserialize($vehicle->getMeta('purchase_info')))
-                        <table class="table">
-                          <thead>
-                            <th>@lang('fleet.expenseType')</th>
-                            <th>@lang('fleet.expenseAmount')</th>
-                            <th>@lang('fleet.action')</th>
-                          </thead>
-                          <tbody id="hvk">
-                            @if($value != null)
-                            @php($i=0)
-                            @foreach($value as $key=>$row)
-                            <tr>
-                              @php($i+=$row['exp_amount'])
-                              <td>{{$row['exp_name']}}</td>
-                              <td>{{AtlasLogistics::get('currency')." ". $row['exp_amount']}}</td>
-                              <td>
-                                {!! Form::open(['route'
-                                =>['acquisition.destroy',$vehicle->id],'method'=>'DELETE','class'=>'form-horizontal'])
-                                !!}
-                                {!! Form::hidden("vid",$vehicle->id) !!}
-                                {!! Form::hidden("key",$key) !!}
-                                <button type="button" class="btn btn-danger del_info" data-vehicle="{{$vehicle->id}}"
-                                  data-key="{{$key}}">
-                                  <span class="bi bi-x-lg"></span>
-                                </button>
-                                {!! Form::close() !!}
-                              </td>
-                            </tr>
-                            @endforeach
-                            <tr>
-                              <td><strong>@lang('fleet.total')</strong></td>
-                              <td><strong>{{AtlasLogistics::get('currency')." ". $i}}</strong></td>
-                              <td></td>
-                            </tr>
-                            @endif
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="tab-pane " id="driver">
             <div class="card-body">
               {!! Form::open(['url' => 'admin/assignDriver',
@@ -667,50 +576,6 @@
       autoclose: true,
       format: 'yyyy-mm-dd'
     });
-  $(document).on("click",".del_info",function(e){
-    var hvk=confirm("Are you sure?");
-    if(hvk==true){
-      var vid=$(this).data("vehicle");
-      var key = $(this).data('key');
-      var action="{{ route('acquisition.index')}}/"+vid;
-      $.ajax({
-        type: "POST",
-        url: action,
-        data: "_method=DELETE&_token="+window.Laravel.csrfToken+"&key="+key+"&vehicle_id="+vid,
-        success: function(data){
-          $("#acq_table").empty();
-          $("#acq_table").html(data);
-          new PNotify({
-            title: 'Deleted!',
-            text:'@lang("fleet.deleted")',
-            type: 'wanring'
-          })
-        }
-        ,
-        dataType: "HTML",
-      });
-    }
-  });
-  $("#add_form").on("submit",function(e){
-    $.ajax({
-      type: "POST",
-      url: $(this).attr("action"),
-      data: $(this).serialize(),
-      success: function(data){
-        $("#acq_table").empty();
-        $("#acq_table").html(data);
-        new PNotify({
-          title: 'Success!',
-          text: '@lang("fleet.exp_add")',
-          type: 'success'
-        });
-        $('#exp_name').val("");
-        $('#exp_amount').val("");
-      },
-      dataType: "HTML"
-    });
-    e.preventDefault();
-  });
   // $("#accountForm").on("submit",function(e){
   //   $.ajax({
   //     type: "POST",

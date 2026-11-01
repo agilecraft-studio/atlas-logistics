@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Validator;
+use App\Support\Safe;
 
 class VehiclesApiController extends Controller {
 	public function store_purchase_info(Request $request) {
@@ -39,10 +40,7 @@ class VehiclesApiController extends Controller {
 			$data['data'] = "";
 		} else {
 			$vehicle = VehicleModel::find($request->vehicle_id);
-			$old = array();
-			if ($vehicle->getMeta('purchase_info') != "" || $vehicle->getMeta('purchase_info') != null) {
-				$old = unserialize($vehicle->getMeta('purchase_info'));
-			}
+			$old = (array) Safe::unserialize($vehicle->getMeta('purchase_info'), []);
 			$array1 = ['exp_name' => $request->exp_name, 'exp_amount' => $request->exp_amount];
 			array_push($old, $array1);
 			$vehicle->purchase_info = serialize($old);
@@ -66,7 +64,7 @@ class VehiclesApiController extends Controller {
 		} else {
 			$vehicle = VehicleModel::where('id', $request->vehicle_id)->first();
 			// dd($vehicle);
-			$all = unserialize($vehicle->getMeta('purchase_info'));
+			$all = (array) Safe::unserialize($vehicle->getMeta('purchase_info'), []);
 			$index = $request->key;
 			unset($all[$index]);
 			// dd($all);
@@ -504,7 +502,7 @@ class VehiclesApiController extends Controller {
 				$inspections[] = $r->id;
 			}
 			$purchase_info = array();
-			$info = unserialize($row->purchase_info);
+			$info = Safe::unserialize($row->purchase_info);
 			if ($info != null) {
 				$total = 0;
 				foreach ($info as $key => $val) {
@@ -523,8 +521,8 @@ class VehiclesApiController extends Controller {
 			}
 			$udf = "";
 			$blank = array();
-			if (unserialize($row->getMeta('udf'))) {
-				$test = unserialize($row->getMeta('udf'));
+			if (Safe::unserialize($row->getMeta('udf'))) {
+				$test = Safe::unserialize($row->getMeta('udf'));
 				foreach ($test as $key => $val) {
 					$blank[] = array(
 						'name' => $key,

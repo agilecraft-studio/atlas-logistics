@@ -36,6 +36,7 @@ use Minishlink\WebPush\WebPush;
 use Illuminate\Support\Facades\Http;
 
 use App\Traits\NotificationTrait;
+use App\Support\Safe;
 
 class BookingsController extends Controller {
 
@@ -329,7 +330,7 @@ class BookingsController extends Controller {
 
         $to_date = $request->get("to_date");
 
-		$driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
+		$driverInterval = "'" . (int) AtlasLogistics::get('driver_interval') . " minutes'";
 
         $req_type = $request->get("req");
 
@@ -357,11 +358,11 @@ class BookingsController extends Controller {
 
 			// 	AND (
 
-			// 		(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL ".$driverInterval.") AND DATE_SUB('" . $to_date . "', INTERVAL ".$driverInterval."))
+			// 		(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL ".$driverInterval.") AND ('" . $to_date . "'::timestamp - INTERVAL ".$driverInterval."))
 
-			// 		OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL ".$driverInterval.") AND DATE_SUB('" . $to_date . "', INTERVAL ".$driverInterval."))
+			// 		OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL ".$driverInterval.") AND ('" . $to_date . "'::timestamp - INTERVAL ".$driverInterval."))
 
-			// 		OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL ".$driverInterval.") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL ".$driverInterval."))
+			// 		OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL ".$driverInterval.") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL ".$driverInterval."))
 
 			// 	)
 
@@ -395,11 +396,11 @@ class BookingsController extends Controller {
 
 			// 	AND (
 
-			// 		(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+			// 		(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-			// 		OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+			// 		OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-			// 		OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+			// 		OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
 			// 	)
 
@@ -415,11 +416,11 @@ class BookingsController extends Controller {
 
 			// 	AND (
 
-			// 		(pickup BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+			// 		(pickup BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-			// 		OR (dropoff BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+			// 		OR (dropoff BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-			// 		OR (dropoff > '" . $to_date . "' AND pickup < DATE_ADD('" . $to_date . "', INTERVAL " . $driverInterval . "))
+			// 		OR (dropoff > '" . $to_date . "' AND pickup < ('" . $to_date . "'::timestamp + INTERVAL " . $driverInterval . "))
 
 			// 	)
 
@@ -451,11 +452,11 @@ class BookingsController extends Controller {
 
 				AND (
 
-					(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-					OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-					OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
 				)
 
@@ -473,11 +474,11 @@ class BookingsController extends Controller {
 
 				AND (
 
-					(pickup BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+					(pickup BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-					OR (dropoff BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+					OR (dropoff BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-					OR (dropoff > '" . $to_date . "' AND pickup < DATE_ADD('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					OR (dropoff > '" . $to_date . "' AND pickup < ('" . $to_date . "'::timestamp + INTERVAL " . $driverInterval . "))
 
 				)
 
@@ -535,11 +536,11 @@ class BookingsController extends Controller {
 
 				AND (
 
-					(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-					OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-					OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
 				)
 
@@ -557,11 +558,11 @@ class BookingsController extends Controller {
 
 				AND (
 
-					(pickup BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+					(pickup BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-					OR (dropoff BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+					OR (dropoff BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-					OR (dropoff > '" . $to_date . "' AND pickup < DATE_ADD('" . $to_date . "', INTERVAL " . $driverInterval . "))
+					OR (dropoff > '" . $to_date . "' AND pickup < ('" . $to_date . "'::timestamp + INTERVAL " . $driverInterval . "))
 
 				)
 
@@ -595,11 +596,11 @@ class BookingsController extends Controller {
 	
 					AND (
 	
-						(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+						(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 	
-						OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+						OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 	
-						OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+						OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 	
 					)
 	
@@ -617,11 +618,11 @@ class BookingsController extends Controller {
 	
 					AND (
 	
-						(pickup BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+						(pickup BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 	
-						OR (dropoff BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+						OR (dropoff BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 	
-						OR (dropoff > '" . $to_date . "' AND pickup < DATE_ADD('" . $to_date . "', INTERVAL " . $driverInterval . "))
+						OR (dropoff > '" . $to_date . "' AND pickup < ('" . $to_date . "'::timestamp + INTERVAL " . $driverInterval . "))
 	
 					)
 	
@@ -709,7 +710,7 @@ public function get_vehicle(Request $request) {
 
     $req_type = $request->get("req");
 
-    $vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
+    $vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'";
 
     if ($req_type == "new") {
 
@@ -742,7 +743,7 @@ public function get_vehicle(Request $request) {
 
                     OR pickup BETWEEN '" . $from_date . "' AND '" . $to_date . "')
 
-                    OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+                    OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
                 )
 
@@ -784,7 +785,7 @@ public function get_vehicle(Request $request) {
 
                     OR pickup BETWEEN '" . $from_date . "' AND '" . $to_date . "')
 
-                    OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+                    OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
                 )
 
@@ -891,11 +892,11 @@ public function get_vehicle(Request $request) {
 
                     AND (
 
-                        (dropoff BETWEEN DATE_ADD('" . $from . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to . "', INTERVAL " . $vehicleInterval . "))
+                        (dropoff BETWEEN ('" . $from . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (pickup BETWEEN DATE_ADD('" . $from . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to . "', INTERVAL " . $vehicleInterval . "))
+                        OR (pickup BETWEEN ('" . $from . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to . "')
+                        OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to . "')
 
                     )
 
@@ -928,11 +929,11 @@ public function get_vehicle(Request $request) {
 
                     AND (
 
-                        (dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+                        (dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+                        OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+                        OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
                     )
 
@@ -980,11 +981,11 @@ public function get_vehicle(Request $request) {
 
                     AND (
 
-                        (dropoff BETWEEN DATE_ADD('" . $from1 . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to1 . "', INTERVAL " . $vehicleInterval . "))
+                        (dropoff BETWEEN ('" . $from1 . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to1 . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (pickup BETWEEN DATE_ADD('" . $from1 . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to1 . "', INTERVAL " . $vehicleInterval . "))
+                        OR (pickup BETWEEN ('" . $from1 . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to1 . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from1 . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to1 . "')
+                        OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from1 . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to1 . "')
 
                     )
 
@@ -1014,11 +1015,11 @@ public function get_vehicle(Request $request) {
 
                     AND (
 
-                        (dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+                        (dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+                        OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-                        OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+                        OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
                     )
 
@@ -1110,7 +1111,7 @@ public function assign_driver($id)
 	if(isset($data->vehicle_id))
 	{
 	$v_model=VehicleModel::select("*")->where('id',$data->vehicle_id)->first();
-	$v_type=VehicleTypeModel::where('id',$v_model->type_id)->first();
+	$v_type=($v_model && $v_model->type_id) ? VehicleTypeModel::where('id',$v_model->type_id)->first() : null;
 	}
 
 	$ba=Bookings::select("bookings.*")->join('bookings_meta', 'bookings_meta.booking_id', '=', 'bookings.id')
@@ -1126,7 +1127,7 @@ public function assign_driver($id)
 		$to_date = isset($ba->dropoff) ? $ba->dropoff : $ba->pickup;
 
 
-		$driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
+		$driverInterval = "'" . (int) AtlasLogistics::get('driver_interval') . " minutes'";
 		
 
 		$current = Bookings::find($data->id);
@@ -1153,11 +1154,11 @@ public function assign_driver($id)
 
 			AND (
 
-				(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-				OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-				OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
 			)
 
@@ -1175,11 +1176,11 @@ public function assign_driver($id)
 
 			AND (
 
-				(pickup BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+				(pickup BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-				OR (dropoff BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+				OR (dropoff BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-				OR (dropoff > '" . $to_date . "' AND pickup < DATE_ADD('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				OR (dropoff > '" . $to_date . "' AND pickup < ('" . $to_date . "'::timestamp + INTERVAL " . $driverInterval . "))
 
 			)
 
@@ -1200,7 +1201,7 @@ public function assign_driver($id)
 
 
 
-		$driverInterval = AtlasLogistics::get('driver_interval').' MINUTE';
+		$driverInterval = "'" . (int) AtlasLogistics::get('driver_interval') . " minutes'";
 
 		$current = Bookings::find($data->id);
 
@@ -1226,11 +1227,11 @@ public function assign_driver($id)
 
 			AND (
 
-				(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-				OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
-				OR (pickup < DATE_ADD('" . $from_date . "', INTERVAL " . $driverInterval . ") AND dropoff > DATE_SUB('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				OR (pickup < ('" . $from_date . "'::timestamp + INTERVAL " . $driverInterval . ") AND dropoff > ('" . $to_date . "'::timestamp - INTERVAL " . $driverInterval . "))
 
 			)
 
@@ -1248,11 +1249,11 @@ public function assign_driver($id)
 
 			AND (
 
-				(pickup BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+				(pickup BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-				OR (dropoff BETWEEN DATE_SUB('" . $from_date . "', INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
+				OR (dropoff BETWEEN ('" . $from_date . "'::timestamp - INTERVAL " . $driverInterval . ") AND '" . $to_date . "')
 
-				OR (dropoff > '" . $to_date . "' AND pickup < DATE_ADD('" . $to_date . "', INTERVAL " . $driverInterval . "))
+				OR (dropoff > '" . $to_date . "' AND pickup < ('" . $to_date . "'::timestamp + INTERVAL " . $driverInterval . "))
 
 			)
 
@@ -1486,7 +1487,7 @@ public function assign_driver($id)
 
 	// 	$req_type = $request->get("req");
 
-	// 	$vehicleInterval = AtlasLogistics::get('vehicle_interval').' MINUTE';
+	// 	$vehicleInterval = "'" . (int) AtlasLogistics::get('vehicle_interval') . " minutes'";
 
 	// 	if ($req_type == "new") {
 
@@ -1494,7 +1495,7 @@ public function assign_driver($id)
 
 	// 		if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
 
-	// 			// $q = "select id from vehicles where in_service=1 and deleted_at is null  and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or (DATE_ADD(dropoff, INTERVAL 10 MINUTE)>='" . $from_date . "' and DATE_SUB(pickup, INTERVAL 10 MINUTE)<='" . $to_date . "')))";
+	// 			// $q = "select id from vehicles where in_service=1 and deleted_at is null  and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or ((dropoff + INTERVAL '10 minutes')>='" . $from_date . "' and (pickup - INTERVAL '10 minutes')<='" . $to_date . "')))";
 
 	// 			$q = "SELECT id
 
@@ -1520,7 +1521,7 @@ public function assign_driver($id)
 
 	// 					OR pickup BETWEEN '" . $from_date . "' AND '" . $to_date . "')
 
-	// 					OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+	// 					OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
 	// 				)
 
@@ -1528,7 +1529,7 @@ public function assign_driver($id)
 
 	// 		} else {
 
-	// 			// $q = "select id from vehicles where in_service=1 and deleted_at is null and group_id=" . Auth::user()->group_id . " and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or (DATE_ADD(dropoff, INTERVAL 10 MINUTE)>='" . $from_date . "' and DATE_SUB(pickup, INTERVAL 10 MINUTE)<='" . $to_date . "')))";
+	// 			// $q = "select id from vehicles where in_service=1 and deleted_at is null and group_id=" . Auth::user()->group_id . " and  id not in(select vehicle_id from bookings where  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or ((dropoff + INTERVAL '10 minutes')>='" . $from_date . "' and (pickup - INTERVAL '10 minutes')<='" . $to_date . "')))";
 
 
 
@@ -1558,7 +1559,7 @@ public function assign_driver($id)
 
 	// 					OR pickup BETWEEN '" . $from_date . "' AND '" . $to_date . "')
 
-	// 					OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+	// 					OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
 	// 				)
 
@@ -1614,7 +1615,7 @@ public function assign_driver($id)
 
 	// 		if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
 
-	// 			// $q = "select id from vehicles where in_service=1 " . $condition . " and id not in (select vehicle_id from bookings where id!=$id and  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or (DATE_ADD(dropoff, INTERVAL 10 MINUTE)>='" . $from_date . "' and DATE_SUB(pickup, INTERVAL 10 MINUTE)<='" . $to_date . "')))";
+	// 			// $q = "select id from vehicles where in_service=1 " . $condition . " and id not in (select vehicle_id from bookings where id!=$id and  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or ((dropoff + INTERVAL '10 minutes')>='" . $from_date . "' and (pickup - INTERVAL '10 minutes')<='" . $to_date . "')))";
 
 	// 			$q = "SELECT id
 
@@ -1636,11 +1637,11 @@ public function assign_driver($id)
 
 	// 				AND (
 
-	// 					(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+	// 					(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-	// 					OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+	// 					OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-	// 					OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+	// 					OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
 	// 				)
 
@@ -1648,7 +1649,7 @@ public function assign_driver($id)
 
 	// 		} else {
 
-	// 			// $q = "select id from vehicles where in_service=1 " . $condition . " and group_id=" . Auth::user()->group_id . " and id not in (select vehicle_id from bookings where id!=$id and  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or (DATE_ADD(dropoff, INTERVAL 10 MINUTE)>='" . $from_date . "' and DATE_SUB(pickup, INTERVAL 10 MINUTE)<='" . $to_date . "')))";
+	// 			// $q = "select id from vehicles where in_service=1 " . $condition . " and group_id=" . Auth::user()->group_id . " and id not in (select vehicle_id from bookings where id!=$id and  deleted_at is null  and ((dropoff between '" . $from_date . "' and '" . $to_date . "' or pickup between '" . $from_date . "' and '" . $to_date . "') or ((dropoff + INTERVAL '10 minutes')>='" . $from_date . "' and (pickup - INTERVAL '10 minutes')<='" . $to_date . "')))";
 
 	// 			$q = "SELECT id
 
@@ -1672,11 +1673,11 @@ public function assign_driver($id)
 
 	// 				AND (
 
-	// 					(dropoff BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+	// 					(dropoff BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-	// 					OR (pickup BETWEEN DATE_ADD('" . $from_date . "', INTERVAL " . $vehicleInterval . ") AND DATE_SUB('" . $to_date . "', INTERVAL " . $vehicleInterval . "))
+	// 					OR (pickup BETWEEN ('" . $from_date . "'::timestamp + INTERVAL " . $vehicleInterval . ") AND ('" . $to_date . "'::timestamp - INTERVAL " . $vehicleInterval . "))
 
-	// 					OR (DATE_ADD(dropoff, INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND DATE_SUB(pickup, INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
+	// 					OR ((dropoff + INTERVAL " . $vehicleInterval . ") >= '" . $from_date . "' AND (pickup - INTERVAL " . $vehicleInterval . ") <= '" . $to_date . "')
 
 	// 				)
 
@@ -1763,15 +1764,16 @@ public function assign_driver($id)
 				$color = "red";
 			}
 			$x['backgroundColor'] = $color;
-			$x['title'] = $booking->customer->name."\n"."Ride Status:".($booking->ride_status??'-');
+			$x['title'] = ($booking->customer?->name ?? '—')."\n"."Ride Status:".($booking->ride_status??'-');
 			$x['id'] = $booking->id;
 			$x['type'] = 'calendar';
 			array_push($data, $x);
 		}
 		$reminders = ServiceReminderModel::get();
+		$lastRideStatus = optional($b->last())->ride_status ?? '-';
 		foreach ($reminders as $r) {
-			$interval = substr($r->services->overdue_unit, 0, -3);
-			$int = $r->services->overdue_time . $interval;
+			$interval = $r->services ? substr($r->services->overdue_unit, 0, -3) : '';
+			$int = ($r->services->overdue_time ?? '') . $interval;
 			$date = date('Y-m-d', strtotime($int, strtotime(date('Y-m-d'))));
 			if ($r->last_date != 'N/D') {
 				$date = date('Y-m-d', strtotime($int, strtotime($r->last_date)));
@@ -1780,7 +1782,7 @@ public function assign_driver($id)
 			$x['end'] = $date;
 			$color = "green";
 			$x['backgroundColor'] = $color;
-			$x['title'] = $r->services->description."\n"."Ride Status:".($booking->ride_status??'-');
+			$x['title'] = ($r->services->description ?? 'Service')."\n"."Ride Status:".$lastRideStatus;
 			$x['id'] = $r->id;
 			$x['type'] = 'service';
 			array_push($data, $x);
@@ -1827,14 +1829,14 @@ public function assign_driver($id)
 
 			$dropoff=isset($b->dropoff) ? $b->dropoff : $pickup;
 
-			$q = "select id,name,deleted_at from users where user_type='D' and deleted_at is null and id not in (select user_id from bookings where status=0 and  id!=" . $id . " and "."id!=" . $ba->id." and deleted_at is null and  (DATE_SUB(pickup, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or DATE_ADD(dropoff, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
+			$q = "select id,name,deleted_at from users where user_type='D' and deleted_at is null and id not in (select user_id from bookings where status=0 and  id!=" . $id . " and "."id!=" . $ba->id." and deleted_at is null and  ((pickup - INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or (dropoff + INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
 
 
 			
 		}
 		else
 		{
-			$q = "select id,name,deleted_at from users where user_type='D' and deleted_at is null and id not in (select user_id from bookings where status=0 and  id!=" . $id . " and deleted_at is null and  (DATE_SUB(pickup, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or DATE_ADD(dropoff, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
+			$q = "select id,name,deleted_at from users where user_type='D' and deleted_at is null and id not in (select user_id from bookings where status=0 and  id!=" . $id . " and deleted_at is null and  ((pickup - INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or (dropoff + INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
 		}
 
 		
@@ -1855,11 +1857,11 @@ public function assign_driver($id)
 
 				$dropoff=isset($b->dropoff) ? $b->dropoff : $pickup;
 				
-				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and "."id!=" . $b->id." and deleted_at is null and  (DATE_SUB(pickup, INTERVAL 15 MINUTE) between '" . $pickup . "' and '" . $dropoff . "' or DATE_ADD(dropoff, INTERVAL 15 MINUTE) between '" . $pickup . "' and '" . $dropoff . "'  or dropoff between '" . $pickup . "' and '" . $dropoff . "'))";
+				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and "."id!=" . $b->id." and deleted_at is null and  ((pickup - INTERVAL '15 minutes') between '" . $pickup . "' and '" . $dropoff . "' or (dropoff + INTERVAL '15 minutes') between '" . $pickup . "' and '" . $dropoff . "'  or dropoff between '" . $pickup . "' and '" . $dropoff . "'))";
 			}
 			else
 			{
-				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and deleted_at is null and  (DATE_SUB(pickup, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or DATE_ADD(dropoff, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "'  or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
+				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and deleted_at is null and  ((pickup - INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or (dropoff + INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "'  or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
 			}
 
 
@@ -1879,12 +1881,12 @@ public function assign_driver($id)
 
 				$dropoff=isset($b->dropoff) ? $b->dropoff : $pickup;
 
-				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and group_id=" . Auth::user()->group_id . " and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and  "."id!=" . $b->id." and deleted_at is null and  (DATE_SUB(pickup, INTERVAL 15 MINUTE) between '" . $pickup . "' and '" . $dropoff . "' or DATE_ADD(dropoff, INTERVAL 15 MINUTE) between '" . $pickup . "' and '" . $dropoff . "'  or dropoff between '" . $pickup . "' and '" . $dropoff . "'))";
+				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and group_id=" . Auth::user()->group_id . " and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and  "."id!=" . $b->id." and deleted_at is null and  ((pickup - INTERVAL '15 minutes') between '" . $pickup . "' and '" . $dropoff . "' or (dropoff + INTERVAL '15 minutes') between '" . $pickup . "' and '" . $dropoff . "'  or dropoff between '" . $pickup . "' and '" . $dropoff . "'))";
 
 			}
 			else
 			{
-				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and group_id=" . Auth::user()->group_id . " and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and deleted_at is null and  (DATE_SUB(pickup, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or DATE_ADD(dropoff, INTERVAL 15 MINUTE) between '" . $booking->pickup . "' and '" . $booking->dropoff . "'  or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
+				$q1 = "select * from vehicles where in_service=1" . $condition . " and deleted_at is null and group_id=" . Auth::user()->group_id . " and id not in (select vehicle_id from bookings where status=0 and  id!=" . $id . " and deleted_at is null and  ((pickup - INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "' or (dropoff + INTERVAL '15 minutes') between '" . $booking->pickup . "' and '" . $booking->dropoff . "'  or dropoff between '" . $booking->pickup . "' and '" . $booking->dropoff . "'))";
 			}
 		
 		}
@@ -1929,7 +1931,7 @@ public function assign_driver($id)
 		
 		$index['vehicles'] = $vehicles;
 		$index['data'] = $booking;
-		$index['udfs'] = unserialize($booking->getMeta('udf'));
+		$index['udfs'] = Safe::unserialize($booking->getMeta('udf'));
 
 
 		$d=$complete_booking = DB::table('bookings_meta')

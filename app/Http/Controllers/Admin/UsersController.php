@@ -161,7 +161,6 @@ class UsersController extends Controller {
 			}
 			$this->upload_file($request->file('profile_image'), "profile_image", $user->id);
 		}
-		$modules = unserialize($user->getMeta('module'));
 		return Redirect::route("users.index");
 	}
 	public function bulk_delete(Request $request) {

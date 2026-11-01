@@ -12,6 +12,7 @@ use App\Model\User;
 use App\Model\AtlasLogistics;
 use Illuminate\Http\Request;
 use Validator;
+use App\Support\Safe;
 
 class EmailSettingsApiController extends Controller {
 	public function set_email_content(Request $request) {
@@ -107,10 +108,10 @@ class EmailSettingsApiController extends Controller {
 		$options = array();
 		$selected_user_list = array();
 		if ($selected_options->value != null) {
-			$options = unserialize($selected_options->value);
+			$options = (array) Safe::unserialize($selected_options->value);
 		}
 		if ($selected_users->value != null) {
-			$selected_user_list = unserialize($selected_users->value);
+			$selected_user_list = (array) Safe::unserialize($selected_users->value);
 		}
 		$notifications = array(
 			["key" => "Registration Notification", "value" => 1],

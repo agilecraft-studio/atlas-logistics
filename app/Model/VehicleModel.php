@@ -49,10 +49,6 @@ class VehicleModel extends Model {
 	// 	return $this->hasOne("App\Model\InsuranceModel", "vehicle_id", "id")->withTrashed();
 	// }
 
-	public function acq() {
-		return $this->hasMany("App\Model\AcquisitionModel", "vehicle_id", "id");
-	}
-
 	public function group() {
 		return $this->hasOne("App\Model\VehicleGroupModel", "id", "group_id")->withTrashed();
 	}
