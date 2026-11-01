@@ -12,10 +12,11 @@
   }
 </style>
 @endsection
+@section('page_title', __('fleet.manage_customers'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    @if (count($errors) > 0)
+    @if (count($errors ?? []) > 0)
     <div class="alert alert-danger">
       <ul>
         @foreach ($errors->all() as $error)
@@ -24,17 +25,21 @@
       </ul>
     </div>
     @endif
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.manage_customers')
-        &nbsp; @can('Customer add')<a href="{{route('customers.create')}}" class="btn btn-success" title="@lang('fleet.add_new')"><i class="bi bi-plus-lg"></i></a>@endcan
-        @can('Customer import')&nbsp;&nbsp;<button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>@endcan
-        </h3>
+    <x-fleet.panel :title="__('fleet.manage_customers')" icon="bi-people">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.manage_customers') }}</div>
+        <div class="d-flex gap-2">
+          @can('Customer add')
+            <a href="{{route('customers.create')}}" class="fleet-btn" title="@lang('fleet.add_new')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_new')</a>
+          @endcan
+          @can('Customer import')
+            <button data-bs-toggle="modal" data-bs-target="#import" class="fleet-btn fleet-btn-ghost">@lang('fleet.import')</button>
+          @endcan
+        </div>
       </div>
-
-      <div class="card-body table-responsive">
-        <table class="table" id="ajax_data_table" style="padding-bottom: 25px">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table" style="padding-bottom: 25px">
+          <thead class="table-dark">
             <tr>
               <th>
                 <input type="checkbox" id="chk_all">
@@ -53,7 +58,7 @@
           <tfoot>
             <tr>
               <th>
-                @can('Customer delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>@endcan
+                @can('Customer delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>@lang('fleet.name')</th>
               <th>@lang('fleet.email')</th>
@@ -65,7 +70,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -80,14 +85,14 @@
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/import-customers','method'=>'POST','files'=>true]) !!}
-        <div class="form-group">
+        <div class="mb-3">
           {!! Form::label('excel',__('fleet.importCustomers'),['class'=>"form-label"]) !!}
           {!! Form::file('excel',['class'=>"form-control",'required']) !!}
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <a href="{{ asset('assets/samples/customers.xlsx') }}">@lang('fleet.downloadSampleExcel')</a>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <h6 class="text-muted">@lang('fleet.note'):</h6>
           <ul class="text-muted">
             <li>@lang('fleet.customerImportNote')</li>
@@ -98,8 +103,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-warning" type="submit">@lang('fleet.import')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button class="fleet-btn" type="submit">@lang('fleet.import')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -122,8 +127,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -144,8 +149,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -165,24 +170,20 @@
         {!! Form::open(['url'=>url('admin/change_password'),'id'=>'changepass_form']) !!}
         <form id="change" action="{{url('admin/change_password')}}" method="POST">
           {!! Form::hidden('driver_id',"",['id'=>'driver_id'])!!}
-        <div class="form-group">
+        <div class="mb-3">
           {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="bi bi-lock"></i></span>
-            </div>
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
             {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
-            <div class="input-group-prepend">
-              <button type="button" id="show-password-button" class="show-password-button" >
-                <i class="bi bi-eye" aria-hidden="true"></i>
-              </button>
-            </div>
+            <button type="button" id="show-password-button" class="show-password-button" >
+              <i class="bi bi-eye" aria-hidden="true"></i>
+            </button>
           </div>
         </div>
         <div class="modal-footer">
-          <button id="password" class="btn btn-info" type="submit" >@lang('fleet.change_password')</button>
+          <button id="password" class="fleet-btn" type="submit" >@lang('fleet.change_password')</button>
         </form>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')
         </button>
       </div>
     </div>

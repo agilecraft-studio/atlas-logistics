@@ -1,33 +1,28 @@
 @extends('layouts.attex')
+@section('page_title', __('fleet.income') . ' ' . __('fleet.report'))
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.income') @lang('fleet.report')
-        </h3>
-      </div>
-
-      <div class="card-body">
-        {!! Form::open(['url' => 'admin/reports/income','method'=>'post','class'=>'form-inline']) !!}
-        <div class="row">
-          <div class="form-group" style="margin-right: 10px">
+    <x-fleet.panel :title="__('fleet.income') . ' ' . __('fleet.report')" icon="bi-cash-coin">
+      <div class="fleet-toolbar">
+        {!! Form::open(['url' => 'admin/reports/income','method'=>'post','class'=>'d-flex flex-wrap gap-2 align-items-end w-100']) !!}
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('year', __('fleet.year1'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             {!! Form::select('year', $years, $year_select,['class'=>'form-control']) !!}</div>
           </div>
 
-          <div class="form-group" style="margin-right: 10px">
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('month', __('fleet.month'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             {!! Form::selectMonth('month',$month_select,['class'=>'form-control']) !!}</div>
           </div>
 
-          <div class="form-group" style="margin-right: 10px">
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('vehicle', __('fleet.vehicles'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             <select id="vehicle_id" name="vehicle_id" class="form-control vehicles" style="width: 250px">
               <option value="">@lang('fleet.selectVehicle')</option>
               @foreach($vehicles as $vehicle)
@@ -35,27 +30,20 @@
               @endforeach
             </select></div>
           </div>
-          <button type="submit" class="btn btn-info" style="margin-right: 10px">@lang('fleet.generate_report')</button>
-          <button type="submit" formaction="{{url('admin/print-income')}}" class="btn btn-danger" style="margin-right: 10px"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
-        </div>
+          <button type="submit" class="fleet-btn" style="margin-right: 10px">@lang('fleet.generate_report')</button>
+          <button type="submit" formaction="{{url('admin/print-income')}}" class="fleet-btn fleet-btn-ghost" style="margin-right: 10px"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
         {!! Form::close() !!}
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-        @lang('fleet.report')
-        </h3>
-      </div>
-
-      <div class="card-body table-responsive">
-        <table class="table table-bordered table-striped table-hover"  id="myTable">
-            <thead>
+    <x-fleet.panel :title="__('fleet.report')" icon="bi-table">
+      <div class="table-responsive">
+        <table class="fleet-table"  id="myTable">
+            <thead class="table-dark">
               <tr>
                 <th>@lang('fleet.make')</th>
                 <th>@lang('fleet.model')</th>
@@ -105,7 +93,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 

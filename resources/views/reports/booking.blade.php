@@ -1,4 +1,5 @@
 @extends('layouts.attex')
+@section('page_title', __('fleet.booking_report'))
 
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
@@ -11,49 +12,35 @@
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.booking_report')" icon="bi-journal-text">
+      <div class="fleet-toolbar">
+        {!! Form::open(['route' => 'reports.booking','method'=>'post','class'=>'d-flex flex-wrap gap-2 align-items-end w-100']) !!}
 
-      <div class="card-header">
-
-        <h3 class="card-title">@lang('fleet.booking_report')
-
-        </h3>
-
-      </div>
-
-
-
-      <div class="card-body">
-
-        {!! Form::open(['route' => 'reports.booking','method'=>'post','class'=>'form-inline']) !!}
-
-        <div class="row">
-
-          <div class="form-group" style="margin-right: 5px">
+          <div class="mb-0" style="margin-right: 5px">
 
             {!! Form::label('year', __('fleet.year1'), ['class' => 'form-label']) !!}
 
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
 
             {!! Form::select('year', $years, $year_select,['class'=>'form-control']) !!}</div>
 
           </div>
 
-          <div class="form-group" style="margin-right: 5px">
+          <div class="mb-0" style="margin-right: 5px">
 
             {!! Form::label('month', __('fleet.month'), ['class' => 'form-label']) !!}
 
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
 
             {!! Form::selectMonth('month',$month_select,['class'=>'form-control']) !!}</div>
 
           </div>
 
-          <div class="form-group" style="margin-right: 5px">
+          <div class="mb-0" style="margin-right: 5px">
 
             {!! Form::label('vehicle', __('fleet.vehicles'), ['class' => 'form-label']) !!}
 
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
 
             <select id="vehicle_id" name="vehicle_id" class="form-control vehicles" style="width: 150px">
 
@@ -69,11 +56,11 @@
 
           </div>
 
-          <div class="form-group" style="margin-right: 5px">
+          <div class="mb-0" style="margin-right: 5px">
 
             {!! Form::label('customer_id', __('fleet.selectCustomer'), ['class' => 'form-label']) !!}
 
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
 
             <select id="customer_id" name="customer_id" class="form-control vehicles" style="width: 150px">
 
@@ -91,22 +78,14 @@
 
 
 
-          <button type="submit" class="btn btn-info" style="margin-right: 1px">@lang('fleet.generate_report')</button>
+          <button type="submit" class="fleet-btn" style="margin-right: 1px">@lang('fleet.generate_report')</button>
 
-          <button type="submit" formaction="{{url('admin/print-booking-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
-
-        </div>
+          <button type="submit" formaction="{{url('admin/print-booking-report')}}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
 
         {!! Form::close() !!}
-
-
-
       </div>
-
-    </div>
-
+    </x-fleet.panel>
   </div>
-
 </div>
 
 
@@ -115,23 +94,11 @@
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.booking_count') . ' : ' . $bookings->count()" icon="bi-table">
+      <div class="table-responsive">
+        <table class="fleet-table" id="myTable">
 
-      <div class="card-header">
-
-        <h3 class="card-title">
-
-        @lang('fleet.booking_count') : {{$bookings->count()}}
-
-        </h3>
-
-      </div>
-
-      <div class="card-body table-responsive">
-
-        <table class="table" id="myTable">
-
-          <thead class="thead-inverse">
+          <thead class="table-dark">
 
             <tr>
 
@@ -221,13 +188,9 @@
           </tfoot>
 
         </table>
-
       </div>
-
-    </div>
-
+    </x-fleet.panel>
   </div>
-
 </div>
 
 @endsection

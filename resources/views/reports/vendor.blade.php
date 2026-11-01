@@ -1,4 +1,5 @@
 @extends('layouts.attex')
+@section('page_title', __('fleet.vendorReport'))
 @section('styles')
 <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datepicker.min.css')}}">
 @endsection
@@ -6,75 +7,56 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-        @lang('fleet.vendorReport') &nbsp; <a href="{{url('admin/print-vendor-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</a>
-        </h3>
-      </div>
+    <x-fleet.panel :title="__('fleet.vendorReport')" icon="bi-shop">
+      <div class="fleet-toolbar">
+        {!! Form::open(['route' => 'reports.vendors','method'=>'post','class'=>'d-flex flex-wrap gap-2 align-items-end']) !!}
 
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-8">
-            {!! Form::open(['route' => 'reports.vendors','method'=>'post','class'=>'form-inline']) !!}
-
-            <div class="form-group">
-              {!! Form::label('date1',__('fleet.From')) !!}
-              <div class="input-group ms-2">
-                <div class="input-group-prepend">
-                <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
-                {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=>__('fleet.start_date'),'required']) !!}
-              </div>
-            </div>
-            <div class="form-group ms-2" style="margin-right: 5px">
-              {!! Form::label('date2',__('fleet.To')) !!}
-              <div class="input-group ms-2">
-                <div class="input-group-prepend">
-                <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
-                {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
-              </div>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-info">
-              <i class="bi bi-search"></i>
-              </button>
-            </div>
-            {!! Form::close() !!}
-          </div>
-        </div>
-        <div class="row" style="margin-top: 25px;">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <div class="card">
-              <div class="card-body">
-                <canvas id="canvas1" width="400" height="300"></canvas>
-                <div class="table-responsive">
-                  <table class="table table-bordered table-striped table-hover" id="myTable">
-                    <thead>
-                      <tr>
-                        <th scope="row">@lang('fleet.vendor'):</th>
-                        <td><strong>@lang('fleet.total')</strong></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <hr>
-                      @foreach($details as $d)
-                      <tr>
-                        <th scope="row">{{$vendors[$d->vendor_id]}}</th>
-                        <td>{{ AtlasLogistics::get("currency")}} {{$d->total}}</td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+          <div class="mb-0">
+            {!! Form::label('date1',__('fleet.From'),['class'=>'form-label']) !!}
+            <div class="input-group ms-2">
+              <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+              {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=>__('fleet.start_date'),'required']) !!}
             </div>
           </div>
-          <div class="col-md-2"></div>
+          <div class="mb-0 ms-2" style="margin-right: 5px">
+            {!! Form::label('date2',__('fleet.To'),['class'=>'form-label']) !!}
+            <div class="input-group ms-2">
+              <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+              {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
+            </div>
+          </div>
+          <div class="mb-0">
+            <button type="submit" class="fleet-btn">
+            <i class="bi bi-search"></i>
+            </button>
+          </div>
+        {!! Form::close() !!}
+        <a href="{{url('admin/print-vendor-report')}}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-printer"></i> @lang('fleet.print')</a>
+      </div>
+      <div class="row justify-content-center" style="margin-top: 25px;">
+        <div class="col-md-8">
+          <canvas id="canvas1" width="400" height="300"></canvas>
+          <div class="table-responsive">
+            <table class="fleet-table" id="myTable">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="row">@lang('fleet.vendor'):</th>
+                  <td><strong>@lang('fleet.total')</strong></td>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($details as $d)
+                <tr>
+                  <th scope="row">{{$vendors[$d->vendor_id]}}</th>
+                  <td>{{ AtlasLogistics::get("currency")}} {{$d->total}}</td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

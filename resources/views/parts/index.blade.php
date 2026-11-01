@@ -19,31 +19,33 @@
 
 @endsection
 
+@section('page_title', __('menu.manageParts'))
+
 @section('content')
 
 <div class="row">
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('menu.manageParts')" icon="bi-tools">
 
-      <div class="card-header">
+      <div class="fleet-toolbar">
 
-        <h3 class="card-title">@lang('menu.manageParts')
+        <div class="text-muted">{{ __('menu.manageParts') }}</div>
 
-          @can('Parts add')<a href="{{ route('parts.create')}}" class="btn btn-success">@lang('fleet.addParts')</a>@endcan
+        <div class="d-flex gap-2">
 
-        </h3>
+          @can('Parts add')<a href="{{ route('parts.create')}}" class="fleet-btn"><i class="bi bi-plus-lg"></i> @lang('fleet.addParts')</a>@endcan
+
+        </div>
 
       </div>
 
+      <div class="table-responsive">
 
+        <table class="fleet-table" id="data_table2">
 
-      <div class="card-body table-responsive">
-
-        <table class="table" id="data_table2">
-
-          <thead class="thead-inverse">
+          <thead class="table-dark">
 
             <tr>
 
@@ -155,7 +157,7 @@
 
               <div class="btn-group">
 
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                <button type="button" class="fleet-btn fleet-btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
 
                   <span class="bi bi-gear"></span>
 
@@ -165,11 +167,11 @@
 
                 <div class="dropdown-menu custom" role="menu">
 
-                  <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#stockModal" data-title="{{ $row->title }}"> <span aria-hidden="true" class="bi bi-plus-square" style="color: green"></span> @lang('fleet.addStock')</a>
+                  <a class="dropdown-item" data-id="{{$row->id}}" data-bs-toggle="modal" data-bs-target="#stockModal" data-title="{{ $row->title }}"> <span aria-hidden="true" class="bi bi-plus-square" style="color: green"></span> @lang('fleet.addStock')</a>
 
                   @can('Parts edit')<a class="dropdown-item" href="{{ url("admin/parts/".$row->id."/edit")}}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
 
-                  @can('Parts delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                  @can('Parts delete')<a class="dropdown-item" data-id="{{$row->id}}" data-bs-toggle="modal" data-bs-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
 
                 </div>
 
@@ -197,7 +199,7 @@
 
                 @if($data->count() > 0)
 
-                @can('Parts delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
+                @can('Parts delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
 
                 @endif
 
@@ -233,7 +235,7 @@
 
       </div>
 
-    </div>
+    </x-fleet.panel>
 
   </div>
 
@@ -267,7 +269,7 @@
 
       <div class="modal-body">
 
-        <div class="form-group">
+        <div class="mb-3">
 
           {!! Form::label('stock', __('fleet.qty'), ['class' => 'form-label']) !!}
 
@@ -279,9 +281,9 @@
 
       <div class="modal-footer">
 
-        <button class="btn btn-info" type="submit" data-submit="">@lang('fleet.addStock')</button>
+        <button class="fleet-btn" type="submit" data-submit="">@lang('fleet.addStock')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -327,9 +329,9 @@
 
       <div class="modal-footer">
 
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -371,9 +373,9 @@
 
       <div class="modal-footer">
 
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 

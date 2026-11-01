@@ -23,6 +23,8 @@
 @endsection
 
 
+@section('page_title', __('fleet.expense'))
+
 @section('content')
 
 
@@ -31,23 +33,17 @@
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.addRecord')" icon="bi-plus-circle">
 
-      <div class="card-header">
+      <div class="fleet-toolbar">
 
-        <h3 class="card-title">@lang('fleet.addRecord')
-
-        </h3>
+        <div class="text-muted">{{ __('fleet.addRecord') }}</div>
 
       </div>
 
-
-
-      <div class="card-body">
-
         <div class="row">
 
-          @if (count($errors) > 0)
+          @if (count($errors ?? []) > 0)
 
           <div class="alert alert-danger col-md-12">
 
@@ -65,7 +61,7 @@
 
           @endif
 
-          {!! Form::open(['route' => 'expense.store','method'=>'post','class'=>'form-inline','id'=>'exp_form']) !!}
+          {!! Form::open(['route' => 'expense.store','method'=>'post','class'=>'fleet-form row g-3 align-items-end','id'=>'exp_form']) !!}
 
 
 
@@ -131,9 +127,7 @@
 
             <div class="input-group">
 
-              <div class="input-group-prepend">
-
-              <span class="input-group-text">{{$currency}}</span></div>
+              <span class="input-group-text">{{$currency}}</span>
 
               <input required="required" name="revenue" type="text" id="revenue"  class="form-control">
 
@@ -155,9 +149,7 @@
 
             <div class="input-group">
 
-              <div class="input-group-prepend">
-
-              <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
+              <span class="input-group-text"><i class="bi bi-calendar"></i></span>
 
               <input  name="date" type="text"  id="date" value="{{ date('Y-m-d')}}" class="form-control">
 
@@ -167,7 +159,7 @@
 
           <div class="col-md-1" style="margin-top: 10px;">
 
-            @can('Transactions add')<button type="submit" class="btn btn-success">@lang('fleet.add')</button>@endcan
+            @can('Transactions add')<button type="submit" class="fleet-btn"><i class="bi bi-plus-lg"></i> @lang('fleet.add')</button>@endcan
 
           </div>
 
@@ -175,9 +167,7 @@
 
         </div>
 
-      </div>
-
-    </div>
+    </x-fleet.panel>
 
   </div>
 
@@ -189,33 +179,27 @@
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.todayExpense')" icon="bi-receipt">
 
-      <div class="card-header">
+      <div class="fleet-toolbar">
 
-        <div class="row">
+        <div class="text-muted">{{ __('fleet.todayExpense') }} : <strong><span id="total_today">{{$currency.' '. $total}} </span> </strong></div>
 
-          <div class="col-md-4">
+        <div class="d-flex gap-2 align-items-end">
 
-            <h3 class="card-title"> @lang('fleet.todayExpense') : <strong><span id="total_today">{{$currency.' '. $total}} </span> </strong> </h3>
-
-          </div>
-
-          <div class="col-md-8 pull-right" style="display: flex; justify-content: end;">
-
-            {!! Form::open(['url'=>'admin/expense_records','class'=>'form-inline']) !!}
+            {!! Form::open(['url'=>'admin/expense_records','class'=>'d-flex gap-2 align-items-end']) !!}
 
 
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('date1',__('fleet.From'),['class'=>'control-label']) !!}
+              {!! Form::label('date1',__('fleet.From'),['class'=>'form-label']) !!}
 
               
 
               <div class="input-group date ms-3 me-3">
 
-                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
+                <span class="input-group-text"><i class="bi bi-calendar"></i></span>
 
                 {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=> __('fleet.start_date'),'required']) !!}
 
@@ -223,13 +207,13 @@
 
             </div>
 
-            <div class="form-group" style="margin-right: 10px">
+            <div class="mb-0" style="margin-right: 10px">
 
-              {!! Form::label('date2',__('fleet.To')) !!}
+              {!! Form::label('date2',__('fleet.To'),['class'=>'form-label']) !!}
 
               <div class="input-group date ms-3">
 
-                <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
+                <span class="input-group-text"><i class="bi bi-calendar"></i></span>
 
                 {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
 
@@ -237,11 +221,11 @@
 
             </div>
 
-            <div class="form-group ">
+            <div class="mb-0">
 
-              <button type="submit" class="btn btn-warning">
+              <button type="submit" class="fleet-btn">
 
-                <i class="bi bi-search"></i>
+                <i class="bi bi-search"></i> @lang('fleet.search')
 
               </button>
 
@@ -251,17 +235,13 @@
 
           </div>
 
-        </div>
-
       </div>
 
+      <div class="table-responsive" id="expenses">
 
+        <table class="fleet-table" id="data_table">
 
-      <div class="card-body table-responsive" id="expenses">
-
-        <table class="table" id="data_table">
-
-          <thead class="thead-inverse">
+          <thead class="table-dark">
 
             <tr>
 
@@ -355,7 +335,7 @@
 
               {!! Form::hidden("id",$row->id) !!}
 
-              @can('Transactions delete')<button type="button" class="btn btn-danger delete" id="btn_delete" data-id="{{$row->id}}" title="@lang('fleet.delete')">
+              @can('Transactions delete')<button type="button" class="fleet-btn fleet-btn-danger fleet-btn-sm delete" id="btn_delete" data-id="{{$row->id}}" title="@lang('fleet.delete')">
 
                 <span class="bi bi-x-lg" aria-hidden="true"></span>
 
@@ -379,7 +359,7 @@
 
                 @if($today->count() > 0)
 
-                @can('Transactions delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>@endcan
+                @can('Transactions delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>@endcan
 
                 @endif
 
@@ -411,7 +391,7 @@
 
       </div>
 
-    </div>
+    </x-fleet.panel>
 
   </div>
 
@@ -449,9 +429,9 @@
 
       <div class="modal-footer">
 
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -493,9 +473,9 @@
 
       <div class="modal-footer">
 
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 

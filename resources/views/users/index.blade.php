@@ -16,19 +16,22 @@
   }
 </style>
 @endsection
+@section('page_title', __('fleet.manageUsers') . __('fleet.managers'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.manageUsers')@lang('fleet.managers') &nbsp;
-          @can('Users add')<a href="{{route('users.create')}}" class="btn btn-success" title="@lang('fleet.addUser')"><i
-              class="bi bi-plus-lg"></i></a></h3>@endcan
+    <x-fleet.panel :title="__('fleet.manageUsers') . __('fleet.managers')" icon="bi-person-gear">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.manageUsers') . __('fleet.managers') }}</div>
+        <div class="d-flex gap-2">
+          @can('Users add')
+            <a href="{{route('users.create')}}" class="fleet-btn" title="@lang('fleet.addUser')"><i class="bi bi-plus-lg"></i> @lang('fleet.addUser')</a>
+          @endcan
+        </div>
       </div>
-
-      <div class="card-body table-responsive">
-        <table class="table" id="ajax_data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table">
+          <thead class="table-dark">
             <tr>
               <th>
 
@@ -50,7 +53,7 @@
             <tr>
               <th>
 
-                @can('Users delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                @can('Users delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal"
                   title="@lang('fleet.delete')" data-bs-target="#bulkModal" disabled>
                   <i class="bi bi-trash"></i></button>@endcan
 
@@ -65,7 +68,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -84,8 +87,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -106,8 +109,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -128,24 +131,20 @@
         <form id="change" action="{{url('admin/change_password')}}" method="POST">
 
           {!! Form::hidden('driver_id',"",['id'=>'driver_id'])!!}
-          <div class="form-group">
+          <div class="mb-3">
             {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
             <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="bi bi-lock"></i></span>
-              </div>
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
               {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
-              <div class="input-group-prepend">
-                <button type="button" id="show-password-button" class="show-password-button" >
-                  <i class="bi bi-eye" aria-hidden="true"></i>
-                </button>
-              </div>
+              <button type="button" id="show-password-button" class="show-password-button" >
+                <i class="bi bi-eye" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
           <div class="modal-footer">
-            <button id="password" class="btn btn-info" type="submit">@lang('fleet.change_password')</button>
+            <button id="password" class="fleet-btn" type="submit">@lang('fleet.change_password')</button>
         </form>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')
         </button>
       </div>
     </div>

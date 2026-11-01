@@ -1,18 +1,17 @@
 @extends('layouts.attex')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
+@section('page_title', __('fleet.work_order_logs'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          @lang('fleet.work_order_logs')
-        </h3>
+    <x-fleet.panel :title="__('fleet.work_order_logs')" icon="bi-clock-history">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.work_order_logs') }}</div>
       </div>
-      <div class="card-body table-responsive">
-        <table class="table" id="data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="data_table">
+          <thead class="table-dark">
             <tr>
               <th>@lang('fleet.vehicle')</th>
               <th>@lang('fleet.vehicle_name')</th>
@@ -95,7 +94,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -112,8 +111,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

@@ -1,32 +1,27 @@
 @extends('layouts.attex')
+@section('page_title', __('fleet.user_report'))
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section('content')
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.user_report')
-        </h3>
-      </div>
-
-      <div class="card-body">
-        {!! Form::open(['route' => 'reports.users','method'=>'post','class'=>'form-inline']) !!}
-        <div class="row">
-          <div class="form-group" style="margin-right: 10px">
+    <x-fleet.panel :title="__('fleet.user_report')" icon="bi-people">
+      <div class="fleet-toolbar">
+        {!! Form::open(['route' => 'reports.users','method'=>'post','class'=>'d-flex flex-wrap gap-2 align-items-end w-100']) !!}
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('year', __('fleet.year1'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             {!! Form::select('year', $years, $year_select,['class'=>'form-control']) !!}</div>
           </div>
-          <div class="form-group" style="margin-right: 10px">
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('month', __('fleet.month'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             {!! Form::selectMonth('month',$month_select,['class'=>'form-control']) !!}</div>
           </div>
-          <div class="form-group" style="margin-right: 10px">
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('user', __('fleet.users'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             <select id="user_id" name="user_id" class="form-control" required>
               <option value="">@lang('fleet.selectUser')</option>
               @foreach($users as $user)
@@ -34,28 +29,22 @@
               @endforeach
             </select></div>
           </div>
-          <button type="submit" class="btn btn-info" style="margin-right: 10px">@lang('fleet.generate_report')</button>
-          <button type="submit" formaction="{{url('admin/print-users-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
+          <button type="submit" class="fleet-btn" style="margin-right: 10px">@lang('fleet.generate_report')</button>
+          <button type="submit" formaction="{{url('admin/print-users-report')}}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
           {!! Form::close() !!}
-        </div>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
+</div>
 </div>
 
 @if(isset($result))
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          @lang('fleet.report')
-        </h3>
-      </div>
-
-      <div class="card-body table-responsive">
-        <table class="table table-bordered table-striped table-hover"  id="myTable">
-          <thead>
+    <x-fleet.panel :title="__('fleet.report')" icon="bi-table">
+      <div class="table-responsive">
+        <table class="fleet-table"  id="myTable">
+          <thead class="table-dark">
             <tr>
               <th>@lang('fleet.book_by')</th>
               <th>@lang('fleet.pickup_addr')</th>
@@ -115,7 +104,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endif

@@ -1,25 +1,20 @@
 @extends('layouts.attex')
+@section('page_title', __('fleet.yearlyReport'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.yearlyReport')
-        </h3>
-      </div>
-
-      <div class="card-body">
-        {!! Form::open(['route' => 'reports.yearly','method'=>'post','class'=>'form-inline']) !!}
-        <div class="row">
-          <div class="form-group" style="margin-right: 10px">
+    <x-fleet.panel :title="__('fleet.yearlyReport')" icon="bi-calendar-range">
+      <div class="fleet-toolbar">
+        {!! Form::open(['route' => 'reports.yearly','method'=>'post','class'=>'d-flex flex-wrap gap-2 align-items-end w-100']) !!}
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('year', __('fleet.year'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             {!! Form::select('year', $years, $year_select,['class'=>'form-control']) !!}</div>
           </div>
 
-          <div class="form-group" style="margin-right: 10px">
+          <div class="mb-0" style="margin-right: 10px">
             {!! Form::label('vehicle', __('fleet.vehicles'), ['class' => 'form-label']) !!}
-            <div class="form-group" style="margin-left:5px;">
+            <div class="mb-0" style="margin-left:5px;">
             <select id="vehicle_id" name="vehicle_id" class="form-control vehicles" style="width: 250px">
               <option value="">@lang('fleet.selectVehicle')</option>
               @foreach($vehicles as $vehicle)
@@ -28,42 +23,28 @@
               @endforeach
             </select></div>
           </div>
-          <button type="submit" class="btn btn-info" style="margin-right: 10px">@lang('fleet.generate_report')</button>
-          <button type="submit" formaction="{{url('admin/print-yearly-report')}}" class="btn btn-danger"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
-        </div>
+          <button type="submit" class="fleet-btn" style="margin-right: 10px">@lang('fleet.generate_report')</button>
+          <button type="submit" formaction="{{url('admin/print-yearly-report')}}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-printer"></i> @lang('fleet.print')</button>
         {!! Form::close() !!}
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
 @if(isset($result))
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          @lang('fleet.report')
-        </h3>
-      </div>
-
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">@lang('fleet.chart') - @lang('fleet.income')</h4>
-              </div>
-
-              <div class="card-body">
-                <canvas id="canvas1" width="400" height="500"></canvas>
-              </div>
-            </div>
+    <x-fleet.panel :title="__('fleet.report')" icon="bi-table">
+      <div class="row">
+        <div class="col-md-4">
+          <x-fleet.panel :title="__('fleet.chart') . ' - ' . __('fleet.income')" icon="bi-pie-chart">
+            <canvas id="canvas1" width="400" height="500"></canvas>
+          </x-fleet.panel>
             <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover myTable">
+              <table class="fleet-table myTable">
                 @php ($income_amt = (is_null($income[0]->income) ? 0 : $income[0]->income))
                 @php ($expense_amt = (is_null($expenses[0]->expense) ? 0 : $expenses[0]->expense))
-                <thead>
+                <thead class="table-dark">
                   <tr>
                     <th scope="row">@lang('fleet.pl')</th>
                     <td><strong>{{ AtlasLogistics::get("currency")}}{{ $income_amt-$expense_amt}}</strong></td>
@@ -83,21 +64,16 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">@lang('fleet.chart') - @lang('fleet.incomeByCategory')</h4>
-              </div>
-              <div class="card-body">
-                <canvas id="canvas2" width="400" height="500"></canvas>
-              </div>
-            </div>
+            <x-fleet.panel :title="__('fleet.chart') . ' - ' . __('fleet.incomeByCategory')" icon="bi-pie-chart">
+              <canvas id="canvas2" width="400" height="500"></canvas>
+            </x-fleet.panel>
             <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover myTable">
+              <table class="fleet-table myTable">
                 @php($tot = 0)
                 @foreach ($income_by_cat as $exp)
                 @php($tot = $tot + $exp->amount)
                 @endforeach
-                <thead>
+                <thead class="table-dark">
                   <tr>
                     <th scope="row">@lang('fleet.incomeByCategory')</th>
                     <td><strong>{{ AtlasLogistics::get("currency")}}{{$tot}}</strong></td>
@@ -116,17 +92,12 @@
           </div>
 
           <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">@lang('fleet.chart') - @lang('fleet.expensesByCategory')</h4>
-              </div>
-              <div class="card-body">
-                <canvas id="canvas3" width="400" height="500"></canvas>
-              </div>
-            </div>
+            <x-fleet.panel :title="__('fleet.chart') . ' - ' . __('fleet.expensesByCategory')" icon="bi-pie-chart">
+              <canvas id="canvas3" width="400" height="500"></canvas>
+            </x-fleet.panel>
             <div class="table-responsive">
-              <table class="table table-bordered table-striped table-hover expTable">
-                <thead>
+              <table class="fleet-table expTable">
+                <thead class="table-dark">
                   <tr>
                     @php($tot = 0)
                     @foreach ($expense_by_cat as $exp)
@@ -154,8 +125,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endif

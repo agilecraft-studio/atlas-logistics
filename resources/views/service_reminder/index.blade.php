@@ -9,21 +9,25 @@
   }
 </style>
 @endsection
+@section('page_title', __('fleet.serviceReminders'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-        @lang('fleet.serviceReminders')
-        &nbsp;
-        @can('ServiceReminders add')<a href="{{ route('service-reminder.create')}}" class="btn btn-success" style="margin-bottom: 5px" title="@lang('fleet.add_service_reminder')"><i class="bi bi-plus-lg"></i></a>@endcan &nbsp;
-        @can('ServiceItems add')<a href="{{ route('service-item.create')}}" class="btn btn-success" style="margin-bottom: 5px">@lang('fleet.add_service_item')</a></h3>@endcan
+    <x-fleet.panel :title="__('fleet.serviceReminders')" icon="bi-bell">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.serviceReminders') }}</div>
+        <div class="d-flex gap-2">
+          @can('ServiceReminders add')
+            <a href="{{ route('service-reminder.create')}}" class="fleet-btn" title="@lang('fleet.add_service_reminder')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_service_reminder')</a>
+          @endcan
+          @can('ServiceItems add')
+            <a href="{{ route('service-item.create')}}" class="fleet-btn fleet-btn-ghost">@lang('fleet.add_service_item')</a>
+          @endcan
+        </div>
       </div>
-
-      <div class="card-body table-responsive">
-        <table class="table" id="data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="data_table">
+          <thead class="table-dark">
             <tr>
               <th>
                 @if($service_reminder->count() > 0)
@@ -108,7 +112,7 @@
                 {!! Form::open(['url' => 'admin/service-reminder/'.$reminder->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$reminder->id]) !!}
 
                 {!! Form::hidden("id",$reminder->id) !!}
-                  @can('ServiceReminders delete')<button type="button" class="btn btn-danger" data-id="{{$reminder->id}}" data-toggle="modal" data-target="#myModal" title="@lang('fleet.delete')">
+                  @can('ServiceReminders delete')<button type="button" class="fleet-btn fleet-btn-danger" data-id="{{$reminder->id}}" data-bs-toggle="modal" data-bs-target="#myModal" title="@lang('fleet.delete')">
                   <span class="bi bi-x-lg" aria-hidden="true"></span>
                   </button>@endcan
                 {!! Form::close() !!}
@@ -120,7 +124,7 @@
             <tr>
               <th>
                 @if($service_reminder->count() > 0)
-                @can('ServiceReminders delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
+                @can('ServiceReminders delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
                 @endif
               </th>
               <th>@lang('fleet.image')</th>
@@ -134,7 +138,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -153,8 +157,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -175,8 +179,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

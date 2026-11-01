@@ -9,20 +9,22 @@
   }
 </style>
 @endsection
+@section('page_title', __('fleet.work_orders'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-        @lang('fleet.work_orders')
-        &nbsp;
-        @can('WorkOrders add')<a href="{{ route('work_order.create')}}" class="btn btn-success" title="@lang('fleet.create_workorder')"><i class="bi bi-plus-lg"></i></a>@endcan</h3>
+    <x-fleet.panel :title="__('fleet.work_orders')" icon="bi-clipboard-check">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.work_orders') }}</div>
+        <div class="d-flex gap-2">
+          @can('WorkOrders add')
+            <a href="{{ route('work_order.create')}}" class="fleet-btn" title="@lang('fleet.create_workorder')"><i class="bi bi-plus-lg"></i> @lang('fleet.create_workorder')</a>
+          @endcan
+        </div>
       </div>
-
-      <div class="card-body table-responsive">
-        <table class="table" id="ajax_data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table">
+          <thead class="table-dark">
             <tr>
               <th>
                 @if($data->count() > 0)
@@ -89,14 +91,14 @@
               </td>
               <td>
               <div class="btn-group">
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                <button type="button" class="fleet-btn fleet-btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
                 <span class="bi bi-gear"></span>
                 <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu custom" role="menu">
                   <a class="dropdown-item" href='{{ url("admin/parts-used/".$row->id)}}'> <span aria-hidden="true" class="bi bi-wrench" style="color: green;"></span> @lang('fleet.partsUsed')</a>
                   @can('WorkOrders edit')<a class="dropdown-item" href='{{ url("admin/work_order/".$row->id."/edit")}}'> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
-                  @can('WorkOrders delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
+                  @can('WorkOrders delete')<a class="dropdown-item" data-id="{{$row->id}}" data-bs-toggle="modal" data-bs-target="#myModal"><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
                 </div>
               </div>
               {!! Form::open(['url' => 'admin/work_order/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
@@ -110,7 +112,7 @@
             <tr>
               <th>
                 @if($data->count() > 0)
-                @can('WorkOrders delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
+                @can('WorkOrders delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
                 @endif
               </th>
               <th>@lang('fleet.vehicleImage')</th>
@@ -129,7 +131,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -148,8 +150,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -170,8 +172,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

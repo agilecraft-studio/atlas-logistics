@@ -9,19 +9,17 @@
   }
 </style>
 @endsection
+@section('page_title', __('fleet.transactions'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-info">
-      <div class="card-header with-border">
-        <h3 class="card-title"> @lang('fleet.transactions')
-        </h3>
+    <x-fleet.panel :title="__('fleet.transactions')" icon="bi-credit-card">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.transactions') }}</div>
       </div>
-
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table display" id="ajax_data_table" style="padding-bottom: 35px; width: 100%">
-            <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table" style="padding-bottom: 35px; width: 100%">
+          <thead class="table-dark">
               <tr>
                 <th>@lang('fleet.id')</th>
                 <th>@lang('fleet.customer')</th>
@@ -60,8 +58,7 @@
             </tfoot>
           </table>
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

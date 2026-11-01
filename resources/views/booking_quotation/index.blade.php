@@ -19,8 +19,9 @@
             @can('BookingQuotations add')<a href="{{route('booking-quotation.create')}}" class="fleet-btn" title="@lang('fleet.add_quote')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_quote')</a>@endcan
         </div>
     </div>
-    <x-fleet.table>
-        <thead>
+    <div class="table-responsive">
+      <table class="fleet-table" id="ajax_data_table">
+        <thead class="table-dark">
           <tr>
             <th>
               <input type="checkbox" id="chk_all">
@@ -58,7 +59,8 @@
             <th>@lang('fleet.action')</th>
           </tr>
         </tfoot>
-      </x-fleet.table>
+      </table>
+    </div>
 </x-fleet.panel>
 
 <!-- Modal -->

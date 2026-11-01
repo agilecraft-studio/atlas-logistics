@@ -23,11 +23,13 @@
 @endsection
 
 
+@section('page_title', __('fleet.income'))
+
 @section('content')
 
-@if (count($errors) > 0)
+@if (count($errors ?? []) > 0)
 
-  <div class="alert alert-danger">
+  <x-fleet.alert type="danger">
 
     <ul>
 
@@ -39,7 +41,7 @@
 
     </ul>
 
-  </div>
+  </x-fleet.alert>
 
 @endif
 
@@ -65,27 +67,25 @@
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.addRecord')" icon="bi-plus-circle">
 
-      <div class="card-header">
+      <div class="fleet-toolbar">
 
-        <h3 class="card-title">@lang('fleet.addRecord')</h3>
+        <div class="text-muted">{{ __('fleet.addRecord') }}</div>
 
       </div>
 
-      <div class="card-body">
-
         <div class="row">
 
-          {!! Form::open(['route' => 'income.store','method'=>'post','class'=>'form-inline','id'=>'income_form']) !!}
+          {!! Form::open(['route' => 'income.store','method'=>'post','class'=>'fleet-form row g-3 align-items-end','id'=>'income_form']) !!}
 
 
 
           <div class="col-md-3">
 
-            <div class="form-group" style="margin-left:2px">
+            <div class="mb-0" style="margin-left:2px">
 
-              {!! Form::label('vehicle_id', __('fleet.selectVehicle'), ['class' => 'col-xs-12 control-label']) !!}
+              {!! Form::label('vehicle_id', __('fleet.selectVehicle'), ['class' => 'form-label']) !!}
 
               <div class="col-md-12">
 
@@ -109,9 +109,9 @@
 
           <div class="col-md-3" style=" margin-top: 5px;">
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('income_type', __('fleet.incomeType'), ['class' => 'col-xs-12 control-label']) !!}
+              {!! Form::label('income_type', __('fleet.incomeType'), ['class' => 'form-label']) !!}
 
               <div class="col-md-12">
 
@@ -135,17 +135,15 @@
 
           <div class="col-md-3">
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('mileage', __('fleet.mileage'), ['class' => 'col-xs-12 control-label']) !!}
+              {!! Form::label('mileage', __('fleet.mileage'), ['class' => 'form-label']) !!}
 
               <div class="col-md-12">
 
                 <div class="input-group">
 
-                  <div class="input-group-prepend">
-
-                  <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span></div>
+                  <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span>
 
                   <input required="required" name="mileage" type="number" id="mileage" class="form-control" min="0">
 
@@ -159,17 +157,15 @@
 
           <div class="col-md-3">
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('date', __('fleet.date'), ['class' => 'col-xs-12 control-label']) !!}
+              {!! Form::label('date', __('fleet.date'), ['class' => 'form-label']) !!}
 
               <div class="col-md-12">
 
                 <div class="input-group">
 
-                  <div class="input-group-prepend">
-
-                  <span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-calendar"></i></span>
 
                   <input required="required" name="date" type="text" value="{{ date('Y-m-d')}}"  id="date" class="form-control">
 
@@ -187,17 +183,15 @@
 
           <div class="col-md-3" style="margin-top: 5px;">
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('revenue', __('fleet.amount'), ['class' => 'col-xs-5 control-label']) !!}
+              {!! Form::label('revenue', __('fleet.amount'), ['class' => 'form-label']) !!}
 
               <div class="col-xs-6">
 
                 <div class="input-group">
 
-                  <div class="input-group-prepend">
-
-                  <span class="input-group-text">{{$currency}}</span></div>
+                  <span class="input-group-text">{{$currency}}</span>
 
                   <input required="required" name="revenue" type="text"   id="revenue" class="form-control">
 
@@ -225,17 +219,15 @@
 
             @endif
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('tax_percent', __('fleet.total_tax'). " (%)", ['class' => 'col-xs-5 control-label']) !!}
+              {!! Form::label('tax_percent', __('fleet.total_tax'). " (%)", ['class' => 'form-label']) !!}
 
               <div class="col-xs-6">
 
                 <div class="input-group">
 
-                  <div class="input-group-prepend">
-
-                  <span class="input-group-text"><i class="bi bi-percent"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-percent"></i></span>
 
                   <input name="tax_percent" type="text" id="tax_percent" class="form-control" readonly value="{{ $tax_percent }}">
 
@@ -251,17 +243,15 @@
 
           <div class="col-md-3" style=" margin-top: 5px;">
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('tax_charge_rs', __('fleet.total')." ". __('fleet.tax_charge'), ['class' => 'col-xs-5 control-label']) !!}
+              {!! Form::label('tax_charge_rs', __('fleet.total')." ". __('fleet.tax_charge'), ['class' => 'form-label']) !!}
 
               <div class="col-xs-6">
 
                 <div class="input-group">
 
-                  <div class="input-group-prepend">
-
-                  <span class="input-group-text">{{$currency}}</span></div>
+                  <span class="input-group-text">{{$currency}}</span>
 
                   <input required="required" name="tax_charge_rs" type="text" id="tax_charge_rs" class="form-control" readonly value="0">
 
@@ -275,17 +265,15 @@
 
           <div class="col-md-3" style=" margin-top: 5px;">
 
-            <div class="form-group">
+            <div class="mb-0">
 
-              {!! Form::label('tax_total', __('fleet.total')." ". __('fleet.amount'), ['class' => 'col-xs-5 control-label']) !!}
+              {!! Form::label('tax_total', __('fleet.total')." ". __('fleet.amount'), ['class' => 'form-label']) !!}
 
               <div class="col-xs-6">
 
                 <div class="input-group">
 
-                  <div class="input-group-prepend">
-
-                  <span class="input-group-text">{{$currency}}</span></div>
+                  <span class="input-group-text">{{$currency}}</span>
 
                   <input required="required" name="tax_total" type="text" id="tax_total" class="form-control" readonly>
 
@@ -299,7 +287,7 @@
 
           <div class="col-md-6" style=" margin-top: 5px;">
 
-            @can('Transactions add')<button type="submit" class="btn btn-success">@lang('fleet.add')</button>@endcan
+            @can('Transactions add')<button type="submit" class="fleet-btn"><i class="bi bi-plus-lg"></i> @lang('fleet.add')</button>@endcan
 
           </div>
 
@@ -307,9 +295,7 @@
 
         </div>
 
-      </div>
-
-    </div>
+    </x-fleet.panel>
 
   </div>
 
@@ -323,37 +309,23 @@
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.todayIncome')" icon="bi-cash-stack">
 
-      <div class="card-header">
+      <div class="fleet-toolbar">
 
-        <div class="panel-heading">
+        <div class="text-muted">{{ __('fleet.todayIncome') }}: <strong><span id="total_today"> {{$currency." ". $total}} </span></strong></div>
 
-          <div class="row">
+        <div class="d-flex gap-2 align-items-end">
 
-            <div class="col-md-4">
+          {!! Form::open(['url'=>'admin/income_records','class'=>'d-flex gap-2 align-items-end']) !!}
 
-              <h3 class="card-title">
+          <div class="mb-0">
 
-                @lang('fleet.todayIncome'): <strong><span id="total_today"> {{$currency." ". $total}} </span> </strong>
-
-              </h3>
-
-            </div>
-
-
-
-            <div class="col-md-8 pull-right" style="display: flex; justify-content: end;">
-
-              {!! Form::open(['url'=>'admin/income_records','class'=>'form-inline']) !!}
-
-              <div class="form-group">
-
-                {!! Form::label('date1',__('fleet.From')) !!}
+                  {!! Form::label('date1',__('fleet.From'), ['class' => 'form-label']) !!}
 
                 <div class="input-group date ms-3 me-3">
 
-                  <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-calendar"></i></span>
 
                   {!! Form::text('date1', $date1,['class' => 'form-control','placeholder'=>__('fleet.start_date'),'required']) !!}
 
@@ -361,13 +333,13 @@
 
               </div>
 
-              <div class="form-group" style="margin-right: 10px">
+              <div class="mb-0" style="margin-right: 10px">
 
-                {!! Form::label('date2',__('fleet.To')) !!}
+                  {!! Form::label('date2',__('fleet.To'), ['class' => 'form-label']) !!}
 
                 <div class="input-group date ms-3">
 
-                  <div class="input-group-prepend"><span class="input-group-text"><i class="bi bi-calendar"></i></span></div>
+                  <span class="input-group-text"><i class="bi bi-calendar"></i></span>
 
                   {!! Form::text('date2', $date2,['class' => 'form-control','placeholder'=>__('fleet.end_date'),'required']) !!}
 
@@ -375,31 +347,27 @@
 
               </div>
 
-              <div class="form-group">
+              <div class="mb-0">
 
-                <button type="submit" class="btn btn-warning">
+                <button type="submit" class="fleet-btn">
 
-                  <i class="bi bi-search"></i>
+                  <i class="bi bi-search"></i> @lang('fleet.search')
 
                 </button>
 
               </div>
 
-              {!! Form::close() !!}
-
-            </div>
-
-          </div>
+          {!! Form::close() !!}
 
         </div>
 
       </div>
 
-      <div class="card-body table-responsive" id="income">
+      <div class="table-responsive" id="income">
 
-        <table class="table" id="data_table">
+        <table class="fleet-table" id="data_table">
 
-          <thead class="thead-inverse">
+          <thead class="table-dark">
 
             <tr>
 
@@ -489,7 +457,7 @@
 
               {!! Form::hidden("id",$row->id) !!}
 
-              @can('Transactions delete')<button type="button" class="btn btn-danger delete" data-id="{{$row->id}}" title="@lang('fleet.delete')"><span class="bi bi-x-lg" aria-hidden="true"></span></button>@endcan
+              @can('Transactions delete')<button type="button" class="fleet-btn fleet-btn-danger fleet-btn-sm delete" data-id="{{$row->id}}" title="@lang('fleet.delete')"><span class="bi bi-x-lg" aria-hidden="true"></span></button>@endcan
 
               {!! Form::close() !!}
 
@@ -509,7 +477,7 @@
 
                 @if($today->count() > 0)
 
-                @can('Transactions delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
+                @can('Transactions delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
 
                 @endif
 
@@ -539,7 +507,7 @@
 
       </div>
 
-    </div>
+    </x-fleet.panel>
 
   </div>
 
@@ -577,9 +545,9 @@
 
       <div class="modal-footer">
 
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -621,9 +589,9 @@
 
       <div class="modal-footer">
 
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 

@@ -7,20 +7,22 @@
   }
 </style>
 @endsection
+@section('page_title', __('fleet.vehicleGroup'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-        @lang('fleet.vehicleGroup')
-        &nbsp;
-        @can('VehicleGroup add')<a href="{{ route('vehicle_group.create')}}" class="btn btn-success" title="@lang('fleet.createGroup')"><i class="bi bi-plus-lg"></i></a>@endcan</h3>
+    <x-fleet.panel :title="__('fleet.vehicleGroup')" icon="bi-collection">
+      <div class="fleet-toolbar">
+        <div class="text-muted">{{ __('fleet.vehicleGroup') }}</div>
+        <div class="d-flex gap-2">
+          @can('VehicleGroup add')
+            <a href="{{ route('vehicle_group.create')}}" class="fleet-btn" title="@lang('fleet.createGroup')"><i class="bi bi-plus-lg"></i> @lang('fleet.createGroup')</a>
+          @endcan
+        </div>
       </div>
-
-      <div class="card-body table-responsive">
-        <table class="table" id="ajax_data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table">
+          <thead class="table-dark">
             <tr>
               <th>
                 <input type="checkbox" id="chk_all">
@@ -38,7 +40,7 @@
           <tfoot>
             <tr>
               <th>
-                @can('VehicleGroup delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
+                @can('VehicleGroup delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>@endcan
               </th>
               <th>@lang('fleet.groupName')</th>
               <th>@lang('fleet.description')</th>
@@ -49,7 +51,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -68,8 +70,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -90,8 +92,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

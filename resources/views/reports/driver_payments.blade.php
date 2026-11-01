@@ -1,55 +1,44 @@
 @extends('layouts.attex')
+@section('page_title', __('fleet.driverPayment'))
 @php $currency = AtlasLogistics::get('currency') @endphp
 @php $date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y'; @endphp
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.add') @lang('fleet.driverPayment')
-        </h3>
-      </div>
-      <div class="card-body">
-
-        {!! Form::open(['route'=>'reports.payments', 'method'=>'POST']) !!}
-        <div class="row">
-          <div class="col-md-4 form-group">
-            {!! Form::label('driver', trans('fleet.driver')) !!}
-            <div class="form-group" style="margin-left:5px;">
-            {!!
-            Form::select('driver',$drivers??[],null,['class'=>'form-control','placeholder'=>trans('fleet.select')],$driver_booking_amount)
-            !!}
-            {!! Form::hidden('remaining_amount_hidden', null, ['id'=>'remaining_amount_hidden']) !!}</div>
-            <small id="remaining_amount" style="display: none;"></small>
-          </div>
-          <div class="col-md-4 form-group">
-            {!! Form::label('amount', trans('fleet.amount')) !!}
-            <div class="form-group" style="margin-left:5px;">
-            {!! Form::number('amount',null,['class'=>'form-control','step'=>'0.01','min'=>0]) !!}</div>
-          </div>
-          <div class="col-md-4 form-group">
-            {!! Form::label('notes', trans('fleet.notes')) !!}
-            <div class="form-group" style="margin-left:5px;">
-            {!! Form::textarea('notes',null,['class'=>'form-control','rows'=>2]) !!}</div>
-          </div>
-          <div class="col-md-12">
-            {!! Form::submit(trans('fleet.submit'), ['class'=>'btn btn-primary']) !!}
-          </div>
+    <x-fleet.panel :title="__('fleet.add') . ' ' . __('fleet.driverPayment')" icon="bi-plus-circle">
+      {!! Form::open(['route'=>'reports.payments', 'method'=>'POST','class'=>'fleet-form']) !!}
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          {!! Form::label('driver', trans('fleet.driver'), ['class'=>'form-label']) !!}
+          <div class="mb-0" style="margin-left:5px;">
+          {!!
+          Form::select('driver',$drivers??[],null,['class'=>'form-control','placeholder'=>trans('fleet.select')],$driver_booking_amount)
+          !!}
+          {!! Form::hidden('remaining_amount_hidden', null, ['id'=>'remaining_amount_hidden']) !!}</div>
+          <small id="remaining_amount" style="display: none;"></small>
         </div>
-        {!! Form::close() !!}
+        <div class="col-md-4 mb-3">
+          {!! Form::label('amount', trans('fleet.amount'), ['class'=>'form-label']) !!}
+          <div class="mb-0" style="margin-left:5px;">
+          {!! Form::number('amount',null,['class'=>'form-control','step'=>'0.01','min'=>0]) !!}</div>
+        </div>
+        <div class="col-md-4 mb-3">
+          {!! Form::label('notes', trans('fleet.notes'), ['class'=>'form-label']) !!}
+          <div class="mb-0" style="margin-left:5px;">
+          {!! Form::textarea('notes',null,['class'=>'form-control','rows'=>2]) !!}</div>
+        </div>
+        <div class="col-md-12">
+          {!! Form::submit(trans('fleet.submit'), ['class'=>'fleet-btn']) !!}
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.paymentReport')
-        </h3>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive">
-              <table class="table w-100" id="data_table">
-                <thead>
+      {!! Form::close() !!}
+    </x-fleet.panel>
+    <x-fleet.panel :title="__('fleet.paymentReport')" icon="bi-table">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="fleet-table w-100" id="data_table">
+              <thead class="table-dark">
                   <tr>
                     <th></th>
                     {{-- <th style="width: 7%;">Sr No.</th> --}}
@@ -100,8 +89,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

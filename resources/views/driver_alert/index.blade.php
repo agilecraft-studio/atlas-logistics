@@ -21,33 +21,33 @@
 
 @endsection
 
+@section('page_title', __('fleet.manage_driver_alert'))
+
 @section('content')
 
 <div class="row">
 
   <div class="col-md-12">
 
-    <div class="card">
+    <x-fleet.panel :title="__('fleet.manage_driver_alert')" icon="bi-person-exclamation">
 
-      <div class="card-header">
+      <div class="fleet-toolbar">
 
-        <h3 class="card-title">
+        <div class="text-muted">{{ __('fleet.manage_driver_alert') }}</div>
 
-        @lang('fleet.manage_driver_alert')
+        <div class="d-flex gap-2">
 
-        &nbsp;
+          <a href="{{ route('driver-alert.create')}}" class="fleet-btn" title="@lang('fleet.manage_driver_alert')"><i class="bi bi-plus-lg"></i> @lang('fleet.manage_driver_alert')</a>
 
-       <a href="{{ route('driver-alert.create')}}" class="btn btn-success" title="@lang('fleet.manage_driver_alert')"> <i class="bi bi-plus-lg"></i> </a></h3>
+        </div>
 
       </div>
 
+      <div class="table-responsive">
 
+        <table class="fleet-table" id="data_table">
 
-      <div class="card-body table-responsive">
-
-        <table class="table" id="data_table">
-
-          <thead class="thead-inverse">
+          <thead class="table-dark">
 
             <tr>
 
@@ -98,7 +98,7 @@
 
               <div class="btn-group">
 
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                <button type="button" class="fleet-btn fleet-btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
 
                   <span class="bi bi-gear"></span>
 
@@ -113,7 +113,7 @@
                  @endcan
 
                  @can('DriverAlert delete')
-                <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
+                <a class="dropdown-item" data-id="{{$row->id}}" data-bs-toggle="modal" data-bs-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
 
                 @endcan
 
@@ -143,7 +143,7 @@
 
                 @if($data->count() > 0)
 
-                <button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>
+                <button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')" ><i class="bi bi-trash"></i></button>
 
                 @endif
 
@@ -163,7 +163,7 @@
 
       </div>
 
-    </div>
+    </x-fleet.panel>
 
   </div>
 
@@ -201,9 +201,9 @@
 
       <div class="modal-footer">
 
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
@@ -245,9 +245,9 @@
 
       <div class="modal-footer">
 
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
 
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
 
       </div>
 
