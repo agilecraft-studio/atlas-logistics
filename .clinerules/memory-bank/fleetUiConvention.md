@@ -129,8 +129,8 @@ authenticated sweep 200+fleet-shell; /installation,/installed,/migrate,
   none extend them anymore; safe to delete after a grep for @include).
 - Full component markup upgrade (card->x-fleet.panel etc.) still pending for
   the 137 mechanically migrated views; compat layer keeps them consistent.
-- bookings/, booking_quotation/, chat, track_driver, driver_maps, geocode are
-  legacy taxi-era (routes mostly disconnected) — migrated mechanically only.
+- bookings/, booking_quotation/, chat, track_driver, driver_maps, geocode were
+  taxi-era and have been removed (2026-11-01 purge); Trips is the replacement.
 - A few migrated views carry their own external <script src> (Google Maps
   x4, Pusher, Summernote CDN, jQuery Validate CDN in attex-era partials) —
   pre-existing, untouched.
@@ -154,9 +154,9 @@ Rules:
   PHP 8.5 deprecation that Laravel escalates to ErrorException, i.e. a SECOND
   500 waiting on the same endpoint. Use:
   is_string($m) && $m !== '' ? unserialize($m) : null
-- When a view reads the same nullable chain many times (bookings/list-actions
-  read $row->vehicle->types->vehicletype 16x), compute ONE guarded local plus a
-  small fare closure in an @php block; do not repeat the chain. Re-check the
+- When a view reads the same nullable chain many times (legacy list views read
+  $row->vehicle->types->vehicletype repeatedly), compute ONE guarded local plus a
+  small closure in an @php block; do not repeat the chain. Re-check the
   surrounding @if/@elseif/@endif brace balance after restructuring.
 - Controllers: eager-load the relations the Blade actually reads, and 404 via
   abort(404) rather than handing a null model to a view that dereferences it.
@@ -179,8 +179,9 @@ title section at all) stop reading 'Dashboard' on every page. Legacy views are
 NOT mass-edited for titles - the layout fallback is the fix.
 
 ## Track B Wave 1 patterns (added 2026-10-12)
-Applies to bookings create/manage, quotations index/create, calendar
-(commits 748d00b, f8bb54c, 94df209, 18babca, 1899556; routes pinned at 908):
+Originally applied to bookings create/manage, quotations index/create, calendar
+(those taxi views were deleted in the 2026-11-01 purge; the patterns remain the
+standard for current fleet/logistics screens):
 
 - Header: legacy `card card-success/card-info` colour bands are a defect (S1);
   convert to attex `@section('page_title')` + `@section('fleet_subtitle')` with

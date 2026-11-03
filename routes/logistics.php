@@ -68,6 +68,29 @@ Route::prefix('logistics')->namespace('Logistics')->group(function () {
     Route::post('trips/{tripId}/advances', 'DriverAdvancesController@store')->name('logistics.advances.store')->where('tripId', '[0-9]+');
     Route::delete('advances/{id}', 'DriverAdvancesController@destroy')->name('logistics.advances.destroy')->where('id', '[0-9]+');
 
+    // ---- Client invoicing ----
+    Route::prefix('invoices')->name('logistics.invoices.')->group(function () {
+        Route::get('/', 'InvoicesController@index')->name('index');
+        Route::get('create', 'InvoicesController@create')->name('create');
+        Route::post('/', 'InvoicesController@store')->name('store');
+        Route::get('{invoice}', 'InvoicesController@show')->name('show')->whereNumber('invoice');
+        Route::get('{invoice}/edit', 'InvoicesController@edit')->name('edit')->whereNumber('invoice');
+        Route::put('{invoice}', 'InvoicesController@update')->name('update')->whereNumber('invoice');
+        Route::delete('{invoice}', 'InvoicesController@destroy')->name('destroy')->whereNumber('invoice');
+        Route::post('{invoice}/lines', 'InvoicesController@storeLine')->name('lines.store')->whereNumber('invoice');
+        Route::put('{invoice}/lines/{line}', 'InvoicesController@updateLine')->name('lines.update')
+            ->where(['invoice' => '[0-9]+', 'line' => '[0-9]+']);
+        Route::delete('{invoice}/lines/{line}', 'InvoicesController@destroyLine')->name('lines.destroy')
+            ->where(['invoice' => '[0-9]+', 'line' => '[0-9]+']);
+        Route::post('{invoice}/issue', 'InvoicesController@issue')->name('issue')->whereNumber('invoice');
+        Route::post('{invoice}/cancel', 'InvoicesController@cancel')->name('cancel')->whereNumber('invoice');
+        Route::post('{invoice}/payments', 'InvoicesController@storePayment')->name('payments.store')->whereNumber('invoice');
+        Route::delete('{invoice}/payments/{payment}', 'InvoicesController@destroyPayment')->name('payments.destroy')
+            ->where(['invoice' => '[0-9]+', 'payment' => '[0-9]+']);
+        Route::get('{invoice}/pdf', 'InvoicesController@pdf')->name('pdf')->whereNumber('invoice');
+        Route::get('{invoice}/print', 'InvoicesController@printInvoice')->name('print')->whereNumber('invoice');
+    });
+
     // Fleet Operations Dashboard
     Route::get('dashboard', 'FleetDashboardController@index')->name('logistics.dashboard')->middleware('permission:LogisticsReports list');
 

@@ -12,7 +12,6 @@ return ['sections' => [
 ['label' => 'Fuel', 'icon' => 'bi-fuel-pump-fill', 'route' => 'fuel.index', 'permission' => 'Fuel list', 'active' => 'fuel.*'],
 ['label' => 'Trailers', 'icon' => 'bi-truck-flatbed', 'route' => 'logistics.trailers.index', 'permission' => 'Trailers list', 'active' => 'logistics.trailers.*'],
 ['label' => 'Components', 'icon' => 'bi-gear-fill', 'route' => 'logistics.components.index', 'permission' => 'FleetRegister list', 'active' => 'logistics.components.*'],
-['label' => 'Breakdown', 'icon' => 'bi-exclamation-triangle-fill', 'route' => 'vehicle-breakdown.index', 'permission' => 'VehicleBreakdown list', 'active' => 'vehicle-breakdown.*'],
 ['label' => 'Service Reminders', 'icon' => 'bi-alarm-fill', 'route' => 'service-reminder.index', 'permission' => 'ServiceReminders list', 'active' => 'service-reminder.*'],
 ['label' => 'Service Items', 'icon' => 'bi-list-check', 'route' => 'service-item.index', 'permission' => 'ServiceItems list', 'active' => 'service-item.*'],
 ['label' => 'Mechanics', 'icon' => 'bi-person-gear', 'route' => 'mechanic.index', 'permission' => 'Mechanics list', 'active' => 'mechanic.*'],
@@ -29,13 +28,11 @@ return ['sections' => [
 ['label' => 'Compliance', 'icon' => 'bi-file-earmark-check-fill', 'route' => 'logistics.compliance', 'permission' => 'Compliance list', 'active' => 'logistics.compliance*'],
 ['label' => 'Reports', 'icon' => 'bi-clipboard-data-fill', 'route' => 'reports.monthly', 'permission' => 'Reports list', 'active' => 'reports.*'],
 ['label' => 'Notes', 'icon' => 'bi-journal-text', 'route' => 'notes.index', 'permission' => 'Notes list', 'active' => 'notes.*'],
-['label' => 'Driver Alerts', 'icon' => 'bi-bell-fill', 'route' => 'driver-alert.index', 'permission' => 'DriverAlert list', 'active' => 'driver-alert.*'],
 ['label' => 'Telematics', 'icon' => 'bi-geo-alt-fill', 'route' => 'traccar.settings', 'permission' => 'Settings list', 'active' => 'traccar.*'],
 ]],
 ['label' => 'ADMIN', 'items' => [
 ['label' => 'Users', 'icon' => 'bi-people', 'route' => 'users.index', 'permission' => 'Users list', 'active' => 'users.*'],
 ['label' => 'Roles', 'icon' => 'bi-shield-lock-fill', 'route' => 'roles.index', 'permission' => 'Roles list', 'active' => 'roles.*'],
 ['label' => 'Settings', 'icon' => 'bi-gear', 'route' => 'settings', 'permission' => 'Settings list', 'active' => 'settings*'],
-['label' => 'Addresses', 'icon' => 'bi-pin-map-fill', 'route' => 'addresses.index', 'permission' => 'Customer list', 'active' => 'addresses*'],
 ]],
 ]];

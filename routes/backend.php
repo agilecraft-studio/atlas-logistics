@@ -22,8 +22,6 @@ Route::namespace ('Backend')->middleware(['throttle', 'auth:backend', 'updatepas
     Route::post('import-expense-categories', 'ExpenseCategoriesApiController@import_records')->middleware('backendpermission:S');
     Route::post('import-income-categories', 'IncomeCategoriesApiController@import_records')->middleware('backendpermission:S');
 
-    Route::post('customer/add-booking', 'BookingsApiController@store_by_customer')->middleware('backendpermission:C');
-    Route::post('customer/update-booking', 'BookingsApiController@update_by_customer')->middleware('backendpermission:C');
     Route::get('languages', 'BackendApiController@lang_dropdown');
 
     Route::get('get-vehicles', 'VehicleInspectionApiController@get_vehicles');
@@ -56,18 +54,7 @@ Route::namespace ('Backend')->middleware(['throttle', 'auth:backend', 'updatepas
     Route::post('update-profile-photo', 'BackendApiController@update_profile_photo');
 
     // driver profile API
-    Route::post('driver/yearly-report', 'DriversApiController@yearly_report')->middleware('backendpermission:D');
-    Route::post('driver/monthly-report', 'DriversApiController@monthly_report')->middleware('backendpermission:D');
-    Route::get('driver/report-dropdown', 'DriversApiController@driver_reports_dropdown')->middleware('backendpermission:D');
     Route::get('driver/home', 'DriversApiController@profile')->middleware('backendpermission:D');
-    Route::get('driver/my-bookings', 'DriversApiController@my_bookings')->middleware('backendpermission:D');
-
-    // customer profile API
-    Route::get('customer/addresses', 'CustomersApiController@addresses')->middleware('backendpermission:C');
-    Route::post('customer/add-address', 'CustomersApiController@add_address')->middleware('backendpermission:C');
-    Route::post('customer/edit-address', 'CustomersApiController@edit_address')->middleware('backendpermission:C');
-    Route::post('customer/delete-address', 'CustomersApiController@delete_address')->middleware('backendpermission:C');
-    Route::get('customer/home', 'CustomersApiController@home')->middleware('backendpermission:C');
 
     // vehicle types API
     Route::post('upload-vehicle-type-icon/{id}', 'VehicleTypesApiController@upload_documents')->middleware('backendpermission:1');
@@ -81,41 +68,19 @@ Route::namespace ('Backend')->middleware(['throttle', 'auth:backend', 'updatepas
     Route::get('report-dropdown', 'ReportsApiController@reports_dropdown');
     Route::post('yearly-report', 'ReportsApiController@yearly')->middleware('backendpermission:4');
     Route::post('vendor-report', 'ReportsApiController@vendor')->middleware('backendpermission:4');
-    Route::post('customer-report', 'ReportsApiController@customer')->middleware('backendpermission:4');
-    Route::post('driver-report', 'ReportsApiController@driver')->middleware('backendpermission:4');
     Route::post('fuel-report', 'ReportsApiController@fuel')->middleware('backendpermission:4');
-    Route::post('user-report', 'ReportsApiController@user')->middleware('backendpermission:4');
-    Route::post('booking-report', 'ReportsApiController@booking')->middleware('backendpermission:4');
     Route::post('monthly-report', 'ReportsApiController@monthly')->middleware('backendpermission:4');
     Route::post('delinquent-report', 'ReportsApiController@delinquent')->middleware('backendpermission:4');
     Route::post('income-report', 'ReportsApiController@income')->middleware('backendpermission:4');
     Route::post('expense-report', 'ReportsApiController@expense')->middleware('backendpermission:4');
 
-    // fare settings
-    Route::post('update-fare-settings', 'FareSettingsApiController@store_fare_settings')->middleware('backendpermission:S');
-    Route::get('fare-settings', 'FareSettingsApiController@get_fare_settings')->middleware('backendpermission:S');
-
     // API settings API
-    Route::post('store-api-key', 'ApiSettingsController@store_api')->middleware('backendpermission:S');
     Route::get('test-key', 'ApiSettingsController@test_key');
     Route::post('add-server-key', 'ApiSettingsController@store_server_key')->middleware('backendpermission:S');
     Route::get('fb', 'ApiSettingsController@fb_create')->name('firebase');
     Route::post('firebase-settings', 'ApiSettingsController@firebase_settings')->middleware('backendpermission:S');
     Route::post('edit-api-settings', 'ApiSettingsController@update_api_setting')->middleware('backendpermission:S');
     Route::get('api-settings', 'ApiSettingsController@get_api_settings')->middleware('backendpermission:S');
-
-    // company services API
-    Route::post('upload-service-image/{id}', 'CompanyServicesApiController@upload_documents')->middleware('backendpermission:S');
-
-    Route::get('company-services', 'CompanyServicesApiController@services')->middleware('backendpermission:S');
-    Route::post('add-company-service', 'CompanyServicesApiController@store')->middleware('backendpermission:S');
-    Route::post('edit-company-service', 'CompanyServicesApiController@update')->middleware('backendpermission:S');
-    Route::post('delete-company-service', 'CompanyServicesApiController@delete')->middleware('backendpermission:S');
-    Route::post('delete-company-services', 'CompanyServicesApiController@bulk_delete')->middleware('backendpermission:S');
-
-    // frontend settings API
-    Route::post('edit-frontend-settings', 'SettingsApiController@update_front_settings')->middleware('backendpermission:S');
-    Route::get('frontend-settings', 'SettingsApiController@get_front_settings')->middleware('backendpermission:S');
 
     // income categories API !doc
     Route::get('income-categories', 'IncomeCategoriesApiController@categories')->middleware('backendpermission:S');
@@ -136,13 +101,6 @@ Route::namespace ('Backend')->middleware(['throttle', 'auth:backend', 'updatepas
     Route::post('update-email-setting', 'EmailSettingsApiController@enable_disable')->middleware('backendpermission:S');
     Route::get('email-notifications', 'EmailSettingsApiController@get_email_settings')->middleware('backendpermission:S');
 
-    // cancel reasons API
-    Route::get('cancellation-reasons', 'CancellationReasonsApiController@reasons')->middleware('backendpermission:S');
-    Route::post('add-cancellation-reason', 'CancellationReasonsApiController@store')->middleware('backendpermission:S');
-    Route::post('edit-cancellation-reason', 'CancellationReasonsApiController@update')->middleware('backendpermission:S');
-    Route::post('delete-cancellation-reason', 'CancellationReasonsApiController@delete')->middleware('backendpermission:S');
-    Route::post('delete-cancellation-reasons', 'CancellationReasonsApiController@bulk_delete')->middleware('backendpermission:S');
-
     // general settings API
     Route::post('upload-logo-images', 'SettingsApiController@upload_documents')->middleware('backendpermission:S');
 
@@ -161,41 +119,6 @@ Route::namespace ('Backend')->middleware(['throttle', 'auth:backend', 'updatepas
     Route::get('work-orders', 'WorkOrdersApiController@orders')->middleware('backendpermission:7');
     Route::post('delete-work-orders', 'WorkOrdersApiController@bulk_delete')->middleware('backendpermission:7');
 
-    Route::post('fare-calculation', 'BackendApiController@fare_calc');
-    Route::get('fare-calculation', 'BackendApiController@get_fare_calc');
-
-    // bookings API
-    Route::post('booking-dropdowns', 'BookingsApiController@get_dropdowns')->middleware('backendpermission:3');
-    Route::get('booking-dropdowns/{id}', 'BookingsApiController@dropdowns')->middleware('backendpermission:3');
-
-    Route::post('view-event', 'BookingsApiController@view_event')->middleware('backendpermission:3');
-    Route::get('events', 'BookingsApiController@events')->middleware('backendpermission:3');
-    Route::get('bookings', 'BookingsApiController@bookings')->middleware('backendpermission:3');
-    Route::post('add-booking', 'BookingsApiController@store')->middleware('backendpermission:3');
-    Route::post('edit-booking', 'BookingsApiController@update')->middleware('backendpermission:3');
-    Route::post('delete-booking', 'BookingsApiController@delete')->middleware('backendpermission:3');
-    Route::get('booking-receipt/{id}', 'BookingsApiController@receipt')->middleware('backendpermission:3');
-    Route::post('generate-invoice', 'BookingsApiController@generate_invoice')->middleware('backendpermission:3');
-    Route::post('complete-journey', 'BookingsApiController@complete_journey')->middleware('backendpermission:3');
-    Route::post('make-payment', 'BookingsApiController@make_payment')->middleware('backendpermission:3');
-    Route::post('cancel-booking', 'BookingsApiController@cancel_booking')->middleware('backendpermission:3');
-    Route::post('delete-bookings', 'BookingsApiController@bulk_delete')->middleware('backendpermission:3');
-
-    // booking quotes API
-    Route::post('delete-booking-quotations', 'BookingQuotationsApiController@bulk_delete')->middleware('backendpermission:3');
-
-    Route::get('booking-quotations', 'BookingQuotationsApiController@quotes')->middleware('backendpermission:3');
-    Route::post('add-booking-quotation', 'BookingQuotationsApiController@store')->middleware('backendpermission:3');
-    Route::post('edit-booking-quotation', 'BookingQuotationsApiController@update')->middleware('backendpermission:3');
-    Route::post('approve-booking-quotation', 'BookingQuotationsApiController@approve')->middleware('backendpermission:3');
-    Route::post('reject-booking-quotation', 'BookingQuotationsApiController@reject')->middleware('backendpermission:3');
-    Route::post('delete-booking-quotation', 'BookingQuotationsApiController@delete')->middleware('backendpermission:3');
-    Route::get('booking-quotation-receipt/{id}', 'BookingQuotationsApiController@receipt')->middleware('backendpermission:3');
-
-    // inquiries and review API
-    Route::get('inquiries', 'BackendApiController@inquiries');
-    Route::get('reviews', 'BackendApiController@reviews')->middleware('backendpermission:10');
-
     // teams API
     Route::post('upload-member-image/{id}', 'TeamApiController@upload_documents')->middleware('backendpermission:S');
 
@@ -204,15 +127,6 @@ Route::namespace ('Backend')->middleware(['throttle', 'auth:backend', 'updatepas
     Route::post('edit-team', 'TeamApiController@update')->middleware('backendpermission:S');
     Route::post('delete-team', 'TeamApiController@delete')->middleware('backendpermission:S');
     Route::post('delete-team-records', 'TeamApiController@bulk_delete')->middleware('backendpermission:S');
-
-    // testimonials API
-    Route::post('upload-testimonial-image/{id}', 'TestimonialsApiController@upload_documents')->middleware('backendpermission:15');
-
-    Route::get('testimonials', 'TestimonialsApiController@testimonials')->middleware('backendpermission:15');
-    Route::post('add-testimonial', 'TestimonialsApiController@store')->middleware('backendpermission:15');
-    Route::post('edit-testimonial', 'TestimonialsApiController@update')->middleware('backendpermission:15');
-    Route::post('delete-testimonial', 'TestimonialsApiController@delete')->middleware('backendpermission:15');
-    Route::post('delete-testimonials', 'TestimonialsApiController@bulk_delete')->middleware('backendpermission:15');
 
     // service items API
     Route::get('service-items', 'ServiceItemApiController@items')->middleware('backendpermission:9');

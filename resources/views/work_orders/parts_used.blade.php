@@ -2,16 +2,17 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          @lang('fleet.partsUsed')
-        </h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-box-seam me-2"></i>{{ __('fleet.partsUsed') }}</h5>
+        <div class="d-flex gap-2">
+          <a href="{{ url('admin/work-order') }}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-arrow-left"></i> @lang('fleet.back')</a>
+        </div>
       </div>
 
-      <div class="card-body table-responsive">
-        <table class="table" id="data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="data_table">
+          <thead class="table-dark">
             <tr>
               <th>@lang('fleet.vehicle')</th>
               <th>@lang('fleet.description')</th>
@@ -36,7 +37,7 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

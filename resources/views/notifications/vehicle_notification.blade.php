@@ -3,16 +3,14 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          @lang('menu.notifications')
-        </h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-bell me-2"></i>@lang('menu.notifications')</h5>
       </div>
 
-      <div class="card-body table-responsive">
-        <table class="table" id="data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="table fleet-table" id="data_table">
+          <thead class="table-dark">
             <tr>
               <th>@lang('fleet.vehicleImage')</th>
               <th>@lang('fleet.vehicles')</th>
@@ -84,7 +82,7 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

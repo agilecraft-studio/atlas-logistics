@@ -7,43 +7,30 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PaymentSettignsRequest;
 use App\Http\Requests\SettingsRequest;
 use App\Mail\RenewDrivingLicence;
 use App\Mail\RenewInsurance;
 use App\Mail\RenewRegistration;
 use App\Mail\RenewVehicleLicence;
 use App\Mail\ServiceReminder;
-use App\Model\Address;
 use App\Model\ApiSettings;
-use App\Model\BookingIncome;
-use App\Model\BookingPaymentsModel;
-use App\Model\BookingQuotationModel;
-use App\Model\Bookings;
-use App\Model\CompanyServicesModel;
 use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
 use App\Model\EmailContent;
 use App\Model\ExpCats;
 use App\Model\Expense;
-use App\Model\FareSettings;
 use App\Model\FuelModel;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
 use App\Model\Mechanic;
-use App\Model\MessageModel;
 use App\Model\NotesModel;
 use App\Model\PartsCategoryModel;
 use App\Model\PartsModel;
 use App\Model\PartsUsedModel;
-use App\Model\PaymentSettings;
-use App\Model\ReasonsModel;
-use App\Model\ReviewModel;
 use App\Model\ServiceItemsModel;
 use App\Model\ServiceReminderModel;
 use App\Model\Settings;
 use App\Model\TeamModel;
-use App\Model\Testimonial;
 use App\Model\User;
 use App\Model\UserData;
 use App\Model\VehicleGroupModel;
@@ -72,12 +59,6 @@ class SettingsController extends Controller {
 		$this->middleware('permission:Settings list');
 	}
 	public function clear_database() {
-		Address::whereNotNull('id')->delete();
-		BookingIncome::whereNotNull('id')->delete();
-		BookingPaymentsModel::whereNotNull('id')->delete();
-		BookingQuotationModel::whereNotNull('id')->delete();
-		Bookings::whereNotNull('id')->delete();
-		CompanyServicesModel::whereNotNull('id')->delete();
 		DriverLogsModel::whereNotNull('id')->delete();
 		DriverVehicleModel::whereNotNull('id')->delete();
 		Expense::whereNotNull('id')->delete();
@@ -85,17 +66,13 @@ class SettingsController extends Controller {
 		FuelModel::whereNotNull('id')->delete();
 		IncCats::where('type', 'u')->delete();
 		IncomeModel::whereNotNull('id')->delete();
-		MessageModel::whereNotNull('id')->delete();
 		NotesModel::whereNotNull('id')->delete();
 		PartsCategoryModel::whereNotNull('id')->delete();
 		PartsModel::whereNotNull('id')->delete();
 		PartsUsedModel::whereNotNull('id')->delete();
-		ReasonsModel::whereNotNull('id')->delete();
-		ReviewModel::whereNotNull('id')->delete();
 		ServiceItemsModel::whereNotNull('id')->delete();
 		ServiceReminderModel::whereNotNull('id')->delete();
 		TeamModel::whereNotNull('id')->delete();
-		Testimonial::whereNotNull('id')->delete();
 		User::where('id', '!=', 1)->delete();
 		UserData::where('user_id', '!=', 1)->delete();
 		VehicleGroupModel::whereNotNull('id')->delete();
@@ -110,36 +87,6 @@ class SettingsController extends Controller {
 		EmailContent::where('key', 'options')->update(['value' => '']);
 		DB::table('notifications')->truncate();
 		return back()->with(['msg' => __('fleet.db_cleared')]);
-	}
-	public function payment_settings() {
-		return view("utilities.payment_settings");
-	}
-	public function payment_settings_post(PaymentSettignsRequest $request) {
-		// dd($request->all());
-		$only_razorpay = array("CUP", "GHS", "SSP", "SVC");
-		$only_stripe = array("AFN", "ANG", "AOA", "AZN", "BAM", "BGN", "BIF", "BRL", "CDF", "CLP", "CVE", "DJF", "FKP", "GEL", "GNF", "ISK", "JPY", "KMF", "KRW", "MGA", "MRO", "MZN", "PAB", "PLN", "PYG", "RON", "RSD", "RWF", "SBD", "SHP", "SRD", "STD", "THB", "TJS", "TOP", "TRY", "TWD", "UAH", "UGX", "VND", "VUV", "WST", "XAF", "XCD", "XOF", "XPF", "ZMW");
-		if (in_array("stripe", $request->method) && in_array($request->currency_code, $only_stripe)) {
-			// stripe in array methods && currency in array only Razorpay => error
-			return back()->with(['error_msg' => 'Stripe Payment Method does not support payments in ' . $request->currency_code . ' currency']);
-		}
-		if (in_array("razorpay", $request->method) && in_array($request->currency_code, $only_razorpay)) {
-			// razorpay in array methods && currency in array only stripe => error
-			return back()->with(['error_msg' => 'RazorPay Payment Method does not support payments in ' . $request->currency_code . ' currency']);
-		}
-		# paystack only allowed in below currency code.
-		$only_paystack = array("NGN", "GHS", "ZAR", "USD");
-		if (in_array("paystack", $request->method) && !in_array($request->currency_code, $only_paystack)) {
-			// razorpay in array methods && currency in array only stripe => error
-			return back()->with(['error_msg' => 'Paystack Payment Method does not support payments in ' . $request->currency_code . ' currency']);
-		}
-		PaymentSettings::where('name', 'method')->update(['value' => json_encode($request->method)]);
-		PaymentSettings::where('name', 'currency_code')->update(['value' => $request->currency_code]);
-		PaymentSettings::where('name', 'stripe_publishable_key')->update(['value' => $request->stripe_publishable_key]);
-		PaymentSettings::where('name', 'stripe_secret_key')->update(['value' => $request->stripe_secret_key]);
-		PaymentSettings::where('name', 'razorpay_key')->update(['value' => $request->razorpay_key]);
-		PaymentSettings::where('name', 'razorpay_secret')->update(['value' => $request->razorpay_secret]);
-		PaymentSettings::where('name', 'paystack_secret')->update(['value' => $request->paystack_secret]);
-		return back()->with(['msg' => __('fleet.payment_settingsUpdated')]);
 	}
 	public function index() {
 		$data['settings'] = Settings::all();
@@ -198,11 +145,6 @@ class SettingsController extends Controller {
 			}
 		}
 
-		Settings::where('name', 'fare_mode')->update(['value' => $request->fare_mode ?? '']);
-
-		Settings::where('name', 'return_booking')->update(['value' => $request->return_booking ?? '']);
-
-		
 		$taxes = json_encode($request->udf);
 		Settings::where('name', 'tax_charge')->update(['value' => $taxes]);
 		$app_name = str_replace(" ", "_", $request->name['app_name']);
@@ -220,12 +162,6 @@ class SettingsController extends Controller {
 			$this->upload_file($request->file('logo_img'), "value", 'logo_img');
 		}
 
-		if ($request->file('fotter_logo_img') && $request->file('fotter_logo_img')->isValid()) {
-			$this->upload_file($request->file('fotter_logo_img'), "value", 'fotter_logo_img');
-		}
-
-		
-
 		// Cache::flush();
 		return Redirect::route("settings.index");
 	}
@@ -236,30 +172,11 @@ class SettingsController extends Controller {
 	public function store_settings(Request $request) {
 		ApiSettings::where('key_name', 'api')->update(['key_value' => 0]);
 		ApiSettings::where('key_name', 'anyone_register')->update(['key_value' => 0]);
-		ApiSettings::where('key_name', 'driver_review')->update(['key_value' => 0]);
-		ApiSettings::where('key_name', 'google_api')->update(['key_value' => 0]);
 		foreach ($request->get('name') as $key => $val) {
 			ApiSettings::where('key_name', $key)->update(['key_value' => $val]);
 		}
 		// Cache::flush();
 		return redirect('admin/api-settings');
-	}
-	public function fare_settings() {
-		$data['settings'] = FareSettings::all();
-		$vehicle_types = VehicleTypeModel::get();
-		$all = array();
-		foreach ($vehicle_types as $type) {
-			$all[] = $type->vehicletype;
-		}
-		$data['types'] = array_unique($all);
-		return view('utilities.fare_settings', $data);
-	}
-	public function store_fareSettings(Request $request) {
-		foreach ($request->get('name') as $key => $val) {
-			FareSettings::where('key_name', $key)->update(['key_value' => $val]);
-		}
-		$tab = $_GET['tab'];
-		return redirect('admin/fare-settings?tab=' . $tab);
 	}
 	public function send_email() {
 		$data['users'] = User::where('user_type', '!=', 'C')->where('user_type', '!=', 'D')->get();
@@ -585,33 +502,5 @@ class SettingsController extends Controller {
 			//dd($e);
 			return redirect('admin/api-settings?tab=serverkey&key=0');
 		}
-	}
-	public function store_api(Request $request) {
-		$key = $request->get('api_key');
-		$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=' . $key;
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-		$data = curl_exec($ch);
-		curl_close($ch);
-		$response = json_decode($data, true);
-		// dd($response);
-		if ($response['status'] != "OK" && $response['error_message']) {
-			$msg = $response['error_message'];
-			return redirect('admin/api-settings?tab=maps&api_key=0&msg=' . $msg . '&test_key=' . $key);
-		}
-		if ($response['status'] == "OK") {
-			$msg = "API key successfully saved";
-			ApiSettings::where('key_name', 'api_key')->update(['key_value' => $key]);
-			return redirect('admin/api-settings?tab=maps&api_key=1&msg=' . $msg . '&test_key=' . $key);
-		} else {
-			$msg = "Something went wrong, please try again";
-			return redirect('admin/api-settings?tab=maps&api_key=0&msg=' . $msg . '&test_key=' . $key);
-		}
-	}
-	public function ajax_api_store($api) {
-		ApiSettings::where('key_name', 'api_key')->update(['key_value' => $api]);
-		return "true";
 	}
 }

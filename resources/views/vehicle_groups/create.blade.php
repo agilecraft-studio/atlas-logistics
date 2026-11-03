@@ -3,12 +3,11 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">@lang('fleet.createGroup')</h3>
-            </div>
-
-            <div class="card-body">
+        <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0">@lang('fleet.createGroup')</h5>
+      </div>
+      <div>
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -24,15 +23,15 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="mb-3">
                             {!! Form::label('name',__('fleet.groupName'), ['class' => 'form-label']) !!}
                             {!! Form::text('name',null,['class'=>'form-control','required']) !!}
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             {!! Form::label('description',__('fleet.description'), ['class' => 'form-label']) !!}
                             {!! Form::text('description',null,['class'=>'form-control']) !!}
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             {!! Form::label('note',__('fleet.note'), ['class' => 'form-label']) !!}
                             {!! Form::textarea('note',null,['class'=>'form-control','size'=>'30x2']) !!}
                         </div>
@@ -40,11 +39,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        {!! Form::submit(__('fleet.createGroup'), ['class' => 'btn btn-success']) !!}
+                        {!! Form::submit(__('fleet.createGroup'), ['class' => 'fleet-btn']) !!}
                     </div>
                 </div>
             </div>
-        </div>
+        </x-fleet.panel>
     </div>
 </div>
 @endsection

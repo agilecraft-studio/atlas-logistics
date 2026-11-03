@@ -50,7 +50,6 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation
                 $user->gender = 1;
             }
             $user->save();
-            $user->givePermissionTo(['Bookings add','Bookings edit','Bookings list','Bookings delete']);
         }
     }
 

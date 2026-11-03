@@ -5,9 +5,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.work_order_logs')" icon="bi-clock-history">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.work_order_logs') }}</div>
+        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>{{ __('fleet.work_order_logs') }}</h5>
       </div>
       <div class="table-responsive">
         <table class="fleet-table" id="data_table">

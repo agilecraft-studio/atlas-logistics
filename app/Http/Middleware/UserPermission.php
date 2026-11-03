@@ -44,10 +44,7 @@ class UserPermission {
 					// return redirect("/");
 				}
 			} else if (Auth::user()->user_type == "C") {
-				if ($m != 3) {
-					abort(404);
-					// return response()->json(['error' => 'Unauthenticated.'], 401);
-				}
+				abort(404);
 			}
 		}
 		if ($m == "S") {

@@ -8,10 +8,15 @@ class TripCheckpoint extends Model
 {
     protected $table = 'trip_checkpoints';
     protected $guarded = ['id'];
-    protected $casts = ['arrived_at' => 'datetime', 'departed_at' => 'datetime'];
+    protected $casts = [
+        'arrived_at' => 'datetime',
+        'departed_at' => 'datetime',
+        'odometer' => 'float',
+    ];
 
     public function trip()       { return $this->belongsTo(Trip::class); }
     public function borderPost() { return $this->belongsTo(BorderPost::class, 'border_post_id'); }
+    public function recordedBy() { return $this->belongsTo(User::class, 'recorded_by')->withTrashed(); }
 
     /** Hours spent at this checkpoint (null while still there). */
     public function getHoursAttribute()

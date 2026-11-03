@@ -12,7 +12,6 @@ use App\Http\Requests\InsuranceRequest;
 use App\Http\Requests\VehicleRequest;
 use App\Http\Requests\VehiclReviewRequest;
 use App\Imports\VehicleImport;
-use App\Model\Bookings;
 use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
 use App\Model\Expense;
@@ -172,7 +171,7 @@ class VehiclesController extends Controller {
 					];
 				})
 				->filterColumn('date', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(date::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
+					$query->whereRaw("to_char(date, 'DD-MM-YYYY FMHH12:MI AM') ilike ?", ["%$keyword%"]);
 				})
 				->filterColumn('vehicle', function ($query, $keyword) {
 					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) ilike ?", ["%$keyword%"]);
@@ -452,15 +451,7 @@ class VehiclesController extends Controller {
 		// // old get vehicles before driver vehicles many-to-many
 		// $data['vehicles'] = DriverLogsModel::where('driver_id', Auth::user()->id)->get();
 		if (Auth::user()->user_type == "D") {
-			$assign_vehicles = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->pluck('id')->toArray();
-			$booking_associated_vehicle_1 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Upcoming')
-				->pluck('vehicle_id')->toArray();
-			$booking_associated_vehicle_2 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Ongoing')
-				->pluck('vehicle_id')->toArray();
-			$mergedArray = array_unique(array_merge($booking_associated_vehicle_1, $booking_associated_vehicle_2, $assign_vehicles));
-			$data['vehicles'] = VehicleModel::whereIn('id', $mergedArray)->get();
+			$data['vehicles'] = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->get();
 		} else {
 			$data['vehicles'] = Auth::user()->vehicles()->with('metas')->get();
 		}

@@ -42,9 +42,7 @@ class BackendUserPermission {
 					return response()->json(['error' => 'Unauthenticated.'], 401);
 				}
 			} else if (Auth::user()->user_type == "C") {
-				if (!in_array($m, [3, "C"])) {
-					return response()->json(['error' => 'Unauthenticated.'], 401);
-				}
+				return response()->json(['error' => 'Unauthenticated.'], 401);
 			}
 		}
 		if ($m == "S") {

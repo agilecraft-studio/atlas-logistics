@@ -121,7 +121,6 @@ class CustomersController extends Controller {
 		$user->mobno = $request->get("phone");
 		$user->gender = $request->get('gender');
 		$user->save();
-		$user->givePermissionTo(['Bookings add', 'Bookings edit', 'Bookings list', 'Bookings delete']);
 		return redirect()->route("customers.index");
 	}
 	public function ajax_store(Request $request) {
@@ -150,7 +149,6 @@ class CustomersController extends Controller {
 			$user->mobno = $request->get("phone");
 			$user->gender = $request->get('gender');
 			$user->save();
-			$user->givePermissionTo(['Bookings add', 'Bookings edit', 'Bookings list', 'Bookings delete']);
 			$d = User::whereUser_type("C")->get(["id", "name as text"]);
 		}
 		return $d;

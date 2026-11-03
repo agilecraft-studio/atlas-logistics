@@ -25,9 +25,9 @@
       </ul>
     </div>
     @endif
-    <x-fleet.panel :title="__('fleet.manage_customers')" icon="bi-people">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.manage_customers') }}</div>
+        <h5 class="mb-0"><i class="bi bi-people me-2"></i>{{ __('fleet.manage_customers') }}</h5>
         <div class="d-flex gap-2">
           @can('Customer add')
             <a href="{{route('customers.create')}}" class="fleet-btn" title="@lang('fleet.add_new')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_new')</a>
@@ -137,55 +137,30 @@
 <!-- Modal -->
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p>@lang('fleet.confirm_delete')</p>
-      </div>
-      <div class="modal-footer">
-        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
-
-<!-- Modal -->
 <div id="changepass" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
+      {!! Form::open(['url'=>url('admin/change_password'),'id'=>'changepass_form']) !!}
       <div class="modal-header">
         <h4 class="modal-title">@lang('fleet.change_password')</h4>
         <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        {!! Form::open(['url'=>url('admin/change_password'),'id'=>'changepass_form']) !!}
-        <form id="change" action="{{url('admin/change_password')}}" method="POST">
-          {!! Form::hidden('driver_id',"",['id'=>'driver_id'])!!}
+        {!! Form::hidden('driver_id',"",['id'=>'driver_id'])!!}
         <div class="mb-3">
           {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
-          <div class="input-group mb-3">
+          <div class="input-group">
             <span class="input-group-text"><i class="bi bi-lock"></i></span>
             {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
-            <button type="button" id="show-password-button" class="show-password-button" >
-              <i class="bi bi-eye" aria-hidden="true"></i>
-            </button>
+            <button type="button" id="show-password-button" class="btn btn-outline-secondary"><i class="bi bi-eye" aria-hidden="true"></i></button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button id="password" class="fleet-btn" type="submit" >@lang('fleet.change_password')</button>
-        </form>
-        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')
-        </button>
       </div>
+      <div class="modal-footer">
+        <button id="password" class="fleet-btn" type="submit">@lang('fleet.change_password')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
+      </div>
+      {!! Form::close() !!}
     </div>
   </div>
 </div>
@@ -197,16 +172,6 @@
 @section('scripts')
 
 <script type="text/javascript">
-
-  $("#del_btn").on("click",function(){
-    var id=$(this).data("submit");
-    $("#form_"+id).submit();
-  });
-
-  $('#myModal').on('show.bs.modal', function(e) {
-    var id = e.relatedTarget.dataset.id;
-    $("#del_btn").attr("data-submit",id);
-  });
 
   $('#changepass').on('show.bs.modal', function(e) {
     var id = e.relatedTarget.dataset.id;
@@ -229,7 +194,7 @@
 
       dataType: "html"
     });
-    $('#changepass').modal("hide");
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('changepass')).hide();
     e.preventDefault();
   });
 
@@ -371,11 +336,11 @@
     if (fieldType === 'password') {
       passwordField.attr('type', 'text');
       $(this).attr('title', 'Hide password');
-      $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+      $(this).find('i').removeClass('bi-eye').addClass('bi-eye-slash');
     } else {
       passwordField.attr('type', 'password');
       $(this).attr('title', 'Show password');
-      $(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+      $(this).find('i').removeClass('bi-eye-slash').addClass('bi-eye');
     }
   });
 });

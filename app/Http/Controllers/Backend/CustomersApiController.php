@@ -8,8 +8,6 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Imports\CustomerImport;
-use App\Model\Address;
-use App\Model\Bookings;
 use App\Model\IncomeModel;
 use App\Model\User;
 use Auth;
@@ -22,59 +20,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use Validator;
 
 class CustomersApiController extends Controller {
-	public function add_address(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'address' => 'required',
-			'customer_id' => 'required|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			Address::create(['customer_id' => $request->customer_id, 'address' => $request->address]);
-			$data['success'] = "1";
-			$data['message'] = "Address added successfully!";
-			$data['data'] = "";
-		}
-		return $data;
-	}
-	public function edit_address(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'id' => 'required|integer',
-			'address' => 'required',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			Address::where('id', $request->id)->update(['address' => $request->address]);
-			$data['success'] = "1";
-			$data['message'] = "Address updated successfully!";
-			$data['data'] = "";
-		}
-		return $data;
-	}
-	public function delete_address(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'id' => 'required|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			Address::find($request->id)->delete();
-			$data['success'] = "1";
-			$data['message'] = "Address deleted successfully!";
-			$data['data'] = "";
-		}
-		return $data;
-	}
 	public function import_records(Request $request) {
 		$validation = Validator::make($request->all(), [
 			'excel' => 'required|mimes:xlsx,xls',
@@ -129,94 +74,6 @@ class CustomersApiController extends Controller {
 				$data['data'] = "";
 			}
 		}
-		return $data;
-	}
-	public function addresses() {
-		$address = Address::where('customer_id', Auth::id())->select(['id', 'address'])->get()->toArray();
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = $address;
-		return $data;
-	}
-	public function home() {
-		$total_kms = IncomeModel::select(DB::raw('sum(mileage) as total_kms'))->where('user_id', Auth::id())->get();
-		$income = IncomeModel::select(DB::raw('sum(amount) as income'))->where('user_id', Auth::id())->get();
-		$time = 0;
-		$travel_time = 0;
-		$bookings = Bookings::where('customer_id', Auth::user()->id)->get();
-		foreach ($bookings as $b) {
-			if ($b->status == 1) {
-				$time += $b->getMeta('waiting_time');
-				$times = explode(" ", $b->getMeta('driving_time'));
-				if (sizeof($times) == 2) {
-					if (starts_with($times[1], 'hour')) {
-						$travel_time += $times[0] * 60;
-					}
-					if (starts_with($times[1], 'min')) {
-						$travel_time += $times[0];
-					}
-					if (starts_with($times[1], 'day')) {
-						$travel_time += $times[0] * 24 * 60;
-					}
-				}
-				if (sizeof($times) == 4) {
-					if (starts_with($times[1], 'hour')) {
-						$travel_time += $times[0] * 60;
-					}
-					if (starts_with($times[1], 'day')) {
-						$travel_time += $times[0] * 24 * 60;
-					}
-					if (starts_with($times[3], 'hour')) {
-						$travel_time += $times[2] * 60;
-					}
-					if (starts_with($times[3], 'min')) {
-						$travel_time += $times[2];
-					}
-				}
-				if (sizeof($times) == 6) {
-					if (starts_with($times[1], 'day')) {
-						$travel_time += $times[0] * 24 * 60;
-					}
-					if (starts_with($times[3], 'hour')) {
-						$travel_time += $times[2] * 60;
-					}
-					if (starts_with($times[5], 'min')) {
-						$travel_time += $times[4];
-					}
-				}
-			}
-		}
-		$user = Auth::user();
-		if ($user->language != null) {
-			$language = $user->language;
-			// $language = explode('-', $user->language);
-		} else {
-			$language = AtlasLogistics::get("language");
-			// $language = explode('-', AtlasLogistics::get("language"));
-		}
-		if (Auth::user()->getMeta('profile_pic') != null) {
-			if (starts_with(Auth::user()->getMeta('profile_pic'), 'http')) {
-				$src = Auth::user()->getMeta('profile_pic');
-			} else {
-				$src = asset('uploads/' . Auth::user()->getMeta('profile_pic'));
-			}
-		} else {
-			$src = asset("assets/images/no-user.jpg");
-		}
-		$details = array(
-			'id' => Auth::id(),
-			'email' => Auth::user()->email,
-			"language" => $language,
-			'image' => $src,
-			'customer' => Auth::user()->name,
-			'total_amount' => AtlasLogistics::get('currency') . " " . ((is_null($income[0]->income) ? 0 : $income[0]->income)),
-			'total_distance' => ((is_null($total_kms[0]->total_kms) ? 0 : $total_kms[0]->total_kms)) . " " . AtlasLogistics::get('dis_format'),
-			'total_waiting_time' => $time,
-			'total_travel_time' => $travel_time . " Minutes",
-		);
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = $details;
 		return $data;
 	}
 	public function bulk_delete(Request $request) {

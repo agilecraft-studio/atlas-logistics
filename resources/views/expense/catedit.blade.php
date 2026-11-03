@@ -2,35 +2,35 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.editExpenseType')</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-diagram-3 me-2"></i>{{ __('fleet.editExpenseType') }}</h5>
+        <a href="{{ route('expensecategories.index') }}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-arrow-left me-1"></i>@lang('fleet.back')</a>
       </div>
 
-      <div class="card-body">
-        @if (count($errors) > 0)
-          <div class="alert alert-danger">
-            <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-            </ul>
-          </div>
-        @endif
-        {!! Form::open(['route' => ['expensecategories.update',$expensecategory->id],'method'=>'PATCH']) !!}
-        {!! Form::hidden('id',$expensecategory->id) !!}
-        <div class="row">
-          <div class="form-group col-md-4">
-            {!! Form::label('name',  __('fleet.expenseType'), ['class' => 'form-label']) !!}
-            {!! Form::text('name', $expensecategory->name,['class' => 'form-control','required']) !!}
-          </div>
+      @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+          </ul>
         </div>
-        <div class="form-group">
-          {!! Form::submit(__('fleet.update'), ['class' => 'btn btn-warning']) !!}
+      @endif
+
+      {!! Form::open(['route' => ['expensecategories.update',$expensecategory->id],'method'=>'PATCH']) !!}
+      {!! Form::hidden('id',$expensecategory->id) !!}
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          {!! Form::label('name',  __('fleet.expenseType'), ['class' => 'form-label']) !!}
+          {!! Form::text('name', $expensecategory->name,['class' => 'form-control','required']) !!}
         </div>
-        {!! Form::close() !!}
       </div>
-    </div>
+      <div class="mb-3">
+        {!! Form::submit(__('fleet.update'), ['class' => 'fleet-btn']) !!}
+      </div>
+      {!! Form::close() !!}
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

@@ -7,14 +7,10 @@
      Included from layouts/attex/footer-script.blade.php AFTER legacy-scripts and BEFORE page scripts. --}}
 <script>
     // Routes and Labels (used by legacy page scripts)
-    var getDriverRoute = '{{ url('admin/get_driver') }}';
-    var getVehicleRoute = '{{ url('admin/get_vehicle') }}';
-    var prevAddress = '{{ url('admin/prev-address') }}';
     var selectDriver = "@lang('fleet.selectDriver')";
     var selectCustomer = "@lang('fleet.selectCustomer')";
     var selectVehicle = "@lang('fleet.selectVehicle')";
     var addCustomer = "@lang('fleet.add_customer')";
-    var prevAddressLang = "@lang('fleet.prev_addr')";
     var fleet_email_already_taken = "@lang('fleet.email_already_taken')";
     var driver_comission_amount = "@lang('fleet.enter_amount')";
     var driver_comission_percentage = "@lang('fleet.enter_percent')";
@@ -285,7 +281,7 @@
 
                                 .prepend(
 
-                                    '<h3>{{ __('fleet.bookings') }}</h3>'
+                                    '<h3>{{ __('fleet.report') }}</h3>'
 
                                 );
 

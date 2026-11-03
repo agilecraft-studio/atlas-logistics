@@ -2,39 +2,34 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.incomeType')</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-diagram-3 me-2"></i>{{ __('fleet.incomeType') }}</h5>
+        <a href="{{ route('incomecategories.index') }}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-arrow-left me-1"></i>@lang('fleet.back')</a>
       </div>
 
-      <div class="card-body">
-        @if (count($errors) > 0)
+      @if (count($errors) > 0)
         <div class="alert alert-danger">
-          <ul>
+          <ul class="mb-0">
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
           </ul>
         </div>
-        @endif
+      @endif
 
-        {!! Form::open(['route' => 'incomecategories.store','method'=>'post']) !!}
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              {!! Form::label('name', __('fleet.incomeType'), ['class' => 'form-label']) !!}
-              {!! Form::text('name', null,['class' => 'form-control','required']) !!}
-            </div>
-          </div>
+      {!! Form::open(['route' => 'incomecategories.store','method'=>'post']) !!}
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          {!! Form::label('name', __('fleet.incomeType'), ['class' => 'form-label']) !!}
+          {!! Form::text('name', null,['class' => 'form-control','required']) !!}
         </div>
       </div>
-      <div class="card-footer">
-        <div class="form-group">
-          {!! Form::submit(__('fleet.save'), ['class' => 'btn btn-success']) !!}
-        </div>
-        {!! Form::close() !!}
+      <div class="mb-3">
+        {!! Form::submit(__('fleet.save'), ['class' => 'fleet-btn']) !!}
       </div>
-    </div>
+      {!! Form::close() !!}
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

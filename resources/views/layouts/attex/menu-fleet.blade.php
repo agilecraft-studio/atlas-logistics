@@ -35,7 +35,7 @@
 @endcan
 @can('Customer list')
 <li class="side-nav-item">
-    <a href="{{ route('customers.index') }}" class="side-nav-link @if(Request::is('admin/customers*') || Request::is('admin/addresses*')) active @endif">
+    <a href="{{ route('customers.index') }}" class="side-nav-link @if(Request::is('admin/customers*')) active @endif">
         <i class="ri-team-line"></i><span> @lang('menu.customers') </span>
     </a>
 </li>

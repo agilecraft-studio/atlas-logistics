@@ -8,7 +8,6 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequest;
-use App\Model\Bookings;
 use App\Model\Expense;
 use App\Model\FuelModel;
 use App\Model\VehicleModel;
@@ -49,15 +48,7 @@ class FuelController extends Controller {
 			}
 		}
 		if (Auth::user()->user_type == "D") {
-			$assign_vehicles = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->pluck('id')->toArray();
-			$booking_associated_vehicle_1 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Upcoming')
-				->pluck('vehicle_id')->toArray();
-			$booking_associated_vehicle_2 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Ongoing')
-				->pluck('vehicle_id')->toArray();
-			$mergedArray = array_unique(array_merge($booking_associated_vehicle_1, $booking_associated_vehicle_2, $assign_vehicles));
-			$data['vehicles'] = VehicleModel::whereIn('id', $mergedArray)->get();
+			$data['vehicles'] = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->get();
 			// dd($data['vehicles']);
 		}
 		$data['vendors'] = Vendor::where('type', 'fuel')->get();

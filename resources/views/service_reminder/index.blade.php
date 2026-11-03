@@ -13,9 +13,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.serviceReminders')" icon="bi-bell">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.serviceReminders') }}</div>
+        <h5 class="mb-0"><i class="bi bi-bell me-2"></i>{{ __('fleet.serviceReminders') }}</h5>
         <div class="d-flex gap-2">
           @can('ServiceReminders add')
             <a href="{{ route('service-reminder.create')}}" class="fleet-btn" title="@lang('fleet.add_service_reminder')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_service_reminder')</a>

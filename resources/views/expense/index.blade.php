@@ -33,11 +33,11 @@
 
   <div class="col-md-12">
 
-    <x-fleet.panel :title="__('fleet.addRecord')" icon="bi-plus-circle">
+    <x-fleet.panel>
 
       <div class="fleet-toolbar">
 
-        <div class="text-muted">{{ __('fleet.addRecord') }}</div>
+        <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>{{ __('fleet.addRecord') }}</h5>
 
       </div>
 
@@ -179,11 +179,11 @@
 
   <div class="col-md-12">
 
-    <x-fleet.panel :title="__('fleet.todayExpense')" icon="bi-receipt">
+    <x-fleet.panel>
 
       <div class="fleet-toolbar">
 
-        <div class="text-muted">{{ __('fleet.todayExpense') }} : <strong><span id="total_today">{{$currency.' '. $total}} </span> </strong></div>
+        <h5 class="mb-0"><i class="bi bi-receipt me-2"></i>{{ __('fleet.todayExpense') }} : <strong><span id="total_today">{{$currency.' '. $total}} </span> </strong></h5>
 
         <div class="d-flex gap-2 align-items-end">
 

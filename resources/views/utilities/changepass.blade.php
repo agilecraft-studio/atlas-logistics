@@ -1,157 +1,101 @@
 @extends('layouts.attex')
+
+@section('page_title', __('fleet.change_details'))
 @section('content')
-<div class="row col-md-12">
-	@if (count($errors) > 0)
-      <div class="alert alert-danger">
-        <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-        </ul>
-      </div>
-    @endif
-	{{-- @if(session()->has('message'))
-	<div class="alert alert-success col-sm-6 offset-sm-3 text-center">
-		{{  session()->get('message') }}
-	</div>
-	@endif --}}
-</div>
 <div class="row">
 	<div class="col-md-12">
-		<div class="card">
-			<div class="card-header">
-				<h3 class="card-title">@lang('fleet.change_details') : <strong>{{ $user_data->name}}</strong></h3>
-			</div>
-			<div class="card-body">
-				{!! Form::open(array("url"=>"admin/change-details/".$user_data->id,'files'=>true,'method'=>'POST'))!!}
-				<input type="hidden" name="id" value="{{ $user_data->id}}">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							{!! Form::label('name',__('fleet.name'),['class'=>"form-label"]) !!}
-							{!! Form::text('name',$user_data->name,['class'=>"form-control",'required']) !!}
-						</div>
+		@if (count($errors) > 0)
+		<div class="alert alert-danger">
+			<ul>
+			@foreach ($errors->all() as $error)
+				<li>{{ $error }}</li>
+			@endforeach
+			</ul>
+		</div>
+		@endif
+
+		<x-fleet.panel :title="__('fleet.change_details') . ' : ' . $user_data->name" icon="bi-person-vcard">
+			{!! Form::open(array("url"=>"admin/change-details/".$user_data->id,'files'=>true,'method'=>'POST'))!!}
+			<input type="hidden" name="id" value="{{ $user_data->id}}">
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					{!! Form::label('name',__('fleet.name'),['class'=>"form-label"]) !!}
+					{!! Form::text('name',$user_data->name,['class'=>"form-control",'required']) !!}
+				</div>
+				<div class="col-md-6 mb-3">
+					{!! Form::label('email',__('fleet.email'),['class'=>"form-label"]) !!}
+					<div class="input-group">
+						<span class="input-group-text"><i class="bi bi-envelope"></i></span>
+						{!! Form::email('email',$user_data->email,['class'=>"form-control",'required']) !!}
 					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-						
-							{!! Form::label('email',__('fleet.email'),['class'=>"form-label"]) !!}
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-								<span class="input-group-text"><i class="bi bi-envelope"></i></span></div>
-								{!! Form::email('email',$user_data->email,['class'=>"form-control",'required']) !!}
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-						{!! Form::label('image', __('fleet.picture'), ['class' => 'form-label']) !!}
-						@if($user_data->user_type == "D" && $user_data->getMeta('driver_image') != null)
+				</div>
+				<div class="col-md-6 mb-3">
+					{!! Form::label('image', __('fleet.picture'), ['class' => 'form-label']) !!}
+					@if($user_data->user_type == "D" && $user_data->getMeta('driver_image') != null)
 						@if(starts_with($user_data->getMeta('driver_image'),'http'))
-						@php($src = $user_data->getMeta('driver_image'))
+							@php($src = $user_data->getMeta('driver_image'))
 						@else
-						@php($src=asset('uploads/'.$user_data->getMeta('driver_image')))
+							@php($src=asset('uploads/'.$user_data->getMeta('driver_image')))
 						@endif
-						<a href="{{ $src }}" target="_blank">View</a>
-
-						@elseif($user_data->user_type != "D" && $user_data->getMeta('profile_image') != null)
-						<a href="{{ asset('uploads/'.$user_data->getMeta('profile_image')) }}"  target="_blank">@lang('fleet.view')
-						</a>
-						@elseif($user_data->user_type == "C" && $user_data->getMeta('profile_pic') != null)
+						<a href="{{ $src }}" target="_blank" class="d-block mb-2">@lang('fleet.view')</a>
+					@elseif($user_data->user_type != "D" && $user_data->getMeta('profile_image') != null)
+						<a href="{{ asset('uploads/'.$user_data->getMeta('profile_image')) }}" target="_blank" class="d-block mb-2">@lang('fleet.view')</a>
+					@elseif($user_data->user_type == "C" && $user_data->getMeta('profile_pic') != null)
 						@if(starts_with($user_data->getMeta('profile_pic'),'http'))
-						@php($src = $user_data->getMeta('profile_pic'))
+							@php($src = $user_data->getMeta('profile_pic'))
 						@else
-						@php($src=asset('uploads/'.$user_data->getMeta('profile_pic')))
+							@php($src=asset('uploads/'.$user_data->getMeta('profile_pic')))
 						@endif
-						<a href="{{ $src }}" target="_blank">View
-						</a>
-						@endif
-						<br>
-						{!! Form::file('image',null,['class' => 'form-control']) !!}
-						</div>
+						<a href="{{ $src }}" target="_blank" class="d-block mb-2">@lang('fleet.view')</a>
+					@endif
+					{!! Form::file('image',null,['class' => 'form-control']) !!}
+				</div>
+				<div class="col-md-6 mb-3">
+					<input type="hidden" name="language" value="English-en">
+					{!! Form::label('theme',__('fleet.dark_mode'), ['class' => 'form-label']) !!}
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" name="theme" value="dark-mode" id="theme" @if($user_data->theme=='dark-mode') checked @endif>
 					</div>
-					<div class="col-md-6">
-						<input type="hidden" name="language" value="English-en">
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-						  {!! Form::label('dark_mode',__('fleet.dark_mode'), ['class' => 'form-label']) !!}
-						  {{-- <a data-bs-toggle="modal" data-bs-target="#myModal8"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a> --}}
-						  <br>
-						  <label class="switch">
-							<input type="checkbox" name="theme" value="dark-mode" id="expense_enable_driver" @if($user_data->theme=='dark-mode') checked @endif>
-							<span class="slider round"></span>
-						  </label>
-						</div>
-					  </div>
-					</div>
-					<div class="row">
-						<div class="form-group">
-							<input type="submit"  class="form-control btn btn-warning"  value="@lang('fleet.change_details')" />
-						</div>
-						@if(session()->has('message'))
-							<div class="pt-1 ms-2 col-md-10">
-								<b class="update_message text-success mb-0" style="font-size: 20px !important;">{{  session()->get('message') }}</b>
-							</div>
-						@endif 
-						
-					</div>
-				{!! Form::close()!!}
-
+				</div>
 			</div>
-		</div>
+			<div class="d-flex align-items-center gap-3">
+				<input type="submit" class="fleet-btn" value="@lang('fleet.change_details')" />
+				@if(session()->has('message'))
+					<b class="update_message text-success mb-0">{{ session()->get('message') }}</b>
+				@endif
+			</div>
+			{!! Form::close()!!}
+		</x-fleet.panel>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="card">
-			<div class="card-header">
-				<h3 class="card-title">@lang('fleet.change_password') : <strong>{{ Auth::user()->name}}</strong> </h3>
-			</div>
-			<div class="card-body">
-
-				{!! Form::open(array("url"=>"admin/changepassword/".Auth::user()->id))!!}
-				<input type="hidden" name="id" value="{{ Auth::user()->id}}">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							{!! Form::label('password',__('fleet.password'),['class'=>"form-label"]) !!}
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-								<span class="input-group-text"><i class="bi bi-lock"></i></span></div>
-								<input type="password" name="password" class="form-control" required>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-							<input type="submit"  class="form-control btn btn-warning"  value="@lang('fleet.change_password')" />
-						</div>
-						{!! Form::close()!!}
+		<x-fleet.panel :title="__('fleet.change_password') . ' : ' . Auth::user()->name" icon="bi-key">
+			{!! Form::open(array("url"=>"admin/changepassword/".Auth::user()->id))!!}
+			<input type="hidden" name="id" value="{{ Auth::user()->id}}">
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					{!! Form::label('password',__('fleet.password'),['class'=>"form-label"]) !!}
+					<div class="input-group">
+						<span class="input-group-text"><i class="bi bi-lock"></i></span>
+						<input type="password" name="password" class="form-control" required>
 					</div>
 				</div>
 			</div>
-		</div>
+			<input type="submit" class="fleet-btn" value="@lang('fleet.change_password')" />
+			{!! Form::close()!!}
+		</x-fleet.panel>
 	</div>
 </div>
-
 @endsection
+
 @section('scripts')
 <script>
 	$(document).ready(function () {
-		// window.setTimeout(function () { 
-		// 	$(".update_message").fadeOut();
-		// }, 5000);
-		
-		// window.setTimeout(function(){ 
-		// 	$(".alert-success").alert('close');
-		// }, 5000);
 		setTimeout(function(){
 			$('.update_message').remove();
 		}, 5000);
 	});
-	</script>
+</script>
 @endsection

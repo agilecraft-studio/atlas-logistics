@@ -14,7 +14,7 @@
     </x-fleet.panel>
     <x-fleet.panel title="All advances" icon="bi-table">
         <x-fleet.table>
-            <thead><tr><th>Issued</th><th>Trip</th><th>Driver</th><th>Purpose</th><th class="text-end">Amount</th><th class="text-end">{{ $base }}</th><th></th></tr></thead>
+            <thead><tr><th>Issued</th><th>Trip</th><th>Driver</th><th>Purpose</th><th class="text-end">Amount</th><th class="text-end">{{ $base }}</th><th>Recorded by</th><th></th></tr></thead>
             <tbody>@forelse($rows as $a)
                 <tr><td>{{ $a->issued_at->format('d M Y') }}</td>
                     <td><a href="{{ route('logistics.trips.show', $a->trip_id) }}">{{ optional($a->trip)->trip_number }}</a></td>
@@ -22,8 +22,9 @@
                     <td>{{ ucfirst($a->purpose) }}</td>
                     <td class="text-end">{{ $m($a->amount) }} {{ $a->currency }}</td>
                     <td class="text-end">{{ $m($a->amount_base) }}</td>
-                    <td class="text-end">@can('Advances delete')<form method="POST" action="{{ route('logistics.advances.destroy', $a->id) }}" data-fleet-confirm="Delete?">@csrf @method('DELETE')<button class="fleet-btn fleet-btn-sm fleet-btn-danger"><i class="bi bi-trash"></i></button></form>@endcan</td></tr>
-            @empty<tr><td colspan="7" class="text-muted text-center">No advances found.</td></tr>@endforelse</tbody>
+                    <td>{{ optional($a->issuedBy)->name ?: '—' }}</td>
+                    <td class="text-end">@can('Advances delete')<form method="POST" action="{{ route('logistics.advances.destroy', $a->id) }}" data-fleet-confirm="Remove this advance? The audit trail is kept.">@csrf @method('DELETE')<button class="fleet-btn fleet-btn-sm fleet-btn-danger"><i class="bi bi-trash"></i></button></form>@endcan</td></tr>
+            @empty<tr><td colspan="8" class="text-muted text-center">No advances found.</td></tr>@endforelse</tbody>
         </x-fleet.table>
     </x-fleet.panel>
 </div>

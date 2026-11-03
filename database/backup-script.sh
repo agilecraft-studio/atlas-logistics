@@ -46,15 +46,12 @@ ESSENTIAL_TABLES=(
     "vehicle_logistics_profiles" "driver_compliance_profiles"
     "compliance_documents" "vehicle_components" "driver_vehicle"
     "trips" "trip_checkpoints" "trip_expenses" "driver_advances" "trip_incidents"
-    "bookings" "booking_alerts" "booking_income" "booking_payments" "booking_quotation"
     "fuel" "service_items" "service_reminder" "work_orders" "work_order_logs"
-    "vehicle_breakdown" "vehicle_review" "driver_logs" "driver_alert" "driver_payments"
+    "vehicle_review" "driver_logs"
     "expense" "expense_cat" "income" "income_cat"
     "parts" "parts_category" "parts_used" "vendors" "mechanics"
-    "addresses" "cities" "reasons" "notes" "message" "messages"
-    "reviews" "team" "testimonials" "company_services"
-    "settings" "api_settings" "chat_settings" "email_content"
-    "fare_settings" "frontend" "payment_settings" "twilio_settings"
+    "notes" "team"
+    "settings" "api_settings" "email_content"
 )
 log "Checking for essential tables..."
 for table in "${ESSENTIAL_TABLES[@]}"; do

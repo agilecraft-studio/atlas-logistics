@@ -20,9 +20,9 @@
       </ul>
     </div>
     @endif
-    <x-fleet.panel :title="__('fleet.vendors')" icon="bi-shop">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.vendors') }}</div>
+        <h5 class="mb-0"><i class="bi bi-shop me-2"></i>{{ __('fleet.vendors') }}</h5>
         <div class="d-flex gap-2">
           @can('Vendors add')
             <a href="{{ route('vendors.create')}}" class="fleet-btn" title="@lang('fleet.create_vendor')"><i class="bi bi-plus-lg"></i> @lang('fleet.create_vendor')</a>

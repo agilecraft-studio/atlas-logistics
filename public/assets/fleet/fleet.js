@@ -7,10 +7,12 @@
             if (m) m.classList.remove('open');
         });
     });
-    /* Delete-confirm prompt for forms that opt in. */
-    document.querySelectorAll('[data-fleet-confirm]').forEach(function (form) {
-        form.addEventListener('submit', function (e) {
-            if (!confirm(form.getAttribute('data-fleet-confirm') || 'Delete this record?')) e.preventDefault();
-        });
+    /* Delete-confirm prompt for forms that opt in. Delegated so rows injected by
+       DataTables after page load also get the confirmation. */
+    document.addEventListener('submit', function (e) {
+        var form = e.target.closest('form[data-fleet-confirm]');
+        if (form && !confirm(form.getAttribute('data-fleet-confirm') || 'Delete this record?')) {
+            e.preventDefault();
+        }
     });
 })();

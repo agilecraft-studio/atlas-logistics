@@ -7,33 +7,22 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
-use App\Model\Address;
-use App\Model\BookingIncome;
-use App\Model\BookingPaymentsModel;
-use App\Model\BookingQuotationModel;
-use App\Model\Bookings;
-use App\Model\CompanyServicesModel;
 use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
 use App\Model\EmailContent;
 use App\Model\ExpCats;
 use App\Model\Expense;
-use App\Model\FrontendModel;
 use App\Model\FuelModel;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
-use App\Model\MessageModel;
 use App\Model\NotesModel;
 use App\Model\PartsCategoryModel;
 use App\Model\PartsModel;
 use App\Model\PartsUsedModel;
-use App\Model\ReasonsModel;
-use App\Model\ReviewModel;
 use App\Model\ServiceItemsModel;
 use App\Model\ServiceReminderModel;
 use App\Model\Settings;
 use App\Model\TeamModel;
-use App\Model\Testimonial;
 use App\Model\User;
 use App\Model\UserData;
 use App\Model\VehicleGroupModel;
@@ -71,91 +60,6 @@ class SettingsApiController extends Controller {
 			$data['message'] = "Image(s) uploaded successfully!";
 			$data['data'] = "";
 		}
-		return $data;
-	}
-	public function update_front_settings(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'about_us' => 'required|max:130',
-			'customer_support' => 'required',
-			'contact_number' => 'required',
-			'contact_email' => 'required',
-			'about_description' => 'required',
-			'about_title' => 'required',
-			'faq_link' => 'nullable|url',
-			'cancellation_link' => 'nullable|url',
-			'terms' => 'nullable|url',
-			'privacy_policy' => 'nullable|url',
-			'cities' => 'required|integer',
-			'vehicles' => 'required|integer',
-			'is_enable' => 'required|integer|in:0,1',
-			'language' => 'required|in:en,es,ar',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			FrontendModel::where('key_name', 'about_us')->update(['key_value' => $request->about_us]);
-			FrontendModel::where('key_name', 'contact_email')->update(['key_value' => $request->contact_email]);
-			FrontendModel::where('key_name', 'contact_phone')->update(['key_value' => $request->contact_number]);
-			FrontendModel::where('key_name', 'customer_support')->update(['key_value' => $request->customer_support]);
-			FrontendModel::where('key_name', 'about_description')->update(['key_value' => $request->about_description]);
-			FrontendModel::where('key_name', 'about_title')->update(['key_value' => $request->about_title]);
-			FrontendModel::where('key_name', 'facebook')->update(['key_value' => $request->facebook]);
-			FrontendModel::where('key_name', 'twitter')->update(['key_value' => $request->twitter]);
-			FrontendModel::where('key_name', 'instagram')->update(['key_value' => $request->instagram]);
-			FrontendModel::where('key_name', 'linkedin')->update(['key_value' => $request->linkedin]);
-			FrontendModel::where('key_name', 'faq_link')->update(['key_value' => $request->faq_link]);
-			FrontendModel::where('key_name', 'cities')->update(['key_value' => $request->cities]);
-			FrontendModel::where('key_name', 'vehicles')->update(['key_value' => $request->vehicles]);
-			FrontendModel::where('key_name', 'cancellation')->update(['key_value' => $request->cancellation_link]);
-			FrontendModel::where('key_name', 'terms')->update(['key_value' => $request->terms]);
-			FrontendModel::where('key_name', 'privacy_policy')->update(['key_value' => $request->privacy_policy]);
-			FrontendModel::where('key_name', 'enable')->update(['key_value' => $request->is_enable]);
-			$enable = 'no';
-			if ($request->is_enable == 1) {
-				$enable = 'yes';
-			}
-			if (!(env('front_enable'))) {
-				file_put_contents(base_path('.env'), "front_enable=" . $enable . PHP_EOL, FILE_APPEND);
-			}
-			if ((env('front_enable'))) {
-				file_put_contents(base_path('.env'), str_replace(
-					'front_enable=' . env('front_enable'), 'front_enable=' . $enable, file_get_contents(base_path('.env'))));
-			}
-			FrontendModel::where('key_name', 'language')->update(['key_value' => $request->language]);
-			$data['success'] = "1";
-			$data['message'] = "Frontend settings updated successfully!";
-			$data['data'] = "";
-		}
-		return $data;
-	}
-	public function get_front_settings() {
-		$details = array(
-			'is_enable' => (AtlasLogistics::frontend('enable') == 1) ? 1 : 0,
-			'is_enable_value' => (AtlasLogistics::frontend('enable') == 1) ? "Enable" : "Disable",
-			'about_us' => AtlasLogistics::frontend('about_us'),
-			'customer_support' => AtlasLogistics::frontend('customer_support'),
-			'contact_number' => AtlasLogistics::frontend('contact_phone'),
-			'contact_email' => AtlasLogistics::frontend('contact_email'),
-			'about_description' => AtlasLogistics::frontend('about_description'),
-			'about_title' => AtlasLogistics::frontend('about_title'),
-			'language' => AtlasLogistics::frontend('language'),
-			'faq_link' => AtlasLogistics::frontend('faq_link'),
-			'cities' => AtlasLogistics::frontend('cities'),
-			'vehicles' => AtlasLogistics::frontend('vehicles'),
-			'cancellation_link' => AtlasLogistics::frontend('cancellation'),
-			'terms' => AtlasLogistics::frontend('terms'),
-			'privacy_policy' => AtlasLogistics::frontend('privacy_policy'),
-			'facebook' => AtlasLogistics::frontend('facebook'),
-			'twitter' => AtlasLogistics::frontend('twitter'),
-			'instagram' => AtlasLogistics::frontend('instagram'),
-			'linkedin' => AtlasLogistics::frontend('linkedin'),
-		);
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = $details;
 		return $data;
 	}
 	public function update(Request $request) {
@@ -243,12 +147,6 @@ class SettingsApiController extends Controller {
 		$x->update([$field => $fileName1]);
 	}
 	public function clear_database() {
-		Address::whereNotNull('id')->delete();
-		BookingIncome::whereNotNull('id')->delete();
-		BookingPaymentsModel::whereNotNull('id')->delete();
-		BookingQuotationModel::whereNotNull('id')->delete();
-		Bookings::whereNotNull('id')->delete();
-		CompanyServicesModel::whereNotNull('id')->delete();
 		DriverLogsModel::whereNotNull('id')->delete();
 		DriverVehicleModel::whereNotNull('id')->delete();
 		Expense::whereNotNull('id')->delete();
@@ -256,17 +154,13 @@ class SettingsApiController extends Controller {
 		FuelModel::whereNotNull('id')->delete();
 		IncCats::where('type', 'u')->delete();
 		IncomeModel::whereNotNull('id')->delete();
-		MessageModel::whereNotNull('id')->delete();
 		NotesModel::whereNotNull('id')->delete();
 		PartsCategoryModel::whereNotNull('id')->delete();
 		PartsModel::whereNotNull('id')->delete();
 		PartsUsedModel::whereNotNull('id')->delete();
-		ReasonsModel::whereNotNull('id')->delete();
-		ReviewModel::whereNotNull('id')->delete();
 		ServiceItemsModel::whereNotNull('id')->delete();
 		ServiceReminderModel::whereNotNull('id')->delete();
 		TeamModel::whereNotNull('id')->delete();
-		Testimonial::whereNotNull('id')->delete();
 		User::where('id', '!=', 1)->delete();
 		UserData::where('user_id', '!=', 1)->delete();
 		VehicleGroupModel::whereNotNull('id')->delete();

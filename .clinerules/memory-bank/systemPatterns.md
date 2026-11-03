@@ -6,7 +6,7 @@ Source split: framework dir is the Laravel app; top-level assets/uploads/index.p
 Prod dir /var/www/atlas-logistic mirrors framework.
 
 ## Data
-Eloquent models in app/Model. Meta tables users_meta/vehicles_meta/bookings_meta via kodeine package (to replace with internal trait).
+Eloquent models in app/Model. Meta patterns use users_meta/vehicles_meta internal traits (taxi bookings_meta table removed 2026-11-01).
 Views use laravelcollective Form/Html in ~138 files (to replace with plain Blade).
 
 ## Auth
@@ -55,9 +55,10 @@ Web installer imports MySQL dump; no migrations dir. PG schema in docs/fleet-pgs
 ### Current status
 - **Completed & render-verified:** `drivers/index.blade.php`,
   `vehicles/index.blade.php` (BS5 markup, classic JS untouched).
-- **Pending:** remaining ~133 view files across `fleet/`, `bookings/`,
+- **Pending:** remaining unconverted view files across `fleet/`,
   `finance/`, `reports/`, `users/`, etc.; `layouts.master` (3); error pages
-  (`errors::minimal`, 7).
+  (`errors::minimal`, 7). The `bookings/` and `booking_quotation/` view trees
+  were deleted in the 2026-11-01 taxi purge.
 
 ### Open item
 The full ~133-file migration is the next step. Recommend a per-module batch
@@ -68,10 +69,10 @@ batch, approving progression module by module.
 ### Batch conversion update (tooling + shell fixes)
 - `tools/convert_views.py` automates the conversion pattern above (idempotent, preserves CRLF).
   Run: `python3 tools/convert_views.py resources/views/<module>` (`--dry-run` to preview).
-- Converted in bulk (priority order): vehicles, drivers, service_reminder, vehicle_breakdown, work_orders,
+- Converted in bulk (priority order): vehicles, drivers, service_reminder, work_orders,
   parts, parts_category, service_items, vendors, mechanics, fuel, expense, income, users, roles, utilities,
-  notifications, driver_alert, vehicle_types, vehicle_groups, customers, reports.
-- Deliberately NOT converted: bookings, booking_quotation (to be replaced by the Trips module).
+  notifications, vehicle_types, vehicle_groups, customers, reports.
+- Taxi modules (bookings, quotations, breakdown, driver alerts) were deleted rather than converted (2026-11-01); Trips is the replacement.
 - Attex shell gained `layouts/attex/legacy-init.blade.php` (CSRF ajaxSetup, auto-init of #data_table /
   #data_table1 / #data_table11, route/label JS vars, jQuery Validate) and `legacy-css.blade.php`
   (Font Awesome, DataTables BS4 css, select2, pnotify, fullcalendar css).

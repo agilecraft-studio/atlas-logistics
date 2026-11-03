@@ -33,7 +33,6 @@
                 </a>
             </li>
             @include('layouts.attex.menu-logistics')
-            @include('layouts.attex.menu-bookings')
             @include('layouts.attex.menu-fleet')
             @include('layouts.attex.menu-ops')
             @include('layouts.attex.menu-finance')

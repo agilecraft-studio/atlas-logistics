@@ -7,9 +7,10 @@ cargo, routes (incl. cross-border), fuel, maintenance, inspections, expenses,
 income, vendors, documents, compliance, reporting, notifications, RBAC, audit.
 
 ## Not a taxi app
-No passenger booking/taxi flows. Booking/quotation tables inherited from the
-Atlas Logistics base are freight-trip records; taxi-style frontend (cities, fares,
-testimonials) will be disabled or repurposed during customization.
+No passenger/taxi flows remain. The 2026-11-01 purge deleted the booking
+system, taxi mobile APIs, public marketing site, fare/payment/chat/twilio
+settings, testimonials, reviews, addresses, cities and their tables. Trips are
+the only transport records.
 
 ## Notifications direction (2026-10-08)
 WhatsApp API for operational notifications (trip assignment, status changes,

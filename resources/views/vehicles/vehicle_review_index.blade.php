@@ -11,9 +11,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.vehicle_inspection')" icon="bi-clipboard-check">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.vehicle_inspection') }}</div>
+        <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>{{ __('fleet.vehicle_inspection') }}</h5>
         <div class="d-flex gap-2">
           @can('VehicleInspection add')
             <a href="{{ url('admin/vehicle-reviews-create')}}" class="fleet-btn" title="@lang('fleet.add_vehicle_inspection')"><i class="bi bi-plus-lg"></i> @lang('fleet.add_vehicle_inspection')</a>
@@ -44,23 +44,18 @@
               <td>{{$r->user?->name ?? '—'}}</td>
               <td>{{$r->reg_no}}</td>
               <td>
-                <div class="btn-group">
-                  <button type="button" class="fleet-btn fleet-btn-ghost dropdown-toggle" data-bs-toggle="dropdown">
-                    <span class="bi bi-gear"></span>
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                  </button>
-                  <div class="dropdown-menu custom" role="menu">
-                    @can('VehicleInspection edit')<a class="dropdown-item" href="{{ url("admin/vehicle-review/".$r->id."/edit") }}"> <span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
-                    {!! Form::hidden("id",$r->id) !!}
-                    @can('VehicleInspection delete')<a class="dropdown-item" data-id="{{$r->id}}" data-bs-toggle="modal" data-bs-target="#myModal"><span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
-                    <a class="dropdown-item" href="{{url('admin/view-vehicle-review/'.$r->id)}}">
-                    <span class="bi bi-eye" aria-hidden="true" style="color: #398439"></span> @lang('fleet.view')
-                    </a>
-                  </div>
+                <div class="d-flex gap-1">
+                  <a href="{{ url('admin/view-vehicle-review/'.$r->id) }}" class="fleet-btn fleet-btn-sm fleet-btn-ghost" title="@lang('fleet.view')"><i class="bi bi-eye"></i></a>
+                  @can('VehicleInspection edit')<a href="{{ url('admin/vehicle-review/'.$r->id.'/edit') }}" class="fleet-btn fleet-btn-sm fleet-btn-ghost" title="@lang('fleet.edit')"><i class="bi bi-pencil"></i></a>@endcan
+                  @can('VehicleInspection delete')
+                    <form method="POST" action="{{ url('admin/delete-vehicle-review/'.$r->id) }}" class="d-inline" data-fleet-confirm="@lang('fleet.confirm_delete')">
+                      @csrf
+                      @method('DELETE')
+                      <input type="hidden" name="id" value="{{ $r->id }}">
+                      <button type="submit" class="fleet-btn fleet-btn-sm fleet-btn-danger" title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>
+                    </form>
+                  @endcan
                 </div>
-                {!! Form::open(['url' => 'admin/delete-vehicle-review/'.$r->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$r->id]) !!}
-                {!! Form::hidden("id",$r->id) !!}
-                {!! Form::close() !!}
               </td>
             </tr>
           @endforeach

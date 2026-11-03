@@ -1,17 +1,12 @@
 <?php
-use App\Model\BookingIncome;
-use App\Model\Bookings;
-use App\Model\CompanyServicesModel;
 use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
 use App\Model\Expense;
 use App\Model\FuelModel;
 use App\Model\IncomeModel;
 use App\Model\PartsCategoryModel;
-use App\Model\ReasonsModel;
 use App\Model\ServiceItemsModel;
 use App\Model\TeamModel;
-use App\Model\Testimonial;
 use App\Model\User;
 use App\Model\VehicleColor;
 use App\Model\VehicleGroupModel;
@@ -31,51 +26,26 @@ class DefaultAdmin extends Seeder
         DB::table('vehicles')->truncate();
         DB::table('expense')->truncate();
         DB::table('income')->truncate();
-        DB::table('reasons')->truncate();
-        DB::table('company_services')->truncate();
         DB::table('team')->truncate();
-        DB::table('testimonials')->truncate();
 
         for ($i = 0; $i < 5; $i++) {
             TeamModel::create(['name' => $faker->name, 'details' => 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus neque est nemo et ipsum fugiat, ab facere adipisci. Aliquam quibusdam molestias quisquam distinctio? Culpa, voluptatem voluptates exercitationem sequi velit quaerat.', 'designation' => 'Owner']);
-            Testimonial::create(['name' => $faker->name, 'details' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi doloribus, repudiandae iusto magnam soluta voluptates, expedita aspernatur consectetur! Ex fugit ducimus itaque, quibusdam nemo in animi quae libero repellendus!']);
         }
 
-        CompanyServicesModel::create(['title' => 'Best price guranteed', 'image' => 'fleet-bestprice.png', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.Neque at, nobis repudiandae dolores.']);
-        CompanyServicesModel::create(['title' => '24/7 Customer care', 'image' => 'fleet-care.png', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.Neque at, nobis repudiandae dolores.']);
-        CompanyServicesModel::create(['title' => 'Home pickups', 'image' => 'fleet-homepickup.png', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.Neque at, nobis repudiandae dolores.']);
-        CompanyServicesModel::create(['title' => 'Easy Bookings', 'image' => 'fleet-easybooking.png', 'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.Neque at, nobis repudiandae dolores.']);
-
-        ReasonsModel::create(['reason' => 'No fuel']);
-        ReasonsModel::create(['reason' => 'Tire punctured']);
-
-       
-
-        VehicleTypeModel::create([
-            'vehicletype' => 'Hatchback',
-            'displayname' => 'Hatchback',
-            'isenable' => 1,
-            'seats' => 4,
-        ]);
-        VehicleTypeModel::create(['vehicletype' => 'Sedan', 'displayname' => 'Sedan', 'isenable' => 1,
-            'seats' => 4]);
-        VehicleTypeModel::create(['vehicletype' => 'Mini van', 'displayname' => 'Mini van', 'isenable' => 1,
-            'seats' => 7,
-        ]);
-        VehicleTypeModel::create(['vehicletype' => 'Saloon', 'displayname' => 'Saloon', 'isenable' => 1,
-            'seats' => 4,
-        ]);
-        VehicleTypeModel::create(['vehicletype' => 'SUV', 'displayname' => 'SUV', 'isenable' => 1,
-            'seats' => 4,
-        ]);
-        VehicleTypeModel::create(['vehicletype' => 'Bus', 'displayname' => 'Bus', 'isenable' => 1,
-            'seats' => 40,
-        ]);
         VehicleTypeModel::create(['vehicletype' => 'Truck', 'displayname' => 'Truck', 'isenable' => 1,
             'seats' => 3,
         ]);
+        VehicleTypeModel::create(['vehicletype' => 'Tipper', 'displayname' => 'Tipper', 'isenable' => 1,
+            'seats' => 3,
+        ]);
+        VehicleTypeModel::create(['vehicletype' => 'Flatbed', 'displayname' => 'Flatbed', 'isenable' => 1,
+            'seats' => 3,
+        ]);
+        VehicleTypeModel::create(['vehicletype' => 'Tanker', 'displayname' => 'Tanker', 'isenable' => 1,
+            'seats' => 3,
+        ]);
 
-        $modules = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15);
+        $modules = array(0, 1, 2, 4, 5, 6, 7, 8, 9, 12, 13, 14);
 
         $admin = User::create([
             'name' => "Super Administrator",
@@ -175,7 +145,7 @@ class DefaultAdmin extends Seeder
             'user_id' => '1',
             'int_mileage' => 50,
             "group_id" => 1,
-            "vehicle_image" => "car1.jpeg",
+            'vehicle_image' => "vehicle.jpeg",
 
         ];
 
@@ -196,7 +166,7 @@ class DefaultAdmin extends Seeder
             'user_id' => '1',
             'int_mileage' => 40,
             "group_id" => 1,
-            "vehicle_image" => "car2.jpeg",
+            "vehicle_image" => "vehicle.jpeg",
 
         ];
 
@@ -257,48 +227,6 @@ class DefaultAdmin extends Seeder
             'tax_percent' => 0,
             'tax_charge_rs' => 0,
         ]);
-
-        // completed booking
-        $income_id = IncomeModel::create([
-            'vehicle_id' => 1,
-            'amount' => 500,
-            'user_id' => 1,
-            'income_cat' => 1,
-            'mileage' => 10,
-            'date' => date('Y-m-d'),
-            'income_id' => 1,
-            'tax_percent' => 0,
-            'tax_charge_rs' => 0,
-        ])->id;
-
-        BookingIncome::create(['booking_id' => 1, "income_id" => $income_id]);
-        $new_book = Bookings::find(1);
-        $new_book->status = 1;
-        $new_book->payment = 1;
-        $new_book->tax_total = 500;
-        $new_book->total_tax_percent = 0;
-        $new_book->total_tax_charge_rs = 0;
-        $new_book->ride_status = "Completed";
-        $new_book->journey_date = date('d-m-Y', strtotime($new_book->pickup));
-        $new_book->journey_time = date('H:i:s', strtotime($new_book->pickup));
-        $new_book->setMeta([
-            'customerId' => 4,
-            'vehicleId' => 1,
-            'day' => 1,
-            'mileage' => 10,
-            'waiting_time' => 0,
-            'date' => date('Y-m-d'),
-            'total' => 500,
-            'receipt' => 1,
-
-        ]);
-        $new_book->save();
-        // completed booking
-        $ride = Bookings::find(2);
-        $ride->ride_status = 'Upcoming';
-        $ride->journey_date = date('d-m-Y', strtotime($ride->pickup));
-        $ride->journey_time = date('H:i:s', strtotime($ride->pickup));
-        $ride->save();
 
         $fuel1 = [
             'vehicle_id' => $v->id,

@@ -42,25 +42,17 @@ class LoginController extends Controller
             session()->flash('error', 'Customer portal has been removed. Please contact Atlas Logistics staff for assistance.');
             return redirect('/admin/login');
         }
-        if(AtlasLogistics::get('driver_doc_verification') == 1 && $user->user_type == 'D')
-        {
-            if ($user->is_verified == '1') 
-           {
-                return redirect()->intended($this->redirectTo);
-           }
-           else
-           {
-               Auth::logout(); 
-               session()->flash('error', 'Profile is not Verified. Please, Contact Admin !');
-               return redirect('/admin/login');
-           }
+        if (AtlasLogistics::get('driver_doc_verification') == 1 && $user->user_type == 'D' && $user->is_verified != '1') {
+            Auth::logout();
+            session()->flash('error', 'Profile is not Verified. Please, Contact Admin !');
+            return redirect('/admin/login');
         }
-        else
-        {
-            return redirect()->intended($this->redirectTo);
-        }
-       
 
-        
+        // Drivers land on the mobile checkpoint screen, not the office dashboard.
+        if ($user->user_type == 'D') {
+            return redirect()->route('driver.index');
+        }
+
+        return redirect()->intended($this->redirectTo);
     }
 }

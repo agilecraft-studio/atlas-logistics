@@ -8,14 +8,8 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Imports\DriverImport;
-use App\Model\Bookings;
 use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
-use App\Model\ExpCats;
-use App\Model\Expense;
-use App\Model\IncCats;
-use App\Model\IncomeModel;
-use App\Model\ServiceItemsModel;
 use App\Model\User;
 use App\Model\VehicleModel;
 use App\Rules\UniqueContractNumber;
@@ -102,327 +96,8 @@ class DriversApiController extends Controller {
 		}
 		return $data;
 	}
-	public function yearly_report(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'year' => 'required|integer',
-			'vehicle_id' => 'nullable|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = 0;
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			$records = array();
-			$b = array();
-			$i = array();
-			$c = array();
-			$vehicle_ids = Bookings::where('driver_id', Auth::id())->pluck('vehicle_id')->toArray();
-			$year_select = $request->year;
-			$vehicle_select = $request->vehicle_id;
-			$income1 = IncomeModel::select(DB::raw("sum(amount) as income"))->whereYear('date', $year_select);
-			$expense1 = Expense::select(DB::raw("sum(amount) as expense"))->whereYear('date', $year_select);
-			$expense2 = Expense::select("type", "expense_type", DB::raw("sum(amount) as expense"))->whereYear('date', $year_select)->groupBy('expense_type', 'type');
-			$income2 = IncomeModel::select('income_cat', DB::raw("sum(amount) as amount"))->whereYear('date', $year_select)->groupBy('income_cat');
-			if ($vehicle_select) {
-				$income = $income1->where('vehicle_id', $vehicle_select)->get();
-				$expenses = $expense1->where('vehicle_id', $vehicle_select)->get();
-				$expense_by_cat = $expense2->where('vehicle_id', $vehicle_select)->get();
-				$income_by_cat = $income2->where('vehicle_id', $vehicle_select)->get();
-			} else {
-				$income = $income1->whereIn('vehicle_id', $vehicle_ids)->get();
-				$expenses = $expense1->whereIn('vehicle_id', $vehicle_ids)->get();
-				$expense_by_cat = $expense2->whereIn('vehicle_id', $vehicle_ids)->get();
-				$income_by_cat = $income2->whereIn('vehicle_id', $vehicle_ids)->get();
-			}
-			$ss = ServiceItemsModel::get();
-			foreach ($ss as $s) {
-				$c[$s->id] = $s->description;
-			}
-			$kk = ExpCats::get();
-			foreach ($kk as $k) {
-				$b[$k->id] = $k->name;
-			}
-			$hh = IncCats::get();
-			foreach ($hh as $k) {
-				$i[$k->id] = $k->name;
-			}
-			$service = $c;
-			$expense_cats = $b;
-			$income_cats = $i;
-			$income_amt = (is_null($income[0]->income) ? 0 : $income[0]->income);
-			$expense_amt = (is_null($expenses[0]->expense) ? 0 : $expenses[0]->expense);
-			// dd($income_amt, $expense_amt);
-			$all_expense_by_cats = array();
-			$total_expense_by_cat = 0;
-			$expense_by_category = array();
-			$expense_labels = array();
-			$expense_values = array();
-			foreach ($expense_by_cat as $exp) {
-				if ($exp->type == "s") {
-					$typename = $service[$exp->expense_type];
-				} else {
-					$typename = $expense_cats[$exp->expense_type];
-				}
-				$all_expense_by_cats[$typename] = $exp->expense;
-				$total_expense_by_cat += $exp->expense;
-				$expense_by_category[] = array('name' => $typename, 'value' => $exp->expense);
-				$expense_labels[] = $typename;
-				$expense_values[] = $exp->expense;
-			}
-			$records = array(
-				'currency' => AtlasLogistics::get("currency"),
-				'income' => array(
-					'profit_loss' => ($income_amt - $expense_amt),
-					'income' => $income_amt,
-					'expenses' => $expense_amt,
-					'labels' => array('Income', 'Expenses'),
-					'values' => array($income_amt, $expense_amt),
-				),
-				'expense_by_category' => array(
-					'total_amount' => $total_expense_by_cat,
-					// 'records' => $all_expense_by_cats,
-					'records' => $expense_by_category,
-					'expense_labels' => $expense_labels,
-					'expense_values' => $expense_values,
-				),
-				'yearly_chart' => array(
-					'yearly_income' => $this->yearly_income(),
-					'yearly_expense' => $this->yearly_expense(),
-				),
-			);
-			$data['success'] = "1";
-			$data['message'] = "Data fetched!";
-			$data['data'] = $records;
-		}
-		return $data;
-	}
-	public function monthly_report(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'month' => 'required|integer',
-			'year' => 'required|integer',
-			'vehicle_id' => 'nullable|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			$records = array();
-			$y = array();
-			$b = array();
-			$i = array();
-			$c = array();
-			$vehicle_ids = Bookings::where('driver_id', Auth::id())->pluck('vehicle_id')->toArray();
-			$year_select = $request->year;
-			$month_select = $request->month;
-			$vehicle_select = $request->vehicle_id;
-			$income1 = IncomeModel::select(DB::raw("SUM(amount) as income"))->whereYear('date', $year_select)->whereMonth('date', $month_select)->whereIn('vehicle_id', $vehicle_ids);
-			$expense1 = Expense::select(DB::raw("SUM(amount) as expense"))->whereYear('date', $year_select)->whereMonth('date', $month_select)->whereIn('vehicle_id', $vehicle_ids);
-			$expense2 = Expense::select("type", "expense_type", DB::raw("sum(amount) as expense"))->whereYear('date', $year_select)->whereMonth('date', $month_select)->whereIn('vehicle_id', $vehicle_ids)->groupBy(['expense_type', 'type']);
-			$income2 = IncomeModel::select("income_cat", DB::raw("sum(amount) as amount"))->whereYear('date', $year_select)->whereMonth('date', $month_select)->whereIn('vehicle_id', $vehicle_ids)->groupBy(['income_cat']);
-			if ($vehicle_select) {
-				$income = $income1->where('vehicle_id', $vehicle_select)->get();
-				$expenses = $expense1->where('vehicle_id', $vehicle_select)->get();
-				$expense_by_cat = $expense2->where('vehicle_id', $vehicle_select)->get();
-				$income_by_cat = $income2->where('vehicle_id', $vehicle_select)->get();
-			} else {
-				$income = $income1->get();
-				$expenses = $expense1->get();
-				$expense_by_cat = $expense2->get();
-				$income_by_cat = $income2->get();
-			}
-			$ss = ServiceItemsModel::get();
-			foreach ($ss as $s) {
-				$c[$s->id] = $s->description;
-			}
-			$kk = ExpCats::get();
-			foreach ($kk as $k) {
-				$b[$k->id] = $k->name;
-			}
-			$hh = IncCats::get();
-			foreach ($hh as $k) {
-				$i[$k->id] = $k->name;
-			}
-			$service = $c;
-			$expense_cats = $b;
-			$income_cats = $i;
-			$income_amt = (is_null($income[0]->income) ? 0 : $income[0]->income);
-			$expense_amt = (is_null($expenses[0]->expense) ? 0 : $expenses[0]->expense);
-			// dd($income_amt, $expense_amt);
-			$all_expense_by_cats = array();
-			$total_expense_by_cat = 0;
-			$expense_labels = array();
-			$expense_values = array();
-			$expense_by_category = array();
-			foreach ($expense_by_cat as $exp) {
-				if ($exp->type == "s") {
-					$typename = $service[$exp->expense_type];
-				} else {
-					$typename = $expense_cats[$exp->expense_type];
-				}
-				$all_expense_by_cats[$typename] = $exp->expense;
-				$total_expense_by_cat += $exp->expense;
-				$expense_labels[] = $typename;
-				$expense_values[] = $exp->expense;
-				$expense_by_category[] = array('name' => $typename, 'value' => $exp->expense);
-			}
-			$records = array(
-				'currency' => AtlasLogistics::get("currency"),
-				'income' => array(
-					'profit_loss' => ($income_amt - $expense_amt),
-					'income' => $income_amt,
-					'expenses' => $expense_amt,
-					'labels' => array('Income', 'Expenses'),
-					'values' => array($income_amt, $expense_amt),
-				),
-				'expense_by_category' => array(
-					'total_amount' => $total_expense_by_cat,
-					// 'records' => $all_expense_by_cats,
-					'records' => $expense_by_category,
-					'expense_labels' => $expense_labels,
-					'expense_values' => $expense_values,
-				),
-				'yearly_chart' => array(
-					'yearly_income' => $this->yearly_income(),
-					'yearly_expense' => $this->yearly_expense(),
-				),
-			);
-			// dd($records);
-			$data['success'] = "1";
-			$data['message'] = "Data fetched!";
-			$data['data'] = $records;
-		}
-		return $data;
-	}
-	private function yearly_income() {
-		$d_id = Auth::user()->id;
-		$bookings = Bookings::where('driver_id', $d_id)->get();
-		$v_id = array('0');
-		foreach ($bookings as $key) {
-			if ($key->vehicle_id != null) {
-				$v_id[] = $key->vehicle_id;
-			}
-		}
-		$in = join(",", $v_id);
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by monthname(date), month(date)', [date("Y")]);
-		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
-		$income2 = array();
-		foreach ($incomes as $income) {
-			$income2[$income->mnth] = $income->tot;
-		}
-		$yr = array_merge($months, $income2);
-		$labels = array();
-		$values = array();
-		foreach ($yr as $key => $val) {
-			$labels[] = $key;
-			$values[] = $val;
-		}
-		// return array('labels' => $labels, 'values' => $values);
-		return $yr;
-	}
-	private function yearly_expense() {
-		$d_id = Auth::user()->id;
-		$bookings = Bookings::where('driver_id', $d_id)->get();
-		$v_id = array('0');
-		foreach ($bookings as $key) {
-			if ($key->vehicle_id != null) {
-				$v_id[] = $key->vehicle_id;
-			}
-		}
-		$in = join(",", $v_id);
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by monthname(date), month(date)', [date("Y")]);
-		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
-		$income2 = array();
-		foreach ($incomes as $income) {
-			$income2[$income->mnth] = $income->tot;
-		}
-		$yr = array_merge($months, $income2);
-		return $yr;
-		$labels = array();
-		$values = array();
-		foreach ($yr as $key => $val) {
-			$labels[] = $key;
-			$values[] = $val;
-		}
-		// return array('labels' => $labels, 'values' => $values);
-	}
-	public function driver_reports_dropdown() {
-		$vehicle_ids = Bookings::where('driver_id', Auth::id())->pluck('vehicle_id')->toArray();
-		$years = DB::select(DB::raw("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc"));
-		$y = array();
-		foreach ($years as $year) {
-			$y[] = $year->years;
-		}
-		if ($years == null) {
-			$y[] = date('Y');
-		}
-		$vehicles = VehicleModel::whereIn('id', $vehicle_ids)->get();
-		foreach ($vehicles as $row) {
-			$vehicle_list[] = array(
-				'id' => $row->id,
-				'vehicle' => $row->make_name . "-" . $row->model_name . "-" . $row->license_plate,
-			);
-		}
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = array(
-			'vehicles' => $vehicle_list,
-			'years' => $y,
-		);
-		return $data;
-	}
-	public function my_bookings() {
-		$details = array();
-		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
-		$bookings = Bookings::orderBy('id', 'desc')->whereDriver_id(Auth::id())->get();
-		foreach ($bookings as $row) {
-			$details[] = array(
-				'customer' => $row->customer->name,
-				'vehicle' => $row->vehicle->make_name . "-" . $row->vehicle->model->model . "-" . $row->vehicle->license_plate,
-				'pickup_datetime' => date($date_format_setting . ' g:i A', strtotime($row->pickup)),
-				'dropoff_datetime' => date($date_format_setting . ' g:i A', strtotime($row->dropoff)),
-				'pickup_address' => $row->pickup_addr,
-				'dropoff_address' => $row->dest_addr,
-				'travellers' => $row->travellers,
-			);
-		}
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = $details;
-		return $data;
-	}
 	public function profile() {
-		$completed = array();
-		$upcoming = array();
-		$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
 		$middlename = (Auth::user()->middle_name) ? Auth::user()->middle_name . " " : "";
-		$bookings = Bookings::orderBy('id', 'desc')->where('driver_id', Auth::id())->get();
-		foreach ($bookings as $row) {
-			if ($row->ride_status == "Completed" || $row->status == 1) {
-				$completed[] = array(
-					'customer' => $row->customer->name,
-					'vehicle' => $row->vehicle->make_name . "-" . $row->vehicle->model_name . "-" . $row->vehicle->license_plate,
-					'pickup_datetime' => date($date_format_setting . ' g:i A', strtotime($row->pickup)),
-					'dropoff_datetime' => date($date_format_setting . ' g:i A', strtotime($row->dropoff)),
-					'pickup_address' => $row->pickup_addr,
-					'dropoff_address' => $row->dest_addr,
-					'travellers' => $row->travellers,
-				);
-			}
-			if ($row->ride_status == "Upcoming" || $row->status != 1) {
-				$upcoming[] = array(
-					'customer' => $row->customer->name,
-					'vehicle' => $row->vehicle->make_name . "-" . $row->vehicle->model_name . "-" . $row->vehicle->license_plate,
-					'pickup_datetime' => date($date_format_setting . ' g:i A', strtotime($row->pickup)),
-					'dropoff_datetime' => date($date_format_setting . ' g:i A', strtotime($row->dropoff)),
-					'pickup_address' => $row->pickup_addr,
-					'dropoff_address' => $row->dest_addr,
-					'travellers' => $row->travellers,
-				);
-			}
-		}
 		if (Auth::user()->getMeta('driver_image') != null) {
 			if (starts_with(Auth::user()->getMeta('driver_image'), 'http')) {
 				$src = Auth::user()->getMeta('driver_image');
@@ -435,17 +110,14 @@ class DriversApiController extends Controller {
 		$user = Auth::user();
 		if ($user->language != null) {
 			$language = $user->language;
-			// $language = explode('-', $user->language);
 		} else {
 			$language = AtlasLogistics::get("language");
-			// $language = explode('-', AtlasLogistics::get("language"));
 		}
 		$details = array(
 			'driver_info' => array(
 				'id' => Auth::id(),
 				'name' => Auth::user()->name,
 				'full_name' => Auth::user()->first_name . " " . $middlename . Auth::user()->last_name,
-				'total_bookings' => Bookings::whereDriver_id(Auth::id())->get()->count(),
 				'phone' => Auth::user()->phone,
 				'email' => Auth::user()->email,
 				'address' => Auth::user()->address,
@@ -459,8 +131,6 @@ class DriversApiController extends Controller {
 				'driver_image' => $src,
 				"language" => $language,
 			),
-			'activity' => $completed,
-			'upcoming_rides' => $upcoming,
 		);
 		$data['success'] = "1";
 		$data['message'] = "Data fetched!";

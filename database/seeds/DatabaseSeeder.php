@@ -4,8 +4,6 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder {
 
 	public function run() {
-		// factory(App\Model\Bookings::class, 2)->create();
-		\App\Model\Bookings::factory()->count(2)->create();
 		$this->call(DefaultAdmin::class);
 		$this->call(SampleCategories::class);
 		$this->call(SettingSeed::class);

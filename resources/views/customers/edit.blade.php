@@ -2,102 +2,86 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          @lang('fleet.edit_customer')
-        </h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-people me-2"></i>{{ __('fleet.edit_customer') }}</h5>
+        <a href="{{ route('customers.index') }}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-arrow-left me-1"></i>@lang('fleet.back')</a>
       </div>
 
-      <div class="card-body">
-        @if (count($errors) > 0)
-        <div class="alert alert-danger">
-          <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-        @endif
-
-        {!! Form::open(['route' => ['customers.update',$data->id],'method'=>'PATCH']) !!}
-        {!! Form::hidden('id',$data->id) !!}
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              {!! Form::label('first_name', __('fleet.firstname'), ['class' => 'form-label']) !!}
-              {!! Form::text('first_name', $data->getMeta('first_name'),['class' => 'form-control','required']) !!}
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              {!! Form::label('last_name', __('fleet.lastname'), ['class' => 'form-label']) !!}
-              {!! Form::text('last_name', $data->getMeta('last_name'),['class' => 'form-control','required']) !!}
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              {!! Form::label('phone',__('fleet.phone'), ['class' => 'form-label']) !!}
-              <div class=" input-group mb-3">
-                <div class="input-group-prepend date">
-                  <span class="input-group-text"><i class="bi bi-phone"></i></span>
-                </div>
-                {!! Form::number('phone', $data->getMeta('mobno'),['class' => 'form-control','required']) !!}
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                </div>
-                {!! Form::email('email', $data->email,['class' => 'form-control','required']) !!}
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-group">
-              {!! Form::label('address', __('fleet.address'), ['class' => 'form-label']) !!}
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="bi bi-address-book-o"></i></span>
-                </div>
-                {!! Form::textarea('address', $data->getMeta('address'),['class' => 'form-control','size'=>'30x2','required']) !!}
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              {!! Form::label('gender', __('fleet.gender') , ['class' => 'form-label']) !!}<br>
-              <input type="radio" name="gender" class="flat-red gender" value="1" @if($data->gender == 1) checked @endif
-              required> @lang('fleet.male')<br>
-              <input type="radio" name="gender" class="flat-red gender" value="0" @if($data->gender == 0) checked @endif
-              required> @lang('fleet.female')
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12">
-          {!! Form::submit(__('fleet.update'), ['class' => 'btn btn-warning']) !!}
-        </div>
-        {!! Form::close() !!}
+      @if (count($errors) > 0)
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
-    </div>
+      @endif
+
+      {!! Form::open(['route' => ['customers.update',$data->id],'method'=>'PATCH']) !!}
+      {!! Form::hidden('id',$data->id) !!}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            {!! Form::label('first_name', __('fleet.firstname'), ['class' => 'form-label']) !!}
+            {!! Form::text('first_name', $data->getMeta('first_name'),['class' => 'form-control','required']) !!}
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            {!! Form::label('last_name', __('fleet.lastname'), ['class' => 'form-label']) !!}
+            {!! Form::text('last_name', $data->getMeta('last_name'),['class' => 'form-control','required']) !!}
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            {!! Form::label('phone',__('fleet.phone'), ['class' => 'form-label']) !!}
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-phone"></i></span>
+              {!! Form::number('phone', $data->getMeta('mobno'),['class' => 'form-control','required']) !!}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            {!! Form::label('email', __('fleet.email'), ['class' => 'form-label']) !!}
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              {!! Form::email('email', $data->email,['class' => 'form-control','required']) !!}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            {!! Form::label('address', __('fleet.address'), ['class' => 'form-label']) !!}
+            {!! Form::textarea('address', $data->getMeta('address'),['class' => 'form-control','rows'=>2,'required']) !!}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            {!! Form::label('gender', __('fleet.gender') , ['class' => 'form-label']) !!}
+            <div class="d-flex gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="gender_male" value="1" @if($data->gender == 1) checked @endif required>
+                <label class="form-check-label" for="gender_male">@lang('fleet.male')</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="gender" id="gender_female" value="0" @if($data->gender == 0) checked @endif required>
+                <label class="form-check-label" for="gender_female">@lang('fleet.female')</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        {!! Form::submit(__('fleet.update'), ['class' => 'fleet-btn']) !!}
+      </div>
+      {!! Form::close() !!}
+    </x-fleet.panel>
   </div>
 </div>
-
 @endsection
-{{-- @section('scripts')
-<script type="text/javascript">
-  //Flat red color scheme for iCheck
-  $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-    checkboxClass: 'icheckbox_flat-green',
-    radioClass   : 'iradio_flat-green'
-  })
-</script>
-@endsection --}}

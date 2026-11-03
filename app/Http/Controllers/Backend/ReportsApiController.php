@@ -7,14 +7,12 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
-use App\Model\Bookings;
 use App\Model\ExpCats;
 use App\Model\Expense;
 use App\Model\FuelModel;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
 use App\Model\ServiceItemsModel;
-use App\Model\User;
 use App\Model\VehicleModel;
 use App\Model\WorkOrders;
 use Auth;
@@ -48,7 +46,7 @@ class ReportsApiController extends Controller {
 		} else {
 			$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
 		}
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		foreach ($years as $year) {
 			$y[] = $year->years;
@@ -63,20 +61,11 @@ class ReportsApiController extends Controller {
 				'vehicle' => $row->make_name . "-" . $row->model_name . "-" . $row->license_plate,
 			);
 		}
-		$customers = array();
-		$all_customers = User::where('user_type', 'C')->get();
-		foreach ($all_customers as $row) {
-			$customers[] = array(
-				'id' => $row->id,
-				'name' => $row->name,
-			);
-		}
 		$data['success'] = "1";
 		$data['message'] = "Data fetched!";
 		$data['data'] = array(
 			'vehicles' => $vehicle_list,
 			'years' => $y,
-			'customers' => $customers,
 		);
 		return $data;
 	}
@@ -239,153 +228,6 @@ class ReportsApiController extends Controller {
 		);
 		return $data;
 	}
-	public function customer(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'year' => 'required|integer',
-			'month' => 'required|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = 0;
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
-				$vehicle_ids = VehicleModel::pluck('id')->toArray();
-			} else {
-				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
-			}
-			// data of selected month and year
-			$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
-			$customers_by_year = array();
-			foreach ($customers as $d) {
-				$customers_by_year[$d->customer->name] = Bookings::meta()
-					->where(function ($query) {
-						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-			}
-			arsort($customers_by_year);
-			$customers_by_month = array();
-			foreach ($customers as $d) {
-				$customers_by_month[$d->customer->name] = Bookings::meta()
-					->where(function ($query) {
-						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-			}
-			$table = array();
-			$labels = array();
-			$values = array();
-			foreach ($customers_by_month as $key => $val) {
-				$labels[] = $key;
-				$values[] = $val;
-			}
-			$top10 = array_slice($customers_by_year, 0, 10);
-			foreach ($top10 as $key => $val) {
-				$table[] = array(
-					'name' => $key,
-					'value' => $val,
-				);
-			}
-			$yearly_table = array();
-			$yearly_labels = array();
-			$yearly_values = array();
-			foreach ($customers_by_year as $key => $val) {
-				$yearly_table[] = array(
-					'name' => $key,
-					'value' => $val,
-				);
-				$yearly_labels[] = $key;
-				$yearly_values[] = $val;
-			}
-			$data['success'] = "1";
-			$data['message'] = "Data fetched!";
-			$data['data'] = array(
-				'customers_by_month' => $customers_by_month,
-				'customers_by_year' => $customers_by_year,
-				'top10' => array_slice($customers_by_year, 0, 10),
-				'table' => $table,
-				'labels' => $labels,
-				'values' => $values,
-				'yearly_chart' => array(
-					'yearly_table' => $yearly_table,
-					'yearly_labels' => $yearly_labels,
-					'yearly_values' => $yearly_values,
-				),
-			);
-		}
-		return $data;
-	}
-	public function driver(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'year' => 'required|integer',
-			'month' => 'required|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = 0;
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
-				$vehicle_ids = VehicleModel::pluck('id')->toArray();
-			} else {
-				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
-			}
-			// data of selected month and year
-			$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
-			$drivers_by_year = array();
-			foreach ($drivers as $d) {
-				$drivers_by_year[$d->driver->name] = Bookings::meta()
-					->where(function ($query) {
-						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get("year"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-			}
-			$drivers_by_month = array();
-			foreach ($drivers as $d) {
-				$drivers_by_month[$d->driver->name] = Bookings::meta()
-					->where(function ($query) {
-						$query->where('bookings_meta.key', '=', 'tax_total');
-					})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-			}
-			$table = array();
-			$labels = array();
-			$values = array();
-			foreach ($drivers_by_month as $key => $val) {
-				$table[] = array(
-					'name' => $key,
-					'value' => $val,
-				);
-				$labels[] = $key;
-				$values[] = $val;
-			}
-			$yearly_table = array();
-			$yearly_labels = array();
-			$yearly_values = array();
-			foreach ($drivers_by_year as $key => $val) {
-				$yearly_table[] = array(
-					'name' => $key,
-					'value' => $val,
-				);
-				$yearly_labels[] = $key;
-				$yearly_values[] = $val;
-			}
-			$data['success'] = "1";
-			$data['message'] = "Data fetched!";
-			$data['data'] = array(
-				'drivers_by_month' => $drivers_by_month,
-				'drivers_by_year' => $drivers_by_year,
-				'table' => $table,
-				'labels' => $labels,
-				'values' => $values,
-				'yearly_chart' => array(
-					'yearly_table' => $yearly_table,
-					'yearly_labels' => $yearly_labels,
-					'yearly_values' => $yearly_values,
-				),
-			);
-		}
-		return $data;
-	}
 	public function fuel(Request $request) {
 		$validation = Validator::make($request->all(), [
 			'year' => 'required|integer',
@@ -433,94 +275,6 @@ class ReportsApiController extends Controller {
 			$data['success'] = "1";
 			$data['message'] = "Data fetched!";
 			$data['data'] = $records;
-		}
-		return $data;
-	}
-	public function user(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'year' => 'required|integer',
-			'month' => 'required|integer',
-			'user_id' => 'required|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = 0;
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			$records = array();
-			$year_select = $request->year;
-			$month_select = $request->month;
-			$user_id = $request->user_id;
-			if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
-				$vehicle_ids = VehicleModel::pluck('id')->toArray();
-			} else {
-				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
-			}
-			$bookings = Bookings::whereYear('pickup', $year_select)->whereMonth('pickup', $month_select)->where('user_id', $request->user_id)->whereIn('vehicle_id', $vehicle_ids)->get();
-			foreach ($bookings as $row) {
-				$records[] = array(
-					'booked_by' => $row->user->name,
-					'pickup_address' => $row->pickup_addr,
-					'dropoff_address' => $row->dest_addr,
-					'pickup_datetime' => date('Y-m-d H:i:s', strtotime($row->pickup)),
-					'dropoff_datetime' => date('Y-m-d H:i:s', strtotime($row->dropoff)),
-					'journey_status' => ($row->status == 1) ? "Completed" : "Not Completed",
-					'amount' => ($row->receipt == 1) ? AtlasLogistics::get('currency') . " " . round($row->tax_total, 2) : null,
-				);
-			}
-			$data['success'] = "1";
-			$data['message'] = "Data fetched!";
-			$data['data'] = $records;
-		}
-		return $data;
-	}
-	public function booking(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'year' => 'required|integer',
-			'month' => 'required|integer',
-			'vehicle_id' => 'nullable|integer',
-			'customer_id' => 'nullable|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = 0;
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			$records = array();
-			$vehicle_select = $request->vehicle_id;
-			$customer_select = $request->customer_id;
-			$year_select = $request->year;
-			$month_select = $request->month;
-			if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
-				$vehicle_ids = VehicleModel::pluck('id')->toArray();
-			} else {
-				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
-			}
-			$bookings = Bookings::whereYear("pickup", $year_select)->whereMonth("pickup", $month_select)->whereIn('vehicle_id', $vehicle_ids);
-			if ($request->vehicle_id) {
-				$bookings = $bookings->where("vehicle_id", $request->vehicle_id);
-			}
-			if ($request->customer_id) {
-				$bookings = $bookings->where("customer_id", $request->customer_id);
-			}
-			$bookings = $bookings->get();
-			foreach ($bookings as $row) {
-				$records[] = array(
-					'customer' => $row->customer->name,
-					'vehicle' => ($row->vehicle_id) ? $row->vehicle->make_name . "-" . $row->vehicle->model_name . "-" . $row->vehicle->license_plate : "",
-					'pickup_address' => $row->pickup_addr,
-					'dropoff_address' => $row->dest_addr,
-					'from_datetime' => date('Y-m-d H:i:s', strtotime($row->pickup)),
-					'to_datetime' => date('Y-m-d H:i:s', strtotime($row->dropoff)),
-					'passengers' => $row->travellers,
-					'status' => ($row->status == 0) ? "Journey not ended yet" : "Journey ended",
-				);
-			}
-			$data['success'] = "1";
-			$data['message'] = "Data fetched!";
-			$data['data'] = array('booking_count' => $bookings->count(), 'records' => $records);
 		}
 		return $data;
 	}
@@ -667,7 +421,7 @@ class ReportsApiController extends Controller {
 			$year_select = $request->year;
 			$month_select = $request->month;
 			$vehicle_id = $request->vehicle_id;
-			$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",dayname(date) as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $year_select)->whereMonth('date', $month_select)->groupBy('date')->orderBy('date');
+			$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",to_char(date, \'FMDay\') as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $year_select)->whereMonth('date', $month_select)->groupBy('date')->orderBy('date');
 			if ($vehicle_id) {
 				$income = $income->where('vehicle_id', $vehicle_id)->get();
 			} else {

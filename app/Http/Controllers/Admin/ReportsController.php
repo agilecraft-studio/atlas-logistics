@@ -7,8 +7,6 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use App\Model\Bookings;
-use App\Model\DriverPayments;
 use App\Model\ExpCats;
 use App\Model\Expense;
 use App\Model\FuelModel;
@@ -31,7 +29,7 @@ class ReportsController extends Controller {
 		$this->middleware('permission:Reports list');
 	}
 	public function expense() {
-		$years = collect(DB::select("select distinct year(date) as years from expense where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from expense where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -58,7 +56,7 @@ class ReportsController extends Controller {
 		return view('reports.expense', $data);
 	}
 	public function expense_post(Request $request) {
-		$years = collect(DB::select("select distinct year(date) as years from expense where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from expense where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -111,7 +109,7 @@ class ReportsController extends Controller {
 		return view('reports.print_expense', $data);
 	}
 	public function income() {
-		$years = collect(DB::select("select distinct year(date) as years from income where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from income where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -138,7 +136,7 @@ class ReportsController extends Controller {
 		return view('reports.income', $data);
 	}
 	public function income_post(Request $request) {
-		$years = collect(DB::select("select distinct year(date) as years from income where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from income where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -191,7 +189,7 @@ class ReportsController extends Controller {
 		return view('reports.print_income', $data);
 	}
 	public function monthly() {
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		$c = array();
 		foreach ($years as $year) {
@@ -238,7 +236,7 @@ class ReportsController extends Controller {
 		return view("reports.monthly", $data);
 	}
 	public function delinquent() {
-		$years = collect(DB::select("select distinct year(date) as years from income where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from income where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -259,67 +257,8 @@ class ReportsController extends Controller {
 		$data['years'] = $y;
 		return view("reports.delinquent", $data);
 	}
-	public function booking() {
-		$years = collect(DB::select("select distinct year(pickup) as years from bookings where deleted_at is null and pickup is not null order by years desc"));
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		$data['vehicle_select'] = "";
-		$data['customer_select'] = "";
-		$data['customers'] = User::where('user_type', 'C')->get();
-		$data['years'] = $y;
-		$data['year_select'] = date("Y");
-		$data['month_select'] = date("n");
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$data['bookings'] = Bookings::whereYear("pickup", date("Y"))->whereMonth("pickup", date("n"))->whereIn('vehicle_id', $vehicle_ids)->get();
-		return view("reports.booking", $data);
-	}
-	public function booking_post(Request $request) {
-		$years = collect(DB::select("select distinct year(pickup) as years from bookings where deleted_at is null and pickup is not null order by years desc"));
-		$y = array();
-		$data['customers'] = User::where('user_type', 'C')->get();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		$data['vehicle_select'] = $request->get('vehicle_id');
-		$data['customer_select'] = $request->get('customer_id');
-		$data['years'] = $y;
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$data['bookings'] = Bookings::whereYear("pickup", $data['year_select'])->whereMonth("pickup", $data['month_select'])->whereIn('vehicle_id', $vehicle_ids);
-		if ($request->get("vehicle_id") != "") {
-			$data['bookings'] = $data['bookings']->where("vehicle_id", $request->get("vehicle_id"));
-		}
-		if ($request->get("customer_id") != "") {
-			$data['bookings'] = $data['bookings']->where("customer_id", $request->get("customer_id"));
-		}
-		$data['bookings'] = $data['bookings']->get();
-		return view("reports.booking", $data);
-	}
 	public function delinquent_post(Request $request) {
-		$years = DB::select("select distinct year(date) as years from income where deleted_at is null order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income where deleted_at is null order by years desc");
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -344,7 +283,7 @@ class ReportsController extends Controller {
 			$data['v'][$row['id']] = $row;
 		}
 		$data['vehicle_id'] = $request->get("vehicle_id");
-		$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",dayname(date) as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
+		$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",to_char(date, \'FMDay\') as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
 		if ($data['vehicle_id'] != "") {
 			$data['data'] = $income->where('vehicle_id', $data['vehicle_id'])->get();
 		} else {
@@ -355,7 +294,7 @@ class ReportsController extends Controller {
 		return view("reports.delinquent", $data);
 	}
 	public function monthly_post(Request $request) {
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		$b = array();
 		$i = array();
@@ -415,7 +354,7 @@ class ReportsController extends Controller {
 		return view("reports.monthly", $data);
 	}
 	public function fuel() {
-		$years = collect(DB::select("select distinct year(date) as years from income where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from income where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -442,7 +381,7 @@ class ReportsController extends Controller {
 		return view('reports.fuel', $data);
 	}
 	public function fuel_post(Request $request) {
-		$years = collect(DB::select("select distinct year(date) as years from income where deleted_at is null order by years desc"))->toArray();
+		$years = collect(DB::select("select distinct extract(year from date)::int as years from income where deleted_at is null order by years desc"))->toArray();
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -471,7 +410,7 @@ class ReportsController extends Controller {
 		return view('reports.fuel', $data);
 	}
 	public function yearly() {
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		$c = array();
 		foreach ($years as $year) {
@@ -517,7 +456,7 @@ class ReportsController extends Controller {
 		return view('reports.yearly', $data);
 	}
 	public function yearly_post(Request $request) {
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		$b = array();
 		$i = array();
@@ -575,51 +514,6 @@ class ReportsController extends Controller {
 		$data['result'] = "";
 		return view('reports.yearly', $data);
 	}
-	public function drivers_payments() {
-		$bookings = Bookings::whereNotNull('driver_id')->orderBy('bookings.id', 'desc')
-			->meta()->where(function ($q) {
-			$q->where('bookings_meta.key', 'receipt');
-			$q->where('bookings_meta.value', 1);
-		})
-			->get();
-		$index['driver_payments'] = DriverPayments::latest()->get()->toBase()->merge($bookings);
-		$index['drivers'] = User::where('user_type', 'D')->has('bookings')->orderBy('name')->pluck('name', 'id')->toArray();
-		$driver_bookings = Bookings::whereIn('driver_id', array_keys($index['drivers']))->get();
-		$driver_remaining_amounts = User::where('user_type', 'D')->has('bookings')->get();
-		$driver_amount = [];
-		foreach ($driver_remaining_amounts as $dram) {
-			$driver_amount[$dram->id]['data-remaining-amount'] = $dram->remaining_amount;
-		}
-		// dd($driver_amount);
-		foreach ($driver_bookings as $am) {
-			$amount = $am->driver_amount ?? $am->tax_total;
-			if (!empty($driver_amount[$am->driver_id]['data-amount'])) {
-				$driver_amount[$am->driver_id]['data-amount'] = $driver_amount[$am->driver_id]['data-amount'] + $amount;
-			} else {
-				$driver_amount[$am->driver_id]['data-amount'] = $amount;
-			}
-		}
-		$index['driver_booking_amount'] = $driver_amount;
-		// dd($index);
-		return view('reports.driver_payments', $index);
-	}
-	public function drivers_payments_post(Request $request) {
-		$this->validate($request, [
-			'driver' => 'required',
-			'amount' => 'required',
-		]);
-		DriverPayments::create([
-			'user_id' => auth()->id(),
-			'driver_id' => $request->driver,
-			'amount' => $request->amount,
-			'notes' => $request->notes,
-		]);
-		$driver = User::find($request->driver);
-		$remainig_amount_after_saved = $request->remaining_amount_hidden - $request->amount;
-		$driver->remaining_amount = $remainig_amount_after_saved;
-		$driver->save();
-		return back()->with('msg', trans('fleet.driverPaymentAdded'));
-	}
 	public function vendors() {
 		// $data['details'] = DB::select("select vendor_id,sum(price) as total from work_orders where deleted_at is null group by vendor_id"));
 		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
@@ -670,180 +564,6 @@ class ReportsController extends Controller {
 		$data['date2'] = $request->date2;
 		return view('reports.vendor', $data);
 	}
-	public function drivers() {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		// data of current month and current year
-		$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
-		$drivers_by_year = array();
-		foreach ($drivers as $d) {
-			$drivers_by_year[$d->driver->name] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		// dd($drivers_by_year);
-		$data['drivers_by_year'] = $drivers_by_year;
-		$drivers_by_month = array();
-		foreach ($drivers as $d) {
-			$drivers_by_month[$d->driver->name] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->whereMonth("bookings.updated_at", date("n"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['drivers_by_month'] = $drivers_by_month;
-		// dd($drivers_by_month);
-		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		if ($years == null) {
-			$y[date('Y')] = date('Y');
-		}
-		$data['year_select'] = date("Y");
-		$data['month_select'] = date("n");
-		$data['years'] = $y;
-		return view('reports.driver', $data);
-	}
-	public function drivers_post(Request $request) {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		// data of selected month and year
-		$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('driver_id')->get();
-		$drivers_by_year = array();
-		foreach ($drivers as $d) {
-			$drivers_by_year[$d->driver->name] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		// dd($drivers_by_year);
-		$data['drivers_by_year'] = $drivers_by_year;
-		$drivers_by_month = array();
-		foreach ($drivers as $d) {
-			$drivers_by_month[$d->driver->name] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		// dd($drivers_by_month);
-		$data['drivers_by_month'] = $drivers_by_month;
-		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['years'] = $y;
-		return view('reports.driver', $data);
-	}
-	public function customers() {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		// data of current month and current year
-		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
-		$customers_by_year = array();
-		foreach ($customers as $d) {
-			$customers_by_year[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['customers_by_year'] = $customers_by_year;
-		arsort($customers_by_year);
-		$data['top10'] = array_slice($customers_by_year, 0, 10);
-		$customers_by_month = array();
-		foreach ($customers as $d) {
-			$customers_by_month[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", date("Y"))->whereMonth("bookings.updated_at", date("n"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['customers_by_month'] = $customers_by_month;
-		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		if ($years == null) {
-			$y[date('Y')] = date('Y');
-		}
-		$data['year_select'] = date("Y");
-		$data['month_select'] = date("n");
-		$data['years'] = $y;
-		return view('reports.customer', $data);
-	}
-	public function customers_post(Request $request) {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		// data of selected month and year
-		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
-		$customers_by_year = array();
-		foreach ($customers as $d) {
-			$customers_by_year[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['customers_by_year'] = $customers_by_year;
-		arsort($customers_by_year);
-		$data['top10'] = array_slice($customers_by_year, 0, 10);
-		$customers_by_month = array();
-		foreach ($customers as $d) {
-			$customers_by_month[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['customers_by_month'] = $customers_by_month;
-		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['years'] = $y;
-		return view('reports.customer', $data);
-	}
 	public function print_deliquent(Request $request) {
 		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
 			// Apply this query when the condition is true (role is false or null)
@@ -862,7 +582,7 @@ class ReportsController extends Controller {
 			$data['v'][$row['id']] = $row;
 		}
 		$data['vehicle_id'] = $request->get("vehicle_id");
-		$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",dayname(date) as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
+		$income = IncomeModel::select(['date', DB::raw('sum(amount) as "Income2",to_char(date, \'FMDay\') as day,MIN(vehicle_id) as vehicle_id')])->whereYear('date', $data['year_select'])->whereMonth('date', $data['month_select'])->groupBy('date')->orderBy('date');
 		if ($data['vehicle_id'] != "") {
 			$data['data'] = $income->where('vehicle_id', $data['vehicle_id'])->get();
 		} else {
@@ -921,31 +641,6 @@ class ReportsController extends Controller {
 		$data['income_cats'] = $i;
 		$data['vehicle'] = VehicleModel::find($request->get("vehicle_id"));
 		return view('reports.print_monthly', $data);
-	}
-	public function print_booking(Request $request) {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$data['customers'] = User::where('user_type', 'C')->get();
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['bookings'] = Bookings::whereMonth("pickup", $data['month_select'])->whereMonth("pickup", $data['month_select'])->whereIn('vehicle_id', $vehicle_ids);
-		if ($request->get("vehicle_id") != "") {
-			$data['bookings'] = $data['bookings']->where("vehicle_id", $request->get("vehicle_id"));
-		}
-		if ($request->get("customer_id") != "") {
-			$data['bookings'] = $data['bookings']->where("customer_id", $request->get("customer_id"));
-		}
-		$data['bookings'] = $data['bookings']->get();
-		return view('reports.print_bookings', $data);
 	}
 	public function print_fuel(Request $request) {
 		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
@@ -1016,31 +711,6 @@ class ReportsController extends Controller {
 		$data['vehicle'] = VehicleModel::find($request->get('vehicle_id'));
 		return view('reports.print_yearly', $data);
 	}
-	public function print_driver(Request $request) {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$drivers = Bookings::select(['driver_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->whereIn('vehicle_id', $vehicle_ids)->where('status', 1)->groupBy('driver_id')->get();
-		$drivers_by_month = array();
-		foreach ($drivers as $d) {
-			$drivers_by_month[$d->driver->name] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get('year'))->whereMonth("bookings.updated_at", $request->get("month"))->where('driver_id', $d->driver_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['drivers_by_month'] = $drivers_by_month;
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		return view('reports.print_driver', $data);
-	}
 	public function print_vendor() {
 		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
 			// Apply this query when the condition is true (role is false or null)
@@ -1062,111 +732,8 @@ class ReportsController extends Controller {
 		$data['vendors'] = $b;
 		return view('reports.print_vendor', $data);
 	}
-	public function print_customer(Request $request) {
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$customers = Bookings::select(['customer_id', DB::raw('MIN(id) as id'), DB::raw('MIN(vehicle_id) as vehicle_id')])->where('status', 1)->whereIn('vehicle_id', $vehicle_ids)->groupBy('customer_id')->get();
-		$customers_by_year = array();
-		foreach ($customers as $d) {
-			$customers_by_year[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['customers_by_year'] = $customers_by_year;
-		arsort($customers_by_year);
-		$data['top10'] = array_slice($customers_by_year, 0, 10);
-		$customers_by_month = array();
-		foreach ($customers as $d) {
-			$customers_by_month[($d->customer?->name ?? ('Customer #' . $d->customer_id))] = Bookings::meta()
-				->where(function ($query) {
-					$query->where('bookings_meta.key', '=', 'tax_total');
-				})->whereYear("bookings.updated_at", $request->get("year"))->whereMonth("bookings.updated_at", $request->get("month"))->where('customer_id', $d->customer_id)->whereIn('vehicle_id', $vehicle_ids)->sum(DB::raw('value::numeric'));
-		}
-		$data['customers_by_month'] = $customers_by_month;
-		$years = collect(DB::select("select distinct year(created_at) as years from bookings where deleted_at is null order by years desc"))->toArray();
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['years'] = $y;
-		return view('reports.print_customer', $data);
-	}
-	public function users() {
-		$years = collect(DB::select("select distinct year(pickup) as years from bookings where deleted_at is null and pickup is not null order by years desc"))->toArray();
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		if ($years == null) {
-			$y[date('Y')] = date('Y');
-		}
-		$data['users'] = User::where('user_type', 'O')->orWhere('user_type', 'S')->get();
-		$data['user_id'] = "";
-		$data['year_select'] = date("Y");
-		$data['month_select'] = date("n");
-		$data['years'] = $y;
-		return view('reports.users', $data);
-	}
-	public function users_post(Request $request) {
-		$years = DB::select("select distinct year(pickup) as years from bookings where deleted_at is null and pickup is not null order by years desc");
-		$y = array();
-		foreach ($years as $year) {
-			$y[$year->years] = $year->years;
-		}
-		if ($years == null) {
-			$y[date('Y')] = date('Y');
-		}
-		$data['users'] = User::where('user_type', 'O')->orWhere('user_type', 'S')->get();
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['user_id'] = $request->get("user_id");
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$data['data'] = Bookings::whereYear('pickup', $data['year_select'])->whereMonth('pickup', $data['month_select'])->where('user_id', $request->get('user_id'))->whereIn('vehicle_id', $vehicle_ids)->get();
-		$data['years'] = $y;
-		$data['result'] = "";
-		return view("reports.users", $data);
-	}
-	public function print_users(Request $request) {
-		$data['year_select'] = $request->get("year");
-		$data['month_select'] = $request->get("month");
-		$data['vehicles'] = VehicleModel::when(Auth::user()->group_id == null || Auth::user()->user_type == "S", function ($query) {
-			// Apply this query when the condition is true (role is false or null)
-			return $query->get();
-		}, function ($query) {
-			// Apply this query when the condition is false (role is provided)
-			return $query->where('group_id', Auth::user()->group_id)->get();
-		});
-		$vehicle_ids = array(0);
-		foreach ($data['vehicles'] as $vehicle) {
-			$vehicle_ids[] = $vehicle->id;
-		}
-		$data['data'] = Bookings::whereYear('pickup', $data['year_select'])->whereMonth('pickup', $data['month_select'])->where('user_id', $request->get('user_id'))->whereIn('vehicle_id', $vehicle_ids)->get();
-		return view('reports.print_users', $data);
-	}
 	public function work_order() {
-		$years = DB::select("select distinct year(required_by) as years from work_orders where deleted_at is null and required_by is not null order by years desc");
+		$years = DB::select("select distinct extract(year from required_by)::int as years from work_orders where deleted_at is null and required_by is not null order by years desc");
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -1182,7 +749,7 @@ class ReportsController extends Controller {
 		return view('reports.work_order', $data);
 	}
 	public function work_order_post(Request $request) {
-		$years = DB::select("select distinct year(required_by) as years from work_orders where deleted_at is null and required_by is not null order by years desc");
+		$years = DB::select("select distinct extract(year from required_by)::int as years from work_orders where deleted_at is null and required_by is not null order by years desc");
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;

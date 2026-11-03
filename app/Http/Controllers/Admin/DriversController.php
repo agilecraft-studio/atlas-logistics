@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverRequest;
 use App\Http\Requests\ImportRequest;
 use App\Imports\DriverImport;
-use App\Model\Bookings;
 use App\Model\DriverLogsModel;
 use App\Model\DriverVehicleModel;
 use App\Model\ExpCats;
@@ -219,129 +218,6 @@ class DriversController extends Controller {
 		$index['driver'] = User::find($id);
 		return view('drivers.show', $index);
 	}
-	public function fetch_bookings_data(Request $request) {
-		if ($request->ajax()) {
-			$date_format_setting = (AtlasLogistics::get('date_format')) ? AtlasLogistics::get('date_format') : 'd-m-Y';
-			if (Auth::user()->user_type == "C") {
-				$bookings = Bookings::where('customer_id', Auth::id())->latest();
-			} elseif (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
-				$bookings = Bookings::latest();
-			} else {
-				$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
-				$bookings = Bookings::whereIn('vehicle_id', $vehicle_ids)->latest();
-			}
-			$bookings->select('bookings.*')
-				->leftJoin('vehicles', 'bookings.vehicle_id', '=', 'vehicles.id')
-				->leftJoin('bookings_meta', function ($join) {
-					$join->on('bookings_meta.booking_id', '=', 'bookings.id')
-						->where('bookings_meta.key', '=', 'vehicle_typeid');
-				})
-				->leftJoin('vehicle_types', function ($join) {
-					$join->on('vehicle_types.id', '=', DB::raw("CASE WHEN bookings_meta.value ~ '^[0-9]+$' THEN bookings_meta.value::integer END"));
-				})
-				->when($request->driver_id, function ($q, $driver_id) {
-					$q->where('bookings.driver_id', $driver_id);
-				})
-				->when($request->customer_id, function ($q, $customer_id) {
-					$q->where('bookings.customer_id', $customer_id);
-				})
-				->with(['customer', 'metas']);
-			return DataTables::eloquent($bookings)
-				->addColumn('check', function ($user) {
-					return '<input type="checkbox" name="ids[]" value="' . $user->id . '" class="checkbox" id="chk' . $user->id . '" onclick=\'checkcheckbox();\'>';
-				})
-				->addColumn('customer', function ($row) {
-					return $row->customer?->name ?? '—';
-				})
-				->addColumn('ride_status', function ($row) {
-					return ($row->getMeta('ride_status')) ?? "";
-				})
-				->editColumn('pickup_addr', function ($row) {
-					return str_replace(",", "<br/>", $row->pickup_addr);
-				})
-				->editColumn('dest_addr', function ($row) {
-					// dd($row->dest_addr);
-					return str_replace(",", "<br/>", $row->dest_addr);
-				})
-				->editColumn('pickup', function ($row) use ($date_format_setting) {
-					$pickup = '';
-					$pickup = [
-						'display' => '',
-						'timestamp' => '',
-					];
-					if (!is_null($row->pickup)) {
-						$pickup = date($date_format_setting . ' h:i A', strtotime($row->pickup));
-						return [
-							'display' => date($date_format_setting . ' h:i A', strtotime($row->pickup)),
-							'timestamp' => Carbon::parse($row->pickup),
-						];
-					}
-					return $pickup;
-				})
-				->editColumn('dropoff', function ($row) use ($date_format_setting) {
-					$dropoff = [
-						'display' => '',
-						'timestamp' => '',
-					];
-					if (!is_null($row->dropoff)) {
-						$dropoff = date($date_format_setting . ' h:i A', strtotime($row->dropoff));
-						return [
-							'display' => date($date_format_setting . ' h:i A', strtotime($row->dropoff)),
-							'timestamp' => Carbon::parse($row->dropoff),
-						];
-					}
-					return $dropoff;
-				})
-				->editColumn('payment', function ($row) {
-					if ($row->payment == 1) {
-						return '<span class="text-success"> ' . __('fleet.paid1') . ' </span>';
-					} else {
-						return '<span class="text-warning"> ' . __('fleet.pending') . ' </span>';
-					}
-				})
-				->editColumn('tax_total', function ($row) {
-					return ($row->tax_total) ? AtlasLogistics::get('currency') . " " . $row->tax_total : "";
-				})
-				->addColumn('vehicle', function ($row) {
-					$vehicle_type = VehicleTypeModel::find($row->getMeta('vehicle_typeid'));
-					return !empty($row->vehicle_id) ? (($row->vehicle ? $row->vehicle->make_name . '-' . $row->vehicle->model_name . '-' . $row->vehicle->license_plate : '—')) : ($vehicle_type->displayname ?? '—');
-				})
-				->filterColumn('vehicle', function ($query, $keyword) {
-					$query->whereRaw("CONCAT(vehicles.make_name , '-' , vehicles.model_name , '-' , vehicles.license_plate) ilike ?", ["%$keyword%"])
-						->orWhereRaw("(vehicle_types.displayname like ? and bookings.vehicle_id IS NULL)", ["%$keyword%"]);
-					return $query;
-				})
-				->filterColumn('ride_status', function ($query, $keyword) {
-					$query->whereHas("metas", function ($q) use ($keyword) {
-						$q->where('key', 'ride_status');
-						$q->whereRaw("value ilike ?", ["%{$keyword}%"]);
-					});
-					return $query;
-				})
-				->filterColumn('tax_total', function ($query, $keyword) {
-					$query->whereHas("metas", function ($q) use ($keyword) {
-						$q->where('key', 'tax_total');
-						$q->whereRaw("value ilike ?", ["%{$keyword}%"]);
-					});
-					return $query;
-				})
-				->addColumn('action', function ($user) {
-					return view('bookings.list-actions', ['row' => $user]);
-				})
-				->filterColumn('payment', function ($query, $keyword) {
-					$query->whereRaw("CASE WHEN payment::text IN ('1','true','t') THEN '" . __('fleet.paid1') . "' ELSE '" . __('fleet.pending') . "' END ilike ? ", ["%{$keyword}%"]);
-				})
-				->filterColumn('pickup', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(pickup::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
-				})
-				->filterColumn('dropoff', function ($query, $keyword) {
-					$query->whereRaw("DATE_FORMAT(dropoff::timestamp,'%d-%m-%Y %h:%i %p') ilike ?", ["%$keyword%"]);
-				})
-				->rawColumns(['payment', 'action', 'check', 'pickup_addr', 'dest_addr'])
-				->make(true);
-			//return datatables(User::all())->toJson();
-		}
-	}
 	public function destroy(Request $request) {
 
 		$u=User::find($request->get('id'));
@@ -515,29 +391,10 @@ class DriversController extends Controller {
 		return redirect()->route("drivers.index");
 	}
 	public function disable($id) {
-		$bookings = Bookings::where('driver_id', $id)->where('status', 0)->get();
-		if (count($bookings) > 0) {
-			$newErrors = [
-				'error' => 'Some active Bookings still have this driver, please either change the driver in those bookings or you can deactivate this driver after those bookings are complete!',
-				'data' => $bookings->pluck('id')->toArray(),
-			];
-			return redirect()->route('drivers.index')->with('errors', $newErrors)->with('bookings', $bookings);
-		} else {
-			$driver = User::find($id);
-			$driver->is_active = 0;
-			$driver->save();
-			return redirect()->route('drivers.index');
-		}
-	}
-	public function my_bookings() {
-		$bookings = Bookings::orderBy('id', 'desc')->whereDriver_id(Auth::user()->id)->get();
-		$data = [];
-		foreach ($bookings as $booking) {
-			if ($booking->getMeta('ride_status') != 'Cancelled') {
-				$data[] = $booking;
-			}
-		}
-		return view('drivers.my_bookings', compact('data'));
+		$driver = User::find($id);
+		$driver->is_active = 0;
+		$driver->save();
+		return redirect()->route('drivers.index');
 	}
 	public function yearly() {
 		$bookings = DriverLogsModel::where('driver_id', Auth::user()->id)->get();
@@ -548,7 +405,7 @@ class DriversController extends Controller {
 				$v_id[] = $key->vehicle_id;
 			}
 		}
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -561,8 +418,8 @@ class DriversController extends Controller {
 		$data['vehicle_select'] = null;
 		$data['years'] = $y;
 		$in = join(",", $v_id);
-		$data['income'] = IncomeModel::select(DB::raw("sum(IFNULL(driver_amount,amount)) as income"))->whereYear('date', date('Y'))->whereIn('vehicle_id', $v_id)->get();
-		$data['expenses'] = Expense::select(DB::raw('sum(IFNULL(driver_amount,amount)) as expense'))->whereYear('date', date('Y'))->whereIn('vehicle_id', $v_id)->get();
+		$data['income'] = IncomeModel::select(DB::raw("sum(COALESCE(driver_amount,amount)) as income"))->whereYear('date', date('Y'))->whereIn('vehicle_id', $v_id)->get();
+		$data['expenses'] = Expense::select(DB::raw('sum(COALESCE(driver_amount,amount)) as expense'))->whereYear('date', date('Y'))->whereIn('vehicle_id', $v_id)->get();
 		$data['expense_by_cat'] = Expense::select('type', 'expense_type', DB::raw('sum(amount) as expense'))->whereYear('date', date('Y'))->whereIn('vehicle_id', $v_id)->groupBy(['expense_type', 'type'])->get();
 		$ss = ServiceItemsModel::get();
 		foreach ($ss as $s) {
@@ -590,7 +447,7 @@ class DriversController extends Controller {
 		foreach ($bookings as $key) {
 			$v_id[] = $key->vehicle_id;
 		}
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		$b = array();
 		$i = array();
@@ -644,7 +501,7 @@ class DriversController extends Controller {
 				$v_id[] = $key->vehicle_id;
 			}
 		}
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		foreach ($years as $year) {
 			$y[$year->years] = $year->years;
@@ -660,9 +517,9 @@ class DriversController extends Controller {
 		$data['yearly_income'] = $this->yearly_income();
 		$data['yearly_expense'] = $this->yearly_expense();
 		$in = join(",", $v_id);
-		$data['income'] = IncomeModel::select(DB::raw('sum(IFNULL(driver_amount,amount)) as income'))->whereYear('date', date('Y'))->whereMonth('date', date('n'))->whereIn('vehicle_id', $v_id)->get();
-		$data['expenses'] = Expense::select(DB::raw('sum(IFNULL(driver_amount,amount)) as expense'))->whereYear('date', date('Y'))->whereMonth('date', date('n'))->whereIn('vehicle_id', $v_id)->get();
-		$data['expense_by_cat'] = DB::select("select type,expense_type,sum(amount) as expense from expense where deleted_at is null and year(date)=" . date("Y") . " and month(date)=" . date("n") . " and vehicle_id in(" . $in . ") group by expense_type,type");
+		$data['income'] = IncomeModel::select(DB::raw('sum(COALESCE(driver_amount,amount)) as income'))->whereYear('date', date('Y'))->whereMonth('date', date('n'))->whereIn('vehicle_id', $v_id)->get();
+		$data['expenses'] = Expense::select(DB::raw('sum(COALESCE(driver_amount,amount)) as expense'))->whereYear('date', date('Y'))->whereMonth('date', date('n'))->whereIn('vehicle_id', $v_id)->get();
+		$data['expense_by_cat'] = DB::select("select type,expense_type,sum(amount) as expense from expense where deleted_at is null and extract(year from date)=" . (int) date("Y") . " and extract(month from date)=" . (int) date("n") . " and vehicle_id in(" . $in . ") group by expense_type,type");
 		$ss = ServiceItemsModel::get();
 		$c = array();
 		foreach ($ss as $s) {
@@ -690,7 +547,7 @@ class DriversController extends Controller {
 				$v_id[] = $key->vehicle_id;
 			}
 		}
-		$years = DB::select("select distinct year(date) as years from income  union select distinct year(date) as years from expense order by years desc");
+		$years = DB::select("select distinct extract(year from date)::int as years from income union select distinct extract(year from date)::int as years from expense order by years desc");
 		$y = array();
 		$b = array();
 		$i = array();
@@ -747,7 +604,7 @@ class DriversController extends Controller {
 			}
 		}
 		$in = join(",", $v_id);
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by monthname(date), month(date)', [date("Y")]);
+		$incomes = DB::select("select to_char(date, 'FMMonth') as mnth,sum(amount) as tot from income where to_char(date, 'YYYY')=? and  deleted_at is null and vehicle_id in(" . $in . ") group by to_char(date, 'FMMonth'), extract(month from date)", [date("Y")]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -765,7 +622,7 @@ class DriversController extends Controller {
 			}
 		}
 		$in = join(",", $v_id);
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in(' . $in . ') group by monthname(date), month(date)', [date("Y")]);
+		$incomes = DB::select("select to_char(date, 'FMMonth') as mnth,sum(amount) as tot from expense where to_char(date, 'YYYY')=? and  deleted_at is null and vehicle_id in(" . $in . ") group by to_char(date, 'FMMonth'), extract(month from date)", [date("Y")]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {

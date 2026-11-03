@@ -36,7 +36,6 @@
     </x-fleet.panel>
   </div>
 </div>
-</div>
 
 @if(isset($result))
 <div class="row">

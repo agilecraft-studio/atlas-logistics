@@ -8,7 +8,6 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleTypeRequest;
-use App\Model\FareSettings;
 use App\Model\VehicleTypeModel;
 use DataTables;
 use Illuminate\Http\Request;
@@ -76,19 +75,6 @@ class VehicleTypeController extends Controller {
 			$new->icon = $fileName1;
 			$new->save();
 		}
-		$key = $request->get('vehicletype');
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_base_fare', 'key_value' => '500', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_base_km', 'key_value' => '10', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_base_time', 'key_value' => '2', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_std_fare', 'key_value' => '20', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_weekend_base_fare', 'key_value' => '500', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_weekend_base_km', 'key_value' => '10', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_weekend_wait_time', 'key_value' => '2', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_weekend_std_fare', 'key_value' => '20', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_night_base_fare', 'key_value' => '500', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_night_base_km', 'key_value' => '10', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_night_wait_time', 'key_value' => '2', 'type_id' => $new->id]);
-		FareSettings::create(['key_name' => strtolower(str_replace(" ", "", $key)) . '_night_std_fare', 'key_value' => '20', 'type_id' => $new->id]);
 		return redirect()->route('vehicle-types.index');
 	}
 	public function edit($id) {
@@ -116,15 +102,6 @@ class VehicleTypeController extends Controller {
 			$file->move($destinationPath, $fileName1);
 			$data->icon = $fileName1;
 			$data->save();
-		}
-		$settings = FareSettings::where('type_id', $request->get('id'))->get();
-		// dd($settings);
-		foreach ($settings as $key) {
-			// echo "old  " . $key->key_name . "  === ";
-			// echo "new " . str_replace($request->get('old_type'), strtolower(str_replace(' ', '', $request->get('type'))), $key->key_name) . "<br>";
-			// update key_name in fare settings
-			$key->key_name = str_replace($request->get('old_type'), strtolower(str_replace(' ', '', $request->get('vehicletype'))), $key->key_name);
-			$key->save();
 		}
 		return redirect()->route('vehicle-types.index');
 	}

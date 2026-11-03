@@ -1,23 +1,23 @@
 
 <div role="tabpanel">
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#info-tab" data-toggle="tab" class="nav-link custom_padding active"> @lang('fleet.general_info') <i class="fa"></i></a>
+        <li class="nav-item"><a href="#info-tab" data-bs-toggle="tab" class="nav-link custom_padding active"> @lang('fleet.general_info') </a>
         </li>
 
-        <li class="nav-item"><a href="#address-tab" data-toggle="tab" class="nav-link custom_padding"> @lang('fleet.insurance') <i class="fa"></i></a>
+        <li class="nav-item"><a href="#address-tab" data-bs-toggle="tab" class="nav-link custom_padding"> @lang('fleet.insurance') </a>
         </li>
 
-        <li class="nav-item"><a href="#acq-tab" data-toggle="tab" class="nav-link custom_padding"> @lang('fleet.purchase_info') <i class="fa"></i></a>
+        <li class="nav-item"><a href="#acq-tab" data-bs-toggle="tab" class="nav-link custom_padding"> @lang('fleet.purchase_info') </a>
         </li>
 
-        <li class="nav-item"><a href="#reviews" data-toggle="tab" class="nav-link custom_padding"> @lang('fleet.vehicle_inspection') <i class="fa"></i></a>
+        <li class="nav-item"><a href="#reviews" data-bs-toggle="tab" class="nav-link custom_padding"> @lang('fleet.vehicle_inspection') </a>
         </li>
     </ul>
 
 	<div class="tab-content">
 		<!-- tab1-->
 		<div class="tab-pane active" id="info-tab">
-			<table class="table table-striped">
+			<table class="table table-striped fleet-table">
 				<tr>
 					<th>@lang('fleet.vehicle')</th>
 					<td>{{$vehicle->make_name}}</td>
@@ -150,7 +150,7 @@
 
 		<!--tab2-->
 		<div class="tab-pane" id="address-tab" >
-			<table class="table table-striped">
+			<table class="table table-striped fleet-table">
 				<tr>
 					<th>@lang('fleet.vehicle')</th>
 					<td>
@@ -194,7 +194,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table">
+							<table class="table fleet-table">
 								<thead>
 									<th>@lang('fleet.expenseType')</th>
 									<th>@lang('fleet.expenseAmount')</th>
@@ -239,8 +239,8 @@
 					<div class="row">
 						<div class="col-md-12">
 						@foreach($vehicle->reviews as $r)
-							<a href="{{url('admin/view-vehicle-review/'.$r->id)}}" class="btn btn-success" style="margin-bottom: 5px;" title="View Review">@lang('fleet.reg_no'): {{$r->reg_no}}</a>
-							&nbsp; <a href="{{url('admin/print-vehicle-review/'.$r->id)}}" class="btn btn-danger" target="_blank" title="@lang('fleet.print')" style="margin-bottom: 5px;"><i class="fa fa-print"></i> @lang('fleet.print')</a>
+							<a href="{{url('admin/view-vehicle-review/'.$r->id)}}" class="fleet-btn" style="margin-bottom: 5px;" title="View Review">@lang('fleet.reg_no'): {{$r->reg_no}}</a>
+							&nbsp; <a href="{{url('admin/print-vehicle-review/'.$r->id)}}" class="fleet-btn fleet-btn-danger" target="_blank" title="@lang('fleet.print')" style="margin-bottom: 5px;"><i class="bi bi-printer"></i> @lang('fleet.print')</a>
 							<br>
 						@endforeach
 						</div>

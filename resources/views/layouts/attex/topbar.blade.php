@@ -18,13 +18,6 @@
             </button>
         </div>
         <ul class="topbar-menu d-flex align-items-center gap-3">
-            @if(auth()->check() && auth()->user()->user_type != 'D')
-            <li class="d-none d-md-inline-block">
-                <a class="nav-link" href="{{ url('admin/bookings/calendar') }}" title="@lang('menu.calendar')">
-                    <i class="ri-calendar-event-line fs-22"></i>
-                </a>
-            </li>
-            @endif
             <li class="d-none d-sm-inline-block">
                 <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas" title="Theme Settings">
                     <i class="ri-settings-3-line fs-22"></i>

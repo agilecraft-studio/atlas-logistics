@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Model\Invoice;
+use App\Model\InvoiceLine;
 use App\Model\Trip;
+use App\Support\Money;
 
 class TripFinanceService
 {
@@ -19,8 +22,24 @@ class TripFinanceService
 
         $expenseTotal  = (float) $approved->sum('amount_base');
         $incidentTotal = (float) $trip->incidents->sum('cost_base');
-        $totalCost     = $expenseTotal + $incidentTotal;
-        $revenue       = (float) $trip->revenue_amount_base;
+        // Allowance advances are a trip cost. Fuel/border advances stay out of cost because the
+        // matching expense claim captures the actual spend.
+        $allowances    = (float) $trip->advances->where('purpose', 'allowance')->sum('amount_base');
+        $totalCost     = $expenseTotal + $incidentTotal + $allowances;
+
+        // Issued invoices replace the manually entered trip revenue on an accrual basis.
+        // Each line is converted with the rate frozen on its own invoice.
+        $invoicedMinor = 0;
+        $invoiceLines = InvoiceLine::where('trip_id', $trip->id)
+            ->whereHas('invoice', fn ($q) => $q->whereIn('status', Invoice::REVENUE_STATUSES))
+            ->with('invoice:id,exchange_rate')
+            ->get();
+        foreach ($invoiceLines as $line) {
+            $invoicedMinor += Money::applyRate(Money::toMinor($line->line_total), (string) $line->invoice->exchange_rate);
+        }
+
+        $revenueMinor  = $invoicedMinor > 0 ? $invoicedMinor : Money::toMinor($trip->revenue_amount_base);
+        $revenue       = $revenueMinor / 100;
         $profit        = $revenue - $totalCost;
         $km            = (float) $trip->distance_km;
 
@@ -29,8 +48,10 @@ class TripFinanceService
 
         return [
             'revenue'         => $revenue,
+            'invoiced_revenue' => $invoicedMinor / 100,
             'expenses'        => $expenseTotal,
             'incidents'       => $incidentTotal,
+            'allowances'      => $allowances,
             'total_cost'      => $totalCost,
             'profit'          => $profit,
             'margin'          => $revenue > 0 ? round($profit / $revenue * 100, 1) : null,

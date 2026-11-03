@@ -28,4 +28,20 @@ return [
         'mobile_money' => 'Mobile money',
         'bank'         => 'Bank transfer',
     ],
+
+    // Drivers report one checkpoint at departure, every stop, and arrival.
+    'checkpoint_kinds' => [
+        'departure' => 'Departure',
+        'stop'      => 'Stop',
+        'arrival'   => 'Arrival',
+    ],
+
+    // Fixed gauge scale - free text is deliberately not allowed.
+    'fuel_levels' => [
+        'empty'         => 'Empty',
+        'quarter'       => '1/4',
+        'half'          => '1/2',
+        'three_quarter' => '3/4',
+        'full'          => 'Full',
+    ],
 ];

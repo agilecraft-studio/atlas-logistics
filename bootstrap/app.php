@@ -42,6 +42,12 @@ return Application::configure()
                 ->namespace($namespace)
                 ->group(base_path('routes/admin.php'));
 
+            // Driver mobile checkpoint capture (odometer + fuel gauge only).
+            Route::prefix('driver')
+                ->middleware(['web', 'auth'])
+                ->namespace($namespace)
+                ->group(base_path('routes/driver.php'));
+
             Route::prefix('backend')
                 ->middleware('web')
                 ->namespace($namespace)
@@ -84,7 +90,6 @@ return Application::configure()
             'updatepassporttoken' => \App\Http\Middleware\UpdatePassportToken::class,
             'auth_user' => \App\Http\Middleware\AuthUser::class,
             'lang_check_user' => \App\Http\Middleware\SetLocaleUser::class,
-            'front_enable' => \App\Http\Middleware\CheckFrontEnable::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,

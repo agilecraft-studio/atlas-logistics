@@ -11,9 +11,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.serviceItems')" icon="bi-list-check">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.serviceItems') }}</div>
+        <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>{{ __('fleet.serviceItems') }}</h5>
         <div class="d-flex gap-2">
           @can('ServiceItems add')
             <a href="{{ route('service-item.create')}}" class="fleet-btn"><i class="bi bi-plus-lg"></i> @lang('fleet.add_service_item')</a>

@@ -1,14 +1,17 @@
-<div class="btn-group">
-    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-      <span class="fa fa-gear"></span>
-      <span class="sr-only">Toggle Dropdown</span>
-    </button>
-    <div class="dropdown-menu custom" role="menu">
-      <a class="dropdown-item" class="mybtn changepass" data-id="{{$row->id}}" data-toggle="modal" data-target="#changepass" title="@lang('fleet.change_password')"><i class="fa fa-key"  aria-hidden="true" style="color:#269abc;"></i> @lang('fleet.change_password')</a>
-      @can('Customer edit')<a class="dropdown-item" href="{{ url("admin/customers/".$row->id."/edit")}}"><span aria-hidden="true" class="fa fa-edit" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>@endcan
-      @can('Customer delete')<a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-trash" aria-hidden="true" style="color: #dd4b39"></span> @lang('fleet.delete')</a>@endcan
-    </div>
+<div class="d-flex gap-1">
+  @can('Customer list')
+    <a href="{{ route('customers.show', $row->id) }}" class="fleet-btn fleet-btn-sm fleet-btn-ghost" title="@lang('fleet.view')"><i class="bi bi-eye"></i></a>
+  @endcan
+  @can('Customer edit')
+    <a href="{{ route('customers.edit', $row->id) }}" class="fleet-btn fleet-btn-sm fleet-btn-ghost" title="@lang('fleet.edit')"><i class="bi bi-pencil"></i></a>
+  @endcan
+  <button type="button" class="fleet-btn fleet-btn-sm fleet-btn-ghost changepass" data-id="{{ $row->id }}" data-bs-toggle="modal" data-bs-target="#changepass" title="@lang('fleet.change_password')"><i class="bi bi-key"></i></button>
+  @can('Customer delete')
+    <form method="POST" action="{{ url('admin/customers/'.$row->id) }}" class="d-inline" data-fleet-confirm="@lang('fleet.confirm_delete')">
+      @csrf
+      @method('DELETE')
+      <input type="hidden" name="id" value="{{ $row->id }}">
+      <button type="submit" class="fleet-btn fleet-btn-sm fleet-btn-danger" title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>
+    </form>
+  @endcan
 </div>
-{!! Form::open(['url' => 'admin/customers/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
-{!! Form::hidden("id",$row->id) !!}
-{!! Form::close() !!}

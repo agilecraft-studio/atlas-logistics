@@ -2,12 +2,11 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.edit_part_category')</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0">@lang('fleet.edit_part_category')</h5>
       </div>
-
-      <div class="card-body">
+      <div>
         @if (count($errors) > 0)
         <div class="alert alert-danger">
           <ul>
@@ -24,7 +23,7 @@
 
         <div class="row">
           <div class="col-md-6">
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('name',__('fleet.category_name'), ['class' => 'form-label']) !!}
               {!! Form::text('name',$data->name,['class'=>'form-control','required']) !!}
             </div>
@@ -32,11 +31,11 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            {!! Form::submit(__('fleet.update'), ['class' => 'btn btn-warning']) !!}
+            {!! Form::submit(__('fleet.update'), ['class' => 'fleet-btn']) !!}
           </div>
         </div>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

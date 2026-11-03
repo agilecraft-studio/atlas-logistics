@@ -22,9 +22,9 @@
       </ul>
     </div>
     @endif
-    <x-fleet.panel :title="__('fleet.mechanics')" icon="bi-wrench-adjustable">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.mechanics') }}</div>
+        <h5 class="mb-0"><i class="bi bi-wrench-adjustable me-2"></i>{{ __('fleet.mechanics') }}</h5>
         <div class="d-flex gap-2">
           @can('Mechanics add')
             <a href="{{ route('mechanic.create')}}" class="fleet-btn" title="@lang('fleet.create_mechanic')"><i class="bi bi-plus-lg"></i> @lang('fleet.create_mechanic')</a>

@@ -7,11 +7,8 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
  */
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
-use App\Model\Bookings;
 use App\Model\Expense;
 use App\Model\IncomeModel;
-use App\Model\MessageModel;
-use App\Model\ReviewModel;
 use App\Model\User;
 use App\Model\VehicleModel;
 use App\Model\Vendor;
@@ -33,24 +30,21 @@ class BackendApiController extends Controller {
 	}
 	public function dashboard($year) {
 		$index['drivers'] = User::whereUser_type("D")->get()->count();
-		$index['reviews'] = ReviewModel::all()->count();
 		$index['customers'] = User::whereUser_type("C")->get()->count();
 		$index['users'] = User::whereUser_type("O")->get()->count();
 		$vehicle_ids = array(0);
 		if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
 			$index['vehicles'] = VehicleModel::all()->count();
-			$index['bookings'] = Bookings::all()->count();
 			$vehicle_ids = VehicleModel::pluck('id')->toArray();
 		} else {
 			$index['vehicles'] = VehicleModel::where('group_id', Auth::user()->group_id)->count();
 			$vehicle_ids = VehicleModel::where('group_id', Auth::user()->group_id)->pluck('id')->toArray();
-			$index['bookings'] = Bookings::whereIn('vehicle_id', $vehicle_ids)->count();
 		}
 		$index['vendors'] = Vendor::all()->count();
 		$index['customers'] = User::whereUser_type("C")->get()->count();
-		$index['income'] = IncomeModel::whereRaw('year(date) = ? and month(date)=?', [date("Y"), date("n")])->whereIn('vehicle_id', $vehicle_ids)->sum("amount");
+		$index['income'] = IncomeModel::whereYear('date', date("Y"))->whereMonth('date', date("n"))->whereIn('vehicle_id', $vehicle_ids)->sum("amount");
 		// dd($vehicle_ids);
-		$index['expense'] = Expense::whereRaw('year(date) = ? and month(date)=?', [date("Y"), date("n")])->whereIn('vehicle_id', $vehicle_ids)->sum("amount");
+		$index['expense'] = Expense::whereYear('date', date("Y"))->whereMonth('date', date("n"))->whereIn('vehicle_id', $vehicle_ids)->sum("amount");
 		$index['currency'] = AtlasLogistics::get('currency');
 		$vv = array();
 		if (Auth::user()->group_id == null || Auth::user()->user_type == "S") {
@@ -136,7 +130,7 @@ class BackendApiController extends Controller {
 		foreach ($all_vehicles as $key) {
 			$vehicle_ids[] = $key->id;
 		}
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from income where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
+		$incomes = DB::select("select to_char(date, 'FMMonth') as mnth,sum(amount) as tot from income where to_char(date, 'YYYY')=? and  deleted_at is null and vehicle_id in (" . join(",", $vehicle_ids) . ") group by to_char(date, 'FMMonth'), extract(month from date)", [$year]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -156,7 +150,7 @@ class BackendApiController extends Controller {
 		foreach ($all_vehicles as $key) {
 			$vehicle_ids[] = $key->id;
 		}
-		$incomes = DB::select('select monthname(date) as mnth,sum(amount) as tot from expense where year(date)=? and  deleted_at is null and vehicle_id in (' . join(",", $vehicle_ids) . ') group by monthname(date), month(date)', [$year]);
+		$incomes = DB::select("select to_char(date, 'FMMonth') as mnth,sum(amount) as tot from expense where to_char(date, 'YYYY')=? and  deleted_at is null and vehicle_id in (" . join(",", $vehicle_ids) . ") group by to_char(date, 'FMMonth'), extract(month from date)", [$year]);
 		$months = ["January" => 0, "February" => 0, "March" => 0, "April" => 0, "May" => 0, "June" => 0, "July" => 0, "August" => 0, "September" => 0, "October" => 0, "November" => 0, "December" => 0];
 		$income2 = array();
 		foreach ($incomes as $income) {
@@ -231,119 +225,6 @@ class BackendApiController extends Controller {
 		}
 		return $data;
 	}
-	public function fare_calc(Request $request) {
-		$validation = Validator::make($request->all(), [
-			'day' => 'required|integer',
-			'vehicle_id' => 'required|integer',
-			'mileage' => 'required|numeric',
-			'waiting_time' => 'required|integer',
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			$details = array();
-			$vehicle = VehicleModel::find($request->vehicle_id);
-			$day = $request->day;
-			$mileage = $request->mileage;
-			$waiting_time = $request->waiting_time;
-			if ($day == 1) {
-				$base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_km');
-				$base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_fare');
-				$wait_time_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_base_time');
-				$std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_std_fare');
-			} elseif ($day == 2) {
-				$base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_base_km');
-				$base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_base_fare');
-				$wait_time_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_wait_time');
-				$std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_weekend_std_fare');
-			} elseif ($day == 3) {
-				$base_km = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_base_km');
-				$base_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_base_fare');
-				$wait_time_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_wait_time');
-				$std_fare = AtlasLogistics::fare(strtolower(str_replace(' ', '', $vehicle->types->vehicletype)) . '_night_std_fare');
-			} else {
-				$data['success'] = "0";
-				$data['message'] = "Type of day is incorrect";
-				$data['data'] = "";
-				return $data;
-			}
-			if ($mileage <= $base_km) {
-				$total = $base_fare + ($waiting_time * $wait_time_fare);
-			} else {
-				$sum = ($mileage - $base_km) * $std_fare;
-				$total = round($base_fare + $sum + ($waiting_time * $wait_time_fare), 2);
-			}
-			$tax_percent = 0;
-			if (AtlasLogistics::get('tax_charge') != "null") {
-				$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
-				foreach ($taxes as $key => $val) {
-					$tax_percent += $val;
-				}
-			}
-			$tax_charges = round(($tax_percent * $total) / 100, 2);
-			$tax_total = round($total + $tax_charges, 2);
-			$details = array(
-				'total' => $total,
-				'total_tax_percent' => $tax_percent,
-				'total_tax_charge_rs' => $tax_charges,
-				'tax_total' => $tax_total,
-			);
-			$data['success'] = "1";
-			$data['message'] = "Data fetched.";
-			$data['data'] = $details;
-		}
-		return $data;
-	}
-	public function get_fare_calc(Request $request) {
-		$tax_percent = 0;
-		if (AtlasLogistics::get('tax_charge') != "null") {
-			$taxes = json_decode(AtlasLogistics::get('tax_charge'), true);
-			foreach ($taxes as $key => $val) {
-				$tax_percent += $val;
-			}
-		}
-		$details = array(
-			'tax' => $tax_percent,
-		);
-		$data['success'] = "1";
-		$data['message'] = "Data fetched.";
-		$data['data'] = $details;
-		return $data;
-	}
-	public function reviews() {
-		$details = array();
-		$records = ReviewModel::orderBy('id', 'desc')->get();
-		foreach ($records as $row) {
-			$details[] = array(
-				'user' => $row->user->name,
-				'booking_id' => $row->booking_id,
-				'ratings' => $row->ratings,
-				'review' => $row->review_text,
-			);
-		}
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = $details;
-		return $data;
-	}
-	public function inquiries() {
-		$details = array();
-		$records = MessageModel::orderBy('id', 'desc')->get();
-		foreach ($records as $row) {
-			$details[] = array(
-				'name' => $row->name,
-				'email' => $row->email,
-				'message' => $row->message,
-			);
-		}
-		$data['success'] = "1";
-		$data['message'] = "Data fetched!";
-		$data['data'] = $details;
-		return $data;
-	}
 	public function change_password(Request $request) {
 		$validation = Validator::make($request->all(), [
 			'password' => 'required',
@@ -410,9 +291,6 @@ class BackendApiController extends Controller {
 				if (in_array(2, $permissions)) {
 					array_push($modules, 'transactions');
 				}
-				if (in_array(3, $permissions)) {
-					array_push($modules, 'bookings');
-				}
 				if (in_array(4, $permissions)) {
 					array_push($modules, 'reports');
 				}
@@ -431,9 +309,6 @@ class BackendApiController extends Controller {
 				if (in_array(9, $permissions)) {
 					array_push($modules, 'service_reminders');
 				}
-				if (in_array(10, $permissions)) {
-					array_push($modules, 'reviews');
-				}
 				if (in_array(12, $permissions)) {
 					array_push($modules, 'maps');
 				}
@@ -443,17 +318,12 @@ class BackendApiController extends Controller {
 				if (in_array(14, $permissions)) {
 					array_push($modules, 'parts');
 				}
-				if (in_array(15, $permissions)) {
-					array_push($modules, 'testimonials');
-				}
 				if ($user->user_type == "S") {
 					array_push($modules, 'team');
 					array_push($modules, 'settings');
 				}
 			} elseif ($user->user_type == "D") {
 				$modules = array("notes");
-			} elseif ($user->user_type == "C") {
-				$modules = array("bookings");
 			}
 			$accessToken = $user->createToken('authToken')->accessToken;
 			$date_setting = "DD-MM-YYYY";

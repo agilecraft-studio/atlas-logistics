@@ -73,7 +73,7 @@ class SampleCategories extends Seeder {
 		DB::table('income_cat')->truncate();
 		$data = array(
 			array(
-				'name' => 'Booking',
+				'name' => 'Trip',
 				'user_id' => '1',
 				'type' => 'd',
 			),

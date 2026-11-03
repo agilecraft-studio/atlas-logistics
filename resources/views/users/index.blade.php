@@ -7,23 +7,21 @@
     width: 20px;
     height: 20px;
   }
-  .show-password-button{
-    outline: none;
-    border: 1px solid #ced4da;
-  }
   td>img {
     border-radius: 50%;
   }
 </style>
 @endsection
-@section('page_title', __('fleet.manageUsers') . __('fleet.managers'))
+@section('page_title', __('fleet.users') . ' & ' . __('fleet.roles'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.manageUsers') . __('fleet.managers')" icon="bi-person-gear">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.manageUsers') . __('fleet.managers') }}</div>
-        <div class="d-flex gap-2">
+        <h5 class="mb-0"><i class="bi bi-people me-2"></i>{{ __('fleet.users') }} &amp; {{ __('fleet.roles') }}</h5>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="{{ route('users.index') }}" class="fleet-btn">@lang('fleet.users')</a>
+          <a href="{{ route('roles.index') }}" class="fleet-btn fleet-btn-ghost">@lang('fleet.roles')</a>
           @can('Users add')
             <a href="{{route('users.create')}}" class="fleet-btn" title="@lang('fleet.addUser')"><i class="bi bi-plus-lg"></i> @lang('fleet.addUser')</a>
           @endcan
@@ -34,9 +32,7 @@
           <thead class="table-dark">
             <tr>
               <th>
-
                 <input type="checkbox" id="chk_all">
-
               </th>
               <th>@lang('fleet.id')</th>
               <th>@lang('fleet.profile_photo')</th>
@@ -95,102 +91,18 @@
   </div>
 </div>
 <!-- Modal -->
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">@lang('fleet.delete')</h4>
-        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p>@lang('fleet.confirm_delete')</p>
-      </div>
-      <div class="modal-footer">
-        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
-
-<!-- Modal -->
-<div id="changepass" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">@lang('fleet.change_password')</h4>
-        <button class="btn-close" aria-label="Close" type="button" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        {!! Form::open(['url'=>url('admin/change_password'),'id'=>'changepass_form']) !!}
-        <form id="change" action="{{url('admin/change_password')}}" method="POST">
-
-          {!! Form::hidden('driver_id',"",['id'=>'driver_id'])!!}
-          <div class="mb-3">
-            {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="bi bi-lock"></i></span>
-              {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
-              <button type="button" id="show-password-button" class="show-password-button" >
-                <i class="bi bi-eye" aria-hidden="true"></i>
-              </button>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button id="password" class="fleet-btn" type="submit">@lang('fleet.change_password')</button>
-        </form>
-        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
-  $("#del_btn").on("click",function(){
-    var id=$(this).data("submit");
-    $("#form_"+id).submit();
+  // Action rows are injected by DataTables after fleet.js binds static forms.
+  $(document).on('submit', 'form[data-fleet-confirm]', function (e) {
+    if (!confirm($(this).attr('data-fleet-confirm') || 'Delete this record?')) {
+      e.preventDefault();
+    }
   });
 
-  $('#myModal').on('show.bs.modal', function(e) {
-    var id = e.relatedTarget.dataset.id;
-    $("#del_btn").attr("data-submit",id);
-  });
-
-  $('#changepass').on('show.bs.modal', function(e) {
-    var id = e.relatedTarget.dataset.id;
-    $("#driver_id").val(id);
-  });
-
-  $("#changepass_form").on("submit",function(e){
-    $.ajax({
-      type: "POST",
-      url: $(this).attr("action"),
-      data: $(this).serialize(),
-      success: function(data){
-
-       new PNotify({
-            title: 'Success!',
-            text: "@lang('fleet.passwordChanged')",
-            type: 'info'
-        });
-      },
-
-      dataType: "html"
-    });
-    $('#changepass').modal("hide");
-    e.preventDefault();
-  });
   $(function(){
-    
     var table = $('#ajax_data_table').DataTable({
       dom: 'Bfrtip',
       buttons: [
@@ -315,25 +227,5 @@
         $('#chk_all').prop('checked', false);
     }
   }
-</script>
-{{-- show password script --}}
-<script>
-  $(document).ready(function() {
-  $('#show-password-button').click(function() {
-    $('#show-password-button').show();
-    var passwordField = $('#passwd');
-    var fieldType = passwordField.attr('type');
-    if (fieldType === 'password') {
-      passwordField.attr('type', 'text');
-      $(this).attr('title', 'Hide password');
-      $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
-    } else {
-      passwordField.attr('type', 'password');
-      $(this).attr('title', 'Show password');
-      $(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
-    }
-  });
-});
-
 </script>
 @endsection

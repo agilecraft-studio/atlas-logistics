@@ -27,11 +27,11 @@
 
   <div class="col-md-12">
 
-    <x-fleet.panel :title="__('menu.manageParts')" icon="bi-tools">
+    <x-fleet.panel>
 
       <div class="fleet-toolbar">
 
-        <div class="text-muted">{{ __('menu.manageParts') }}</div>
+        <h5 class="mb-0"><i class="bi bi-tools me-2"></i>{{ __('menu.manageParts') }}</h5>
 
         <div class="d-flex gap-2">
 

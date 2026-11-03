@@ -11,9 +11,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.vehicle_types')" icon="bi-truck">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.vehicle_types') }}</div>
+        <h5 class="mb-0"><i class="bi bi-truck me-2"></i>{{ __('fleet.vehicle_types') }}</h5>
         <div class="d-flex gap-2">
           @can('VehicleType add')
             <a href="{{ route('vehicle-types.create')}}" class="fleet-btn" title="@lang('fleet.addNew')"><i class="bi bi-plus-lg"></i> @lang('fleet.addNew')</a>

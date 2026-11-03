@@ -21,14 +21,12 @@
 @endcanany
 @can('Settings list')
 <li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#sidebarSettings" aria-expanded="{{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') || Request::is('admin/cancel-reason*') ? 'true' : 'false' }}" aria-controls="sidebarSettings" class="side-nav-link {{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') ? 'active' : '' }}">
+    <a data-bs-toggle="collapse" href="#sidebarSettings" aria-expanded="{{ Request::is('admin/settings*') ? 'true' : 'false' }}" aria-controls="sidebarSettings" class="side-nav-link {{ Request::is('admin/settings*') ? 'active' : '' }}">
         <i class="ri-settings-3-line"></i><span> @lang('menu.settings') </span><span class="menu-arrow"></span>
     </a>
-    <div class="collapse {{ Request::is('admin/settings*') || Request::is('admin/fare-settings*') || Request::is('admin/cancel-reason*') ? 'show' : '' }}" id="sidebarSettings">
+    <div class="collapse {{ Request::is('admin/settings*') ? 'show' : '' }}" id="sidebarSettings">
         <ul class="side-nav-second-level">
             <li><a href="{{ url('admin/settings') }}" class="@if(Request::is('admin/settings')) active @endif">@lang('menu.general_settings')</a></li>
-            <li><a href="{{ url('admin/fare-settings') }}" class="@if(Request::is('admin/fare-settings*')) active @endif">@lang('menu.fare_settings')</a></li>
-            <li><a href="{{ route('cancel-reason.index') }}" class="@if(Request::is('admin/cancel-reason*')) active @endif">@lang('fleet.cancellation')</a></li>
         </ul>
     </div>
 </li>
@@ -40,8 +38,3 @@
     </a>
 </li>
 @endif
-<li class="side-nav-item">
-    <a href="{{ url('admin/addresses') }}" class="side-nav-link @if(Request::is('admin/addresses*')) active @endif">
-        <i class="ri-map-pin-line"></i><span> @lang('fleet.addresses') </span>
-    </a>
-</li>

@@ -5,11 +5,11 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.edit_workorder')</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0">@lang('fleet.edit_workorder')</h5>
       </div>
-      <div class="card-body">
+      <div>
         @if (count($errors) > 0)
         <div class="alert alert-danger">
           <ul>
@@ -25,7 +25,7 @@
         {!! Form::hidden('type','Updated')!!}
         <div class="row">
           <div class="col-md-4">
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('vehicle_id',__('fleet.vehicle'), ['class' => 'form-label']) !!}
               <select id="vehicle_id" name="vehicle_id" class="form-control" required>
                 <option value="">-</option>
@@ -35,22 +35,21 @@
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('required_by', __('fleet.required_by'), ['class' => 'form-label']) !!}
               <div class="input-group date">
-                <div class="input-group-prepend"><span class="input-group-text"><span class="bi bi-calendar"></span>
-                </div>
+                <span class="input-group-text"><span class="bi bi-calendar"></span>
                 {!! Form::text('required_by',$data->required_by,['class'=>'form-control','required']) !!}
               </div>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('status',__('fleet.status'), ['class' => 'form-label']) !!}
               {!! Form::select('status',["Pending"=>__('fleet.pending'), "Processing"=>__('fleet.Processing'),
               "Completed"=>__('fleet.Completed'),"Hold"=>__('fleet.Hold')],$data->status,['class' => 'form-control','required']) !!}
             </div>
           </div>
           <div class="col-md-4">
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('vendor_id',__('fleet.vendor'), ['class' => 'form-label']) !!}
               <select id="vendor_id" name="vendor_id" class="form-control" required>
                 <option value="">-</option>
@@ -61,7 +60,7 @@
               </select>
             </div>
             
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('price',__('fleet.work_order_price'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
                 <div class="input-group-prepend date">
@@ -70,13 +69,13 @@
                 {!! Form::text('price',$data->price,['class'=>'form-control','id'=>'work_order_price','required']) !!}
               </div>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('note',__('fleet.note'), ['class' => 'form-label']) !!}
               {!! Form::textarea('note',$data->note,['class'=>'form-control','size'=>'30x1']) !!}
             </div>
           </div>
           <div class="col-md-4">
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('mechanic_id',__('fleet.mechanics'), ['class' => 'form-label']) !!}
               <select id="mechanic_id" name="mechanic_id" class="form-control" required>
                 <option value="">-</option>
@@ -85,16 +84,14 @@
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('meter',AtlasLogistics::get('dis_format')." ".__('fleet.reading'), ['class' => 'form-label']) !!}
               <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span>
-                </div>
+                <span class="input-group-text">{{AtlasLogistics::get('dis_format')}}</span>
                 {!! Form::number('meter',$data->meter,['class'=>'form-control']) !!}
               </div>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
               {!! Form::label('description',__('fleet.description'), ['class' => 'form-label']) !!}
               {!! Form::textarea('description',$data->description,['class'=>'form-control','size'=>'30x1']) !!}
             </div>
@@ -103,20 +100,20 @@
         <hr>
         {{-- <div class="row" style="margin-bottom: 25px;">
           <div class="col-md-6">
-            <div class="form-group"> <label class="form-label">@lang('fleet.selectPart')</label> <select
+            <div class="mb-3"> <label class="form-label">@lang('fleet.selectPart')</label> <select
                 id="select_part" class="form-control" name="part_list">
                 <option></option>@foreach($parts as $part) <option value="{{ $part->id }}" title="{{ $part->title }}"
                   qty="{{ $part->stock }}" price="{{ $part->unit_cost }}">{{ $part->title }}</option> @endforeach
               </select> </div>
           </div>
           <div class="col-md-6" style="margin-top: 30px">
-            <button type="button" class="btn btn-warning attach">@lang('fleet.attachPart')</button>
+            <button type="button" class="fleet-btn attach">@lang('fleet.attachPart')</button>
           </div>
         </div> --}}
 
         <div class="row orignalElement">
           <div class="col-md-4">
-            <div class="form-group"> <label class="form-label">@lang('fleet.attachPart')</label>
+            <div class="mb-3"> <label class="form-label">@lang('fleet.attachPart')</label>
               <select id="select_part_0" class="form-control" name="part_list" data-index="0">
                 <option value="">@lang('fleet.selectPart')</option>
                 @foreach($parts as $part) 
@@ -127,29 +124,29 @@
           </div>
           <div class="row col-md-8">
             <div class="col-md-3">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.qty')</label>
                 <input type="number" name="parts[0]" min="1" class="form-control" id="qty_0" max='1' data-index="0" required disabled>
               </div>
             </div>
             <div class="col-md-3">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.unit_cost')</label>
                 <input type="number" class="form-control price_0" disabled>
               </div>
             </div>
             <div class="col-md-3">
-              <div class="form-group">
+              <div class="mb-3">
                 <label class="form-label">@lang('fleet.total_cost')</label>
                 <input type="number" class="form-control total_cost_0" disabled>
               </div>
             </div>
             <div class="row col-md-3">
-              <div class="form-group" style="margin-top: 30px;">
-                <button class="btn btn-danger ms-2 removePart" type="button">Remove</button>
+              <div class="mb-3" style="margin-top: 30px;">
+                <button class="fleet-btn fleet-btn-danger ms-2 removePart" type="button">Remove</button>
               </div>
-              <div class="form-group" style="margin-top: 30px;">
-                <button class="btn btn-warning ms-2 addPart" type="button">New Part</button>
+              <div class="mb-3" style="margin-top: 30px;">
+                <button class="fleet-btn ms-2 addPart" type="button">New Part</button>
               </div>
             </div>
           </div>
@@ -159,26 +156,26 @@
           @foreach($data->parts as $row)
           <div class="row col-md-12">
             <div class="col-md-4">
-              <div class="form-group"> <label class="form-label">@lang('fleet.selectPart')</label> <select
+              <div class="mb-3"> <label class="form-label">@lang('fleet.selectPart')</label> <select
                   class="form-control" disabled>
                   <option value="{{ $row->part_id }}" selected>{{ $row->part->title }}</option>
                 </select> </div>
             </div>
             <div class="col-md-2">
-              <div class="form-group"> <label class="form-label">@lang('fleet.qty')</label> <input type="number"
+              <div class="mb-3"> <label class="form-label">@lang('fleet.qty')</label> <input type="number"
                   name="parts[{{ $row->part_id }}]" min="1" value="{{ $row->qty }}" class="form-control" required
                   disabled> </div>
             </div>
             <div class="col-md-2">
-              <div class="form-group"> <label class="form-label">@lang('fleet.unit_cost')</label> <input type="number"
+              <div class="mb-3"> <label class="form-label">@lang('fleet.unit_cost')</label> <input type="number"
                   value="{{ $row->price }}" class="form-control" disabled> </div>
             </div>
             <div class="col-md-2">
-              <div class="form-group"> <label class="form-label">@lang('fleet.total_cost')</label> <input type="number"
+              <div class="mb-3"> <label class="form-label">@lang('fleet.total_cost')</label> <input type="number"
                   value="{{ $row->price * $row->qty }}" class="form-control" disabled> </div>
             </div>
             <div class="col-md-2">
-              <div class="form-group" style="margin-top: 30px"><a class="btn btn-danger"
+              <div class="mb-3" style="margin-top: 30px"><a class="fleet-btn fleet-btn-danger"
                   href="{{ url('admin/remove-part/'.$row->id) }}">@lang('fleet.Remove')</a> </div>
             </div>
           </div>
@@ -187,11 +184,11 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            {!! Form::submit(__('fleet.update'), ['class' => 'btn btn-warning']) !!}
+            {!! Form::submit(__('fleet.update'), ['class' => 'fleet-btn']) !!}
           </div>
         </div>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection
@@ -246,7 +243,7 @@
   //     var price=$('#select_part option:selected').attr('price');
   //     // alert($('#select_part option:selected').attr('title'));
   //     // alert($('#select_part option:selected').attr('qty'));
-  //     $(".parts").append('<div class="row col-md-12"><div class="col-md-4">  <div class="form-group"> <label class="form-label">@lang('fleet.selectPart')</label> <select  class="form-control" disabled>  <option value="'+field+'" selected >'+title+'</option> </select> </div></div> <div class="col-md-2">  <div class="form-group"> <label class="form-label">@lang('fleet.qty')</label> <input type="number" name="parts['+field+']" min="1" value="1" class="form-control calc" max='+qty+' required> </div></div><div class="col-md-2">  <div class="form-group"> <label class="form-label">@lang('fleet.unit_cost')</label> <input type="number" value="'+price+'" class="form-control" disabled> </div></div><div class="col-md-2">  <div class="form-group"> <label class="form-label">@lang('fleet.total_cost')</label> <input type="number" value="'+price+'" class="form-control total_cost" disabled id="'+field+'"> </div></div> <div class="col-md-2"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div></div></div>');
+  //     $(".parts").append('<div class="row col-md-12"><div class="col-md-4">  <div class="mb-3"> <label class="form-label">@lang('fleet.selectPart')</label> <select  class="form-control" disabled>  <option value="'+field+'" selected >'+title+'</option> </select> </div></div> <div class="col-md-2">  <div class="mb-3"> <label class="form-label">@lang('fleet.qty')</label> <input type="number" name="parts['+field+']" min="1" value="1" class="form-control calc" max='+qty+' required> </div></div><div class="col-md-2">  <div class="mb-3"> <label class="form-label">@lang('fleet.unit_cost')</label> <input type="number" value="'+price+'" class="form-control" disabled> </div></div><div class="col-md-2">  <div class="mb-3"> <label class="form-label">@lang('fleet.total_cost')</label> <input type="number" value="'+price+'" class="form-control total_cost" disabled id="'+field+'"> </div></div> <div class="col-md-2"> <div class="mb-3" style="margin-top: 30px"><button class="fleet-btn fleet-btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div></div></div>');
   //     $('#select_part').val('').change();
   //     $('.calc').on('change',function(){
   //       // alert($(this).val()*price);
@@ -317,7 +314,7 @@
 
       clonedElement.find('option[value=""]').prop('selected', true);
 
-      $(".parts").append('<div class="row col-md-12"><div class="col-md-4">  <div class="form-group newPart_'+(index+1)+'"> <label class="form-label">@lang('fleet.selectPart')</label></div></div> <div class="col-md-2">  <div class="form-group"> <label class="form-label">@lang('fleet.qty')</label> <input type="number" name="parts[1]" min="1" class="form-control" id="qty_' + (index + 1) + '" max="1" required data-index="' + (index + 1) + '" disabled> </div></div><div class="col-md-2">  <div class="form-group"> <label class="form-label">@lang('fleet.unit_cost')</label> <input type="number" value="" class="form-control price_' + (index + 1) + '" disabled> </div></div><div class="col-md-2">  <div class="form-group"> <label class="form-label">@lang('fleet.total_cost')</label> <input type="number" value="" class="form-control total_cost_' + (index + 1) + '" disabled> </div></div> <div class="col-md-2"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger remove" type="button" data-index="'+(index+1)+'">Remove</button> </div></div></div>')
+      $(".parts").append('<div class="row col-md-12"><div class="col-md-4">  <div class="mb-3 newPart_'+(index+1)+'"> <label class="form-label">@lang('fleet.selectPart')</label></div></div> <div class="col-md-2">  <div class="mb-3"> <label class="form-label">@lang('fleet.qty')</label> <input type="number" name="parts[1]" min="1" class="form-control" id="qty_' + (index + 1) + '" max="1" required data-index="' + (index + 1) + '" disabled> </div></div><div class="col-md-2">  <div class="mb-3"> <label class="form-label">@lang('fleet.unit_cost')</label> <input type="number" value="" class="form-control price_' + (index + 1) + '" disabled> </div></div><div class="col-md-2">  <div class="mb-3"> <label class="form-label">@lang('fleet.total_cost')</label> <input type="number" value="" class="form-control total_cost_' + (index + 1) + '" disabled> </div></div> <div class="col-md-2"> <div class="mb-3" style="margin-top: 30px"><button class="fleet-btn fleet-btn-danger remove" type="button" data-index="'+(index+1)+'">Remove</button> </div></div></div>')
       $(".parts .newPart_"+(index+1)).append(clonedElement);
     }
   });

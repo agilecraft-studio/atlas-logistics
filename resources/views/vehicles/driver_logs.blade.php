@@ -3,14 +3,14 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.driver_logs')</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-journal-text me-2"></i>@lang('fleet.driver_logs')</h5>
       </div>
 
-      <div class="card-body table-responsive">
-        <table class="table" id="ajax_data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="table fleet-table" id="ajax_data_table">
+          <thead class="table-dark">
             <tr>
               <th>#</th>
               <th>@lang('fleet.vehicle')</th>
@@ -31,14 +31,13 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection
 @section('scripts')
 <script type="text/javascript">
   $(function(){
-    
     var table = $('#ajax_data_table').DataTable({
           "language": {
               "url": '{{ asset("assets/datatables/")."/".__("fleet.datatable_lang") }}',
@@ -52,59 +51,16 @@
          },
          columns: [
             {data: 'id',name:'id'},
-            {data: 'vehicle', name: 'vehicle'},      
-            {data: 'driver', name: 'driver.name'},      
+            {data: 'vehicle', name: 'vehicle'},
+            {data: 'driver', name: 'driver.name'},
             {name: 'date',
                         data: {
                             _: 'date.display',
                             sort: 'date.timestamp'
-                        }}            
+                        }}
         ],
-        order: [[0, 'desc']],
-        "initComplete": function() {
-              table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                  // console.log($(this).parent().index());
-                    that.search(this.value).draw();
-                });
-              });
-            }
+        order: [[0, 'desc']]
     });
   });
-  $(document).on('click','input[type="checkbox"]',function(){
-    if(this.checked){
-      $('#bulk_delete').prop('disabled',false);
-
-    }else { 
-      if($("input[name='ids[]']:checked").length == 0){
-        $('#bulk_delete').prop('disabled',true);
-      } 
-    } 
-    
-  });
-$(document).ready(function() {
-  $('#driver_logs tfoot th').each( function () {
-    var title = $(this).text();
-    $(this).html( '<input type="text" placeholder="'+title+'" />' );
-  });
-
-  var table = $('#driver_logs').DataTable({
-    "language": {
-        "url": '{{ asset("assets/datatables/")."/".__("fleet.datatable_lang") }}',
-     },
-     columnDefs: [ { orderable: false, targets: [0] } ],
-     // individual column search
-     "initComplete": function() {
-              table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                  // console.log($(this).parent().index());
-                    that.search(this.value).draw();
-                });
-              });
-            }
-  });
-});
 </script>
 @endsection

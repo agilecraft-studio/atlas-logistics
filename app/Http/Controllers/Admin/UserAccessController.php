@@ -31,8 +31,6 @@ class UserAccessController extends Controller {
 			'VehicleGroup',
 			'VehicleInspection',
 			'Transactions',
-			'Bookings',
-			'BookingQuotations',
 			'Reports',
 			'Fuel',
 			'Vendors',
@@ -43,12 +41,8 @@ class UserAccessController extends Controller {
 			'Notes',
 			'ServiceReminders',
 			'ServiceItems',
-			'Testimonials',
 			'Team',
 			'Settings',
-			'Inquiries',
-			'VehicleBreakdown',
-			'DriverAlert'
 		);
 		return view('roles.create', compact('modules'));
 	}
@@ -63,8 +57,6 @@ class UserAccessController extends Controller {
 			'VehicleGroup',
 			'VehicleInspection',
 			'Transactions',
-			'Bookings',
-			'BookingQuotations',
 			'Reports',
 			'Fuel',
 			'Vendors',
@@ -75,12 +67,8 @@ class UserAccessController extends Controller {
 			'Notes',
 			'ServiceReminders',
 			'ServiceItems',
-			'Testimonials',
 			'Team',
 			'Settings',
-			'Inquiries',
-			'VehicleBreakdown',
-			'DriverAlert'
 		);
 		$role = Role::create(['name' => $request->name]);
 		foreach ($modules as $row) {
@@ -145,8 +133,6 @@ class UserAccessController extends Controller {
 			'VehicleGroup',
 			'VehicleInspection',
 			'Transactions',
-			'Bookings',
-			'BookingQuotations',
 			'Reports',
 			'Fuel',
 			'Vendors',
@@ -157,12 +143,8 @@ class UserAccessController extends Controller {
 			'Notes',
 			'ServiceReminders',
 			'ServiceItems',
-			'Testimonials',
 			'Team',
 			'Settings',
-			'Inquiries',
-			'VehicleBreakdown',
-			'DriverAlert'
 		);
 		$data['data'] = Role::find($id);
 		return view('roles.edit', $data);
@@ -181,8 +163,6 @@ class UserAccessController extends Controller {
 			'VehicleGroup',
 			'VehicleInspection',
 			'Transactions',
-			'Bookings',
-			'BookingQuotations',
 			'Reports',
 			'Fuel',
 			'Vendors',
@@ -193,12 +173,8 @@ class UserAccessController extends Controller {
 			'Notes',
 			'ServiceReminders',
 			'ServiceItems',
-			'Testimonials',
 			'Team',
 			'Settings',
-			'Inquiries',
-			'VehicleBreakdown',
-			'DriverAlert'
 		);
 		$all_permissions = array();
 		foreach ($modules as $row) {

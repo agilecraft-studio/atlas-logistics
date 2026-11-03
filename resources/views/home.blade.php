@@ -41,7 +41,7 @@ $dk=array_keys($dates);
   @can('Vehicles list')
   <div class="col-12 col-sm-6 col-md-3">
     <div class="info-box">
-      <span class="info-box-icon bg-info"><i class="bi bi-taxi"></i></span>
+      <span class="info-box-icon bg-info"><i class="bi bi-truck"></i></span>
       <div class="info-box-content">
         <span class="info-box-text">@lang('fleet.vehicles')</span>
         <span class="info-box-number">{{$vehicles}}</span>
@@ -52,11 +52,10 @@ $dk=array_keys($dates);
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title">@lang('fleet.datewise')</h5>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>{{ __('fleet.datewise') }}</h5>
       </div>
-      <div class="card-body">
         <div class="row">
           <div class="col-md-10">
             <p class="text-center"><strong>@lang('fleet.Transaction'): @if (count($dk) > 0){{$dk[0]}} - {{end($dk)}} @endif
@@ -87,18 +86,9 @@ $dk=array_keys($dates);
             </div>
           </div>
           <div class="col-md-2">
-            @can('Bookings list')
-            <div class="info-box mb-3 bg-warning">
-              <span class="info-box-icon"><i class="bi bi-address-book"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">@lang('fleet.bookings')</span>
-                <span class="info-box-number">{{$bookings}}</span>
-              </div>
-            </div>
-            @endcan
             @can('Transactions list')
             <div class="info-box mb-3 bg-success">
-              <span class="info-box-icon"><i class="bi bi-money-bill"></i></span>
+              <span class="info-box-icon"><i class="bi bi-cash-stack"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">@lang('fleet.income')</span>
                 <span class="info-box-number">{{ AtlasLogistics::get("currency")}}{{$income}}</span>
@@ -125,55 +115,40 @@ $dk=array_keys($dates);
             @endcan
           </div>
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h3 class="card-title">@lang("fleet.monthly_chart") {{date("F")}}</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>@lang("fleet.monthly_chart") {{date("F")}}</h5>
       </div>
-      <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <h5> @lang('fleet.income') - @lang('fleet.expense') </h5>
-              </div>
-              <div class="card-body">
+            <x-fleet.panel :title="__('fleet.income').' - '.__('fleet.expense')">
                 <canvas id="canvas" width="400" height="400"></canvas>
-              </div>
-            </div>
+            </x-fleet.panel>
           </div>
           <div class="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <h5> @lang('fleet.vehicle') @lang('fleet.expenses') </h5>
-              </div>
-              <div class="card-body">
+            <x-fleet.panel :title="__('fleet.vehicle').' '.__('fleet.expenses')">
                 <canvas id="canvas2" width="400" height="400"></canvas>
-              </div>
-            </div>
+            </x-fleet.panel>
           </div>
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.yearly_chart')
-          <div class="pull-right">
-            {!! Form::select('year', $years,
-            $year_select,['class'=>'form-control','style'=>'width:100px','id'=>'year'])!!}
-          </div>
-        </h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-graph-up-arrow me-2"></i>@lang('fleet.yearly_chart')</h5>
+        <div>
+          {!! Form::select('year', $years,
+          $year_select,['class'=>'form-select','style'=>'width:100px','id'=>'year'])!!}
+        </div>
       </div>
-      <div class="card-body">
         @php($useragent = $_SERVER['HTTP_USER_AGENT'] ?? '')
         @if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge
         |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm(
@@ -195,80 +170,9 @@ $dk=array_keys($dates);
         @php($height="300")
         @endif
         <div class="chart"><canvas id="yearly" width="800" height="{{ $height }}"></canvas> </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
-
-@if(Auth::user()->user_type=="S")
-
-<div class="row">
-  <div class="col-md-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h3 class="card-title">@lang("fleet.booking_alert")</h3>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <h5> @lang('fleet.vehicle_breakdown')</h5>
-              </div>
-              <div class="card-body" style="overflow-x: scroll;max-height: 500px;">
-                @if(isset($vehicle_breakdown) && count($vehicle_breakdown)>0)
-                  <table class="table">
-                    <tr>
-                      <th>Booking Id</th>
-                      <th>Message</th>
-                      <th>Action</th>
-                    </tr>
-                    @foreach($vehicle_breakdown as $vb)
-                    <tr>
-                        <td><a href="{{url('admin/bookings/'.$vb->booking_id.'/edit')}}">{{$vb->booking_id}}</a></td>
-                        <td>{{$vb->message}}</td>
-                        <td><a href="tel:{{$vb->booking?->driver?->phone ?? ''}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
-                          <a href="tel:{{$vb->booking?->customer?->mobno ?? ''}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
-                      </tr>
-                    @endforeach
-                  </table>
-                  @endif
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <h5> @lang('fleet.driver_alert') </h5>
-              </div>
-              <div class="card-body" style="overflow-x: scroll;max-height: 500px;">
-                @if(isset($driver_alert) && count($driver_alert)>0)
-                <table class="table">
-                  <tr>
-                    <th>Booking Id</th>
-                    <th>Message</th>
-                    <th>Action</th>
-                  </tr>
-                  @foreach($driver_alert as $da)
-                    <tr>
-                      <td><a href="{{url('admin/bookings/'.$vb->booking_id.'/edit')}}">{{$vb->booking_id}}</a></td>
-                      <td>{{$da->message}}</td>
-                      <td><a href="tel:{{$vb->booking?->driver?->phone ?? ''}}" class="btn btn-sm" style="background:#17a2b8;color:white;"><i class="bi bi-phone" style="font-size:15px"></i> Call Driver</a>
-                        <a href="tel:{{$vb->booking?->customer?->mobno ?? ''}}" class="btn btn-success btn-sm"><i class="bi bi-phone" style="font-size:15px"></i> Call Customer</a></td>
-                    </tr>
-                  @endforeach
-                </table>
-                @endif
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-@endif
 
 @endsection
 @section('scripts')

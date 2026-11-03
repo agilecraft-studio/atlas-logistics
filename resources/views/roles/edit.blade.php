@@ -15,15 +15,11 @@
 </style>  
 @endsection
 
+@section('page_title', __('fleet.edit_role'))
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.edit_role')</h3>
-      </div>
-
-      <div class="card-body">
+    <x-fleet.panel :title="__('fleet.edit_role')" icon="bi-shield-check">
         @if (count($errors) > 0)
           <div class="alert alert-danger">
             <ul>
@@ -37,7 +33,7 @@
         {!! Form::open(['route' => ['roles.update',$data->id],'method'=>'PATCH']) !!}
         {!! Form::hidden('id',$data->id) !!}
         <div class="row">
-          <div class="form-group col-md-6">
+          <div class="col-md-6 mb-3">
             {!! Form::label('name', __('fleet.name'), ['class' => 'form-label']) !!}
             {!! Form::text('name', $data->name,['class' => 'form-control','required']) !!}
           </div>
@@ -46,7 +42,7 @@
           {!! Form::label('permission',__('fleet.module_permission').":", ['class' => 'col-xs-5 control-label']) !!}
         </div>
         <div class="row" style="height:500px; overflow-y:auto;">  
-          <table class="table table-bordered">
+          <table class="table table-bordered fleet-table">
             <thead>
               <tr>
                 <th style="width:22px !important;" scope="col">Module Name</th>
@@ -60,29 +56,29 @@
               </tr>
             </thead>
             <tbody>
-              @php $new_names = ['users','drivers','customers','vehicles','vehicle_type','vehicleGroup','vehicle_inspection','transactions','bookings','booking_quotes','reports','fuel','vendors','parts','parts_category','work_orders','mechanics','notes','serviceReminders','serviceItems','testimonials','team','settings','inquiries','VehicleBreakdown','DriverAlert']; @endphp
+              @php $new_names = ['users','drivers','customers','vehicles','vehicle_type','vehicleGroup','vehicle_inspection','transactions','reports','fuel','vendors','parts','parts_category','work_orders','mechanics','notes','serviceReminders','serviceItems','team','settings']; @endphp
               @php $new_modules = array_combine($modules,$new_names); @endphp
               {{-- @dd($new_modules) --}}
               @foreach($new_modules as $row=>$val)
               <tr>
                 <th scope="row" class="table-row">{!! Form::label('permission',__('menu.'.$val), ['class' => 'col-xs-5 control-label']) !!}</th>
                 <td>
-                  @if(!in_array($row,["Inquiries","Reports","Settings"]))
+                  @if(!in_array($row,["Reports","Settings"]))
                     <input type="checkbox" name="{{ $row." list" }}" value="1" class="flat-red form-control {{ $row }}" @if($data->hasPermissionTo($row." list")) checked @endif>
                   @endif
                 </td>
                 <td>
-                  @if(!in_array($row,["Inquiries","Reports","Settings"]))
+                  @if(!in_array($row,["Reports","Settings"]))
                     <input type="checkbox" name="{{ $row." add" }}" value="1" class="flat-red form-control {{ $row }}" @if($data->hasPermissionTo($row." add")) checked @endif>
                   @endif
                 </td>
                 <td>
-                  @if(!in_array($row,["Inquiries","Reports","Transactions","ServiceReminders","Settings"]))
+                  @if(!in_array($row,["Reports","Transactions","ServiceReminders","Settings"]))
                     <input type="checkbox" name="{{ $row." edit" }}" value="1" class="flat-red form-control {{ $row }}" @if($data->hasPermissionTo($row." edit")) checked @endif>
                   @endif
                 </td>
                 <td>
-                  @if(!in_array($row,["Inquiries","Reports","Settings"]))
+                  @if(!in_array($row,["Reports","Settings"]))
                     <input type="checkbox" name="{{ $row." delete" }}" value="1" class="flat-red form-control {{ $row }}" @if($data->hasPermissionTo($row." delete")) checked @endif>
                   @endif
                 </td>
@@ -97,7 +93,7 @@
                   @endif
                 </td> --}}
                 <td>
-                  @if(in_array($row,["Inquiries","Reports","Settings"]))
+                  @if(in_array($row,["Reports","Settings"]))
                   <input type="checkbox" name="{{ $row." list" }}" value="1" class="flat-red form-control" @if($data->hasPermissionTo($row." list")) checked @endif>
                   @else
                     <input type="checkbox" class="flat-red form-control All" data-type="{{ $row }}">
@@ -108,16 +104,15 @@
             </tbody>
           </table>
         </div> 
-      </div>
-      <div class="card-footer">
+      <div class="mt-3">
         <div class="row">
-          <div class="form-group col-md-4">
-            {!! Form::submit(__('fleet.update'), ['class' => 'btn btn-warning']) !!}
+          <div class="col-md-4">
+            {!! Form::submit(__('fleet.update'), ['class' => 'fleet-btn']) !!}
           </div>
         </div>
       </div>
       {!! Form::close() !!}
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 @endsection

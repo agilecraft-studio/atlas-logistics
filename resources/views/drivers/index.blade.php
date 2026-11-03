@@ -32,13 +32,6 @@
       <div class="alert alert-danger">
         @if (session('errors'))
             <p>{{ session('errors.error') }}</p>
-            @if(session('errors.data'))
-              <ul>
-                  @foreach (session('errors.data') as $bookingId)
-                      <li><a href="{{ route('bookings.edit', $bookingId) }}">Booking ID : {{ $bookingId }}</a></li>
-                  @endforeach
-              </ul>
-            @endif
         @endif
         @if(!is_array($errors))
           <ul>
@@ -54,19 +47,24 @@
 
     
 
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('menu.drivers') &nbsp;
-          @can('Drivers add') <a href="{{ route('drivers.create') }}" class="btn btn-success"
-            title="@lang('fleet.addDriver')"> <i class="bi bi-plus-lg"></i> </a> @endcan
-          @can('Drivers import') &nbsp;&nbsp;<button data-bs-toggle="modal" data-bs-target="#import"
-            class="btn btn-warning">@lang('fleet.import')</button>@endcan
-        </h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>{{ __('menu.drivers') }}</h5>
+        <div class="d-flex gap-2">
+          @can('Drivers add')
+            <a href="{{ route('drivers.create') }}" class="fleet-btn" title="@lang('fleet.addDriver')">
+              <i class="bi bi-plus-lg"></i> @lang('fleet.addDriver')
+            </a>
+          @endcan
+          @can('Drivers import')
+            <button data-bs-toggle="modal" data-bs-target="#import" class="fleet-btn fleet-btn-ghost">@lang('fleet.import')</button>
+          @endcan
+        </div>
       </div>
 
-      <div class="card-body table-responsive">
-        <table class="table" id="ajax_data_table" style="padding-bottom: 15px">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="ajax_data_table" style="padding-bottom: 15px">
+          <thead class="table-dark">
             <tr>
               <th>
                 <input type="checkbox" id="chk_all">
@@ -88,7 +86,7 @@
           <tfoot>
             <tr>
               <th>
-                @can('Drivers delete')<button class="btn btn-danger" id="bulk_delete" data-bs-toggle="modal"
+                @can('Drivers delete')<button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal"
                   title="@lang('fleet.delete')" data-bs-target="#bulkModal" disabled>
                   <i class="bi bi-trash"></i></button>@endcan
               </th>
@@ -105,7 +103,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -120,14 +118,14 @@
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/import-drivers','method'=>'POST','files'=>true]) !!}
-        <div class="form-group">
+        <div class="mb-3">
           {!! Form::label('excel',__('fleet.importDrivers'),['class'=>"form-label"]) !!}
           {!! Form::file('excel',['class'=>"form-control",'required']) !!}
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <a href="{{ asset('assets/samples/drivers.xlsx') }}">@lang('fleet.downloadSampleExcel')</a>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <h6 class="text-muted">@lang('fleet.note'):</h6>
           <ul class="text-muted">
             <li>@lang('fleet.driverImportNote1')</li>
@@ -139,8 +137,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-warning" type="submit">@lang('fleet.import')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button class="fleet-btn" type="submit">@lang('fleet.import')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -163,8 +161,8 @@
         <p>@lang('fleet.confirm_bulk_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="bulk_action" class="btn btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')</button>
+        <button id="bulk_action" class="fleet-btn fleet-btn-danger" type="submit" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
       {!! Form::close() !!}
     </div>
@@ -185,8 +183,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')
         </button>
       </div>
     </div>
@@ -205,27 +203,22 @@
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>url('admin/change_password'),'id'=>'changepass_form']) !!}
-        <form id="change" action="{{url('admin/change_password')}}" method="POST">
           {!! Form::hidden('driver_id',"",['id'=>'driver_id'])!!}
-          <div class="form-group">
+          <div class="mb-3">
             {!! Form::label('passwd',__('fleet.password'),['class'=>"form-label"]) !!}
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="bi bi-lock"></i></span>
-              </div>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
               {!! Form::password('passwd',['class'=>"form-control",'id'=>'passwd','required']) !!}
-              <div class="input-group-prepend">
-                <button type="button" id="show-password-button" class="show-password-button" >
-                  <i class="bi bi-eye" aria-hidden="true"></i>
-                </button>
-              </div>
+              <button type="button" id="show-password-button" class="btn btn-outline-secondary">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
-          <div class="modal-footer">
-            <button id="password" class="btn btn-info" type="submit">@lang('fleet.change_password')</button>
-        </form>
-        <button type="button" class="btn btn-default" data-dismiss="modal">@lang('fleet.close')
-        </button>
+          <div class="modal-footer px-0 pb-0">
+            <button id="password" class="fleet-btn fleet-btn-ghost" type="submit">@lang('fleet.change_password')</button>
+            <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
+          </div>
+        {!! Form::close() !!}
       </div>
     </div>
   </div>
@@ -407,11 +400,11 @@
     if (fieldType === 'password') {
       passwordField.attr('type', 'text');
       $(this).attr('title', 'Hide password');
-      $(this).find('i').removeClass('fa-eye').addClass('fa-eye-slash');
+      $(this).find('i').removeClass('bi-eye').addClass('bi-eye-slash');
     } else {
       passwordField.attr('type', 'password');
       $(this).attr('title', 'Show password');
-      $(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+      $(this).find('i').removeClass('bi-eye-slash').addClass('bi-eye');
     }
   });
 });

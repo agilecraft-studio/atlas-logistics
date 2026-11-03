@@ -1,58 +1,6 @@
 @extends('layouts.attex')
 @section('styles')
 <style type="text/css">
-  /* The switch - the box around the slider */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  /* Hide default HTML checkbox */
-  .switch input {
-    display: none;
-  }
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  input:checked+.slider {
-    background-color: #2196F3;
-  }
-  input:focus+.slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  input:checked+.slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  .slider.round:before {
-    border-radius: 50%;
-  }
   .custom .nav-link.active {
     background-color: #f4bc4b !important;
     color: inherit;
@@ -84,15 +32,17 @@
       </ul>
     </div>
     @endif
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.edit_vehicle')</h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-truck me-2"></i>{{ __('fleet.edit_vehicle') }}</h5>
+        <div class="d-flex gap-2">
+          <a href="{{ route('vehicles.index') }}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-arrow-left"></i> @lang('fleet.back')</a>
+        </div>
       </div>
-      <div class="card-body">
         <div class="nav-tabs-custom">
           <ul class="nav nav-pills custom">
             <li class="nav-item"><a class="nav-link active" href="#info-tab" data-bs-toggle="tab">
-                @lang('fleet.general_info') <i class="fa"></i></a></li>
+                @lang('fleet.general_info') </a></li>
             <li class="nav-item"><a class="nav-link" href="#insurance" data-bs-toggle="tab"> @lang('fleet.insurance') <i
                   class="fa"></i></a></li>
             <li class="nav-item"><a class="nav-link" href="#driver" data-bs-toggle="tab"> @lang('fleet.assign_driver') <i
@@ -107,7 +57,7 @@
             {!! Form::hidden('id',$vehicle->id) !!}
             <div class="row card-body">
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="mb-3">
                   {{-- @dd($makes) --}}
                   {!! Form::label('make_name', __('fleet.SelectVehicleMake'), ['class' => 'col-xs-5 control-label']) !!}
                   <a data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
@@ -123,7 +73,7 @@
                 </div>
                 {{-- <div class="col-md-6">
                 </div> --}}
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('type', __('fleet.type'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     <select name="type_id" class="form-control" required id="type_id">
@@ -135,20 +85,20 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('vin', __('fleet.vin'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!! Form::text('vin', $vehicle->vin,['class' => 'form-control','required']) !!}
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('year', __('fleet.year'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!! Form::number('year', $vehicle->year,['class' => 'form-control','required']) !!}
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
 
               <label class ='col-xs-5 control-label'>luggage</label>
 
@@ -161,7 +111,7 @@
               </div>
 
 
-                <div class="form-group">
+                <div class="mb-3">
                   @if(AtlasLogistics::get('dis_format') == "km")
                   @if(AtlasLogistics::get('fuel_unit') == "gallon") {!! Form::label('average',
                   __('fleet.average')."(".__('fleet.kmpg').")", ['class' => 'col-xs-5 control-label']) !!} @else {!!
@@ -178,7 +128,7 @@
                     !!}
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('vehicle_image', __('fleet.vehicleImage'), ['class' => 'col-xs-5 control-label']) !!}
 
                   <b>(630px * 420px)</b>
@@ -191,7 +141,7 @@
                   {!! Form::file('vehicle_image',null,['class' => 'form-control']) !!}
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('icon_img', __('fleet.icon_img'), ['class' => 'col-xs-5 control-label']) !!}
                   <b>(83 * 107)</b>
                   @if($vehicle->icon != null)
@@ -205,7 +155,7 @@
               </div>
 
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('color_name', __('fleet.SelectVehicleColor'), ['class' => 'col-xs-5 control-label']) !!}
                   <a data-bs-toggle="modal" data-bs-target="#myModal3"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
@@ -218,7 +168,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('engine_type', __('fleet.engine'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!!
@@ -226,13 +176,13 @@
                     'form-control','required']) !!}
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('license_plate', __('fleet.licensePlate'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!! Form::text('license_plate', $vehicle->license_plate,['class' => 'form-control','required']) !!}
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
 
               <label class ='col-xs-5 control-label'>@lang('fleet.price')</label>
 
@@ -244,7 +194,7 @@
 
               </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('group_id',__('fleet.selectGroup'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     <select id="group_id" name="group_id" class="form-control">
@@ -256,7 +206,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   @if(AtlasLogistics::get('dis_format') == "km")
                   {!! Form::label('int_mileage', __('fleet.intMileage')."(".__('fleet.km').")", ['class' => 'col-xs-5
                   control-label']) !!}
@@ -268,24 +218,22 @@
                     {!! Form::text('int_mileage', $vehicle->int_mileage,['class' => 'form-control','required']) !!}
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="row">
+                <div class="mb-3">
+                  <div class="row align-items-center">
                     <div class="col-md-6">
-                      {!! Form::label('in_service', __('fleet.is_active'), ['class' => 'col-xs-5 control-label']) !!}
+                      {!! Form::label('in_service', __('fleet.is_active'), ['class' => 'form-label']) !!}
                     </div>
-                    <div class="col-ms-6">
-                      <label class="switch">
-                        <input type="checkbox" name="in_service" value="1" @if($vehicle->in_service == '1') checked
-                        @endif>
-                        <span class="slider round"></span>
-                      </label>
+                    <div class="col-md-6">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="in_service" value="1" id="in_service" @if($vehicle->in_service == '1') checked @endif>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-4">
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('model_name', __('fleet.SelectVehicleModel'), ['class' => 'col-xs-5 control-label']) !!}
                   <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="bi bi-info-circle fa-lg" aria-hidden="true"  style="color: #8639dd"></i></a>
                   <div class="col-xs-6">
@@ -297,43 +245,43 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('horse_power', __('fleet.horsePower'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!! Form::text('horse_power', $vehicle->horse_power,['class' => 'form-control','required']) !!}
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('lic_exp_date',__('fleet.lic_exp_date'), ['class' => 'col-xs-5 control-label
                   required']) !!}
                   <div class="col-xs-6">
                     <div class="input-group date">
-                      <div class="input-group-prepend"><span class="input-group-text"><i
-                            class="bi bi-calendar"></i></span></div>
+                      <span class="input-group-text"><i
+                            class="bi bi-calendar"></i></span>
                       {!! Form::text('lic_exp_date', $vehicle->lic_exp_date,['class' => 'form-control','required']) !!}
                     </div>
                   </div> 
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('reg_exp_date',__('fleet.reg_exp_date'), ['class' => 'col-xs-5 control-label
                   required']) !!}
                   <div class="col-xs-6">
                     <div class="input-group date">
-                      <div class="input-group-prepend"><span class="input-group-text"><i
-                            class="bi bi-calendar"></i></span></div>
+                      <span class="input-group-text"><i
+                            class="bi bi-calendar"></i></span>
                       {!! Form::text('reg_exp_date', $vehicle->reg_exp_date,['class' => 'form-control','required']) !!}
                     </div>
                   </div>
                 </div>
 
                 @if(AtlasLogistics::get('traccar_enable')==1)
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('traccar_device_id', __('fleet.traccar_device_id'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!! Form::text('traccar_device_id', $vehicle->getMeta('traccar_device_id'),['class' => 'form-control',]) !!}
                   </div>
                 </div>
-                {{-- <div class="form-group">
+                {{-- <div class="mb-3">
                   {!! Form::label('traccar_vehicle_id', __('fleet.traccar_vehicle_id'), ['class' => 'col-xs-5 control-label']) !!}
                   <div class="col-xs-6">
                     {!! Form::text('traccar_vehicle_id', $vehicle->getMeta('traccar_vehicle_id'),['class' => 'form-control',]) !!}
@@ -344,14 +292,14 @@
             </div>
 
             <hr class="mt-0">
-            <div class="form-group col-md-6">
+            <div class="mb-3 col-md-6">
               {!! Form::label('udf1',__('fleet.add_udf'), ['class' => 'col-xs-5 control-label']) !!}
               <div class="row">
                 <div class="col-md-8">
                   {!! Form::text('udf1', null,['class' => 'form-control']) !!}
                 </div>
                 <div class="col-md-4">
-                  <button type="button" class="btn btn-info add_udf"> @lang('fleet.add')</button>
+                  <button type="button" class="fleet-btn fleet-btn-ghost add_udf"> @lang('fleet.add')</button>
                 </div>
               </div>
             </div>
@@ -360,11 +308,11 @@
             @foreach($udfs as $key => $value)
             <div class="row">
               <div class="col-md-8">
-                <div class="form-group"> <label class="form-label text-uppercase">{{$key}}</label> <input
+                <div class="mb-3"> <label class="form-label text-uppercase">{{$key}}</label> <input
                     type="text" name="udf[{{$key}}]" class="form-control" required value="{{$value}}"></div>
               </div>
               <div class="col-md-4">
-                <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button"
+                <div class="mb-3" style="margin-top: 30px"><button class="fleet-btn fleet-btn-danger" type="button"
                     onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div>
               </div>
             </div>
@@ -372,9 +320,9 @@
             @endif
 
             <div style=" margin-bottom: 20px;">
-              <div class="form-group" style="margin-top: 15px;">
+              <div class="mb-3" style="margin-top: 15px;">
                 <div class="col-xs-6 col-xs-offset-3">
-                  {!! Form::submit(__('fleet.submit'), ['class' => 'btn btn-warning']) !!}
+                  {!! Form::submit(__('fleet.submit'), ['class' => 'fleet-btn']) !!}
                 </div>
               </div>
             </div>
@@ -388,21 +336,21 @@
             <div class="row card-body">
               <div class="col-md-12">
                 <div class="row">
-                  <div class="form-group col-md-4">
+                  <div class="mb-3 col-md-4">
                     {!! Form::label('insurance_number', __('fleet.insuranceNumber'), ['class' => 'control-label']) !!}
                     {!! Form::text('insurance_number', $vehicle->getMeta('ins_number'),['class' =>
                     'form-control','required']) !!}
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="mb-3 col-md-4">
                     {!! Form::label('exp_date', __('fleet.inc_expirationDate'), ['class' => 'control-label required']) !!}
                     <div class="input-group date">
-                      <div class="input-group-prepend"><span class="input-group-text"><i
-                            class="bi bi-calendar"></i></span></div>
+                      <span class="input-group-text"><i
+                            class="bi bi-calendar"></i></span>
                       {!! Form::text('exp_date', $vehicle->getMeta('ins_exp_date'),['class' => 'form-control','required'])
                       !!}
                     </div>
                   </div>
-                  <div class="form-group col-md-4">
+                  <div class="mb-3 col-md-4">
                     <label for="documents" class="control-label">@lang('fleet.inc_doc')
                     </label>
                     @if($vehicle->getMeta('documents') != null)
@@ -414,8 +362,8 @@
               </div>
             </div>
             <div style=" margin-bottom: 20px;">
-              <div class="form-group" style="margin-top: 15px;">
-                {!! Form::submit(__('fleet.submit'), ['class' => 'btn btn-warning']) !!}
+              <div class="mb-3" style="margin-top: 15px;">
+                {!! Form::submit(__('fleet.submit'), ['class' => 'fleet-btn']) !!}
               </div>
             </div>
             {!! Form::close() !!}
@@ -426,7 +374,7 @@
               'method'=>'post','class'=>'form-horizontal','id'=>'driverForm']) !!}
               {!! Form::hidden('vehicle_id',$vehicle->id) !!}
               <div class="col-md-12">
-                <div class="form-group">
+                <div class="mb-3">
                   {!! Form::label('driver_id',__('fleet.selectDriver'), ['class' => 'form-label']) !!}
                   <select id="driver_id" name="driver_id" class="form-control w-100"  required>
                     {{-- <option value="">@lang('fleet.selectDriver')</option> --}}
@@ -440,18 +388,17 @@
                 </div>
               </div>
               <div class="col-md-6" style=" margin-bottom: 20px;">
-                <div class="form-group" style="margin-top: 15px;">
+                <div class="mb-3" style="margin-top: 15px;">
                   <div class="col-xs-6 col-xs-offset-3">
-                    {!! Form::submit(__('fleet.submit'), ['class' => 'btn btn-warning']) !!}
+                    {!! Form::submit(__('fleet.submit'), ['class' => 'fleet-btn']) !!}
                   </div>
                 </div>
               </div>
+              {!! Form::close() !!}
             </div>
           </div>
-          {!! Form::close() !!}
         </div>
-      </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 <div id="myModal" class="modal fade" role="dialog">
@@ -466,7 +413,7 @@
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -483,7 +430,7 @@
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -500,7 +447,7 @@
         <p>@lang('fleet.new_cat_text')</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>
@@ -516,7 +463,7 @@
       alert(udf_validation);
     }
     else{
-      $(".blank").append('<div class="row"><div class="col-md-4">  <div class="form-group"> <label class="form-label">'+ field.toUpperCase() +'</label> <input type="text" name="udf['+ field +']" class="form-control" placeholder="Enter '+ field +'" required></div></div><div class="col-md-4"> <div class="form-group" style="margin-top: 30px"><button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div></div></div>');
+      $(".blank").append('<div class="row"><div class="col-md-4">  <div class="mb-3"> <label class="form-label">'+ field.toUpperCase() +'</label> <input type="text" name="udf['+ field +']" class="form-control" placeholder="Enter '+ field +'" required></div></div><div class="col-md-4"> <div class="mb-3" style="margin-top: 30px"><button class="fleet-btn fleet-btn-danger" type="button" onclick="this.parentElement.parentElement.parentElement.remove();">Remove</button> </div></div></div>');
       $('#udf1').val("");
     }
   });

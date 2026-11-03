@@ -1,19 +1,7 @@
 @extends('layouts.attex')
-@php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
-
-@section('styles')
-<style type="text/css">
-.nav-tabs-custom>.nav-tabs>li.active{border-top-color:#3c8dbc !important;}
-.custom_color.active
-{
-  color: #fff;
-  background-color: #02bcd1 !important;
-}
-</style>
-@endsection
 @section('content')
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-6">
   <!-- Profile Image -->
     <div class="card">
       <div class="card-body box-profile">
@@ -30,23 +18,11 @@
           @endif
         </div>
         <h3 class="profile-username text-center"> {{$data->getMeta('first_name')}} {{ $data->getMeta('last_name')}}</h3>
-        <ul class="list-group list-group-unbordered">
-          <li class="list-group-item">
-            <b>
-            @lang('fleet.total')
-            @lang('fleet.bookings')</b> <a class="pull-right"> {{$total}} </a>
-          </li>
-        </ul>
-        <a href="{{ url('admin/change-details/'.Auth::user()->id) }}" class="btn btn-info btn-block"><b>@lang('fleet.editProfile')</b></a>
+        <a href="{{ url('admin/change-details/'.Auth::user()->id) }}" class="fleet-btn fleet-btn-ghost btn-block"><b>@lang('fleet.editProfile')</b></a>
       </div>
     </div>
     <!-- About Me Box -->
-    <div class="card">
-      <div class="card-header">
-      <h3 class="card-title">@lang('fleet.about_me')</h3>
-      </div>
-      <!-- /.box-header -->
-      <div class="card-body">
+    <x-fleet.panel :title="__('fleet.about_me')">
         <strong><i class="bi bi-person margin-r-5"></i> @lang('fleet.personal_info')</strong>
         <p class="text-muted">
           @lang('fleet.driver') @lang('fleet.name'): {{$data->getMeta('first_name')}} {{$data->getMeta('middle_name')}} {{$data->getMeta('last_name')}}
@@ -74,171 +50,20 @@
         <hr>
         <p>
           @if($data->getMeta('license_image') != null)
-          <a href="{{asset('uploads/'.$data->getMeta('license_image'))}}" target="_blank" class="btn btn-info">
+          <a href="{{asset('uploads/'.$data->getMeta('license_image'))}}" target="_blank" class="fleet-btn fleet-btn-ghost">
           @lang('fleet.lic_photo')
           </a>
           @endif
         </p>
         <p>
           @if($data->getMeta('documents') != null)
-            <a href="{{asset('uploads/'.$data->getMeta('documents'))}}" target="_blank" class="btn btn-info">
+            <a href="{{asset('uploads/'.$data->getMeta('documents'))}}" target="_blank" class="fleet-btn fleet-btn-ghost">
             @lang('fleet.documents')
             </a>
           @endif
         </p>
-      </div>
-    </div>
+    </x-fleet.panel>
     <!-- /.box -->
   </div>
-
-  <div class="col-md-9">
-    <div class="card">
-      <div class="card-header p-2">
-        <ul class="nav nav-pills">
-          <li class="nav-item"><a class="nav-link custom_color active" href="#activity" data-bs-toggle="tab">@lang('fleet.activity')</a></li>
-          <li class="nav-item"><a class="nav-link custom_color" href="#upcoming" data-bs-toggle="tab">@lang('fleet.upcoming')</a></li>
-        </ul>
-      </div>
-      <div class="card-body">
-        <div class="tab-content">
-          <div class="active tab-pane" id="activity">
-            <h4>@lang('menu.my_bookings')</h4>
-            <div class="table-responsive">
-              <table class="table driver_table">
-                <thead class="thead-inverse">
-                  <tr>
-                    <th>@lang('fleet.customer')</th>
-                    <th>@lang('fleet.vehicle')</th>
-                    <th>@lang('fleet.pickup')</th>
-                    <th>@lang('fleet.dropoff')</th>
-                    <th>@lang('fleet.pickup_addr')</th>
-                    <th>@lang('fleet.dropoff_addr')</th>
-                    <th>@lang('fleet.passengers')</th>
-
-                    <th>Booking Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($bookings as $row)
-                  @if($row->getMeta('ride_status') == "Completed" || $row->status == 1)
-                  <tr>
-                    <td>{{ $row->customer->name ?? '—' }}</td>
-                    <td>{{$row->vehicle->make_name ?? '—'}} - {{$row->vehicle->model_name ?? '—'}} - {{$row->vehicle['license_plate'] ?? '—'}}</td>
-                    <td>
-                    @if($row->pickup != null)
-                    {{date($date_format_setting.' g:i A',strtotime($row->pickup))}}
-                    @endif
-                    </td>
-                    <td>
-                    @if($row->dropoff != null)
-                    {{date($date_format_setting.' g:i A',strtotime($row->dropoff))}}
-                    @endif
-                    </td>
-                    <td>{{$row->pickup_addr}}</td>
-                    <td>{{$row->dest_addr}}</td>
-                    <td>{{$row->travellers}}</td>
-
-                    <td>
-                    
-                      <?php
-                          $bookingType = $row->getMeta('return');
-                          $parentBookingId = $row->getMeta('parent_booking_id');
-                          $parentBooking = $parentBookingId ? App\Model\Bookings::find($parentBookingId) : null;
-                       ?>
-      
-                        @if($bookingType == 1 && $parentBooking)
-                          <img src="{{ asset('assets/images/trip/return_way.svg') }}" alt="Return Way" height="30" width="30">
-                        @else
-                          <img src="{{ asset('assets/images/trip/one_way.svg') }}" alt="One Way" height="30" width="30">
-                        @endif
-                      </td>
-
-                  </tr>
-                  @endif
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="tab-pane" id="upcoming">
-            <h4>@lang('menu.my_bookings')</h4>
-            <div class="table-responsive">
-              <table class="table driver_table">
-                <thead class="thead-inverse">
-                  <tr>
-                    <th>@lang('fleet.customer')</th>
-                    <th>@lang('fleet.vehicle')</th>
-                    <th>@lang('fleet.pickup')</th>
-                    <th>@lang('fleet.dropoff')</th>
-                    <th>@lang('fleet.pickup_addr')</th>
-                    <th>@lang('fleet.dropoff_addr')</th>
-                    <th>@lang('fleet.passengers')</th>
-                    <th>Booking Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($bookings as $row)
-              
-                  @if($row->getMeta('ride_status') == "Upcoming")
-                  <tr>
-                    <td>{{ $row->customer->name ?? '—' }}</td>
-                    <td>{{$row->vehicle->make_name ?? '—'}} - {{$row->vehicle->model_name ?? '—'}} - {{$row->vehicle['license_plate'] ?? '—'}}</td>
-                    <td>
-                    @if($row->pickup != null)
-                    {{date($date_format_setting.' g:i A',strtotime($row->pickup))}}
-                    @endif
-                    </td>
-                    <td>
-                    @if($row->dropoff != null)
-                    {{date($date_format_setting.' g:i A',strtotime($row->dropoff))}}
-                    @endif
-                    </td>
-                    <td>{{$row->pickup_addr}}</td>
-                    <td>{{$row->dest_addr}}</td>
-                    <td>{{$row->travellers}}</td>
-
-               
-                  <td>
-                    
-                <?php
-                    $bookingType = $row->getMeta('return_flag');
-                    $parentBookingId = $row->getMeta('parent_booking_id');
-                    $parentBooking = $parentBookingId ? App\Model\Bookings::find($parentBookingId) : null;
-                 ?>
-
-                  @if($bookingType === 1 && $parentBooking)
-                    <img src="{{ asset('assets/images/trip/return_way.svg') }}" alt="Return Way" height="30" width="30">
-                  @else
-                    <img src="{{ asset('assets/images/trip/one_way.svg') }}" alt="One Way" height="30" width="30">
-                  @endif
-                </td>
-                    
-                  </tr>
-                  @endif
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
-
-
-@endsection
-
-@section('scripts')
-<script type="text/javascript">
-$(document).ready(function() {
-  $('.driver_table').DataTable({
-    "language": {
-        "url": '{{ asset("assets/datatables/")."/".__("fleet.datatable_lang") }}',
-    }
-  });
-});
-
-</script>
 @endsection

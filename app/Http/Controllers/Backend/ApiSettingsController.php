@@ -16,43 +16,6 @@ use Kreait\Firebase\Factory;
 use Validator;
 
 class ApiSettingsController extends Controller {
-	public function store_api(Request $request) {
-		$validation = Validator::make($request->all(), [
-			"api_key" => "required",
-		]);
-		$errors = $validation->errors();
-		if (count($errors) > 0) {
-			$data['success'] = "0";
-			$data['message'] = implode(", ", $errors->all());
-			$data['data'] = "";
-		} else {
-			$key = $request->api_key;
-			$url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=' . $key;
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$result = curl_exec($ch);
-			curl_close($ch);
-			$response = json_decode($result, true);
-			// dd($response);
-			if ($response['status'] != "OK" && $response['error_message']) {
-				$data['success'] = "0";
-				$data['message'] = $response['error_message'];
-				$data['data'] = "";
-			}
-			if ($response['status'] == "OK") {
-				ApiSettings::where('key_name', 'api_key')->update(['key_value' => $key]);
-				$data['success'] = "1";
-				$data['message'] = "API key saved successfully.";
-				$data['data'] = "";
-			} else {
-				$data['success'] = "0";
-				$data['message'] = "Invalid API key please try again";
-				$data['data'] = "";
-			}
-		}
-		return $data;
-	}
 	public function store_server_key(Request $request) {
 		$validation = Validator::make($request->all(), [
 			"server_key" => "required",
@@ -171,11 +134,6 @@ class ApiSettingsController extends Controller {
 		$validation = Validator::make($request->all(), [
 			"api" => "required|integer",
 			"anyone_register" => "integer",
-			"driver_review" => "required|integer",
-			"booking_days" => "required|integer",
-			"cancel_days" => "required|integer",
-			"google_api" => "required|integer",
-			'max_trip_days' => 'required|integer',
 		]);
 		$errors = $validation->errors();
 		if (count($errors) > 0) {
@@ -183,19 +141,13 @@ class ApiSettingsController extends Controller {
 			$data['message'] = implode(", ", $errors->all());
 			$data['data'] = "";
 		} else {
-			if (($request->anyone_register == 1 || $request->driver_review == 1) && ($request->api == 0)) {
+			if ($request->anyone_register == 1 && $request->api == 0) {
 				$data['success'] = "0";
-				$data['message'] = "api must be enabled to enable driver_review or anyone_register";
+				$data['message'] = "api must be enabled to enable anyone_register";
 				$data['data'] = "";
 			} else {
 				ApiSettings::where('key_name', 'api')->update(['key_value' => $request->api]);
-				ApiSettings::where('key_name', 'max_trip')->update(['key_value' => $request->max_trip_days]);
-				ApiSettings::where('key_name', 'google_api')->update(['key_value' => $request->google_api]);
 				ApiSettings::where('key_name', 'anyone_register')->update(['key_value' => $request->anyone_register]);
-				ApiSettings::where('key_name', 'driver_review')->update(['key_value' => $request->driver_review]);
-				ApiSettings::where('key_name', 'booking')->update(['key_value' => $request->booking_days]);
-				ApiSettings::where('key_name', 'cancel')->update(['key_value' => $request->cancel_days]);
-				ApiSettings::where('key_name', 'region_availability')->update(['key_value' => $request->region_availability]);
 				$data['success'] = "1";
 				$data['message'] = "Api Settings updated successfully.";
 				$data['data'] = "";
@@ -209,13 +161,7 @@ class ApiSettingsController extends Controller {
 		$data['data'] = array(
 			'general_settings' => array(
 				'api' => (AtlasLogistics::api('api') == 1) ? 1 : 0,
-				'google_api' => (AtlasLogistics::api('google_api') == 1) ? 1 : 0,
 				'anyone_register' => (AtlasLogistics::api('anyone_register') == 1) ? 1 : 0,
-				'driver_review' => (AtlasLogistics::api('driver_review') == 1) ? 1 : 0,
-				'region_availability' => AtlasLogistics::api('region_availability'),
-				'booking_days' => AtlasLogistics::api('booking'),
-				'cancel_days' => AtlasLogistics::api('cancel'),
-				'max_trip_days' => AtlasLogistics::api('max_trip'),
 			),
 			'firebase_settings' => array(
 				'db_url' => AtlasLogistics::api('db_url'),
@@ -223,9 +169,6 @@ class ApiSettingsController extends Controller {
 			),
 			'app_notification' => array(
 				'server_key' => AtlasLogistics::api('server_key'),
-			),
-			'driver_maps' => array(
-				'api_key' => AtlasLogistics::api('api_key'),
 			),
 		);
 		return $data;

@@ -13,17 +13,18 @@
       </ul>
     </div>
     @endif
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">@lang('fleet.incomeCategories') &nbsp;
-          <a href="{{ route('incomecategories.create')}}" class="btn btn-success" title="@lang('fleet.addNew')"><i class="bi bi-plus-lg"></i></a>
-          <button data-bs-toggle="modal" data-bs-target="#import" class="btn btn-warning">@lang('fleet.import')</button>
-        </h3>
+    <x-fleet.panel>
+      <div class="fleet-toolbar">
+        <h5 class="mb-0"><i class="bi bi-diagram-3 me-2"></i>{{ __('fleet.incomeCategories') }}</h5>
+        <div class="d-flex gap-2">
+          <a href="{{ route('incomecategories.create') }}" class="fleet-btn" title="@lang('fleet.addNew')"><i class="bi bi-plus-lg"></i> @lang('fleet.addNew')</a>
+          <button data-bs-toggle="modal" data-bs-target="#import" class="fleet-btn fleet-btn-ghost">@lang('fleet.import')</button>
+        </div>
       </div>
 
-      <div class="card-body table-responsive">
-        <table class="table" id="data_table">
-          <thead class="thead-inverse">
+      <div class="table-responsive">
+        <table class="fleet-table" id="data_table">
+          <thead class="table-dark">
             <tr>
               <th>#</th>
               <th>@lang('fleet.name')</th>
@@ -38,22 +39,17 @@
               <td>{{$row->name}}</td>
               <td>{{date($date_format_setting,strtotime($row->created_at))}}</td>
               <td>
-              <div class="btn-group">
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                  <span class="bi bi-gear"></span>
-                  <span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu custom" role="menu">
-                 <a class="dropdown-item" href="{{ url("admin/incomecategories/".$row->id."/edit")}}"><span aria-hidden="true" class="bi bi-pencil-square" style="color: #f0ad4e;"></span> @lang('fleet.edit')</a>
-                  {!! Form::hidden("id",$row->id) !!}
+                <div class="d-flex gap-1">
+                  <a href="{{ url('admin/incomecategories/'.$row->id.'/edit') }}" class="fleet-btn fleet-btn-sm fleet-btn-ghost" title="@lang('fleet.edit')"><i class="bi bi-pencil"></i></a>
                   @if($row->type == 'u')
-                  <a class="dropdown-item" data-id="{{$row->id}}" data-toggle="modal" data-target="#myModal"> <span aria-hidden="true" class="bi bi-trash" style="color: #dd4b39"></span> @lang('fleet.delete')</a>
+                    <form method="POST" action="{{ url('admin/incomecategories/'.$row->id) }}" class="d-inline" data-fleet-confirm="@lang('fleet.confirm_delete')">
+                      @csrf
+                      @method('DELETE')
+                      <input type="hidden" name="id" value="{{ $row->id }}">
+                      <button type="submit" class="fleet-btn fleet-btn-sm fleet-btn-danger" title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>
+                    </form>
                   @endif
                 </div>
-              </div>
-              {!! Form::open(['url' => 'admin/incomecategories/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal','id'=>'form_'.$row->id]) !!}
-              {!! Form::hidden("id",$row->id) !!}
-              {!! Form::close() !!}
               </td>
             </tr>
             @endforeach
@@ -68,7 +64,7 @@
           </tfoot>
         </table>
       </div>
-    </div>
+    </x-fleet.panel>
   </div>
 </div>
 
@@ -83,14 +79,14 @@
       </div>
       <div class="modal-body">
         {!! Form::open(['url'=>'admin/import-income','method'=>'POST','files'=>true]) !!}
-        <div class="form-group">
+        <div class="mb-3">
           {!! Form::label('excel',__('fleet.importIncome'),['class'=>"form-label"]) !!}
           {!! Form::file('excel',['class'=>"form-control",'required']) !!}
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <a href="{{ asset('assets/samples/income.xlsx') }}">@lang('fleet.downloadSampleExcel')</a>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <h6 class="text-muted">@lang('fleet.note'):</h6>
           <ul class="text-muted">
             <li>@lang('fleet.fileTypeNote')</li>
@@ -98,8 +94,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-warning" type="submit">@lang('fleet.import')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button class="fleet-btn" type="submit">@lang('fleet.import')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
         {!! Form::close() !!}
     </div>
@@ -120,8 +116,8 @@
         <p>@lang('fleet.confirm_delete')</p>
       </div>
       <div class="modal-footer">
-        <button id="del_btn" class="btn btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@lang('fleet.close')</button>
+        <button id="del_btn" class="fleet-btn fleet-btn-danger" type="button" data-submit="">@lang('fleet.delete')</button>
+        <button type="button" class="fleet-btn fleet-btn-ghost" data-bs-dismiss="modal">@lang('fleet.close')</button>
       </div>
     </div>
   </div>

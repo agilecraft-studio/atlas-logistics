@@ -14,9 +14,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.manageFuel')" icon="bi-fuel-pump">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.manageFuel') }}</div>
+        <h5 class="mb-0"><i class="bi bi-fuel-pump me-2"></i>{{ __('fleet.manageFuel') }}</h5>
         <div class="d-flex gap-2">
           @can('Fuel add')
             <a href="{{ route('fuel.create')}}" class="fleet-btn" title="@lang('fleet.addNew')"><i class="bi bi-plus-lg"></i> @lang('fleet.addNew')</a>

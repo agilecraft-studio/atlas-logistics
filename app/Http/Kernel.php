@@ -58,6 +58,5 @@ class Kernel extends HttpKernel {
 		'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
 		'auth_user' => \App\Http\Middleware\AuthUser::class,
 		'lang_check_user' => \App\Http\Middleware\SetLocaleUser::class,
-		'front_enable' => \App\Http\Middleware\CheckFrontEnable::class,
 	];
 }

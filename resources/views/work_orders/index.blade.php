@@ -13,9 +13,9 @@
 @section('content')
 <div class="row">
   <div class="col-md-12">
-    <x-fleet.panel :title="__('fleet.work_orders')" icon="bi-clipboard-check">
+    <x-fleet.panel>
       <div class="fleet-toolbar">
-        <div class="text-muted">{{ __('fleet.work_orders') }}</div>
+        <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>{{ __('fleet.work_orders') }}</h5>
         <div class="d-flex gap-2">
           @can('WorkOrders add')
             <a href="{{ route('work_order.create')}}" class="fleet-btn" title="@lang('fleet.create_workorder')"><i class="bi bi-plus-lg"></i> @lang('fleet.create_workorder')</a>

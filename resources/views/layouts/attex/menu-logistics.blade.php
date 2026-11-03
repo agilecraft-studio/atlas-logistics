@@ -1,5 +1,5 @@
 {{-- Cross-border logistics modules (systemDesign.md). --}}
-@canany(['Compliance list', 'FleetRegister list', 'Trailers list', 'MasterData list'])
+@canany(['Compliance list', 'FleetRegister list', 'Trailers list', 'MasterData list', 'Trips list', 'TripExpenses list', 'Advances list', 'Invoices list', 'LogisticsReports list'])
 <li class="side-nav-title">Logistics</li>
 
 @can('Compliance list')
@@ -51,12 +51,13 @@
 </li>
 @endcan
 
-@canany(['Trips list', 'TripExpenses list', 'Advances list', 'LogisticsReports list'])
+@canany(['Trips list', 'TripExpenses list', 'Advances list', 'Invoices list', 'LogisticsReports list'])
+@php($financeMenu = Request::is('admin/logistics/trips*') || Request::is('admin/logistics/expenses*') || Request::is('admin/logistics/advances*') || Request::is('admin/logistics/invoices*') || Request::is('admin/logistics/reports*'))
 <li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#sidebarTrips" aria-expanded="{{ Request::is('admin/logistics/trips*') || Request::is('admin/logistics/expenses*') || Request::is('admin/logistics/advances*') || Request::is('admin/logistics/reports*') ? 'true' : 'false' }}" class="side-nav-link">
+    <a data-bs-toggle="collapse" href="#sidebarTrips" aria-expanded="{{ $financeMenu ? 'true' : 'false' }}" class="side-nav-link">
         <i class="ri-route-line"></i><span> Trips &amp; Finance </span><span class="menu-arrow"></span>
     </a>
-    <div class="collapse {{ Request::is('admin/logistics/trips*') || Request::is('admin/logistics/expenses*') || Request::is('admin/logistics/advances*') || Request::is('admin/logistics/reports*') ? 'show' : '' }}" id="sidebarTrips">
+    <div class="collapse {{ $financeMenu ? 'show' : '' }}" id="sidebarTrips">
         <ul class="side-nav-second-level">
             @can('Trips list')
             <li><a href="{{ route('logistics.trips.index') }}" class="@if(Request::is('admin/logistics/trips*')) active @endif">Trips</a></li>
@@ -66,6 +67,9 @@
             @endcan
             @can('Advances list')
             <li><a href="{{ route('logistics.advances.index') }}" class="@if(Request::is('admin/logistics/advances*')) active @endif">Driver Advances</a></li>
+            @endcan
+            @can('Invoices list')
+            <li><a href="{{ route('logistics.invoices.index') }}" class="@if(Request::is('admin/logistics/invoices*')) active @endif">Invoices</a></li>
             @endcan
             @can('LogisticsReports list')
             <li><a href="{{ route('logistics.reports.profitability') }}" class="@if(Request::is('admin/logistics/reports*')) active @endif">Profitability</a></li>

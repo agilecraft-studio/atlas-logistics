@@ -8,7 +8,6 @@ Design and developed by Atlas Logistics <https://app.atlaslogistics.co.mw>
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IncRequest;
-use App\Model\Bookings;
 use App\Model\IncCats;
 use App\Model\IncomeModel;
 use App\Model\VehicleModel;
@@ -32,15 +31,7 @@ class IncomeController extends Controller {
 		if ($user->user_type == "D") {
 			$vehicle_ids = VehicleModel::pluck('id')->toArray();
 			// $data['vehicels'] = VehicleModel::whereIn_service(1)->get();
-			$assign_vehicles = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->pluck('id')->toArray();
-			$booking_associated_vehicle_1 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Upcoming')
-				->pluck('vehicle_id')->toArray();
-			$booking_associated_vehicle_2 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Ongoing')
-				->pluck('vehicle_id')->toArray();
-			$mergedArray = array_unique(array_merge($booking_associated_vehicle_1, $booking_associated_vehicle_2, $assign_vehicles));
-			$data['vehicels'] = VehicleModel::whereIn('id', $mergedArray)->get();
+			$data['vehicels'] = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->get();
 		} else {
 			if ($user->group_id == null || $user->user_type == "S") {
 				$data['vehicels'] = VehicleModel::whereIn_service(1)->get();
@@ -108,15 +99,7 @@ class IncomeController extends Controller {
 		if ($user->user_type == "D") {
 			$vehicle_ids = VehicleModel::pluck('id')->toArray();
 			//	$data['vehicels'] = VehicleModel::whereIn_service(1)->with('metas')->get();
-			$assign_vehicles = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->pluck('id')->toArray();
-			$booking_associated_vehicle_1 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Upcoming')
-				->pluck('vehicle_id')->toArray();
-			$booking_associated_vehicle_2 = Bookings::where('driver_id', Auth::user()->id)
-				->whereMeta('ride_status', 'Ongoing')
-				->pluck('vehicle_id')->toArray();
-			$mergedArray = array_unique(array_merge($booking_associated_vehicle_1, $booking_associated_vehicle_2, $assign_vehicles));
-			$data['vehicels'] = VehicleModel::whereIn('id', $mergedArray)->get();
+			$data['vehicels'] = VehicleModel::whereIn_service("1")->whereMeta('assign_driver_id', Auth::user()->id)->get();
 		} else {
 			if ($user->group_id == null || $user->user_type == "S") {
 				$data['vehicels'] = VehicleModel::with(['metas'])
@@ -130,7 +113,7 @@ class IncomeController extends Controller {
 		}
 		$data['types'] = IncCats::get();
 		$data['today'] = IncomeModel::with(['category'])->where('user_id', Auth::user()->id)->whereIn('vehicle_id', $vehicle_ids)->whereBetween('date', [$request->get('date1'), $request->get('date2')])->get();
-		$data['total'] = IncomeModel::whereIn('vehicle_id', $vehicle_ids)->whereDate('date', DB::raw('CURDATE()'))->sum('amount');
+		$data['total'] = IncomeModel::whereIn('vehicle_id', $vehicle_ids)->whereDate('date', now()->toDateString())->sum('amount');
 		return view("income.index", $data);
 	}
 	public function bulk_delete(Request $request) {

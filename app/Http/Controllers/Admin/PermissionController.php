@@ -25,12 +25,10 @@ class PermissionController extends Controller {
 				'VehicleColors',
 				'VehicleGroup',
 				'VehicleInspection',
-				'BookingQuotations',
 				'PartsCategory',
 				'Mechanics',
 				'Vehicles',
 				'Transactions',
-				'Bookings',
 				'Reports',
 				'Fuel',
 				'Vendors',
@@ -39,12 +37,8 @@ class PermissionController extends Controller {
 				'Notes',
 				'ServiceReminders',
 				'ServiceItems',
-				'Testimonials',
 				'Team',
-				'Settings',
-				'Inquiries',
-				'VehicleBreakdown',
-				'DriverAlert'
+				'Settings'
 			);
 			foreach ($modules as $row) {
 				Permission::create(['name' => $row . " add"]);
@@ -60,7 +54,7 @@ class PermissionController extends Controller {
 			$role = Role::create(['name' => 'Super Admin']);
 			$role->givePermissionTo($all);
 			$role = Role::create(['name' => 'Admin']);
-			$role->givePermissionTo(['VehicleBreakdown add','VehicleBreakdown list','Bookings list', 'Bookings add', 'Bookings edit', 'Bookings delete', 'Drivers list', 'Drivers add', 'Drivers edit', 'Drivers delete', 'Customer list', 'Customer add', 'Customer edit', 'Customer delete']);
+			$role->givePermissionTo(['Drivers list', 'Drivers add', 'Drivers edit', 'Drivers delete', 'Customer list', 'Customer add', 'Customer edit', 'Customer delete']);
 			$users = User::where('user_type', 'S')->get();
 			foreach ($users as $user) {
 				$u = User::find($user->id);
@@ -70,11 +64,6 @@ class PermissionController extends Controller {
 			foreach ($drivers as $driver) {
 				$d = User::find($driver->id);
 				$d->givePermissionTo(['Notes add', 'Notes edit', 'Notes delete', 'Notes list', 'Drivers list']);
-			}
-			$customers = User::where('user_type', 'C')->get();
-			foreach ($customers as $customer) {
-				$c = User::find($customer->id);
-				$c->givePermissionTo(['Bookings add', 'Bookings edit', 'Bookings list', 'Bookings delete']);
 			}
 			$others = User::where('user_type', 'O')->get();
 			foreach ($others as $other) {

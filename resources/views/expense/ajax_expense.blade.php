@@ -1,5 +1,5 @@
-<table class="table" id="ajax_table">
-  <thead class="thead-inverse">
+<table class="table fleet-table" id="ajax_table">
+  <thead class="table-dark">
     <tr>
       <th>
         @if($today->count() > 0)
@@ -44,8 +44,8 @@
       <td>
         {!! Form::open(['url' => 'admin/expense/'.$row->id,'method'=>'DELETE','class'=>'form-horizontal del_form','id'=>'form_'.$row->id]) !!}
           {!! Form::hidden("id",$row->id) !!}
-        <button type="button" class="btn btn-danger delete" id="btn_delete" data-id="{{$row->id}}" title="@lang('fleet.delete')">
-          <span class="fa fa-times" aria-hidden="true"></span></button>
+        <button type="button" class="fleet-btn fleet-btn-danger delete" id="btn_delete" data-id="{{$row->id}}" title="@lang('fleet.delete')">
+          <span class="bi bi-x-lg" aria-hidden="true"></span></button>
         {!! Form::close() !!}
       </td>
     </tr>
@@ -55,7 +55,7 @@
     <tr>
       <th>
         @if($today->count() > 0)
-        <button class="btn btn-danger" id="bulk_delete" data-toggle="modal" data-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="fa fa-trash"></i></button>
+        <button class="fleet-btn fleet-btn-danger" id="bulk_delete" data-bs-toggle="modal" data-bs-target="#bulkModal" disabled title="@lang('fleet.delete')"><i class="bi bi-trash"></i></button>
         @endif
       </th>
       <th>@lang('fleet.make')</th>

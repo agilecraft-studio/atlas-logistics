@@ -45,10 +45,6 @@ class User extends Authenticatable {
 		return $this->hasMany("App\Model\UserData", 'user_id', 'id')->withTrashed();
 	}
 
-	public function bookings() {
-		return $this->hasMany('App\Model\Bookings', 'driver_id')->withTrashed();
-	}
-
 	public function vehicle_detail() {
 		return $this->hasMany('App\Model\VehicleModel', 'user_id', 'id')->withTrashed();
 	}

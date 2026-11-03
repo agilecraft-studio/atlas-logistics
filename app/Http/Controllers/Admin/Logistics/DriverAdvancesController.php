@@ -20,8 +20,8 @@ class DriverAdvancesController extends Controller
 
     public function index()
     {
-        $rows = DriverAdvance::with(['trip', 'driver'])->orderByDesc('issued_at')->orderByDesc('id')->limit(1000)->get();
-        
+        $rows = DriverAdvance::with(['trip', 'driver', 'issuedBy'])->orderByDesc('issued_at')->orderByDesc('id')->limit(1000)->get();
+
         $byDriver = $rows->groupBy('driver_id')->map(fn ($g) => [
             'name'  => optional($g->first()->driver)->name ?: 'Unknown',
             'count' => $g->count(),
@@ -59,15 +59,20 @@ class DriverAdvancesController extends Controller
         $data['issued_by'] = auth()->id();
 
         $trip->advances()->create($data);
+        $trip->unsetRelation('advances');
+
         return back()->with('success', 'Advance recorded for ' . optional($trip->driver)->name . '.');
     }
 
     public function destroy($id)
     {
         $a = DriverAdvance::with('trip')->findOrFail($id);
-        abort_unless(optional($a->trip)->status !== 'closed', 422, 'The trip is closed.');
-        
+        abort_unless(in_array(optional($a->trip)->status, ['planned', 'in_transit', 'completed'], true), 422, 'This trip is closed.');
+
+        $a->deleted_by = auth()->id();
+        $a->save();
         $a->delete();
-        return back()->with('success', 'Advance deleted.');
+
+        return back()->with('success', 'Advance removed; the audit trail is kept.');
     }
 }

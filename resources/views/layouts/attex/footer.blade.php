@@ -7,7 +7,6 @@
             </div>
             <div class="col-md-6">
                 <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="https://atlaslogistics.co.mw/" target="_blank" rel="noopener">Website</a>
                     <a href="https://app.atlaslogistics.co.mw/" target="_blank" rel="noopener">App</a>
                 </div>
             </div>

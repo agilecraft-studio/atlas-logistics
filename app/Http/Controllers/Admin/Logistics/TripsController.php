@@ -124,7 +124,8 @@ class TripsController extends CrudController
             'vehicle', 'trailer', 'driver', 'coDriver', 'customer',
             'originCountry', 'destinationCountry',
             'checkpoints.borderPost', 'expenses.category', 'expenses.country',
-            'advances.driver', 'incidents.country',
+            'advances.driver', 'advances.issuedBy', 'incidents.country',
+            'invoiceLines.invoice',
         ])->findOrFail($id);
 
         return view('logistics.trips.show', [

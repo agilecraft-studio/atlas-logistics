@@ -32,6 +32,7 @@ class Trip extends Model
     public function expenses()           { return $this->hasMany(TripExpense::class)->orderByDesc('expense_date'); }
     public function advances()           { return $this->hasMany(DriverAdvance::class)->orderByDesc('issued_at'); }
     public function incidents()          { return $this->hasMany(TripIncident::class)->orderByDesc('occurred_at'); }
+    public function invoiceLines()       { return $this->hasMany(InvoiceLine::class); }
 
     public function getStatusLabelAttribute()
     {

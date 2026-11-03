@@ -1,8 +1,6 @@
 <?php
 Auth::routes(['register' => false]);
 Route::namespace ('Admin')->group(function () {
-    // Route::get('export-events', 'HomeController@export_calendar');
-
     // Public test-login disconnected (auto-login as user 1; controller remains on disk).
     // Route::get('test-login', 'Testcontroller@login');
 
@@ -32,24 +30,6 @@ Route::namespace ('Admin')->group(function () {
  
        
 
-        Route::resource('/vehicle-breakdown', 'VehicleBreakdownController')->except(['show']);
-
-        Route::post('delete-vehicle-breakdown', 'VehicleBreakdownController@bulk_delete');
-
-        Route::resource('/driver-alert', 'DriverAlertController')->except(['show']);
-
-        Route::post('delete-driver-alert', 'DriverAlertController@bulk_delete');
-
-        Route::get("/bookings/assign-driver/{id}",'BookingsController@assign_driver');
-
-        Route::post("/bookings/update-assign-driver",'BookingsController@update_assign_driver')->name('update_assign_driver');
-
-        
-        
-        
-        Route::post('transactions-fetch', 'BookingsController@transactions_fetch_data');
-        Route::get('transactions', 'BookingsController@transactions');
-
         Route::get('get-models/{id}', 'VehiclesController@get_models');
 
         // Route::post('vehicle-color-fetch', 'VehicleColorsController@fetch_data');
@@ -70,19 +50,10 @@ Route::namespace ('Admin')->group(function () {
         Route::post('/users-fetch', 'UsersController@fetch_data');
         Route::resource('/users', 'UsersController')->except(['show']);
 
-        Route::post('reject-quotation', 'BookingQuotationController@reject');
-
         Route::post('clear-database', 'SettingsController@clear_database');
-        Route::post('cancel-booking', 'BookingsController@cancel_booking');
         Route::get('parts-used/{id}', 'WorkOrdersController@parts_used');
         Route::get('remove-part/{id}', 'WorkOrdersController@remove_part');
         Route::post('add-stock', 'PartsController@add_stock');
-        Route::post('booking-quotation-fetch', 'BookingQuotationController@fetch_data');
-        Route::resource('booking-quotation', 'BookingQuotationController')->except(['show']);
-        Route::post('add-booking', 'BookingQuotationController@add_booking');
-        Route::get('booking-quotation/invoice/{id}', 'BookingQuotationController@invoice');
-        Route::get('print-quote/{id}', 'BookingQuotationController@print');
-        Route::get('booking-quotation/approve/{id}', 'BookingQuotationController@approve');
         Route::post('import-vehicles', 'VehiclesController@importVehicles');
         Route::post('import-drivers', 'DriversController@importDrivers');
         Route::post('import-income', 'IncomeCategories@importIncome');
@@ -90,7 +61,6 @@ Route::namespace ('Admin')->group(function () {
         Route::post('import-customers', 'CustomersController@importCutomers');
         Route::post('import-vendors', 'VendorController@importVendors');
         // routes for bulk delete action
-        Route::post('delete-reasons', 'ReasonController@bulk_delete');
         Route::post('delete-reminders', 'ServiceReminderController@bulk_delete');
         Route::post('delete-service-items', 'ServiceItemsController@bulk_delete');
         Route::post('delete-parts', 'PartsController@bulk_delete');
@@ -102,8 +72,6 @@ Route::namespace ('Admin')->group(function () {
         Route::post('delete-vehicles', 'VehiclesController@bulk_delete');
         // Route::post('delete-fuel', 'FuelController@bulk_delete');
         Route::post('delete-vendors', 'VendorController@bulk_delete');
-        Route::post('delete-bookings', 'BookingsController@bulk_delete');
-        Route::post('delete-quotes', 'BookingQuotationController@bulk_delete');
         Route::post('delete-vehicle-types', 'VehicleTypeController@bulk_delete');
         Route::post('delete-vehicle-groups', 'VehicleGroupController@bulk_delete');
         Route::post('delete-vehicle-reviews', 'VehiclesController@bulk_delete_reviews');
@@ -132,27 +100,19 @@ Route::namespace ('Admin')->group(function () {
         Route::get('vehicle-review/{id}/edit', 'VehiclesController@review_edit');
         Route::post('vehicle-review-update', 'VehiclesController@update_vehicle_review');
         Route::delete('delete-vehicle-review/{id}', 'VehiclesController@destroy_vehicle_review');
-        Route::post('print-users-report', 'ReportsController@print_users');
-        Route::post('print-customer-report', 'ReportsController@print_customer');
         Route::get('print-vendor-report', 'ReportsController@print_vendor');
-        Route::post('print-driver-report', 'ReportsController@print_driver');
         Route::post('print-yearly-report', 'ReportsController@print_yearly');
         Route::post('print-fuel-report', 'ReportsController@print_fuel');
-        Route::post('print-booking-report', 'ReportsController@print_booking');
         Route::post('print-deliquent-report', 'ReportsController@print_deliquent');
         Route::post('print-monthly-report', 'ReportsController@print_monthly');
-        // Route::get('print-bookings', 'BookingsController@print_bookings');
 
         Route::get('api-settings', 'SettingsController@api_settings');
         Route::post('api-settings', 'SettingsController@store_settings');
 
         // Route::get('fb', 'SettingsController@fb_create')->name('fb');
         Route::post('firebase-settings', 'SettingsController@firebase');
-        Route::get('fare-settings', 'SettingsController@fare_settings');
-        Route::post('fare-settings', 'SettingsController@store_fareSettings');
         Route::post('store-key', 'SettingsController@store_key');
         Route::get('test-key', 'SettingsController@test_key');
-        Route::post('store-api', 'SettingsController@store_api');
         Route::resource('service-reminder', 'ServiceReminderController')->only(['index', 'create', 'store', 'destroy']);
         Route::resource('service-item', 'ServiceItemsController')->except(['show']);
         Route::post('/vehicle-group-fetch', 'VehicleGroupController@fetch_data');
@@ -172,11 +132,6 @@ Route::namespace ('Admin')->group(function () {
         Route::resource('/vehicles', 'VehiclesController')->except(['show']);
         Route::get("/vehicles/enable/{id}", 'VehiclesController@enable');
         Route::get("/vehicles/disable/{id}", 'VehiclesController@disable');
-        Route::post('/bookings-fetch', 'BookingsController@fetch_data');
-        Route::post('/driver-bookings-fetch', 'DriversController@fetch_bookings_data');
-        Route::resource('/bookings', 'BookingsController')->except(['show']);
-        Route::post('/prev-address', 'BookingsController@prev_address');
-        Route::get('print/{id}', 'BookingsController@print');
         Route::resource('/income', 'IncomeController')->only(['index', 'store', 'destroy']);
         Route::get('/settings', 'SettingsController@index')->name('settings.index');
         Route::post('/settings', 'SettingsController@store')->name('settings.store');
@@ -185,41 +140,18 @@ Route::namespace ('Admin')->group(function () {
         Route::resource('/expense', 'ExpenseController')->only(['index', 'store', 'destroy']);
         Route::resource('/expensecategories', 'ExpenseCategories')->except(['show']);
         Route::resource('/incomecategories', 'IncomeCategories')->except(['show']);
-        Route::get('/bookings/complete/{id}', 'BookingsController@complete');
-        Route::get('/bookings/receipt/{id}', 'BookingsController@receipt');
-        Route::get('/bookings/payment/{id}', 'BookingsController@payment');
         Route::get("/reports/monthly", "ReportsController@monthly")->name("reports.monthly");
         Route::get("/reports/vendors", "ReportsController@vendors")->name("reports.vendors");
         Route::post("/reports/vendors", "ReportsController@vendors_post");
-        Route::get("reports/drivers", "ReportsController@drivers")->name("reports.drivers");
-        Route::post("reports/drivers", "ReportsController@drivers_post");
-        Route::get("reports/customers", "ReportsController@customers")->name("reports.customers");
-        Route::post("reports/customers", "ReportsController@customers_post");
-        Route::get("/reports/booking", "ReportsController@booking")->name("reports.booking");
         Route::get("/reports/delinquent", "ReportsController@delinquent")->name("reports.delinquent");
-        Route::get("/reports/users", "ReportsController@users")->name("reports.users");
-        Route::post("/reports/users", "ReportsController@users_post");
-        Route::get('/calendar', 'BookingsController@calendar');
-        Route::get('/calendar/event/{id}', 'BookingsController@calendar_event');
         Route::get("/drivers/enable/{id}", 'DriversController@enable');
         Route::get("/drivers/disable/{id}", 'DriversController@disable');
-        Route::post("/reports/booking", "ReportsController@booking_post");
         Route::post("/reports/fuel", "ReportsController@fuel_post");
         Route::get("/reports/fuel", "ReportsController@fuel")->name("reports.fuel");
         Route::get("/reports/yearly", "ReportsController@yearly")->name("reports.yearly");
         Route::post("/reports/yearly", "ReportsController@yearly_post");
-        Route::get("/reports/payments", "ReportsController@drivers_payments")->name("reports.payments");
-        Route::post("/reports/payments", "ReportsController@drivers_payments_post");
 
         Route::post('/customer/ajax_save', 'CustomersController@ajax_store')->name('customers.ajax_store');
-        Route::get("/bookings_calendar", 'BookingsController@calendar_view')->name("bookings.calendar");
-        Route::get('/calendar/event/calendar/{id}', 'BookingsController@calendar_event');
-        Route::get('/calendar/event/service/{id}', 'BookingsController@service_view');
-        Route::post('/get_driver', 'BookingsController@get_driver');
-        Route::post('/get_vehicle', 'BookingsController@get_vehicle');
-        Route::post('/bookings/complete', 'BookingsController@complete_post');
-        Route::get('/bookings/complete', 'BookingsController@complete_post')->name("bookings.complete");
-
         Route::post("/reports/monthly", "ReportsController@monthly_post");
         Route::post("/reports/delinquent", "ReportsController@delinquent_post");
         Route::get("/send-email", "SettingsController@send_email");
@@ -228,10 +160,6 @@ Route::namespace ('Admin')->group(function () {
         Route::get("/set-email", "SettingsController@set_email");
         Route::post("/set-content/{type}", "SettingsController@set_content");
 
-        Route::get('ajax-api-store/{api}', 'SettingsController@ajax_api_store');
-
-        Route::get('payment-settings', 'SettingsController@payment_settings');
-        Route::post('payment-settings', 'SettingsController@payment_settings_post');
         // Atlas Logistics cross-border modules (trips, compliance, fleet register, master data)
         Route::middleware('internal.staff')->group(function () {
             require base_path('routes/logistics.php');
@@ -249,7 +177,6 @@ Route::namespace ('Admin')->group(function () {
         Route::get('/vehicle_notification/{type}', 'NotificationController@vehicle_notification');
         Route::get('driver_notification/{type}', 'NotificationController@driver_notification');
         Route::get('/reminder/{type}', 'NotificationController@service_reminder');
-        Route::get('/my_bookings', 'DriversController@my_bookings')->name('my_bookings');
 
 //report work order
         Route::get("/reports/work-order", "ReportsController@work_order")->name("reports.work_order");
@@ -277,9 +204,7 @@ Route::namespace ('Admin')->group(function () {
         Route::post("/driver-reports/yearly", "DriversController@yearly_post");
         Route::get("/driver-reports/monthly", "DriversController@monthly")->name("dreports.monthly");
         Route::post("/driver-reports/monthly", "DriversController@monthly_post");
-        Route::get('/addresses', 'AddressController@index');
 
-        Route::resource('/cancel-reason', 'ReasonController')->except(['show']);
         Route::post('delete-fuel', 'FuelController@bulk_delete');
 
     });
