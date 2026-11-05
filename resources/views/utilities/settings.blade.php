@@ -1,11 +1,11 @@
-@extends('layouts.attex')
+@extends('layouts.master-data')
 
 @section('styles')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
 @endsection
 
 @section('page_title', __('menu.general_settings'))
-@section('content')
+@section('master-content')
 <div class="row">
   <div class="col-md-12">
     <x-fleet.panel :title="__('menu.general_settings')" icon="bi-gear">

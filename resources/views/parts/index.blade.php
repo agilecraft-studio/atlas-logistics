@@ -1,4 +1,4 @@
-@extends('layouts.attex')
+@extends('layouts.master-data')
 
 
 @section('styles')
@@ -21,7 +21,7 @@
 
 @section('page_title', __('menu.manageParts'))
 
-@section('content')
+@section('master-content')
 
 <div class="row">
 

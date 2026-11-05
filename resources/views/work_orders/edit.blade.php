@@ -44,8 +44,11 @@
             </div>
             <div class="mb-3">
               {!! Form::label('status',__('fleet.status'), ['class' => 'form-label']) !!}
-              {!! Form::select('status',["Pending"=>__('fleet.pending'), "Processing"=>__('fleet.Processing'),
-              "Completed"=>__('fleet.Completed'),"Hold"=>__('fleet.Hold')],$data->status,['class' => 'form-control','required']) !!}
+              {!! Form::select('status', $statuses, \App\Model\WorkOrders::normalizeStatus($data->status), ['class' => 'form-control','required']) !!}
+            </div>
+            <div class="mb-3">
+              {!! Form::label('maintenance_type', 'Maintenance type', ['class' => 'form-label']) !!}
+              {!! Form::select('maintenance_type', $maintenanceTypes, $data->maintenance_type ?: 'repair', ['class' => 'form-control']) !!}
             </div>
           </div>
           <div class="col-md-4">
@@ -73,8 +76,21 @@
               {!! Form::label('note',__('fleet.note'), ['class' => 'form-label']) !!}
               {!! Form::textarea('note',$data->note,['class'=>'form-control','size'=>'30x1']) !!}
             </div>
+            <div class="mb-3">
+              {!! Form::label('reference', 'Reference', ['class' => 'form-label']) !!}
+              {!! Form::text('reference',$data->reference,['class'=>'form-control']) !!}
+            </div>
           </div>
           <div class="col-md-4">
+            <div class="mb-3">
+              {!! Form::label('driver_id', 'Driver', ['class' => 'form-label']) !!}
+              <select id="driver_id" name="driver_id" class="form-control">
+                <option value="">-</option>
+                @foreach($drivers as $driver)
+                <option value="{{$driver->id}}" @if($driver->id == $data->driver_id) selected @endif>{{$driver->name}}</option>
+                @endforeach
+              </select>
+            </div>
             <div class="mb-3">
               {!! Form::label('mechanic_id',__('fleet.mechanics'), ['class' => 'form-label']) !!}
               <select id="mechanic_id" name="mechanic_id" class="form-control" required>
@@ -94,6 +110,14 @@
             <div class="mb-3">
               {!! Form::label('description',__('fleet.description'), ['class' => 'form-label']) !!}
               {!! Form::textarea('description',$data->description,['class'=>'form-control','size'=>'30x1']) !!}
+            </div>
+            <div class="mb-3">
+              {!! Form::label('completed_on','Completed on', ['class' => 'form-label']) !!}
+              {!! Form::text('completed_on', $data->completed_on?->format('Y-m-d'), ['class'=>'form-control', 'placeholder'=>'YYYY-MM-DD']) !!}
+            </div>
+            <div class="mb-3">
+              {!! Form::label('resolution','Resolution', ['class' => 'form-label']) !!}
+              {!! Form::textarea('resolution',$data->resolution,['class'=>'form-control','size'=>'30x1']) !!}
             </div>
           </div>
         </div>

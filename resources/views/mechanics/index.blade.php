@@ -1,4 +1,4 @@
-@extends('layouts.attex')
+@extends('layouts.master-data')
 @php($date_format_setting=(AtlasLogistics::get('date_format'))?AtlasLogistics::get('date_format'):'d-m-Y')
 
 @section('styles')
@@ -10,7 +10,7 @@
 </style>
 @endsection
 @section('page_title', __('fleet.mechanics'))
-@section('content')
+@section('master-content')
 <div class="row">
   <div class="col-md-12">
     @if (count($errors ?? []) > 0)

@@ -214,3 +214,26 @@ img.avatar{border-radius:10px}
     .fleet-cost-row { grid-template-columns:72px minmax(40px,1fr);gap:8px; }
     .cost-value { grid-column:2;text-align:left;margin-top:-7px; }
 }
+
+/* ---- Master Data shared sub-navigation + drawer ---- */
+.md-nav .md-nav-group + .md-nav-group { margin-top: 1rem; }
+.md-nav .md-nav-label {
+    font-size: 11px;letter-spacing: .08em;text-transform: uppercase;
+    color: var(--atlas-muted, #6c757d);font-weight: 600;padding: .2rem .6rem .35rem;
+}
+.md-nav .nav-link {
+    display: flex;align-items: center;padding: .45rem .65rem;border-radius: .45rem;
+    color: var(--atlas-text, #354052);font-size: 13.5px;text-decoration: none;
+}
+.md-nav .nav-link i { opacity: .8; }
+.md-nav .nav-link:hover { background: rgba(15, 42, 68, .06); }
+.md-nav .nav-link.active { background: var(--atlas-navy, #0f2a44);color: #fff; }
+.md-nav .nav-link.active i { opacity: 1; }
+.md-drawer { --bs-offcanvas-width: min(800px, 100vw); }
+.md-drawer .offcanvas-body { background: #f4f6f8; }
+.md-drawer-frame { width: 100%;height: 100%;border: 0;display: block;min-height: 70vh; }
+.md-nav-group .nav-link .bi { font-size: 15px; }
+.side-nav-second-level .menu-group-label {
+    display: block;padding: .6rem 1.1rem .2rem;font-size: 10.5px;font-weight: 600;
+    letter-spacing: .08em;text-transform: uppercase;color: rgba(255, 255, 255, .45);
+}

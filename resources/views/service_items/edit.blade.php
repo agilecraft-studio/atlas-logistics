@@ -1,5 +1,5 @@
-@extends('layouts.attex')
-@section('content')
+@extends(request()->boolean('drawer') ? 'layouts.master-data-drawer' : 'layouts.master-data')
+@section('master-content')
 <div class="row">
   <div class="col-md-12">
     {!! Form::open(['route' => ['service-item.update',$service->id],'method'=>'Patch']) !!}

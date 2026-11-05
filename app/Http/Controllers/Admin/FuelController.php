@@ -110,10 +110,12 @@ class FuelController extends Controller {
 		return redirect('admin/fuel');
 	}
 	public function edit($id) {
-		$data['data'] = $data = FuelModel::whereId($id)->get()->first();
-		$data['vehicle_id'] = $data->vehicle_id;
-		$data['vendors'] = Vendor::where('type', 'fuel')->get();
-		return view('fuel.edit', $data);
+		$fuel = FuelModel::with('vehicle_data')->findOrFail($id);
+		return view('fuel.edit', [
+			'data' => $fuel,
+			'vehicle_id' => $fuel->vehicle_id,
+			'vendors' => Vendor::where('type', 'fuel')->get(),
+		]);
 	}
 	public function update(FuelRequest $request) {
 		// dd($request->all());

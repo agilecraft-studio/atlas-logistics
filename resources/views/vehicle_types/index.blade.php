@@ -1,4 +1,4 @@
-@extends('layouts.attex')
+@extends('layouts.master-data')
 @section('styles')
 <style type="text/css">
   .checkbox, #chk_all{
@@ -8,7 +8,7 @@
 </style>
 @endsection
 @section('page_title', __('fleet.vehicle_types'))
-@section('content')
+@section('master-content')
 <div class="row">
   <div class="col-md-12">
     <x-fleet.panel>

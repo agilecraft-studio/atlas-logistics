@@ -19,18 +19,7 @@
     </div>
 </li>
 @endcanany
-@can('Settings list')
-<li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#sidebarSettings" aria-expanded="{{ Request::is('admin/settings*') ? 'true' : 'false' }}" aria-controls="sidebarSettings" class="side-nav-link {{ Request::is('admin/settings*') ? 'active' : '' }}">
-        <i class="ri-settings-3-line"></i><span> @lang('menu.settings') </span><span class="menu-arrow"></span>
-    </a>
-    <div class="collapse {{ Request::is('admin/settings*') ? 'show' : '' }}" id="sidebarSettings">
-        <ul class="side-nav-second-level">
-            <li><a href="{{ url('admin/settings') }}" class="@if(Request::is('admin/settings')) active @endif">@lang('menu.general_settings')</a></li>
-        </ul>
-    </div>
-</li>
-@endcan
+{{-- General Settings now lives under Master Data > System Settings. --}}
 @if(auth()->check() && auth()->user()->user_type != 'D')
 <li class="side-nav-item">
     <a href="{{ url('admin/change-details/' . auth()->id()) }}" class="side-nav-link @if(Request::is('admin/change-details*')) active @endif">

@@ -36,11 +36,19 @@ class WorkOrderRequest extends FormRequest {
 	 */
 	public function rules() {
 		return [
-			'vehicle_id' => 'required',
-			'vendor_id' => 'required',
+			'vehicle_id' => 'required|integer',
+			'trailer_id' => 'nullable|integer',
+			'driver_id' => 'nullable|integer|exists:users,id',
+			'vendor_id' => 'required|integer',
+			'mechanic_id' => 'nullable|integer',
 			'required_by' => 'required|date|date_format:Y-m-d',
-			'price' => 'required|numeric',
-
+			'price' => 'required|numeric|min:0',
+			'status' => 'nullable|in:' . implode(',', array_keys(\App\Model\WorkOrders::STATUSES)),
+			'maintenance_type' => 'nullable|in:' . implode(',', array_keys(\App\Model\WorkOrders::MAINTENANCE_TYPES)),
+			'meter' => 'nullable|numeric|min:0',
+			'completed_on' => 'nullable|date|date_format:Y-m-d',
+			'parts' => 'nullable|array',
+			'parts.*' => 'integer|min:1',
 		];
 	}
 }

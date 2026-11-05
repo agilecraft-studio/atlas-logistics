@@ -1,4 +1,4 @@
-@extends('layouts.attex')
+@extends(request()->boolean('drawer') ? 'layouts.master-data-drawer' : 'layouts.master-data')
 @section('styles')
 <style>
   .layouthack {
@@ -13,7 +13,7 @@
 </style>
 @endsection
 
-@section('content')
+@section('master-content')
 <div class="row">
   <div class="col-md-12">
     <x-fleet.panel>

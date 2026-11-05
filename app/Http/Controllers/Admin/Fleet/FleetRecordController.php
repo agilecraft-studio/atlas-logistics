@@ -20,6 +20,7 @@ use App\Model\VehicleModel;
 use App\Model\VehicleTelematics;
 use App\Model\WorkOrders;
 use App\Services\FleetHubService;
+use App\Services\WorkOrderService;
 use App\Support\Money;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -31,6 +32,24 @@ use Illuminate\Http\Request;
  */
 class FleetRecordController extends Controller
 {
+    /** A record type is only printable by users who can see that module. */
+    private const VIEW_PERMISSIONS = [
+        'vehicle' => ['Vehicles list', 'FleetRegister list'],
+        'driver' => ['Drivers list', 'FleetRegister list'],
+        'trailer' => ['Trailers list', 'FleetRegister list'],
+        'compliance' => ['Compliance list', 'FleetRegister list'],
+        'work_order' => ['WorkOrders list', 'Vehicles list', 'Trailers list', 'FleetRegister list'],
+        'fuel' => ['Fuel list', 'Vehicles list', 'FleetRegister list'],
+        'trip' => ['Trips list', 'FleetRegister list'],
+        'incident' => ['Drivers list', 'FleetRegister list'],
+        'deduction' => ['Drivers list', 'FleetRegister list'],
+        'advance' => ['Advances list', 'Drivers list', 'FleetRegister list'],
+        'assignment' => ['Trailers list', 'FleetRegister list'],
+        'telematics' => ['Vehicles list', 'FleetRegister list'],
+        'component' => ['Vehicles list', 'Trailers list', 'FleetRegister list'],
+        'rating' => ['Drivers list', 'FleetRegister list'],
+    ];
+
     public function print($type, $id)
     {
         $payload = $this->payload($type, $id, true);
@@ -74,13 +93,14 @@ class FleetRecordController extends Controller
                 break;
 
             case 'work_order':
-                $this->requireAny($user, ['Vehicles edit', 'Trailers edit', 'FleetRegister edit']);
-                WorkOrders::findOrFail($id)->delete();
-                $message = 'Maintenance record archived.';
+                $this->requireAny($user, ['WorkOrders delete', 'WorkOrders edit', 'Vehicles edit', 'Trailers edit', 'FleetRegister edit']);
+                $record = WorkOrders::findOrFail($id);
+                app(WorkOrderService::class)->archive($record);
+                $message = 'Maintenance record archived and parts returned to stock.';
                 break;
 
             case 'fuel':
-                $this->requireAny($user, ['Vehicles edit']);
+                $this->requireAny($user, ['Fuel delete', 'Fuel edit', 'Vehicles edit']);
                 FuelModel::findOrFail($id)->delete();
                 $message = 'Fuel log archived.';
                 break;
@@ -113,6 +133,7 @@ class FleetRecordController extends Controller
     private function payload(string $type, $id, bool $print): array
     {
         $this->assertFleetUser(request());
+        $this->requireAny(request()->user(), self::VIEW_PERMISSIONS[$type] ?? ['FleetRegister list']);
         $hub = app(FleetHubService::class);
 
         $title = 'Fleet record';
@@ -208,19 +229,22 @@ class FleetRecordController extends Controller
                 break;
 
             case 'work_order':
-                $wo = WorkOrders::with(['vehicle', 'trailer', 'vendor', 'mechanic', 'parts.part'])->withTrashed()->findOrFail($id);
+                $wo = WorkOrders::with(['vehicle', 'trailer', 'vendor', 'mechanic', 'driver', 'parts.part'])->withTrashed()->findOrFail($id);
                 $title = 'Maintenance record · #' . $wo->id;
                 $subtitle = $wo->vehicle?->license_plate ?: $wo->trailer?->registration_number;
                 $fields = [
                     'Asset' => $wo->vehicle?->license_plate ?: ($wo->trailer?->registration_number ?: '—'),
-                    'Type' => ucfirst(str_replace('_', ' ', $wo->maintenance_type ?: 'repair')),
-                    'Status' => ucfirst(str_replace('_', ' ', $wo->status ?: '—')),
+                    'Driver' => optional($wo->driver)->name ?: '—',
+                    'Type' => $wo->maintenance_type_label,
+                    'Status' => $wo->status_label,
+                    'Reference' => $wo->reference ?: '—',
                     'Required by' => $wo->required_by?->format('d M Y') ?: '—',
                     'Completed on' => $wo->completed_on?->format('d M Y') ?: '—',
                     'Vendor' => optional($wo->vendor)->name ?: '—',
                     'Mechanic' => optional($wo->mechanic)->name ?: '—',
                     'Odometer' => $wo->meter ? number_format((float) $wo->meter) . ' km' : '—',
-                    'Cost' => $wo->price !== null ? Money::format(Money::toMinor($wo->price)) : '—',
+                    'Parts cost' => Money::format(Money::toMinor($wo->parts_total)),
+                    'Total cost' => Money::format(Money::toMinor($wo->total_cost)),
                 ];
                 $notes = trim(($wo->description ?: '') . "\n" . ($wo->note ?: '') . "\n" . ($wo->resolution ?: ''));
                 if ($wo->parts->isNotEmpty()) {
@@ -441,6 +465,7 @@ class FleetRecordController extends Controller
         $this->requireAny($request->user(), [
             'Vehicles list', 'Drivers list', 'Trailers list', 'Compliance list',
             'Trips list', 'FleetRegister list', 'Invoices list', 'Customer documents list',
+            'WorkOrders list', 'Fuel list', 'ServiceReminders list',
         ]);
     }
 

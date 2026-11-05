@@ -45,8 +45,11 @@
             </div>
             <div class="mb-3">
               {!! Form::label('status',__('fleet.status'), ['class' => 'form-label']) !!}
-              {!! Form::select('status',["Pending"=>__('fleet.pending'), "Processing"=>__('fleet.Processing'),
-              "Completed"=>__('fleet.Completed'),"Hold"=>__('fleet.Hold')],null,['class' => 'form-control','required']) !!}
+              {!! Form::select('status', $statuses, 'pending_approval', ['class' => 'form-control','required']) !!}
+            </div>
+            <div class="mb-3">
+              {!! Form::label('maintenance_type', 'Maintenance type', ['class' => 'form-label']) !!}
+              {!! Form::select('maintenance_type', $maintenanceTypes, 'repair', ['class' => 'form-control']) !!}
             </div>
           </div>
           <div class="col-md-4">
@@ -70,8 +73,21 @@
               {!! Form::label('note',__('fleet.note'), ['class' => 'form-label']) !!}
               {!! Form::textarea('note',null,['class'=>'form-control','size'=>'30x1']) !!}
             </div>
+            <div class="mb-3">
+              {!! Form::label('reference', 'Reference', ['class' => 'form-label']) !!}
+              {!! Form::text('reference',null,['class'=>'form-control']) !!}
+            </div>
           </div>
           <div class="col-md-4">
+            <div class="mb-3">
+              {!! Form::label('driver_id', 'Driver', ['class' => 'form-label']) !!}
+              <select id="driver_id" name="driver_id" class="form-control">
+                <option value="">-</option>
+                @foreach($drivers as $driver)
+                <option value="{{$driver->id}}">{{$driver->name}}</option>
+                @endforeach
+              </select>
+            </div>
             <div class="mb-3">
               {!! Form::label('mechanic_id',__('fleet.mechanics'), ['class' => 'form-label']) !!}
               <select id="mechanic_id" name="mechanic_id" class="form-control" required>

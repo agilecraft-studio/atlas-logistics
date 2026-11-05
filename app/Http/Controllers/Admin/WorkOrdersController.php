@@ -12,13 +12,16 @@ use App\Model\AtlasLogistics;
 use App\Model\Mechanic;
 use App\Model\PartsModel;
 use App\Model\PartsUsedModel;
+use App\Model\User;
 use App\Model\VehicleModel;
 use App\Model\Vendor;
 use App\Model\WorkOrderLogs;
 use App\Model\WorkOrders;
+use App\Services\WorkOrderService;
 use Auth;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WorkOrdersController extends Controller {
 	public function __construct() {
@@ -135,51 +138,58 @@ class WorkOrdersController extends Controller {
 		}
 		$data['vendors'] = Vendor::get();
 		$data['mechanic'] = Mechanic::get();
+		$data['drivers'] = User::where('user_type', 'D')->orderBy('name')->get(['id', 'name']);
+		$data['statuses'] = WorkOrders::STATUSES;
+		$data['maintenanceTypes'] = WorkOrders::MAINTENANCE_TYPES;
 		$data['parts'] = PartsModel::where('stock', '>', 0)->where('availability', 1)->get();
 		return view('work_orders.create', $data);
 	}
 	public function store(WorkOrderRequest $request) {
-		$order = new WorkOrders();
-		$order->required_by = $request->get('required_by');
-		$order->vehicle_id = $request->get('vehicle_id');
-		$order->vendor_id = $request->get('vendor_id');
-		$order->mechanic_id = $request->get('mechanic_id');
-		$order->status = $request->get('status');
-		$order->description = $request->get('description');
-		$order->meter = $request->get('meter');
-		$order->price = $request->get('price');
-		$order->note = $request->get('note');
-		$order->user_id = Auth::user()->id;
-		$order->save();
-		$log = WorkOrderLogs::create([
-			'created_on' => date('Y-m-d', strtotime($order->created_at)),
-			'vehicle_id' => $order->vehicle_id,
-			'vendor_id' => $order->vendor_id,
-			'required_by' => $order->required_by,
-			'status' => $order->status,
-			'description' => $order->description,
-			'meter' => $order->meter,
-			'note' => $order->note,
-			'price' => $order->price,
-			'mechanic_id' => $order->mechanic_id,
-			'type' => "Created",
-		]);
-		$parts = $request->parts;
-		if ($parts != null) {
-			foreach ($parts as $part_id => $qty) {
-				$update_part = PartsModel::find($part_id);
-				PartsUsedModel::create(['work_id' => $order->id, 'part_id' => $part_id, 'qty' => $qty, 'price' => $update_part->unit_cost, 'total' => $qty * $update_part->unit_cost]);
-				$update_part->stock = $update_part->stock - $qty;
-				$update_part->save();
-				if ($update_part->stock == 0) {
-					$update_part->availability = 0;
-					$update_part->save();
-				}
+		$order = DB::transaction(function () use ($request) {
+			$order = new WorkOrders();
+			$order->required_by = $request->get('required_by');
+			$order->vehicle_id = $request->get('vehicle_id');
+			$order->trailer_id = $request->get('trailer_id');
+			$order->driver_id = $request->get('driver_id');
+			$order->vendor_id = $request->get('vendor_id');
+			$order->mechanic_id = $request->get('mechanic_id');
+			$order->status = $request->get('status') ?: 'pending_approval';
+			$order->maintenance_type = $request->get('maintenance_type') ?: 'repair';
+			$order->description = $request->get('description');
+			$order->meter = $request->get('meter');
+			$order->price = $request->get('price');
+			$order->note = $request->get('note');
+			$order->reference = $request->get('reference');
+			$order->resolution = $request->get('resolution');
+			if (WorkOrders::normalizeStatus($order->status) === 'completed') {
+				$order->completed_on = $request->get('completed_on') ?: now()->toDateString();
 			}
-		}
-		$log->parts_price = $order->parts->sum('total');
-		$log->save();
-		return redirect()->route('work_order.index');
+			$order->user_id = Auth::user()->id;
+			$order->save();
+
+			app(WorkOrderService::class)->deductParts($order, (array) $request->input('parts', []));
+
+			$log = WorkOrderLogs::create([
+				'created_on' => date('Y-m-d', strtotime($order->created_at)),
+				'vehicle_id' => $order->vehicle_id,
+				'vendor_id' => $order->vendor_id,
+				'required_by' => $order->required_by,
+				'status' => $order->status,
+				'description' => $order->description,
+				'meter' => $order->meter,
+				'note' => $order->note,
+				'price' => $order->price,
+				'mechanic_id' => $order->mechanic_id,
+				'type' => "Created",
+				'user_id' => Auth::user()->id,
+			]);
+			$log->parts_price = $order->fresh('parts')->parts_total;
+			$log->save();
+
+			return $order;
+		});
+
+		return redirect()->route('work_order.index')->with('success', 'Work order #' . $order->id . ' created.');
 	}
 	public function edit($id) {
 		$index['parts'] = PartsModel::where('stock', '>', 0)->where('availability', 1)->get();
@@ -191,71 +201,89 @@ class WorkOrdersController extends Controller {
 		}
 		$index['vendors'] = Vendor::get();
 		$index['mechanic'] = Mechanic::get();
+		$index['drivers'] = User::where('user_type', 'D')->orderBy('name')->get(['id', 'name']);
+		$index['statuses'] = WorkOrders::STATUSES;
+		$index['maintenanceTypes'] = WorkOrders::MAINTENANCE_TYPES;
 		return view('work_orders.edit', $index);
 	}
 	public function update(WorkOrderRequest $request) {
-		// dd($request->all());
-		$order = WorkOrders::find($request->get("id"));
-		$order->required_by = $request->get('required_by');
-		$order->vehicle_id = $request->get('vehicle_id');
-		$order->vendor_id = $request->get('vendor_id');
-		$order->status = $request->get('status');
-		$order->description = $request->get('description');
-		$order->mechanic_id = $request->get('mechanic_id');
-		$order->meter = $request->get('meter');
-		$order->price = $request->get('price');
-		$order->note = $request->get('note');
-		$order->save();
-		$log = WorkOrderLogs::create([
-			'created_on' => date('Y-m-d', strtotime($order->created_at)),
-			'vehicle_id' => $order->vehicle_id,
-			'vendor_id' => $order->vendor_id,
-			'required_by' => $order->required_by,
-			'status' => $order->status,
-			'description' => $order->description,
-			'meter' => $order->meter,
-			'note' => $order->note,
-			'price' => $order->price,
-			'mechanic_id' => $order->mechanic_id,
-			'type' => "Updated",
-			'user_id' => Auth::user()->id,
-		]);
-		$parts = $request->parts;
-		if ($parts != null) {
-			foreach ($parts as $part_id => $qty) {
-				$update_part = PartsModel::find($part_id);
-				PartsUsedModel::create(['work_id' => $order->id, 'part_id' => $part_id, 'qty' => $qty, 'price' => $update_part->unit_cost, 'total' => $qty * $update_part->unit_cost]);
-				$update_part->stock = $update_part->stock - $qty;
-				$update_part->save();
-				if ($update_part->stock == 0) {
-					$update_part->availability = 0;
-					$update_part->save();
-				}
+		$order = DB::transaction(function () use ($request) {
+			$order = WorkOrders::find($request->get("id"));
+			$order->required_by = $request->get('required_by');
+			$order->vehicle_id = $request->get('vehicle_id');
+			$order->trailer_id = $request->get('trailer_id');
+			$order->driver_id = $request->get('driver_id');
+			$order->vendor_id = $request->get('vendor_id');
+			$order->status = $request->get('status');
+			$order->maintenance_type = $request->get('maintenance_type') ?: 'repair';
+			$order->description = $request->get('description');
+			$order->mechanic_id = $request->get('mechanic_id');
+			$order->meter = $request->get('meter');
+			$order->price = $request->get('price');
+			$order->note = $request->get('note');
+			$order->reference = $request->get('reference');
+			$order->resolution = $request->get('resolution');
+			if (WorkOrders::normalizeStatus($order->status) === 'completed') {
+				$order->completed_on = $request->get('completed_on') ?: ($order->completed_on ?: now()->toDateString());
+			} else {
+				$order->completed_on = null;
 			}
-		}
-		$log->parts_price = $order->parts->sum('total');
-		$log->save();
-		return redirect()->route('work_order.index');
+			$order->save();
+
+			app(WorkOrderService::class)->deductParts($order, (array) $request->input('parts', []));
+
+			$log = WorkOrderLogs::create([
+				'created_on' => date('Y-m-d', strtotime($order->created_at)),
+				'vehicle_id' => $order->vehicle_id,
+				'vendor_id' => $order->vendor_id,
+				'required_by' => $order->required_by,
+				'status' => $order->status,
+				'description' => $order->description,
+				'meter' => $order->meter,
+				'note' => $order->note,
+				'price' => $order->price,
+				'mechanic_id' => $order->mechanic_id,
+				'type' => "Updated",
+				'user_id' => Auth::user()->id,
+			]);
+			$log->parts_price = $order->fresh('parts')->parts_total;
+			$log->save();
+
+			return $order;
+		});
+
+		return redirect()->route('work_order.index')->with('success', 'Work order #' . $order->id . ' updated.');
 	}
 	public function destroy(Request $request) {
-		WorkOrders::find($request->get('id'))->delete();
-		return redirect()->back();
+		$order = WorkOrders::find($request->get('id'));
+		if ($order) {
+			app(WorkOrderService::class)->archive($order);
+		}
+		return redirect()->back()->with('success', 'Work order archived and parts returned to stock.');
 	}
 	public function bulk_delete(Request $request) {
-		WorkOrders::whereIn('id', $request->ids)->delete();
-		return back();
+		foreach (WorkOrders::whereIn('id', (array) $request->ids)->get() as $order) {
+			app(WorkOrderService::class)->archive($order);
+		}
+		return back()->with('success', 'Selected work orders archived.');
 	}
 	public function remove_part($id) {
-		$usedpart = PartsUsedModel::find($id);
-		$part = PartsModel::find($usedpart->part_id);
-		$part->stock = $part->stock + $usedpart->qty;
-		$part->save();
-		if ($part->stock > 0) {
-			$part->availability = 1;
-			$part->save();
-		}
-		$usedpart->delete();
-		return back();
+		DB::transaction(function () use ($id) {
+			$usedpart = PartsUsedModel::find($id);
+			if (!$usedpart) {
+				return;
+			}
+			$part = PartsModel::whereKey($usedpart->part_id)->lockForUpdate()->first();
+			if ($part && $usedpart->restored_at === null) {
+				$part->stock = (int) $part->stock + (int) $usedpart->qty;
+				$part->availability = $part->stock > 0 ? 1 : 0;
+				$part->save();
+			}
+			$usedpart->restored_at = $usedpart->restored_at ?: now();
+			$usedpart->save();
+			$usedpart->delete();
+		});
+		return back()->with('success', 'Part returned to stock.');
 	}
 	public function parts_used($id) {
 		$order = WorkOrders::find($id);

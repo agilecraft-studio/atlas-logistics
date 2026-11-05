@@ -85,6 +85,7 @@ Route::namespace ('Admin')->group(function () {
         Route::post('print-expense', 'ReportsController@expense_print');
 
         Route::get('work_order/logs', 'WorkOrdersController@logs');
+        Route::get('maintenance', 'MaintenanceHubController@index')->name('maintenance.index');
         Route::resource('parts-category', 'PartsCategoryController')->except(['show']);
 
         Route::post('driver-logs-fetch', 'VehiclesController@driver_logs_fetch_data');
@@ -134,6 +135,7 @@ Route::namespace ('Admin')->group(function () {
         Route::get("/vehicles/enable/{id}", 'VehiclesController@enable');
         Route::get("/vehicles/disable/{id}", 'VehiclesController@disable');
         Route::resource('/income', 'IncomeController')->only(['index', 'store', 'destroy']);
+        Route::get('/master-data', 'MasterDataHubController@index')->name('master-data.index');
         Route::get('/settings', 'SettingsController@index')->name('settings.index');
         Route::post('/settings', 'SettingsController@store')->name('settings.store');
         Route::post('/customers-fetch', 'CustomersController@fetch_data');
@@ -230,7 +232,12 @@ Route::namespace ('Admin')->group(function () {
         Route::post('store-vehicle-review', 'VehiclesController@store_vehicle_review');
         Route::get('view-vehicle-inspection/{id}', 'VehiclesController@view_vehicle_inspection');
 // fuel detail
-        Route::resource('/fuel', 'FuelController')->except(['show']);
+// fuel management hub + fuel-card accounts
+        Route::get('/fuel', 'FuelHubController@index')->name('fuel.index');
+        Route::post('/fuel/cards', 'FuelHubController@storeCard')->name('fuel.cards.store');
+        Route::put('/fuel/cards/{card}', 'FuelHubController@updateCard')->name('fuel.cards.update')->whereNumber('card');
+        Route::delete('/fuel/cards/{card}', 'FuelHubController@archiveCard')->name('fuel.cards.archive')->whereNumber('card');
+        Route::resource('/fuel', 'FuelController')->except(['index', 'show']);
 //vehicle Expense
         Route::post('/expense_records', 'ExpenseController@expense_records');
         Route::post('delete-expense', 'ExpenseController@bulk_delete');

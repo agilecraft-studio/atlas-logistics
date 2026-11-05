@@ -18,8 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PartsUsedModel extends Model {
 	use SoftDeletes;
 	protected $dates = ['deleted_at'];
+	protected $casts = ['restored_at' => 'datetime'];
 	protected $table = "parts_used";
-	protected $fillable = ['part_id', 'work_id', 'qty', 'price', 'total'];
+	protected $fillable = ['part_id', 'work_id', 'qty', 'price', 'total', 'restored_at'];
 
 	public function part() {
 		return $this->hasOne("App\Model\PartsModel", "id", "part_id")->withTrashed();

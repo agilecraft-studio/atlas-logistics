@@ -30,6 +30,7 @@ return [
 	'monthlyReport' => 'Monthly Report',
 	'partsReport' => 'Parts Report',
 	'settings' => 'Settings',
+	'master_data' => 'Master Data',
 	'profile' => 'Profile',
 	'logout' => "Logout",
 	
