@@ -137,6 +137,20 @@ Route::namespace ('Admin')->group(function () {
         Route::post('/settings', 'SettingsController@store')->name('settings.store');
         Route::post('/customers-fetch', 'CustomersController@fetch_data');
         Route::resource('/customers', 'CustomersController');
+
+        // Customer document hub: delivery notes, dispatch sheets, waybills, quotes and PoDs.
+        Route::prefix('customers/{customer}/documents')->name('customers.documents.')
+            ->whereNumber('customer')->group(function () {
+                Route::get('create', 'CustomerDocumentsController@create')->name('create');
+                Route::post('/', 'CustomerDocumentsController@store')->name('store');
+                Route::get('{document}', 'CustomerDocumentsController@show')->name('show')->whereNumber('document');
+                Route::get('{document}/edit', 'CustomerDocumentsController@edit')->name('edit')->whereNumber('document');
+                Route::put('{document}', 'CustomerDocumentsController@update')->name('update')->whereNumber('document');
+                Route::delete('{document}', 'CustomerDocumentsController@destroy')->name('destroy')->whereNumber('document');
+                Route::get('{document}/download', 'CustomerDocumentsController@download')->name('download')->whereNumber('document');
+                Route::get('{document}/print', 'CustomerDocumentsController@print')->name('print')->whereNumber('document');
+                Route::post('{document}/email', 'CustomerDocumentsController@email')->name('email')->whereNumber('document');
+            });
         Route::resource('/expense', 'ExpenseController')->only(['index', 'store', 'destroy']);
         Route::resource('/expensecategories', 'ExpenseCategories')->except(['show']);
         Route::resource('/incomecategories', 'IncomeCategories')->except(['show']);

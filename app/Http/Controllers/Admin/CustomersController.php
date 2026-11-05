@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Customers as CustomerRequest;
 use App\Http\Requests\ImportRequest;
 use App\Imports\CustomerImport;
+use App\Model\CustomerDocument;
+use App\Model\Invoice;
+use App\Model\Trip;
 use App\Model\User;
 use Auth;
 use DataTables;
@@ -153,8 +156,113 @@ class CustomersController extends Controller {
 		}
 		return $d;
 	}
-	public function show($id) {
-		$index['customer'] = User::find($id);
+	public function show(Request $request, $id) {
+		$customer = User::with('user_data')->whereUser_type('C')->findOrFail($id);
+
+		$tab = $request->query('tab', 'overview');
+		if (!in_array($tab, ['overview', 'shipments', 'invoices', 'documents', 'pods'], true)) {
+			$tab = 'overview';
+		}
+
+		$date = function ($key) use ($request) {
+			$value = $request->query($key);
+			return ($value && strtotime((string) $value)) ? $value : null;
+		};
+
+		$tripFilters = [
+			'status' => $request->query('trip_status'),
+			'from'   => $date('trip_from'),
+			'to'     => $date('trip_to'),
+		];
+		$invoiceFilters = [
+			'document_type' => $request->query('invoice_type'),
+			'status'        => $request->query('invoice_status'),
+			'from'          => $date('invoice_from'),
+			'to'            => $date('invoice_to'),
+		];
+		$documentTypes = config('customer_documents.types', []);
+		$operationalTypes = array_values(array_diff(array_keys($documentTypes), [CustomerDocument::POD]));
+		$documentFilters = [
+			'type'   => $request->query('doc_type'),
+			'status' => $request->query('doc_status'),
+			'from'   => $date('doc_from'),
+			'to'     => $date('doc_to'),
+		];
+		$podFilters = [
+			'status' => $request->query('pod_status'),
+			'from'   => $date('pod_from'),
+			'to'     => $date('pod_to'),
+		];
+
+		$shipments = Trip::with(['vehicle', 'trailer', 'driver', 'originCountry', 'destinationCountry'])
+			->where('customer_id', $customer->id)
+			->when(!empty($tripFilters['status']), fn ($q) => $q->where('status', $tripFilters['status']))
+			->when($tripFilters['from'], fn ($q) => $q->whereDate('planned_start_at', '>=', $tripFilters['from']))
+			->when($tripFilters['to'], fn ($q) => $q->whereDate('planned_start_at', '<=', $tripFilters['to']))
+			->orderByDesc('id')
+			->get();
+
+		$invoices = Invoice::with(['sourceInvoice'])
+			->where('client_id', $customer->id)
+			->when(!empty($invoiceFilters['document_type']), fn ($q) => $q->where('document_type', $invoiceFilters['document_type']))
+			->when(!empty($invoiceFilters['status']), fn ($q) => $q->where('status', $invoiceFilters['status']))
+			->when($invoiceFilters['from'], fn ($q) => $q->whereDate('issue_date', '>=', $invoiceFilters['from']))
+			->when($invoiceFilters['to'], fn ($q) => $q->whereDate('issue_date', '<=', $invoiceFilters['to']))
+			->orderByDesc('issue_date')
+			->orderByDesc('id')
+			->get();
+
+		$documents = CustomerDocument::with(['trip', 'driver', 'vehicle'])
+			->where('customer_id', $customer->id)
+			->whereIn('type', $operationalTypes)
+			->when(!empty($documentFilters['type']) && in_array($documentFilters['type'], $operationalTypes, true), fn ($q) => $q->where('type', $documentFilters['type']))
+			->when(!empty($documentFilters['status']), fn ($q) => $q->where('status', $documentFilters['status']))
+			->when($documentFilters['from'], fn ($q) => $q->whereDate('issue_date', '>=', $documentFilters['from']))
+			->when($documentFilters['to'], fn ($q) => $q->whereDate('issue_date', '<=', $documentFilters['to']))
+			->orderByDesc('issue_date')
+			->orderByDesc('id')
+			->get();
+
+		$pods = CustomerDocument::with(['trip', 'driver', 'vehicle'])
+			->where('customer_id', $customer->id)
+			->where('type', CustomerDocument::POD)
+			->when(!empty($podFilters['status']), fn ($q) => $q->where('status', $podFilters['status']))
+			->when($podFilters['from'], fn ($q) => $q->whereDate('issue_date', '>=', $podFilters['from']))
+			->when($podFilters['to'], fn ($q) => $q->whereDate('issue_date', '<=', $podFilters['to']))
+			->orderByDesc('issue_date')
+			->orderByDesc('id')
+			->get();
+
+		$invoiceBase = Invoice::where('client_id', $customer->id)->revenueDocuments();
+		$totalInvoiced = (clone $invoiceBase)->whereIn('status', Invoice::REVENUE_STATUSES)->sum('total');
+		$outstanding = (clone $invoiceBase)->whereIn('status', Invoice::REVENUE_STATUSES)->sum('balance_due');
+
+		$index = [
+			'customer'        => $customer,
+			'tab'             => $tab,
+			'shipments'       => $shipments,
+			'invoices'        => $invoices,
+			'documents'       => $documents,
+			'pods'            => $pods,
+			'tripFilters'     => $tripFilters,
+			'invoiceFilters'  => $invoiceFilters,
+			'documentFilters' => $documentFilters,
+			'podFilters'      => $podFilters,
+			'tripStatuses'    => config('logistics.trip_statuses'),
+			'invoiceStatuses' => config('invoicing.statuses'),
+			'invoiceTypes'    => config('invoicing.document_types'),
+			'documentTypes'   => $documentTypes,
+			'documentStatuses'=> config('customer_documents.statuses'),
+			'kpis'            => [
+				'total_invoiced' => $totalInvoiced,
+				'outstanding'    => $outstanding,
+				'shipments'      => Trip::where('customer_id', $customer->id)->count(),
+				'invoices'       => Invoice::where('client_id', $customer->id)->count(),
+				'documents'      => CustomerDocument::where('customer_id', $customer->id)->count(),
+				'pods'           => CustomerDocument::where('customer_id', $customer->id)->where('type', CustomerDocument::POD)->count(),
+			],
+		];
+
 		return view('customers.show', $index);
 	}
 	public function destroy(Request $request) {

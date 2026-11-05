@@ -15,6 +15,12 @@ class StoreInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'document_type' => ['nullable', Rule::in(array_keys(config('invoicing.document_types')))],
+            'source_invoice_id' => [
+                'nullable', 'integer',
+                Rule::exists('invoices', 'id')->whereNull('deleted_at'),
+            ],
+            'credit_reason' => ['nullable', 'string', 'max:2000'],
             'client_id' => [
                 'required', 'integer',
                 Rule::exists('users', 'id')->where('user_type', 'C')->whereNull('deleted_at'),

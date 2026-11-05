@@ -89,6 +89,7 @@ Route::prefix('logistics')->namespace('Logistics')->group(function () {
             ->where(['invoice' => '[0-9]+', 'payment' => '[0-9]+']);
         Route::get('{invoice}/pdf', 'InvoicesController@pdf')->name('pdf')->whereNumber('invoice');
         Route::get('{invoice}/print', 'InvoicesController@printInvoice')->name('print')->whereNumber('invoice');
+        Route::post('{invoice}/email', 'InvoicesController@email')->name('email')->whereNumber('invoice');
     });
 
     // Fleet Operations Dashboard

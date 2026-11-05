@@ -72,12 +72,19 @@
                 @if($company['logo'])
                     <img src="{{ $company['logo'] }}" alt="{{ $company['name'] }}">
                 @endif
-                <div class="title" style="margin-top:8px">INVOICE</div>
+                <div class="title" style="margin-top:8px">{{ $invoice->document_title }}</div>
                 <div class="muted small">{{ $invoice->invoice_number }}</div>
                 <div style="margin-top:6px"><span class="status">{{ $invoice->status_label }}</span></div>
             </td>
         </tr>
     </table>
+
+    @if($invoice->sourceInvoice)
+    <div class="small muted" style="margin:-10px 0 14px">
+        Corrects invoice {{ $invoice->sourceInvoice->invoice_number }}
+        @if($invoice->credit_reason) · {{ $invoice->credit_reason }} @endif
+    </div>
+    @endif
 
     <table class="meta">
         <tr>

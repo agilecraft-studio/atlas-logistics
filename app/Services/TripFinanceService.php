@@ -31,7 +31,9 @@ class TripFinanceService
         // Each line is converted with the rate frozen on its own invoice.
         $invoicedMinor = 0;
         $invoiceLines = InvoiceLine::where('trip_id', $trip->id)
-            ->whereHas('invoice', fn ($q) => $q->whereIn('status', Invoice::REVENUE_STATUSES))
+            ->whereHas('invoice', fn ($q) => $q
+                ->whereIn('status', Invoice::REVENUE_STATUSES)
+                ->where('document_type', Invoice::DOC_TAX_INVOICE))
             ->with('invoice:id,exchange_rate')
             ->get();
         foreach ($invoiceLines as $line) {

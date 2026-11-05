@@ -33,7 +33,8 @@
 <x-fleet.panel>
     <div class="fleet-toolbar">
         <h5 class="mb-0">
-            <i class="bi bi-receipt me-2"></i>{{ $invoice->invoice_number }}
+            <i class="bi {{ $invoice->document_icon }} me-2"></i>{{ $invoice->invoice_number }}
+            <span class="badge bg-light text-dark border ms-1">{{ $invoice->document_type_label }}</span>
             <x-fleet.status-pill class="ms-2" :status="str_replace('_', ' ', $invoice->status)">{{ $invoice->status_label }}</x-fleet.status-pill>
         </h5>
         <div class="d-flex flex-wrap gap-2">
@@ -53,6 +54,12 @@
             @endcan
             <a href="{{ route('logistics.invoices.pdf', $invoice) }}" class="fleet-btn fleet-btn-ghost"><i class="bi bi-file-earmark-pdf me-1"></i>PDF</a>
             <a href="{{ route('logistics.invoices.print', $invoice) }}" target="_blank" rel="noopener" class="fleet-btn fleet-btn-ghost"><i class="bi bi-printer me-1"></i>Print</a>
+            @if($invoice->client_email)
+            <form method="POST" action="{{ route('logistics.invoices.email', $invoice) }}" data-fleet-confirm="Email {{ $invoice->invoice_number }} to {{ $invoice->client_email }}?">
+                @csrf
+                <button class="fleet-btn fleet-btn-ghost"><i class="bi bi-envelope me-1"></i>Email</button>
+            </form>
+            @endif
             @can('Invoices cancel')
             @if(in_array($invoice->status, ['issued', 'part_paid'], true) && \App\Support\Money::toMinor($invoice->amount_paid) === 0)
             <button type="button" class="fleet-btn fleet-btn-danger" data-bs-toggle="modal" data-bs-target="#cancelInvoiceModal"><i class="bi bi-x-circle me-1"></i>Cancel</button>
@@ -121,6 +128,29 @@
     @if($invoice->isCancelled() && $invoice->cancel_reason)
     <div class="alert alert-danger mt-3 mb-0"><strong>Cancelled:</strong> {{ $invoice->cancel_reason }}</div>
     @endif
+
+    @if($invoice->sourceInvoice)
+    <div class="alert alert-warning mt-3 mb-0">
+        <strong>Credit note for</strong>
+        <a href="{{ route('logistics.invoices.show', $invoice->sourceInvoice) }}">{{ $invoice->sourceInvoice->invoice_number }}</a>
+        @if($invoice->credit_reason) · {{ $invoice->credit_reason }} @endif
+    </div>
+    @endif
+
+    @if($invoice->creditNotes->isNotEmpty())
+    <div class="mt-3">
+        <span class="text-muted small text-uppercase fw-semibold me-2">Credit notes</span>
+        @foreach($invoice->creditNotes as $credit)
+        <a href="{{ route('logistics.invoices.show', $credit) }}" class="badge bg-light text-dark border text-decoration-none me-1">{{ $credit->invoice_number }}</a>
+        @endforeach
+    </div>
+    @endif
+
+    @if(!$invoice->isTaxInvoice())
+    <div class="alert alert-info mt-3 mb-0">
+        {{ $invoice->document_type_label }} documents do not accept payments and do not count as revenue.
+    </div>
+    @endif
 </x-fleet.panel>
 
 <x-fleet.panel class="mt-3">
@@ -168,6 +198,7 @@
 
 <div class="row g-3 mt-0">
     <div class="col-lg-8">
+        @if($invoice->isTaxInvoice())
         <x-fleet.panel class="mt-3">
             <div class="fleet-toolbar">
                 <h5 class="mb-0"><i class="bi bi-cash-coin me-2"></i>Payments</h5>
@@ -240,6 +271,7 @@
             @endif
             @endcan
         </x-fleet.panel>
+        @endif
 
         <x-fleet.panel class="mt-3">
             <div class="fleet-toolbar">
@@ -276,11 +308,13 @@
         </x-fleet.panel>
         @endif
 
+        @if($invoice->isTaxInvoice())
         <x-fleet.panel class="mt-3" title="Profitability" icon="bi-graph-up">
             <p class="text-muted small mb-1">Base-currency value at the frozen rate</p>
             <div class="fs-5 fw-semibold">{{ \App\Support\Money::format(\App\Support\Money::toMinor($invoice->total_base), $invoice->base_currency_code, null) }}</div>
             <p class="text-muted small mb-0">Issued invoices feed trip profitability once issued.</p>
         </x-fleet.panel>
+        @endif
     </div>
 </div>
 

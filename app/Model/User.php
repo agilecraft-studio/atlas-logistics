@@ -49,6 +49,18 @@ class User extends Authenticatable {
 		return $this->hasMany('App\Model\VehicleModel', 'user_id', 'id')->withTrashed();
 	}
 
+	public function invoices() {
+		return $this->hasMany(Invoice::class, 'client_id')->withTrashed();
+	}
+
+	public function customerDocuments() {
+		return $this->hasMany(CustomerDocument::class, 'customer_id')->withTrashed();
+	}
+
+	public function shipments() {
+		return $this->hasMany(Trip::class, 'customer_id')->withTrashed();
+	}
+
 	public function driver_vehicle() {
 		return $this->hasOne("App\Model\DriverVehicleModel", "driver_id", "id");
 	}

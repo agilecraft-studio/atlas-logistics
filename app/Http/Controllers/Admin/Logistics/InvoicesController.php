@@ -8,6 +8,7 @@ use App\Http\Requests\Invoices\InvoiceLineRequest;
 use App\Http\Requests\Invoices\InvoicePaymentRequest;
 use App\Http\Requests\Invoices\StoreInvoiceRequest;
 use App\Http\Requests\Invoices\UpdateInvoiceRequest;
+use App\Mail\DocumentMail;
 use App\Model\AtlasLogistics;
 use App\Model\Currency;
 use App\Model\Invoice;
@@ -18,12 +19,13 @@ use App\Services\CurrencyService;
 use App\Services\InvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InvoicesController extends Controller
 {
     public function __construct(private InvoiceService $invoices)
     {
-        $this->middleware('permission:Invoices list')->only(['index', 'show', 'pdf', 'printInvoice']);
+        $this->middleware('permission:Invoices list')->only(['index', 'show', 'pdf', 'printInvoice', 'email']);
         $this->middleware('permission:Invoices add')->only(['create', 'store']);
         $this->middleware('permission:Invoices edit')->only(['edit', 'update', 'storeLine', 'updateLine', 'destroyLine']);
         $this->middleware('permission:Invoices delete')->only(['destroy']);
@@ -37,6 +39,7 @@ class InvoicesController extends Controller
         $filters = $request->validate([
             'client_id' => ['nullable', 'integer'],
             'currency_code' => ['nullable', 'string', 'size:3'],
+            'document_type' => ['nullable', 'in:' . implode(',', array_keys(config('invoicing.document_types')))],
             'status' => ['nullable', 'in:draft,issued,part_paid,paid,cancelled'],
             'from' => ['nullable', 'date'],
             'to' => ['nullable', 'date', 'after_or_equal:from'],
@@ -45,6 +48,7 @@ class InvoicesController extends Controller
         $invoices = Invoice::with('client')
             ->when(!empty($filters['client_id']), fn ($q) => $q->where('client_id', $filters['client_id']))
             ->when(!empty($filters['currency_code']), fn ($q) => $q->where('currency_code', strtoupper($filters['currency_code'])))
+            ->when(!empty($filters['document_type']), fn ($q) => $q->where('document_type', $filters['document_type']))
             ->when(!empty($filters['status']), fn ($q) => $q->where('status', $filters['status']))
             ->when(!empty($filters['from']), fn ($q) => $q->whereDate('issue_date', '>=', $filters['from']))
             ->when(!empty($filters['to']), fn ($q) => $q->whereDate('issue_date', '<=', $filters['to']))
@@ -57,17 +61,30 @@ class InvoicesController extends Controller
             'clients' => User::where('user_type', 'C')->whereNull('deleted_at')->orderBy('name')->get(['id', 'name']),
             'currencies' => Currency::where('is_active', true)->orderBy('code')->get(),
             'statuses' => config('invoicing.statuses'),
+            'documentTypes' => config('invoicing.document_types'),
             'filters' => $filters,
         ]);
     }
 
     public function create(Request $request)
     {
+        $type = $request->input('type', old('document_type', Invoice::DOC_TAX_INVOICE));
+        if (!array_key_exists($type, config('invoicing.document_types'))) {
+            $type = Invoice::DOC_TAX_INVOICE;
+        }
+
         return view('invoices.create', [
             'clients' => User::where('user_type', 'C')->whereNull('deleted_at')->orderBy('name')->get(['id', 'name']),
             'currencies' => Currency::where('is_active', true)->orderBy('code')->get(),
             'trips' => $this->invoices->unbilledTrips()->limit(500)->get(),
             'selectedTrips' => array_map('intval', (array) old('trip_ids', $request->input('trip_ids', []))),
+            'selectedClient' => $request->input('client_id', old('client_id')),
+            'documentTypes' => config('invoicing.document_types'),
+            'documentType' => $type,
+            'sourceInvoices' => Invoice::where('document_type', Invoice::DOC_TAX_INVOICE)
+                ->whereIn('status', [Invoice::ISSUED, Invoice::PART_PAID, Invoice::PAID])
+                ->orderByDesc('issue_date')->orderByDesc('id')
+                ->get(['id', 'invoice_number', 'client_id', 'client_name', 'issue_date', 'total', 'currency_code']),
             'defaults' => $this->defaults(),
             'rates' => $this->currentRates(),
             'base' => CurrencyService::base(),
@@ -85,7 +102,10 @@ class InvoicesController extends Controller
 
     public function show(Invoice $invoice)
     {
-        $invoice->load(['lines.trip', 'payments.recordedBy', 'auditLogs.user', 'creator', 'issuer', 'canceller']);
+        $invoice->load([
+            'lines.trip', 'payments.recordedBy', 'auditLogs.user', 'creator', 'issuer', 'canceller',
+            'sourceInvoice', 'creditNotes',
+        ]);
 
         return view('invoices.show', [
             'invoice' => $invoice,
@@ -174,7 +194,7 @@ class InvoicesController extends Controller
 
     public function pdf(Invoice $invoice)
     {
-        $invoice->load(['lines.trip', 'payments']);
+        $invoice->load(['lines.trip', 'payments', 'sourceInvoice']);
 
         return Pdf::loadView('invoices.document', $this->documentData($invoice, false))
             ->setPaper('a4')
@@ -183,9 +203,39 @@ class InvoicesController extends Controller
 
     public function printInvoice(Invoice $invoice)
     {
-        $invoice->load(['lines.trip', 'payments']);
+        $invoice->load(['lines.trip', 'payments', 'sourceInvoice']);
 
         return view('invoices.document', $this->documentData($invoice, true));
+    }
+
+    public function email(Request $request, Invoice $invoice)
+    {
+        $to = $invoice->client_email ?: optional($invoice->client)->email;
+        if (!$to) {
+            return back()->with('error', 'This customer has no email address on file.');
+        }
+
+        try {
+            $invoice->load(['lines.trip', 'payments', 'sourceInvoice']);
+            $pdf = Pdf::loadView('invoices.document', $this->documentData($invoice, false))->setPaper('a4');
+
+            Mail::to($to)->send(new DocumentMail(
+                mailSubject: $invoice->document_type_label . ' ' . $invoice->invoice_number,
+                customerName: $invoice->client_name,
+                documentLabel: $invoice->document_type_label,
+                documentNumber: $invoice->invoice_number,
+                intro: 'Please find your ' . strtolower($invoice->document_type_label) . ' attached to this email.',
+                attachmentData: $pdf->output(),
+                attachmentName: $invoice->invoice_number . '.pdf',
+                attachmentMime: 'application/pdf',
+            ));
+        } catch (\Throwable $e) {
+            report($e);
+
+            return back()->with('error', 'The email could not be sent. Check the mail configuration and try again.');
+        }
+
+        return back()->with('success', $invoice->document_type_label . ' emailed to ' . $to . '.');
     }
 
     private function defaults(): array

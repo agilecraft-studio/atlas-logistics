@@ -27,9 +27,17 @@ class InvoiceService
             $currency = Currency::where('code', strtoupper($data['currency_code']))->where('is_active', true)->firstOrFail();
             $issueDate = $data['issue_date'] ?: now()->toDateString();
             $rate = $this->resolveRate($currency->code, $data['exchange_rate'] ?? null, $issueDate, true, true);
+            $type = $data['document_type'] ?? Invoice::DOC_TAX_INVOICE;
+            if (!array_key_exists($type, config('invoicing.document_types'))) {
+                throw ValidationException::withMessages(['document_type' => 'Choose a valid invoice document type.']);
+            }
+            $source = $this->creditSource($type, $data['source_invoice_id'] ?? null, $client);
 
             $invoice = Invoice::create(array_merge($this->clientSnapshot($client), [
-                'invoice_number'       => $this->nextNumber(),
+                'invoice_number'       => $this->nextNumber($type),
+                'document_type'        => $type,
+                'source_invoice_id'    => $source?->id,
+                'credit_reason'        => $source ? ($data['credit_reason'] ?? $data['notes'] ?? null) : null,
                 'status'               => Invoice::DRAFT,
                 'currency_code'        => $currency->code,
                 'currency_symbol'      => $currency->symbol,
@@ -45,26 +53,47 @@ class InvoiceService
             ]));
 
             $sort = 0;
-            foreach ($this->tripsFor($data['trip_ids'] ?? []) as $trip) {
-                if ($this->tripHasLiveFreight($trip->id)) {
-                    throw ValidationException::withMessages([
-                        'trip_ids' => "Trip {$trip->trip_number} already has a freight line on a live invoice. Add extra charges as manual lines instead.",
+            if ($source) {
+                // A credit note mirrors the source invoice lines; the trip link is deliberately
+                // omitted so it never counts as billed freight or revenue.
+                foreach ($source->lines as $line) {
+                    $invoice->lines()->create([
+                        'trip_id'     => null,
+                        'line_type'   => $line->line_type,
+                        'description' => 'Credit — ' . $line->description,
+                        'quantity'    => $line->quantity,
+                        'unit_price'  => $line->unit_price,
+                        'line_total'  => $line->line_total,
+                        'sort_order'  => $sort++,
                     ]);
                 }
-                $unitPrice = $this->freightInInvoiceCurrency($trip, $currency->code, $rate);
-                $invoice->lines()->create([
-                    'trip_id'     => $trip->id,
-                    'line_type'   => 'freight',
-                    'description' => 'Freight — ' . $trip->trip_number . ': ' . $trip->route_label,
-                    'quantity'    => '1',
-                    'unit_price'  => Money::fromMinor($unitPrice),
-                    'line_total'  => Money::fromMinor($unitPrice),
-                    'sort_order'  => $sort++,
-                ]);
+            } else {
+                foreach ($this->tripsFor($data['trip_ids'] ?? []) as $trip) {
+                    if ($this->tripHasLiveFreight($trip->id)) {
+                        throw ValidationException::withMessages([
+                            'trip_ids' => "Trip {$trip->trip_number} already has a freight line on a live tax invoice. Add extra charges as manual lines instead.",
+                        ]);
+                    }
+                    $unitPrice = $this->freightInInvoiceCurrency($trip, $currency->code, $rate);
+                    $invoice->lines()->create([
+                        'trip_id'     => $trip->id,
+                        'line_type'   => 'freight',
+                        'description' => 'Freight — ' . $trip->trip_number . ': ' . $trip->route_label,
+                        'quantity'    => '1',
+                        'unit_price'  => Money::fromMinor($unitPrice),
+                        'line_total'  => Money::fromMinor($unitPrice),
+                        'sort_order'  => $sort++,
+                    ]);
+                }
             }
 
             $this->recalculate($invoice);
-            $this->audit($invoice, 'created', ['currency' => $currency->code, 'rate' => $rate], $user);
+            $this->audit($invoice, 'created', [
+                'currency' => $currency->code,
+                'rate' => $rate,
+                'document_type' => $type,
+                'source_invoice' => $source?->invoice_number,
+            ], $user);
 
             return $invoice->fresh(['lines']);
         });
@@ -339,14 +368,18 @@ class InvoiceService
         return $this->billableTrips()
             ->whereDoesntHave('invoiceLines', fn ($q) => $q
                 ->where('line_type', 'freight')
-                ->whereHas('invoice', fn ($i) => $i->where('status', '!=', Invoice::CANCELLED)));
+                ->whereHas('invoice', fn ($i) => $i
+                    ->where('status', '!=', Invoice::CANCELLED)
+                    ->where('document_type', Invoice::DOC_TAX_INVOICE)));
     }
 
     private function tripHasLiveFreight(int $tripId): bool
     {
         return InvoiceLine::where('trip_id', $tripId)
             ->where('line_type', 'freight')
-            ->whereHas('invoice', fn ($q) => $q->where('status', '!=', Invoice::CANCELLED))
+            ->whereHas('invoice', fn ($q) => $q
+                ->where('status', '!=', Invoice::CANCELLED)
+                ->where('document_type', Invoice::DOC_TAX_INVOICE))
             ->exists();
     }
 
@@ -420,6 +453,38 @@ class InvoiceService
         return $locked;
     }
 
+    /** Credit notes must name an issued invoice belonging to the same client. */
+    private function creditSource(string $type, $sourceId, User $client): ?Invoice
+    {
+        if ($type !== Invoice::DOC_CREDIT_NOTE) {
+            return null;
+        }
+        if ($sourceId === null || $sourceId === '') {
+            throw ValidationException::withMessages([
+                'source_invoice_id' => 'Choose the invoice this credit note corrects.',
+            ]);
+        }
+
+        $source = Invoice::with('lines')
+            ->whereKey((int) $sourceId)
+            ->where('client_id', $client->id)
+            ->where('document_type', Invoice::DOC_TAX_INVOICE)
+            ->first();
+
+        if (!$source) {
+            throw ValidationException::withMessages([
+                'source_invoice_id' => 'Choose a tax invoice belonging to this customer.',
+            ]);
+        }
+        if ($source->isDraft()) {
+            throw ValidationException::withMessages([
+                'source_invoice_id' => 'Only an issued invoice can be credited.',
+            ]);
+        }
+
+        return $source;
+    }
+
     private function clientSnapshot(User $client): array
     {
         return [
@@ -463,9 +528,9 @@ class InvoiceService
         return '1.000000';
     }
 
-    private function nextNumber(): string
+    private function nextNumber(string $type = Invoice::DOC_TAX_INVOICE): string
     {
-        $prefix = (string) config('invoicing.prefix', 'INV');
+        $prefix = (string) config('invoicing.document_types.' . $type . '.prefix', config('invoicing.prefix', 'INV'));
         $year = (int) now()->year;
         $now = now();
 
