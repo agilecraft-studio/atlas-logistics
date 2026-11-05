@@ -1,7 +1,5 @@
 <div class="d-flex gap-1">
-    <a href="{{ url('admin/vehicle/event/'.$row->id) }}"
-       class="fleet-btn fleet-btn-sm fleet-btn-ghost openBtn" data-id="{{ $row->id }}"
-       data-bs-toggle="modal" data-bs-target="#myModal2" title="@lang('fleet.view_vehicle')">
+    <a href="{{ route('vehicles.show', ['id' => $row->id]) }}" class="fleet-btn fleet-btn-sm fleet-btn-ghost" title="@lang('fleet.view_vehicle')">
         <i class="bi bi-eye"></i>
     </a>
     @can('Vehicles edit')

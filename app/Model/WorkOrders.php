@@ -20,11 +20,21 @@ class WorkOrders extends Model {
 	use SoftDeletes;
 	use HasFactory;
 	protected $dates = ['deleted_at'];
+	protected $casts = ['required_by' => 'date', 'created_on' => 'date', 'completed_on' => 'date'];
 	protected $table = 'work_orders';
-	protected $fillable = ['user_id', 'vehicle_id', 'vendor_id', 'mechanic_id', 'required_by', 'status', 'description', 'meter', 'note', 'reference', 'price'];
+	protected $fillable = ['user_id', 'vehicle_id', 'trailer_id', 'vendor_id', 'mechanic_id', 'required_by', 'status', 'maintenance_type', 'description', 'meter', 'note', 'reference', 'price', 'completed_on', 'resolution'];
 
 	public function vehicle() {
 		return $this->belongsTo("App\Model\VehicleModel", "vehicle_id", "id")->withTrashed();
+	}
+
+	public function trailer() {
+		return $this->belongsTo(Trailer::class, 'trailer_id')->withTrashed();
+	}
+
+	public function getMaintenanceTypeLabelAttribute(): string
+	{
+		return ucfirst(str_replace('_', ' ', $this->maintenance_type ?: 'repair'));
 	}
 
 	public function vendor() {

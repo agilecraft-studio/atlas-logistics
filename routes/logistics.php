@@ -38,6 +38,10 @@ Route::prefix('logistics')->namespace('Logistics')->group(function () {
     Route::get('register/drivers/{id}/edit', 'DriverRegisterController@edit')->name('logistics.register.drivers.edit')->where('id', '[0-9]+');
     Route::put('register/drivers/{id}', 'DriverRegisterController@update')->name('logistics.register.drivers.update')->where('id', '[0-9]+');
     $crud('trailers', 'TrailersController', 'logistics.trailers');
+    Route::get('trailers/{id}', 'TrailerHubController@show')->name('logistics.trailers.show')->whereNumber('id');
+    Route::post('trailers/{id}/assignments', 'TrailerHubController@storeAssignment')->name('logistics.trailers.assignments.store')->whereNumber('id');
+    Route::put('trailers/{id}/assignments/{assignment}/release', 'TrailerHubController@releaseAssignment')
+        ->name('logistics.trailers.assignments.release')->where(['id' => '[0-9]+', 'assignment' => '[0-9]+']);
     $crud('components', 'VehicleComponentsController', 'logistics.components');
 
     // Master data (countries, currencies, exchange rates, border posts, expense categories, document types)

@@ -54,6 +54,7 @@ class TrailersController extends CrudController
     protected function rowLinks($row): array
     {
         return [
+            ['label' => 'Profile', 'url' => route('logistics.trailers.show', ['id' => $row->id])],
             ['label' => 'Documents', 'url' => route('logistics.documents.index', ['owner' => 'trailer:' . $row->id])],
             ['label' => 'Tyres/parts', 'url' => route('logistics.components.index', ['owner' => 'trailer:' . $row->id])],
         ];

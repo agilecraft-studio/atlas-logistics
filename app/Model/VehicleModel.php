@@ -61,4 +61,32 @@ class VehicleModel extends Model {
 		return $this->hasOne("App\Model\VehicleTypeModel", "id", "type_id")->withTrashed();
 	}
 
+	public function logisticsProfile() {
+		return $this->hasOne(VehicleLogisticsProfile::class, 'vehicle_id');
+	}
+
+	public function complianceDocuments() {
+		return $this->hasMany(ComplianceDocument::class, 'owner_id')->where('owner_type', 'vehicle');
+	}
+
+	public function workOrders() {
+		return $this->hasMany(WorkOrders::class, 'vehicle_id')->withTrashed();
+	}
+
+	public function fuelLogs() {
+		return $this->hasMany(FuelModel::class, 'vehicle_id')->withTrashed();
+	}
+
+	public function trips() {
+		return $this->hasMany(Trip::class, 'vehicle_id')->withTrashed();
+	}
+
+	public function telematics() {
+		return $this->hasMany(VehicleTelematics::class, 'vehicle_id');
+	}
+
+	public function trailerAssignments() {
+		return $this->hasMany(TrailerAssignment::class, 'vehicle_id');
+	}
+
 }

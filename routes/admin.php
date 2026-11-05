@@ -130,6 +130,7 @@ Route::namespace ('Admin')->group(function () {
         Route::resource('/parts', 'PartsController')->except(['show']);
         Route::post('/vehicles-fetch', 'VehiclesController@fetch_data');
         Route::resource('/vehicles', 'VehiclesController')->except(['show']);
+        Route::get('/vehicles/{id}', 'Fleet\VehicleHubController@show')->name('vehicles.show')->whereNumber('id');
         Route::get("/vehicles/enable/{id}", 'VehiclesController@enable');
         Route::get("/vehicles/disable/{id}", 'VehiclesController@disable');
         Route::resource('/income', 'IncomeController')->only(['index', 'store', 'destroy']);
@@ -160,6 +161,29 @@ Route::namespace ('Admin')->group(function () {
         Route::get("/reports/delinquent", "ReportsController@delinquent")->name("reports.delinquent");
         Route::get("/drivers/enable/{id}", 'DriversController@enable');
         Route::get("/drivers/disable/{id}", 'DriversController@disable');
+
+        // Asset hubs: truck, driver and trailer profile pages + driver hub mutations.
+        Route::get('/drivers/{id}', 'Fleet\DriverHubController@show')->name('drivers.show')->whereNumber('id');
+        Route::post('/drivers/{id}/incidents', 'Fleet\DriverHubController@storeIncident')->name('fleet.drivers.incidents.store')->whereNumber('id');
+        Route::put('/drivers/{id}/incidents/{incident}', 'Fleet\DriverHubController@updateIncident')->name('fleet.drivers.incidents.update')
+            ->where(['id' => '[0-9]+', 'incident' => '[0-9]+']);
+        Route::delete('/drivers/{id}/incidents/{incident}', 'Fleet\DriverHubController@archiveIncident')->name('fleet.drivers.incidents.archive')
+            ->where(['id' => '[0-9]+', 'incident' => '[0-9]+']);
+        Route::post('/drivers/{id}/ratings', 'Fleet\DriverHubController@storeRating')->name('fleet.drivers.ratings.store')->whereNumber('id');
+        Route::post('/drivers/{id}/payroll', 'Fleet\DriverHubController@updatePayroll')->name('fleet.drivers.payroll.update')->whereNumber('id');
+        Route::post('/drivers/{id}/deductions', 'Fleet\DriverHubController@storeDeduction')->name('fleet.drivers.deductions.store')->whereNumber('id');
+        Route::put('/drivers/{id}/deductions/{deduction}', 'Fleet\DriverHubController@updateDeduction')->name('fleet.drivers.deductions.update')
+            ->where(['id' => '[0-9]+', 'deduction' => '[0-9]+']);
+        Route::delete('/drivers/{id}/deductions/{deduction}', 'Fleet\DriverHubController@archiveDeduction')->name('fleet.drivers.deductions.archive')
+            ->where(['id' => '[0-9]+', 'deduction' => '[0-9]+']);
+
+        // Shared printer-friendly record renderer used by the hub rows.
+        Route::get('/fleet/records/{type}/{id}/print', 'Fleet\FleetRecordController@print')->name('fleet.records.print')
+            ->where(['type' => '[a-z_]+', 'id' => '[0-9]+']);
+        Route::get('/fleet/records/{type}/{id}/pdf', 'Fleet\FleetRecordController@pdf')->name('fleet.records.pdf')
+            ->where(['type' => '[a-z_]+', 'id' => '[0-9]+']);
+        Route::post('/fleet/records/{type}/{id}/archive', 'Fleet\FleetRecordController@archive')->name('fleet.records.archive')
+            ->where(['type' => '[a-z_]+', 'id' => '[0-9]+']);
         Route::post("/reports/fuel", "ReportsController@fuel_post");
         Route::get("/reports/fuel", "ReportsController@fuel")->name("reports.fuel");
         Route::get("/reports/yearly", "ReportsController@yearly")->name("reports.yearly");

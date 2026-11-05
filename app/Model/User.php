@@ -69,6 +69,42 @@ class User extends Authenticatable {
 		return $this->belongsToMany(VehicleModel::class, 'driver_vehicle', 'driver_id', 'vehicle_id', 'id', 'id')->using(DriverVehicleModel::class);
 	}
 
+	public function driverComplianceProfile() {
+		return $this->hasOne(DriverComplianceProfile::class, 'user_id');
+	}
+
+	public function complianceDocuments() {
+		return $this->hasMany(ComplianceDocument::class, 'owner_id')->where('owner_type', 'driver');
+	}
+
+	public function tripsAsDriver() {
+		return $this->hasMany(Trip::class, 'driver_id')->withTrashed();
+	}
+
+	public function coDrivenTrips() {
+		return $this->hasMany(Trip::class, 'co_driver_id')->withTrashed();
+	}
+
+	public function advances() {
+		return $this->hasMany(DriverAdvance::class, 'driver_id');
+	}
+
+	public function incidents() {
+		return $this->hasMany(DriverIncident::class, 'driver_id');
+	}
+
+	public function deductions() {
+		return $this->hasMany(DriverDeduction::class, 'driver_id');
+	}
+
+	public function payrollProfile() {
+		return $this->hasOne(DriverPayrollProfile::class, 'user_id');
+	}
+
+	public function ratings() {
+		return $this->hasMany(DriverRating::class, 'driver_id');
+	}
+
 	// public function getUserMeta($key = '', $defaut = '') {
 
 	//     $key = trim($key);
