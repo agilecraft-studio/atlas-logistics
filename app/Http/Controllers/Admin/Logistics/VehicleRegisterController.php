@@ -97,6 +97,7 @@ class VehicleRegisterController extends Controller
                     (string) $tyres,
                 ],
                 'links' => [
+                    ['label' => 'Profile', 'url' => route('vehicles.show', ['id' => $v->id]), 'class' => 'btn-primary'],
                     ['label' => 'Logistics details', 'url' => route('logistics.register.vehicles.edit', ['id' => $v->id]), 'class' => 'btn-info'],
                     ['label' => 'Documents', 'url' => route('logistics.documents.index', ['owner' => 'vehicle:' . $v->id]), 'class' => 'btn-light'],
                     ['label' => 'Tyres/parts', 'url' => route('logistics.components.index', ['owner' => 'vehicle:' . $v->id]), 'class' => 'btn-light'],

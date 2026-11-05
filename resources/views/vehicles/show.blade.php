@@ -117,7 +117,7 @@
 
         <x-fleet.panel class="mt-3" title="Compliance snapshot" icon="bi-shield-check">
             @forelse($documents->take(4) as $doc)
-                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: 30), (bool) $doc->archived_at); @endphp
+                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: $hub->alertDays()), (bool) $doc->archived_at); @endphp
                 <div class="d-flex justify-content-between align-items-center gap-2 py-2 border-bottom">
                     <div>
                         <div class="fw-semibold">{{ optional($doc->type)->name ?: 'Document' }}</div>
@@ -221,7 +221,7 @@
             </thead>
             <tbody>
             @forelse($documents as $doc)
-                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: 30), (bool) $doc->archived_at); @endphp
+                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: $hub->alertDays()), (bool) $doc->archived_at); @endphp
                 <tr>
                     <td class="fw-semibold">{{ optional($doc->type)->name ?: 'Document' }}</td>
                     <td>{{ $doc->document_number ?: '—' }}</td>

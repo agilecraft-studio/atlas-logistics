@@ -94,6 +94,7 @@ class DriverRegisterController extends Controller
                     (string) $docs->get($u->id, collect())->count(),
                 ],
                 'links' => [
+                    ['label' => 'Profile', 'url' => route('drivers.show', ['id' => $u->id]), 'class' => 'btn-primary'],
                     ['label' => 'Compliance profile', 'url' => route('logistics.register.drivers.edit', ['id' => $u->id]), 'class' => 'btn-info'],
                     ['label' => 'Documents', 'url' => route('logistics.documents.index', ['owner' => 'driver:' . $u->id]), 'class' => 'btn-light'],
                 ],

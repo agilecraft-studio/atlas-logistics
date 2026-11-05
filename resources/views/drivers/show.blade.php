@@ -124,14 +124,14 @@
                 <dd class="col-6">
                     @if($profile->licence_expiry)
                         {{ $profile->licence_expiry->format('d M Y') }}
-                        <x-fleet.status-pill class="ms-1" :status="str_replace('_', ' ', $hub->expiryState($profile->licence_expiry))">{{ ucfirst(str_replace('_', ' ', $hub->expiryState($profile->licence_expiry))) }}</x-fleet.status-pill>
+                        <x-fleet.status-pill class="ms-1" :status="str_replace('_', ' ', $hub->expiryState($profile->licence_expiry, $hub->licenceAlertDays()))">{{ ucfirst(str_replace('_', ' ', $hub->expiryState($profile->licence_expiry, $hub->licenceAlertDays()))) }}</x-fleet.status-pill>
                     @else — @endif
                 </dd>
                 <dt class="col-6 text-muted">Medical expiry</dt>
                 <dd class="col-6">
                     @if($profile->medical_expiry)
                         {{ $profile->medical_expiry->format('d M Y') }}
-                        <x-fleet.status-pill class="ms-1" :status="str_replace('_', ' ', $hub->expiryState($profile->medical_expiry))">{{ ucfirst(str_replace('_', ' ', $hub->expiryState($profile->medical_expiry))) }}</x-fleet.status-pill>
+                        <x-fleet.status-pill class="ms-1" :status="str_replace('_', ' ', $hub->expiryState($profile->medical_expiry, $hub->medicalAlertDays()))">{{ ucfirst(str_replace('_', ' ', $hub->expiryState($profile->medical_expiry, $hub->medicalAlertDays()))) }}</x-fleet.status-pill>
                     @else — @endif
                 </dd>
                 <dt class="col-6 text-muted">Passport expiry</dt><dd class="col-6">{{ $profile->passport_expiry?->format('d M Y') ?: '—' }}</dd>
@@ -236,7 +236,7 @@
             </thead>
             <tbody>
             @forelse($documents as $doc)
-                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: 30), (bool) $doc->archived_at); @endphp
+                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: $hub->alertDays()), (bool) $doc->archived_at); @endphp
                 <tr>
                     <td class="fw-semibold">{{ optional($doc->type)->name ?: 'Document' }}</td>
                     <td>{{ $doc->document_number ?: '—' }}</td>

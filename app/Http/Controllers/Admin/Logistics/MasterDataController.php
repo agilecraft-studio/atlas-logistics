@@ -126,7 +126,16 @@ class MasterDataController extends CrudController
         $this->title = $this->cfg()['title'];
         $this->singular = $this->cfg()['singular'];
         $view = parent::index();
-        return $view->with('entities', self::entities())->with('entity', $this->entity());
+        return $view->with('entities', self::entities())->with('entity', $this->entity())
+            ->with('fleetMasterLinks', [
+                ['label' => 'Vehicle Types', 'url' => route('vehicle-types.index'), 'permission' => 'VehicleType list'],
+                ['label' => 'Vehicle Groups', 'url' => route('vehicle_group.index'), 'permission' => 'VehicleGroup list'],
+                ['label' => 'Parts', 'url' => route('parts.index'), 'permission' => 'Parts list'],
+                ['label' => 'Parts Categories', 'url' => route('parts-category.index'), 'permission' => 'PartsCategory list'],
+                ['label' => 'Service Items', 'url' => route('service-item.index'), 'permission' => 'ServiceItems list'],
+                ['label' => 'Mechanics', 'url' => route('mechanic.index'), 'permission' => 'Mechanics list'],
+                ['label' => 'Vendors', 'url' => route('vendors.index'), 'permission' => 'Vendors list'],
+            ]);
     }
 
     public function create()

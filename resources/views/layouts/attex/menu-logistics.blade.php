@@ -1,47 +1,56 @@
-{{-- Cross-border logistics modules (systemDesign.md). --}}
-@canany(['Compliance list', 'FleetRegister list', 'Trailers list', 'MasterData list', 'Trips list', 'TripExpenses list', 'Advances list', 'Invoices list', 'LogisticsReports list'])
-<li class="side-nav-title">Logistics</li>
+{{-- Fleet register, compliance and customers. Master data lives in menu-fleet.blade.php. --}}
+@canany(['FleetRegister list', 'Trailers list', 'Vehicles list', 'Drivers list', 'Compliance list', 'VehicleInspection list', 'LogisticsReports list', 'Customer list'])
+<li class="side-nav-title">Fleet</li>
 
-@can('Compliance list')
+@canany(['FleetRegister list', 'Trailers list', 'Vehicles list', 'Drivers list'])
+@php($registerOpen = Request::is('admin/logistics/register*') || Request::is('admin/logistics/trailers*') || Request::is('admin/logistics/components*') || Request::is('admin/vehicles*') || Request::is('admin/drivers*'))
 <li class="side-nav-item">
-    <a href="{{ route('logistics.compliance') }}" class="side-nav-link @if(Request::is('admin/logistics/compliance*')) active @endif">
-        <i class="ri-alarm-warning-line"></i><span> Compliance Dashboard </span>
-    </a>
-</li>
-@endcan
-
-@canany(['FleetRegister list', 'Trailers list', 'Compliance list'])
-<li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#sidebarFleetRegister" aria-expanded="{{ Request::is('admin/logistics/register*') || Request::is('admin/logistics/trailers*') || Request::is('admin/logistics/components*') || Request::is('admin/logistics/documents*') ? 'true' : 'false' }}" class="side-nav-link">
+    <a data-bs-toggle="collapse" href="#sidebarFleetRegister" aria-expanded="{{ $registerOpen ? 'true' : 'false' }}" aria-controls="sidebarFleetRegister" class="side-nav-link {{ $registerOpen ? 'active' : '' }}">
         <i class="ri-truck-line"></i><span> Fleet Register </span><span class="menu-arrow"></span>
     </a>
-    <div class="collapse {{ Request::is('admin/logistics/register*') || Request::is('admin/logistics/trailers*') || Request::is('admin/logistics/components*') || Request::is('admin/logistics/documents*') ? 'show' : '' }}" id="sidebarFleetRegister">
+    <div class="collapse {{ $registerOpen ? 'show' : '' }}" id="sidebarFleetRegister">
         <ul class="side-nav-second-level">
             @can('FleetRegister list')
             <li><a href="{{ route('logistics.register.vehicles') }}" class="@if(Request::is('admin/logistics/register/vehicles*')) active @endif">Trucks</a></li>
+            <li><a href="{{ route('logistics.register.drivers') }}" class="@if(Request::is('admin/logistics/register/drivers*')) active @endif">Drivers</a></li>
+            @else
+            @can('Vehicles list')
+            <li><a href="{{ route('vehicles.index') }}" class="@if(Request::is('admin/vehicles*')) active @endif">Trucks</a></li>
+            @endcan
+            @can('Drivers list')
+            <li><a href="{{ route('drivers.index') }}" class="@if(Request::is('admin/drivers*')) active @endif">Drivers</a></li>
+            @endcan
             @endcan
             @can('Trailers list')
             <li><a href="{{ route('logistics.trailers.index') }}" class="@if(Request::is('admin/logistics/trailers*')) active @endif">Trailers</a></li>
             @endcan
             @can('FleetRegister list')
-            <li><a href="{{ route('logistics.register.drivers') }}" class="@if(Request::is('admin/logistics/register/drivers*')) active @endif">Driver Register</a></li>
             <li><a href="{{ route('logistics.components.index') }}" class="@if(Request::is('admin/logistics/components*')) active @endif">Tyres &amp; Fitted Parts</a></li>
-            @endcan
-            @can('Compliance list')
-            <li><a href="{{ route('logistics.documents.index') }}" class="@if(Request::is('admin/logistics/documents*')) active @endif">Documents</a></li>
             @endcan
         </ul>
     </div>
 </li>
 @endcanany
 
-@can('MasterData list')
+@canany(['Compliance list', 'VehicleInspection list'])
+@php($complianceOpen = Request::is('admin/logistics/compliance*') || Request::is('admin/logistics/documents*') || Request::is('admin/vehicle-reviews*') || Request::is('admin/vehicle-inspection*') || Request::is('admin/view-vehicle-inspection*'))
 <li class="side-nav-item">
-    <a href="{{ route('logistics.master.index', ['entity' => 'countries']) }}" class="side-nav-link @if(Request::is('admin/logistics/master*')) active @endif">
-        <i class="ri-global-line"></i><span> Master Data </span>
+    <a data-bs-toggle="collapse" href="#sidebarCompliance" aria-expanded="{{ $complianceOpen ? 'true' : 'false' }}" aria-controls="sidebarCompliance" class="side-nav-link {{ $complianceOpen ? 'active' : '' }}">
+        <i class="ri-shield-check-line"></i><span> Compliance </span><span class="menu-arrow"></span>
     </a>
+    <div class="collapse {{ $complianceOpen ? 'show' : '' }}" id="sidebarCompliance">
+        <ul class="side-nav-second-level">
+            @can('Compliance list')
+            <li><a href="{{ route('logistics.compliance') }}" class="@if(Request::is('admin/logistics/compliance*')) active @endif">Compliance Dashboard</a></li>
+            <li><a href="{{ route('logistics.documents.index') }}" class="@if(Request::is('admin/logistics/documents*')) active @endif">Documents</a></li>
+            @endcan
+            @can('VehicleInspection list')
+            <li><a href="{{ route('vehicle_reviews') }}" class="@if(Request::is('admin/vehicle-reviews*')) active @endif">@lang('fleet.vehicle_inspection')</a></li>
+            @endcan
+        </ul>
+    </div>
 </li>
-@endcan
+@endcanany
 
 @can('LogisticsReports list')
 <li class="side-nav-item">
@@ -51,31 +60,11 @@
 </li>
 @endcan
 
-@canany(['Trips list', 'TripExpenses list', 'Advances list', 'Invoices list', 'LogisticsReports list'])
-@php($financeMenu = Request::is('admin/logistics/trips*') || Request::is('admin/logistics/expenses*') || Request::is('admin/logistics/advances*') || Request::is('admin/logistics/invoices*') || Request::is('admin/logistics/reports*'))
+@can('Customer list')
 <li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#sidebarTrips" aria-expanded="{{ $financeMenu ? 'true' : 'false' }}" class="side-nav-link">
-        <i class="ri-route-line"></i><span> Trips &amp; Finance </span><span class="menu-arrow"></span>
+    <a href="{{ route('customers.index') }}" class="side-nav-link @if(Request::is('admin/customers*')) active @endif">
+        <i class="ri-team-line"></i><span> @lang('menu.customers') </span>
     </a>
-    <div class="collapse {{ $financeMenu ? 'show' : '' }}" id="sidebarTrips">
-        <ul class="side-nav-second-level">
-            @can('Trips list')
-            <li><a href="{{ route('logistics.trips.index') }}" class="@if(Request::is('admin/logistics/trips*')) active @endif">Trips</a></li>
-            @endcan
-            @can('TripExpenses list')
-            <li><a href="{{ route('logistics.expenses.index') }}" class="@if(Request::is('admin/logistics/expenses*')) active @endif">Expenses</a></li>
-            @endcan
-            @can('Advances list')
-            <li><a href="{{ route('logistics.advances.index') }}" class="@if(Request::is('admin/logistics/advances*')) active @endif">Driver Advances</a></li>
-            @endcan
-            @can('Invoices list')
-            <li><a href="{{ route('logistics.invoices.index') }}" class="@if(Request::is('admin/logistics/invoices*')) active @endif">Invoices</a></li>
-            @endcan
-            @can('LogisticsReports list')
-            <li><a href="{{ route('logistics.reports.profitability') }}" class="@if(Request::is('admin/logistics/reports*')) active @endif">Profitability</a></li>
-            @endcan
-        </ul>
-    </div>
 </li>
-@endcanany
+@endcan
 @endcanany

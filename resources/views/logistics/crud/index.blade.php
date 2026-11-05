@@ -3,10 +3,22 @@
 @section('fleet_subtitle', $intro)
 @section('content')
 @if(isset($entities))
-<div class="fleet-toolbar">
+<div class="fleet-toolbar mb-2">
     @foreach($entities as $key => $label)
     <a class="fleet-btn {{ ($entity ?? '') === $key ? '' : 'fleet-btn-ghost' }}" href="{{ route('logistics.master.index', ['entity' => $key]) }}">{{ $label }}</a>
     @endforeach
+</div>
+@endif
+@if(!empty($fleetMasterLinks))
+<div class="fleet-toolbar mb-3">
+    <span class="text-muted small text-uppercase fw-semibold">Fleet &amp; parts setup</span>
+    <div class="d-flex flex-wrap gap-2">
+        @foreach($fleetMasterLinks as $link)
+        @can($link['permission'])
+        <a class="fleet-btn fleet-btn-ghost fleet-btn-sm" href="{{ $link['url'] }}">{{ $link['label'] }}</a>
+        @endcan
+        @endforeach
+    </div>
 </div>
 @endif
 <x-fleet.panel :title="$title" icon="bi-table">

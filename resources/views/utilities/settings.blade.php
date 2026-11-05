@@ -20,6 +20,7 @@
       @endif
 
       {!! Form::open(['route' => 'settings.store','files'=>true,'method'=>'post']) !!}
+      <h6 class="text-uppercase text-muted fw-semibold border-bottom pb-2 mb-3"><i class="bi bi-building me-2"></i>Company profile</h6>
       <div class="row">
         <div class="mb-3 col-md-4">
           {!! Form::label('app_name',__('fleet.app_name'),['class'=>"form-label"]) !!}
@@ -57,23 +58,14 @@
         </div>
 
         <div class="mb-3 col-md-3">
-          {!! Form::label('dis_format',__('fleet.dis_format'),['class'=>"form-label"]) !!}
-          {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], AtlasLogistics::get("dis_format"),['class'=>"form-control",'required']) !!}
+          {!! Form::label('currency',__('fleet.currency'),['class'=>"form-label"]) !!}
+          {!! Form::text('name[currency]',AtlasLogistics::get('currency'),['class'=>"form-control",'required','id'=>'currency']) !!}
+          <span class="text-danger curr-symbol-err">Enter valid currency symbol</span>
         </div>
 
         <div class="mb-3 col-md-3">
-          {!! Form::label('fuel_unit',__('fleet.fuel_unit'),['class'=>"form-label"]) !!}
-          {!! Form::select('name[fuel_unit]', ['gallon' => 'gallon', 'liter' => 'liter'], AtlasLogistics::get("fuel_unit"),['class'=>"form-control",'required']) !!}
-        </div>
-
-        <input type="hidden" name="name[language]" value="English-en">
-
-        <div class="mb-3 col-md-3">
-          {!! Form::label('time_interval',__('fleet.defaultTimeInterval'),['class'=>"form-label"]) !!}
-          <div class="input-group">
-            {!! Form::number('name[time_interval]',AtlasLogistics::get('time_interval'),['class'=>"form-control",'required','min'=>1]) !!}
-            <span class="input-group-text">day(s)</span>
-          </div>
+          {!! Form::label('tax_no',__('fleet.tax_no'),['class'=>"form-label"]) !!}
+          {!! Form::text('name[tax_no]', AtlasLogistics::get('tax_no'),['class'=>"form-control",'required']) !!}
         </div>
 
         <div class="mb-3 col-md-3">
@@ -100,20 +92,32 @@
           </div>
         </div>
 
-        <div class="mb-3 col-md-4">
-          {!! Form::label('currency',__('fleet.currency'),['class'=>"form-label"]) !!}
-          {!! Form::text('name[currency]',AtlasLogistics::get('currency'),['class'=>"form-control",'required','id'=>'currency']) !!}
-          <span class="text-danger curr-symbol-err">Enter valid currency symbol</span>
+        <input type="hidden" name="name[language]" value="English-en">
+      </div>
+
+      <h6 class="text-uppercase text-muted fw-semibold border-bottom pb-2 mb-3 mt-4"><i class="bi bi-sliders me-2"></i>Localisation &amp; preferences</h6>
+      <div class="row">
+        <div class="mb-3 col-md-3">
+          {!! Form::label('dis_format',__('fleet.dis_format'),['class'=>"form-label"]) !!}
+          {!! Form::select('name[dis_format]', ['km' => 'km', 'miles' => 'miles'], AtlasLogistics::get("dis_format"),['class'=>"form-control",'required']) !!}
         </div>
 
-        <div class="mb-3 col-md-4">
+        <div class="mb-3 col-md-3">
+          {!! Form::label('fuel_unit',__('fleet.fuel_unit'),['class'=>"form-label"]) !!}
+          {!! Form::select('name[fuel_unit]', ['gallon' => 'gallon', 'liter' => 'liter'], AtlasLogistics::get("fuel_unit"),['class'=>"form-control",'required']) !!}
+        </div>
+
+        <div class="mb-3 col-md-3">
           {!! Form::label('date_format',__('fleet.date_format'),['class'=>"form-label"]) !!}
           {!! Form::select('name[date_format]', ['d-m-Y' => 'dd-mm-yyyy ('.date('d-m-Y').')', 'Y-m-d' => 'yyyy-mm-dd ('.date('Y-m-d').')','m-d-Y'=>'mm-dd-yyyy ('.date('m-d-Y').')'], AtlasLogistics::get("date_format"),['class'=>"form-control",'required']) !!}
         </div>
 
-        <div class="mb-3 col-md-4">
-          {!! Form::label('tax_no',__('fleet.tax_no'),['class'=>"form-label"]) !!}
-          {!! Form::text('name[tax_no]', AtlasLogistics::get('tax_no'),['class'=>"form-control",'required']) !!}
+        <div class="mb-3 col-md-3">
+          {!! Form::label('time_interval',__('fleet.defaultTimeInterval'),['class'=>"form-label"]) !!}
+          <div class="input-group">
+            {!! Form::number('name[time_interval]',AtlasLogistics::get('time_interval'),['class'=>"form-control",'required','min'=>1]) !!}
+            <span class="input-group-text">day(s)</span>
+          </div>
         </div>
 
         <div class="mb-3 col-md-4">
@@ -129,7 +133,10 @@
           <span id="interval_merr_driver" class="text-danger">Maximum driver interval can be 1440 minutes.</span>
           <span id="interval_lerr_driver" class="text-danger">Driver interval cannot be less than 0.</span>
         </div>
+      </div>
 
+      <h6 class="text-uppercase text-muted fw-semibold border-bottom pb-2 mb-3 mt-4"><i class="bi bi-receipt me-2"></i>Tax &amp; invoicing</h6>
+      <div class="row">
         <div class="mb-3 col-md-4">
           {!! Form::label('tax_charge',__('fleet.tax_charge'),['class'=>"form-label"]) !!}
           <div class="row">
@@ -142,12 +149,14 @@
           </div>
         </div>
 
-        @php($udfs = json_decode(AtlasLogistics::get('tax_charge')))
+        <div class="mb-3 col-md-8">
+          {!! Form::label('invoice_text',__('fleet.invoice_text'),['class'=>"form-label"]) !!}
+          <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="bi bi-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
+          {!! Form::textarea('name[invoice_text]', AtlasLogistics::get('invoice_text'),['class'=>"form-control",'rows'=>3]) !!}
+        </div>
 
+        @php($udfs = json_decode(AtlasLogistics::get('tax_charge')))
         @if($udfs != null)
-          <div class="col-md-4"><hr></div>
-          <div class="col-md-4"><h4 class="text-center">@lang('fleet.tax_charge')</h4></div>
-          <div class="col-md-4"><hr></div>
           @foreach($udfs as $key => $value)
             <div class="row col-md-6">
               <div class="col-md-8">
@@ -167,15 +176,11 @@
             </div>
           @endforeach
         @endif
-
         <div class="blank col-md-12"></div>
+      </div>
 
-        <div class="mb-3 col-md-12">
-          {!! Form::label('invoice_text',__('fleet.invoice_text'),['class'=>"form-label"]) !!}
-          <a data-bs-toggle="modal" data-bs-target="#myModal5"><i class="bi bi-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
-          {!! Form::textarea('name[invoice_text]', AtlasLogistics::get('invoice_text'),['class'=>"form-control",'size'=>'30x3']) !!}
-        </div>
-
+      <h6 class="text-uppercase text-muted fw-semibold border-bottom pb-2 mb-3 mt-4"><i class="bi bi-person-badge me-2"></i>Driver portal</h6>
+      <div class="row">
         <div class="mb-3 col-md-3">
           {!! Form::label('fuel_enable_driver',__('fleet.fuel_enable_driver'), ['class' => 'form-label']) !!}
           <a data-bs-toggle="modal" data-bs-target="#myModal2"><i class="bi bi-info-circle fa-lg" aria-hidden="true" style="color: #8639dd"></i></a>
@@ -205,6 +210,30 @@
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" name="driver_doc_verification" value="1" id="driver_doc_verification" @if(AtlasLogistics::get('driver_doc_verification')==1) checked @endif>
           </div>
+        </div>
+      </div>
+
+      <h6 class="text-uppercase text-muted fw-semibold border-bottom pb-2 mb-3 mt-4"><i class="bi bi-shield-exclamation me-2"></i>Fleet &amp; compliance alerts</h6>
+      <p class="text-muted small mb-3">These thresholds drive the due-soon badges, KPI counts and filters on the truck, driver and trailer profile hubs. A document type or individual document can still override the default.</p>
+      <div class="row">
+        <div class="mb-3 col-md-3">
+          {!! Form::label('compliance_alert_days', 'Document expiry warning (days)', ['class'=>"form-label"]) !!}
+          {!! Form::number('name[compliance_alert_days]', AtlasLogistics::get('compliance_alert_days') ?: 30, ['class'=>"form-control",'min'=>1,'max'=>365,'required']) !!}
+        </div>
+
+        <div class="mb-3 col-md-3">
+          {!! Form::label('driver_licence_alert_days', 'Driver licence warning (days)', ['class'=>"form-label"]) !!}
+          {!! Form::number('name[driver_licence_alert_days]', AtlasLogistics::get('driver_licence_alert_days') ?: 30, ['class'=>"form-control",'min'=>1,'max'=>365,'required']) !!}
+        </div>
+
+        <div class="mb-3 col-md-3">
+          {!! Form::label('driver_medical_alert_days', 'Driver medical warning (days)', ['class'=>"form-label"]) !!}
+          {!! Form::number('name[driver_medical_alert_days]', AtlasLogistics::get('driver_medical_alert_days') ?: 30, ['class'=>"form-control",'min'=>1,'max'=>365,'required']) !!}
+        </div>
+
+        <div class="mb-3 col-md-3">
+          {!! Form::label('trailer_utilization_days', 'Trailer utilisation window (days)', ['class'=>"form-label"]) !!}
+          {!! Form::number('name[trailer_utilization_days]', AtlasLogistics::get('trailer_utilization_days') ?: 90, ['class'=>"form-control",'min'=>7,'max'=>365,'required']) !!}
         </div>
       </div>
 

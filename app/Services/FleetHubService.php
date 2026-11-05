@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Model\AtlasLogistics;
 use App\Model\ComplianceDocument;
 use App\Model\Trailer;
 use App\Model\TrailerAssignment;
@@ -14,8 +15,38 @@ use Illuminate\Support\Carbon;
 /** Shared calculations for the truck / driver / trailer profile hubs. */
 class FleetHubService
 {
+    private ?int $alertDaysCache = null;
+    private ?int $licenceAlertDaysCache = null;
+    private ?int $medicalAlertDaysCache = null;
+    private ?int $utilizationDaysCache = null;
+
+    private function setting(string $key, int $fallback): int
+    {
+        return max(1, (int) (AtlasLogistics::get($key) ?: $fallback));
+    }
+
+    public function alertDays(): int
+    {
+        return $this->alertDaysCache ??= $this->setting('compliance_alert_days', 30);
+    }
+
+    public function licenceAlertDays(): int
+    {
+        return $this->licenceAlertDaysCache ??= $this->setting('driver_licence_alert_days', 30);
+    }
+
+    public function medicalAlertDays(): int
+    {
+        return $this->medicalAlertDaysCache ??= $this->setting('driver_medical_alert_days', 30);
+    }
+
+    public function utilizationDays(): int
+    {
+        return $this->utilizationDaysCache ??= $this->setting('trailer_utilization_days', 90);
+    }
+
     /** Expiry state used by badges and filters: archived | expired | due_soon | valid | no_expiry. */
-    public function expiryState(?Carbon $date, int $alertDays = 30, bool $archived = false): string
+    public function expiryState(?Carbon $date, ?int $alertDays = null, bool $archived = false): string
     {
         if ($archived) {
             return 'archived';
@@ -24,6 +55,7 @@ class FleetHubService
             return 'no_expiry';
         }
 
+        $alertDays ??= $this->alertDays();
         $days = (int) now()->startOfDay()->diffInDays($date->copy()->startOfDay(), false);
         if ($days < 0) {
             return 'expired';
@@ -39,6 +71,7 @@ class FleetHubService
         $status = $request->input($prefix . '_status');
         $from = $request->input($prefix . '_from');
         $to = $request->input($prefix . '_to');
+        $alertDays = $this->alertDays();
 
         $query->when($type, fn ($q) => $q->where('document_type_id', $type))
             ->when($from, fn ($q) => $q->whereDate('expiry_date', '>=', $from))
@@ -49,8 +82,8 @@ class FleetHubService
             'expired' => $query->whereNull('archived_at')->whereNotNull('expiry_date')->whereDate('expiry_date', '<', now()->toDateString()),
             'due_soon' => $query->whereNull('archived_at')->whereNotNull('expiry_date')
                 ->whereDate('expiry_date', '>=', now()->toDateString())
-                ->whereDate('expiry_date', '<=', now()->addDays(30)->toDateString()),
-            'valid' => $query->whereNull('archived_at')->whereNotNull('expiry_date')->whereDate('expiry_date', '>', now()->addDays(30)->toDateString()),
+                ->whereDate('expiry_date', '<=', now()->addDays($alertDays)->toDateString()),
+            'valid' => $query->whereNull('archived_at')->whereNotNull('expiry_date')->whereDate('expiry_date', '>', now()->addDays($alertDays)->toDateString()),
             'no_expiry' => $query->whereNull('archived_at')->whereNull('expiry_date'),
             default => $query->whereNull('archived_at'),
         };
@@ -61,13 +94,14 @@ class FleetHubService
     {
         $base = ComplianceDocument::forOwner($ownerType, $ownerId)->whereNull('archived_at');
         $today = now()->toDateString();
+        $alertDays = $this->alertDays();
 
         return [
             'total' => (clone $base)->count(),
             'expired' => (clone $base)->whereNotNull('expiry_date')->whereDate('expiry_date', '<', $today)->count(),
             'due_soon' => (clone $base)->whereNotNull('expiry_date')
                 ->whereDate('expiry_date', '>=', $today)
-                ->whereDate('expiry_date', '<=', now()->addDays(30)->toDateString())->count(),
+                ->whereDate('expiry_date', '<=', now()->addDays($alertDays)->toDateString())->count(),
         ];
     }
 
@@ -99,8 +133,9 @@ class FleetHubService
     }
 
     /** Active vs idle time for a trailer over the last N days based on pairing periods. */
-    public function trailerUtilization(Trailer $trailer, int $days = 90): array
+    public function trailerUtilization(Trailer $trailer, int $days = 0): array
     {
+        $days = $days > 0 ? $days : $this->utilizationDays();
         $start = now()->subDays($days)->startOfDay();
         $end = now()->endOfDay();
 

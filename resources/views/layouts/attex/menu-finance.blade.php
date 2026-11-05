@@ -1,5 +1,34 @@
-@canany(['Transactions list','Reports list'])
-<li class="side-nav-title">@lang('menu.reports')</li>
+@php($tripsFinanceOpen = Request::is('admin/logistics/trips*') || Request::is('admin/logistics/expenses*') || Request::is('admin/logistics/advances*') || Request::is('admin/logistics/invoices*') || Request::is('admin/logistics/reports*'))
+@canany(['Trips list', 'TripExpenses list', 'Advances list', 'Invoices list', 'LogisticsReports list', 'Transactions list', 'Reports list'])
+<li class="side-nav-title">Finance</li>
+
+@canany(['Trips list', 'TripExpenses list', 'Advances list', 'Invoices list', 'LogisticsReports list'])
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#sidebarTrips" aria-expanded="{{ $tripsFinanceOpen ? 'true' : 'false' }}" aria-controls="sidebarTrips" class="side-nav-link {{ $tripsFinanceOpen ? 'active' : '' }}">
+        <i class="ri-route-line"></i><span> Trips &amp; Finance </span><span class="menu-arrow"></span>
+    </a>
+    <div class="collapse {{ $tripsFinanceOpen ? 'show' : '' }}" id="sidebarTrips">
+        <ul class="side-nav-second-level">
+            @can('Trips list')
+            <li><a href="{{ route('logistics.trips.index') }}" class="@if(Request::is('admin/logistics/trips*')) active @endif">Trips</a></li>
+            @endcan
+            @can('TripExpenses list')
+            <li><a href="{{ route('logistics.expenses.index') }}" class="@if(Request::is('admin/logistics/expenses*')) active @endif">Expenses</a></li>
+            @endcan
+            @can('Advances list')
+            <li><a href="{{ route('logistics.advances.index') }}" class="@if(Request::is('admin/logistics/advances*')) active @endif">Driver Advances</a></li>
+            @endcan
+            @can('Invoices list')
+            <li><a href="{{ route('logistics.invoices.index') }}" class="@if(Request::is('admin/logistics/invoices*')) active @endif">Invoices</a></li>
+            @endcan
+            @can('LogisticsReports list')
+            <li><a href="{{ route('logistics.reports.profitability') }}" class="@if(Request::is('admin/logistics/reports*')) active @endif">Profitability</a></li>
+            @endcan
+        </ul>
+    </div>
+</li>
+@endcanany
+
 @can('Transactions list')
 <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarFinance" aria-expanded="{{ Request::is('admin/income*') || Request::is('admin/expense*') ? 'true' : 'false' }}" aria-controls="sidebarFinance" class="side-nav-link {{ Request::is('admin/income*') || Request::is('admin/expense*') ? 'active' : '' }}">
@@ -13,6 +42,7 @@
     </div>
 </li>
 @endcan
+
 @can('Reports list')
 <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarReports" aria-expanded="{{ Request::is('admin/reports*') ? 'true' : 'false' }}" aria-controls="sidebarReports" class="side-nav-link {{ Request::is('admin/reports*') ? 'active' : '' }}">

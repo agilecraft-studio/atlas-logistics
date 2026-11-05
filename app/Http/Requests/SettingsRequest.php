@@ -41,6 +41,10 @@ class SettingsRequest extends FormRequest {
 			'name.invoice_text' => 'nullable',
 			'name.vehicle_interval' => 'required|numeric|min:0|max:1440',
 			'name.driver_interval' => 'required|numeric|min:0|max:1440',
+			'name.compliance_alert_days' => 'nullable|integer|min:1|max:365',
+			'name.driver_licence_alert_days' => 'nullable|integer|min:1|max:365',
+			'name.driver_medical_alert_days' => 'nullable|integer|min:1|max:365',
+			'name.trailer_utilization_days' => 'nullable|integer|min:7|max:365',
 			'icon_img' => 'mimes:jpg,png,gif,jpeg|max:5120',
 			'logo_img' => 'mimes:jpg,png,gif,jpeg|max:5120|dimensions:width=172,height=76',
 			'footer_logo_img' => 'mimes:jpg,png,gif,jpeg|max:5120|dimensions:width=50,height=68'

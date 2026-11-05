@@ -52,7 +52,7 @@
     <div class="row g-3 mt-1">
         <div class="col-6 col-lg-3"><x-fleet.kpi label="Trips" :value="$kpis['trips']" icon="bi-signpost-2" color="bg-blue" /></div>
         <div class="col-6 col-lg-3"><x-fleet.kpi label="Distance" :value="number_format($kpis['distance'], 0) . ' km'" icon="bi-speedometer2" color="bg-teal" /></div>
-        <div class="col-6 col-lg-3"><x-fleet.kpi label="Utilisation (90d)" :value="$kpis['utilization'] . '%'" icon="bi-activity" color="bg-amber" /></div>
+        <div class="col-6 col-lg-3"><x-fleet.kpi label="Utilisation ({{ $utilization['period_days'] }}d)" :value="$kpis['utilization'] . '%'" icon="bi-activity" color="bg-amber" /></div>
         <div class="col-6 col-lg-3"><x-fleet.kpi label="Compliance alerts" :value="$kpis['compliance_alerts']" icon="bi-shield-exclamation" color="bg-red" /></div>
     </div>
 </x-fleet.panel>
@@ -133,7 +133,7 @@
 
         <x-fleet.panel class="mt-3" title="Compliance snapshot" icon="bi-shield-check">
             @forelse($documents->take(4) as $doc)
-                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: 30), (bool) $doc->archived_at); @endphp
+                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: $hub->alertDays()), (bool) $doc->archived_at); @endphp
                 <div class="d-flex justify-content-between align-items-center gap-2 py-2 border-bottom">
                     <div>
                         <div class="fw-semibold">{{ optional($doc->type)->name ?: 'Document' }}</div>
@@ -214,7 +214,7 @@
             </thead>
             <tbody>
             @forelse($documents as $doc)
-                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: 30), (bool) $doc->archived_at); @endphp
+                @php $state = $hub->expiryState($doc->expiry_date, $doc->alert_days ?: (optional($doc->type)->default_alert_days ?: $hub->alertDays()), (bool) $doc->archived_at); @endphp
                 <tr>
                     <td class="fw-semibold">{{ optional($doc->type)->name ?: 'Document' }}</td>
                     <td>{{ $doc->document_number ?: '—' }}</td>
