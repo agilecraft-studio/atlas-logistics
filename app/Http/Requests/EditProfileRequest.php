@@ -33,7 +33,7 @@ class EditProfileRequest extends FormRequest {
 	public function rules() {
 		return [
 			'name' => 'required',
-			'email' => 'required|email|max:255|unique:users,email,' . \Request::get("id"),
+			'email' => 'required|email|max:255|unique:users,email' . (\Request::get("id") ? ',' . \Request::get("id") : ''),
 			'image' => 'mimes:jpg,png,jpeg|max:2084',
 			'language' => 'required',
 		];

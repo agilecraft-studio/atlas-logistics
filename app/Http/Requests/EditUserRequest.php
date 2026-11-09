@@ -35,7 +35,7 @@ class EditUserRequest extends FormRequest {
 			//'module' => 'required',
 			'first_name' => 'required',
 			'last_name' => 'required',
-			'email' => 'required|email|unique:users,email,' . \Request::get("id"),
+			'email' => 'required|email|unique:users,email' . (\Request::get("id") ? ',' . \Request::get("id") : ''),
 			'profile_image' => 'nullable|mimes:jpg,png,jpeg|max:2084',
 		];
 	}

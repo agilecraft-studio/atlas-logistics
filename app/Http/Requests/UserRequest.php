@@ -30,7 +30,7 @@ class UserRequest extends FormRequest {
 			//'module' => 'required',
 			'first_name' => 'required',
 			'last_name' => 'required',
-			'email' => 'required|email|unique:users,email,' . \Request::get("id"),
+			'email' => 'required|email|unique:users,email' . (\Request::get("id") ? ',' . \Request::get("id") : ''),
 			'password' => 'required|min:6',
 			'profile_image' => 'nullable|mimes:jpg,png,jpeg|max:2084',
 		];
